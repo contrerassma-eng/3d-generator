@@ -57,6 +57,7 @@ function plateSheet(part, meta) {
   sh.dimV(ox + hi[0] * s, oy + lo[1] * s, oy + hi[1] * s, 9, H);
   sh.frame();
   sh.titleBlock({
+    rev: meta.rev, revCausa: meta.revCausa,
     designacion: meta.designacion, proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: meta.fuente ?? 'diseño paramétrico — capa user',
     verificacion: 'PERFIL DE BOCETO (CAPA USER)', piezas: String(meta.piezas),
@@ -93,6 +94,7 @@ function simpleSheet(geom, meta) {
   sh.dimV(ox + W * s, oy, oy + D * s, 9, D);
   sh.frame();
   sh.titleBlock({
+    rev: meta.rev, revCausa: meta.revCausa,
     designacion: meta.designacion, proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: meta.fuente ?? 'diseño paramétrico — capa user',
     verificacion: 'ENVOLVENTE (MALLA COMPLEJA)', piezas: String(meta.piezas),
@@ -372,6 +374,7 @@ for (const g of lista) {
       const geom = buildPartGeometry(g.part);
       const tris = geom.attributes.position.count / 3;
       const meta = {
+        rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || '').slice(0, 52),
         designacion: desig, piezas: g.cant, proyecto: proyectoCorto,
         fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
         nota: `Material: ${material} · tol. gral. ISO 2768-mK${masaDe(g.part) ? ` · MASA ${masaDe(g.part)} kg/u` : ''}`,
@@ -394,10 +397,10 @@ for (const g of lista) {
           if (ly && spare >= 110 && g.part.flat.pliegueInfo?.length) {
             try {
               const mini = new IsoScene();
-              mini.add(g.part, { paint: false });
-              const fig = mini.project({ dir: [-1, 1, -0.62], widthMM: Math.min(spare - 26, 170), res: 900 });
+              mini.add(g.part, { paint: true });
+              const fig = mini.project({ dir: [-1, 1, -0.62], widthMM: Math.min(spare - 26, 170), res: 900, shadow: true });
               const mx = ly.ox + ly.w + 16;
-              const my = ly.oy + Math.max(0, (ly.h - fig.heightMM) / 2);
+              const my = ly.oy + ly.h - fig.heightMM;   // banda derecha: mini ARRIBA, detalle abajo
               drawFigure(sheet, fig, mx, my);
               sheet.text('PIEZA PLEGADA (referencia visual — cotas en el desarrollo)', mx, my - 5, 2.8, 'L');
             } catch (e) { console.warn(`  ! sin miniatura plegada: ${desig} (${e.message})`); }

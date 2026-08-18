@@ -122,7 +122,10 @@ gate(nAlaPlaca === nAlaGuarda,
 // guarda→mecha también es un perno por par: el paso del costado (Rev.F: «Paso
 // M6 separador a mecha», antes «Paso M6 a mecha» del faldón) contra el
 // roscado «M6 roscado (montaje guarda)» de la mecha — 1:1 o no arma
-const nFaldon = nHoles(/Paso M6 (separador )?a mecha/);
+// Rev «vara»: el paso del costado pasó a RANURA (sketch de corte), así que se
+// cuenta por NOMBRE con forma agnóstica — un espárrago por ranura
+const nFaldon = doc.parts.reduce((a2, p2) =>
+  a2 + p2.features.filter(f => /separador a mecha/.test(f.name || '')).length, 0);
 // Rev.F: el roscado de la guarda en la mecha es CIEGO (PL8 pegada al alma —
 // 8 de hilo útil). Un perno pasante por costado+separador (67 de paquete) o
 // topa fondo o engancha 3 hilos: va ESPÁRRAGO fijo en la mecha + tuerca ciega

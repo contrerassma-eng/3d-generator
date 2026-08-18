@@ -21,6 +21,21 @@ const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, OCULTA: 7, EJE: 4 }; // color ACI
 const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, OCULTA: 0.25, EJE: 0.25 }; // mm (PDF)
 const DASH = { PLIEGUE: [4, 2], OCULTA: [2.5, 1.5], EJE: [7, 1.2, 1.2, 1.2] };  // segmentada · EJE = cadena punto-raya (ISO 128)
+// Color de trazo por capa en el PDF (sobrio, convención CAD): la geometría de
+// pieza queda negra; lo AUXILIAR se distingue por color además del trazo.
+// Sergio 18-08: «dentro del mismo plano de detalle usa colores».
+const RGB = {
+  EJE: [0.72, 0.10, 0.10],       // línea de centro: rojo oscuro
+  PLIEGUE: [0.10, 0.25, 0.70],   // pliegues: azul
+  OCULTA: [0.35, 0.35, 0.35],    // ocultas: gris
+  COTAS: [0.15, 0.15, 0.15],
+};
+// paleta para GRUPOS de barrenos (A, B, C, …): círculo y letra al color del
+// grupo — la lámina se lee de un vistazo qué barreno es de qué familia
+const GRUPO_RGB = [
+  [0.75, 0.00, 0.00], [0.00, 0.35, 0.80], [0.00, 0.55, 0.20],
+  [0.75, 0.45, 0.00], [0.55, 0.00, 0.65], [0.00, 0.55, 0.55],
+];
 // capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
 // PDF las traza como línea fina sin espesor (hairline, aptas para corte)
 const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
@@ -255,12 +270,12 @@ class Sheet {
     this.prims = [];
   }
   _p(x, y) { return [x * this.K, y * this.K]; }
-  line(a, b, ly) { this.prims.push({ k: 'l', a: this._p(...a), b: this._p(...b), ly }); }
+  line(a, b, ly, rgb) { this.prims.push({ k: 'l', a: this._p(...a), b: this._p(...b), ly, rgb }); }
   rect(x, y, w, h, ly) {
     this.prims.push({ k: 'p', pts: [[x, y], [x + w, y], [x + w, y + h], [x, y + h]].map(p => this._p(...p)), ly });
   }
   poly(pts, ly) { this.prims.push({ k: 'p', pts: pts.map(p => this._p(...p)), ly }); }
-  circle(c, r, ly = 'TEXTO') { this.prims.push({ k: 'c', c: this._p(...c), r: r * this.K, ly }); }
+  circle(c, r, ly = 'TEXTO', rgb) { this.prims.push({ k: 'c', c: this._p(...c), r: r * this.K, ly, rgb }); }
   solid(pts, ly) { this.prims.push({ k: 's', pts: pts.map(p => this._p(...p)), ly }); }
   // polígono relleno con color (loops = [contorno, agujero, ...], regla par-impar)
   // — capa SOMBRA: queda DETRÁS de todo el alambre en el PDF; el DXF lo omite
@@ -268,9 +283,9 @@ class Sheet {
     this.prims.push({ k: 'sp', loops: loops.map(lp => lp.map(p => this._p(...p))), rgb, ly });
   }
   shade(pts, g) { this.prims.push({ k: 'sh', pts: pts.map(p => this._p(...p)), g, ly: 'SOMBRA' }); }
-  text(s, x, y, h = 3.5, al = 'L', ly = 'TEXTO') {
+  text(s, x, y, h = 3.5, al = 'L', ly = 'TEXTO', rgb) {
     const [px, py] = this._p(x, y);
-    this.prims.push({ k: 't', s, x: px, y: py, h: h * this.K, al, ly });
+    this.prims.push({ k: 't', s, x: px, y: py, h: h * this.K, al, ly, rgb });
   }
   segments(segs, ly, ox, oy, s) {
     for (const [a, b] of segs) {
@@ -386,11 +401,21 @@ class Sheet {
     this.line([xb + 23, ys[2]], [xb + 23, ys[1]], 'FINA');
     this.line([xb + 26, ys[3]], [xb + 26, ys[2]], 'FINA');
     this.cell(xb, ys[1], 46, 13, 'ESCALA', tb.escala, 5.0, 'C');
-    this.cell(xb, ys[2], 23, 10, 'FORMATO', this.name, 3.0, 'C');
-    this.cell(xb + 23, ys[2], 23, 10, 'LÁMINA', '1 / 1', 3.0, 'C');
+    this.cell(xb, ys[2], 15, 10, 'FORMATO', this.name, 2.6, 'C');
+    this.cell(xb + 15, ys[2], 15, 10, 'LÁMINA', tb.lamina ?? '1 / 1', 2.4, 'C');
+    // REV en ROJO — la revisión vigente se ve de un vistazo (pendiente del
+    // quinto ciclo, cerrado en la ronda «subir la vara» 18-08)
+    this.line([xb + 30, ys[2]], [xb + 30, ys[1]], 'FINA');
+    this.cell(xb + 30, ys[2], 16, 10, 'REV', tb.rev ?? '—', 4.6, 'C');
+    if (tb.rev) this.prims[this.prims.length - 1].rgb = [0.72, 0.10, 0.10];
     this.cell(xb, ys[3], 26, 10, 'FECHA', tb.fecha, 2.6, 'C');
     this.cell(xb + 26, ys[3], 20, 10, 'UNIDADES', 'mm', 3.0, 'C');
     this.cell(xb, y0, 46, 9, 'Nº DE PLANO', tb.numPlano, 2.6, 'C');
+    // responsables (ISO 7200): dibujó la célula, revisó el panel, aprueba
+    // SERGIO — la firma es suya y el campo queda pendiente hasta que firme
+    const yr = y0 + TITLE_H + 4.5;
+    this.text(`DIBUJÓ: Célula de Diseño ConveyOne · REVISÓ: panel adversarial · APROBÓ: S. Contreras — PENDIENTE DE FIRMA${tb.rev ? ` · REV ${tb.rev}: ${tb.revCausa ?? 'ver panel'}` : ''}`,
+      x0, yr, 2.0, 'L');
   }
 }
 
@@ -543,7 +568,8 @@ function sheetContent(sheet, k) {
     const dash = DASH[ly] ? `[${DASH[ly].map(v => f(v * k)).join(' ')}] 0 d` : '[] 0 d';
     // lámina de fabricación: geometría a línea fina SIN espesor (hairline)
     const w = sheet.hairline && GEOM_LAYERS.has(ly) ? '0' : f((LW[ly] ?? 0.25) * k);
-    ops.push(`${w} w 1 J 1 j ${dash}`);
+    const lyRGB = RGB[ly];
+    ops.push(`${w} w 1 J 1 j ${dash} ${lyRGB ? lyRGB.map(f).join(' ') + ' RG ' + lyRGB.map(f).join(' ') + ' rg' : '0 0 0 RG 0 0 0 rg'}`);
     for (const p of prims) {
       if (p.k === 'sh') { // triángulo sombreado (relleno gris, sin borde)
         const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
@@ -556,22 +582,28 @@ function sheetContent(sheet, k) {
         // adyacentes del pintor (el rasterizador deja huecos de sub-píxel)
         ops.push(`${col} rg ${col} RG ${f(0.28 * k)} w ${sub} B* 0 g 0 G`);
       } else if (p.k === 'l') {
-        ops.push(`${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S`);
+        const pre = p.rgb ? `${p.rgb.map(f).join(' ')} RG ` : '';
+        const post = p.rgb ? (lyRGB ? ` ${lyRGB.map(f).join(' ')} RG` : ' 0 0 0 RG') : '';
+        ops.push(`${pre}${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S${post}`);
       } else if (p.k === 'p' || p.k === 's') {
         const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
         ops.push(`${cmd} h ${p.k === 's' ? 'f' : 'S'}`);
       } else if (p.k === 'c') {
         const [cx, cy] = [p.c[0] * k, p.c[1] * k], r = p.r * k, m = r * 0.55228;
+        if (p.rgb) ops.push(`${p.rgb.map(f).join(' ')} RG`);
         ops.push(`${f(cx + r)} ${f(cy)} m ` +
           `${f(cx + r)} ${f(cy + m)} ${f(cx + m)} ${f(cy + r)} ${f(cx)} ${f(cy + r)} c ` +
           `${f(cx - m)} ${f(cy + r)} ${f(cx - r)} ${f(cy + m)} ${f(cx - r)} ${f(cy)} c ` +
           `${f(cx - r)} ${f(cy - m)} ${f(cx - m)} ${f(cy - r)} ${f(cx)} ${f(cy - r)} c ` +
           `${f(cx + m)} ${f(cy - r)} ${f(cx + r)} ${f(cy - m)} ${f(cx + r)} ${f(cy)} c S`);
+        if (p.rgb) ops.push(lyRGB ? `${lyRGB.map(f).join(' ')} RG` : '0 0 0 RG');
       } else if (p.k === 't') {
         let x = p.x, y = p.y;
         if (p.al === 'C') { x -= textWidth(p.s, p.h) / 2; y -= 0.36 * p.h; }
         else if (p.al === 'ML') { y -= 0.36 * p.h; }
-        ops.push(`BT /F1 ${f(p.h * k)} Tf ${f(x * k)} ${f(y * k)} Td (${pdfEscape(p.s)}) Tj ET`);
+        const tp = p.rgb ? `${p.rgb.map(f).join(' ')} rg ` : '';
+        const ts = p.rgb ? (lyRGB ? ` ${lyRGB.map(f).join(' ')} rg` : ' 0 0 0 rg') : '';
+        ops.push(`${tp}BT /F1 ${f(p.h * k)} Tf ${f(x * k)} ${f(y * k)} Td (${pdfEscape(p.s)}) Tj ET${ts}`);
       }
     }
   }
@@ -692,11 +724,26 @@ function dxfToBytes(s) {
 // --- lámina de DESARROLLO DE CHAPA ---------------------------------------------
 // flat: salida de sheetmetal.flatPattern(); meta: { designacion, piezas }
 
+export { GRUPO_RGB };
+
 export function buildFlatSheet(flat, meta, K) {
   const xs = flat.contorno.map(p => p[0]), ys = flat.contorno.map(p => p[1]);
   const lo = [Math.min(...xs), Math.min(...ys)], hi = [Math.max(...xs), Math.max(...ys)];
   const w = hi[0] - lo[0], h = hi[1] - lo[1];
-  const [name, W, H, num, den] = chooseSheet(w, h);
+  let [name, W, H, num, den] = chooseSheet(w, h);
+  // distribución armónica (Sergio 18-08): la lámina reserva una BANDA DERECHA
+  // (pieza plegada, detalle, leyendas). Si a la escala elegida la banda queda
+  // bajo 115 mm, se sube UN formato manteniendo la escala — «puedes aumentar
+  // tamaño de hoja para más espacio».
+  {
+    const ordenF = ['A4', 'A3', 'A2', 'A1', 'A0'];
+    const i = ordenF.indexOf(name);
+    const spare = (W - MARGIN_L - MARGIN) - w * (num / den);
+    if (spare < 115 && i >= 0 && i < ordenF.length - 1) {
+      name = ordenF[i + 1];
+      [W, H] = SHEETS[name];
+    }
+  }
   const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
   // hairline SÓLO en la salida para el LÁSER (K='real'): en el libro la lámina
   // lleva jerarquía ISO de grosores — con hairline incondicional las láminas
@@ -709,6 +756,7 @@ export function buildFlatSheet(flat, meta, K) {
   const oy = MARGIN + TITLE_H + 5 + (uh - h * s) / 2 - lo[1] * s;
   const T = (p) => [ox + p[0] * s, oy + p[1] * s];
   sheet.poly(flat.contorno.map(T), 'VISIBLE');
+  let gruposRef = null;   // familias de barrenos, visibles para el DETALLE ×2
   // cortes/barrenos del plano de la base = lo que corta el láser (capa de corte)
   if (flat.cortes) {
     // GRUPOS por diámetro con LETRA en cada barreno (el panel: «63 barrenos de
@@ -722,8 +770,12 @@ export function buildFlatSheet(flat, meta, K) {
       g.n++;
     }
     const orden = [...grupos.values()].sort((a, b) => a.dia - b.dia || a.rosca.localeCompare(b.rosca));
-    orden.forEach((g, i) => { g.letra = String.fromCharCode(65 + i); });
-    const letraDe = (c) => grupos.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`).letra;
+    // con 2+ familias, cada grupo lleva LETRA y COLOR (círculo, letra, rosca y
+    // leyenda al mismo tono): la lámina se lee de un vistazo (Sergio 18-08)
+    orden.forEach((g, i) => { g.letra = String.fromCharCode(65 + i); g.rgb = orden.length > 1 ? GRUPO_RGB[i % GRUPO_RGB.length] : null; });
+    gruposRef = grupos;
+    const grupoDe = (c) => grupos.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`);
+    const letraDe = (c) => grupoDe(c).letra;
     // ejes de FILA/COLUMNA: ≥3 barrenos alineados comparten una línea de
     // centro corrida (lectura de taladrado); el resto lleva cruz individual.
     // Decoración del LIBRO: el DXF del láser (soloCorte) queda geometría pura.
@@ -741,15 +793,34 @@ export function buildFlatSheet(flat, meta, K) {
         sheet.line(T([Math.min(...xs) - 5, +ky]), T([Math.max(...xs) + 5, +ky]), 'EJE');
         cs.forEach(c => enFila.add(c));
       }
+      const colsEje = [];
       for (const [kx, cs] of cols) {
         if (cs.length < 3) continue;
         const ys = cs.map(c => c.c[1]);
         sheet.line(T([+kx, Math.min(...ys) - 5]), T([+kx, Math.max(...ys) + 5]), 'EJE');
         cs.forEach(c => enCol.add(c));
+        colsEje.push(+kx);
+      }
+      // cotas de POSICIÓN de los ejes (legibles en la propia lámina): con
+      // hasta 4 ejes por dirección se acotan desde el borde del desarrollo;
+      // con más, mandan el DXF 1:1 y _agujeros.csv (ya remitidos abajo)
+      const filasEje = [...filas.entries()].filter(([, cs]) => cs.length >= 3).map(([ky]) => +ky);
+      if (colsEje.length && colsEje.length <= 4) {
+        colsEje.sort((a, b) => a - b).forEach((cx, i) => {
+          const d = +(cx - lo[0]).toFixed(1);
+          if (d > 2) sheet.dimH(T([lo[0], 0])[0], T([cx, 0])[0], T([0, lo[1]])[1], 16 + i * 7, d);
+        });
+      }
+      if (filasEje.length && filasEje.length <= 4) {
+        filasEje.sort((a, b) => a - b).forEach((fy, i) => {
+          const d = +(fy - lo[1]).toFixed(1);
+          if (d > 2) sheet.dimV(T([hi[0], 0])[0], T([0, lo[1]])[1], T([0, fy])[1], 16 + i * 7, d);
+        });
       }
     }
     for (const c of flat.cortes.circles) {
-      sheet.circle(T(c.c), c.r * s, 'VISIBLE');
+      const gc = grupoDe(c).rgb || undefined;
+      sheet.circle(T(c.c), c.r * s, 'VISIBLE', gc);
       const [cx, cy] = T(c.c);
       if (!soloCorte) {
         // cruz de centro (cadena fina): el brazo sale 2,2 del borde del barreno
@@ -766,31 +837,37 @@ export function buildFlatSheet(flat, meta, K) {
           for (let i = 0; i <= n; i++) {
             const t = a0 + (a1 - a0) * i / n;
             const q = [cx + rM * Math.cos(t), cy + rM * Math.sin(t)];
-            if (prev) sheet.line(prev, q, 'FINA');
+            if (prev) sheet.line(prev, q, 'FINA', gc);
             prev = q;
           }
         }
       }
       if (orden.length > 1) {
-        sheet.text(letraDe(c), cx + c.r * s + 0.7, cy - 0.8, 1.9, 'L');
+        sheet.text(letraDe(c), cx + c.r * s + 0.7, cy - 0.8, 2.2, 'L', 'TEXTO', gc);
       }
     }
     for (const p of flat.cortes.polys) {
       for (let i = 0; i < p.length - 1; i++) sheet.line(T(p[i]), T(p[i + 1]), 'VISIBLE');
     }
     if (orden.length) {
-      const leyenda = orden.map(g =>
-        `${orden.length > 1 ? g.letra + ' = ' : ''}${g.n}× Ø${g.dia}${g.rosca ? ` (broca — ROSCAR ${g.rosca})` : ''}`).join(' · ');
-      // bajo la línea de cota inferior (a -6 la pisaba — panel)
-      sheet.text(`BARRENOS (corte láser): ${leyenda}`,
-        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 13, 3.2, 'L');
+      // leyenda con cada familia en SU color, en segmentos consecutivos
+      let lx = T([lo[0], lo[1]])[0];
+      const lyy = T([lo[0], lo[1]])[1] - 13;
+      const cab = 'BARRENOS (corte láser): ';
+      sheet.text(cab, lx, lyy, 3.2, 'L');
+      lx += textWidth(cab, 3.2);
+      orden.forEach((g, i) => {
+        const seg = `${orden.length > 1 ? g.letra + ' = ' : ''}${g.n}× Ø${g.dia}${g.rosca ? ` (broca — ROSCAR ${g.rosca})` : ''}${i < orden.length - 1 ? '  ·  ' : ''}`;
+        sheet.text(seg, lx, lyy, 3.2, 'L', 'TEXTO', g.rgb || undefined);
+        lx += textWidth(seg, 3.2);
+      });
       sheet.text(`POSICIONES: DXF ${meta?.dxfRef || 'de corte'} a escala REAL 1:1 + _agujeros.csv (X·Y·Ø de cada barreno) — contornos interiores ídem`,
         T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 17.5, 2.8, 'L');
     }
     // llamado de ROSCAS junto a cada barreno roscado
     for (const c of flat.cortes.circles.filter(q => q.rosca)) {
       const [cx, cy] = T(c.c);
-      sheet.text(c.rosca, cx + c.r * s + 1.2, cy + 1.4, 2.2, 'L');
+      sheet.text(c.rosca, cx + c.r * s + 1.2, cy + 1.4, 2.2, 'L', 'TEXTO', grupoDe(c).rgb || undefined);
     }
   }
   const esPlana = !flat.pliegueInfo?.length;
@@ -824,6 +901,79 @@ export function buildFlatSheet(flat, meta, K) {
   }
   sheet.text(`ESPESOR DE CHAPA e = ${flat.t} mm (constante en toda la pieza)`,
     x1, y2 + 5, 4.0, 'L');
+  // DETALLE ×2 (Sergio 18-08: «agrega detalles»): la zona del barreno más
+  // fino — roscado si existe — ampliada al doble en la banda derecha, con su
+  // marcador en la vista principal. Contenido re-emitido (no clip PDF):
+  // círculos, arcos de rosca, cruz de centro y tramos de contorno/pliegue que
+  // crucen la ventana (recorte Liang-Barsky).
+  if (!soloCorte && flat.cortes?.circles?.length) {
+    const objetivo = flat.cortes.circles.find(c => c.rosca)
+      ?? [...flat.cortes.circles].sort((a, b) => a.r - b.r)[0];
+    if (objetivo && gruposRef) {
+      const cx0 = objetivo.c[0], cy0 = objetivo.c[1];
+      const half = Math.max(objetivo.r * 4, 14);          // semiancho en mm de pieza
+      const k2 = s * 2;                                    // escala del detalle
+      const bandX = ox + w * s + 18;
+      const dW = 2 * half * k2;
+      const dx0 = bandX, dy0 = oy + 6;                     // esquina inferior del inset
+      const TD = (px, py) => [dx0 + (px - (cx0 - half)) * k2, dy0 + (py - (cy0 - half)) * k2];
+      if (dx0 + dW < W - MARGIN - 4) {
+        // marcador en la vista principal
+        sheet.circle(T([cx0, cy0]), half * s, 'COTAS');
+        sheet.text('A', T([cx0 + half, cy0 + half])[0] + 1, T([cx0 + half, cy0 + half])[1] + 1, 3.2, 'L', 'COTAS');
+        // marco del detalle
+        sheet.rect(dx0 - 3, dy0 - 3, dW + 6, dW + 6, 'FINA');
+        sheet.text(`DETALLE A — escala ×2 (barreno ${objetivo.rosca || 'Ø' + +(objetivo.r * 2).toFixed(1)})`, dx0 - 3, dy0 + dW + 5.5, 3.0, 'L');
+        const dentro = (px, py) => Math.abs(px - cx0) <= half && Math.abs(py - cy0) <= half;
+        // círculos del detalle (completos si el centro cae en ventana)
+        for (const c of flat.cortes.circles) {
+          if (!dentro(c.c[0], c.c[1])) continue;
+          const g = gruposRef.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`);
+          sheet.circle(TD(c.c[0], c.c[1]), c.r * k2, 'VISIBLE', g?.rgb || undefined);
+          const [qx, qy] = TD(c.c[0], c.c[1]);
+          const arm = c.r * k2 + 3;
+          sheet.line([qx - arm, qy], [qx + arm, qy], 'EJE');
+          sheet.line([qx, qy - arm], [qx, qy + arm], 'EJE');
+          const M = c.rosca && /M(\d+(?:[.,]\d+)?)/.exec(c.rosca);
+          if (M) {
+            const rM = (parseFloat(M[1].replace(',', '.')) / 2) * k2;
+            let prev = null;
+            for (let i = 0; i <= 24; i++) {
+              const t = Math.PI * 0.12 + (Math.PI * 1.5) * i / 24;
+              const q = [qx + rM * Math.cos(t), qy + rM * Math.sin(t)];
+              if (prev) sheet.line(prev, q, 'FINA', g?.rgb || undefined);
+              prev = q;
+            }
+            sheet.text(c.rosca, qx + rM + 1.5, qy + 1.5, 3.0, 'L', 'TEXTO', g?.rgb || undefined);
+          }
+        }
+        // tramos de contorno y pliegues recortados a la ventana (Liang-Barsky)
+        const clipSeg = (x1, y1, x2, y2) => {
+          let t0 = 0, t1 = 1;
+          const dx = x2 - x1, dy = y2 - y1;
+          for (const [pC, qC] of [[-dx, x1 - (cx0 - half)], [dx, (cx0 + half) - x1], [-dy, y1 - (cy0 - half)], [dy, (cy0 + half) - y1]]) {
+            if (pC === 0) { if (qC < 0) return null; continue; }
+            const r = qC / pC;
+            if (pC < 0) { if (r > t1) return null; if (r > t0) t0 = r; }
+            else { if (r < t0) return null; if (r < t1) t1 = r; }
+          }
+          return [[x1 + dx * t0, y1 + dy * t0], [x1 + dx * t1, y1 + dy * t1]];
+        };
+        const cont = flat.contorno;
+        for (let i = 0; i < cont.length; i++) {
+          const a2 = cont[i], b2 = cont[(i + 1) % cont.length];
+          const cl = clipSeg(a2[0], a2[1], b2[0], b2[1]);
+          if (cl) sheet.line(TD(...cl[0]), TD(...cl[1]), 'VISIBLE');
+        }
+        for (const l of flat.pliegues) {
+          const cl = clipSeg(l.a[0], l.a[1], l.b[0], l.b[1]);
+          if (cl) sheet.line(TD(...cl[0]), TD(...cl[1]), l.tipo === 'eje' ? 'PLIEGUE' : 'FINA');
+        }
+        sheet._detalleTopY = dy0 + dW + 10;   // para que la miniatura no lo pise
+      }
+    }
+  }
+
   // layout usado, para que el compositor (planos_fab) aproveche el sobrante
   // de lámina con la miniatura de la pieza PLEGADA u otra vista auxiliar
   sheet._flatLayout = { ox, oy, w: w * s, h: h * s, W, H };
@@ -840,6 +990,7 @@ export function buildFlatSheet(flat, meta, K) {
     escala: scaleLabel(num, den),
     fecha: meta.fecha ?? new Date().toISOString().slice(0, 10),
     numPlano: meta.numPlano || 'CHAPA-01',
+    rev: meta.rev, revCausa: meta.revCausa,
   });
   return sheet;
 }

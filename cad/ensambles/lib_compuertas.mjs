@@ -46,6 +46,12 @@ export const REGISTRO = [
     origen: 'D.S. 594 Art. 38 (Chile, obligación legal: «Deberán estar debidamente protegidas todas las partes móviles, transmisiones y puntos de operación de maquinarias y equipos») + medición 17-08: el estado decía «guardas 0%» y la artesa inferior ya existía, pero nadie había medido QUÉ quedaba fuera — el muñón motriz sale 144,5 mm del cierre y el motorreductor entero está fuera' },
   { id: 'chapa-vs-componente', regla: 'una pieza de chapa no puede ocupar el mismo espacio que un componente comprado (chumacera, motorreductor, rodamiento): el componente llega con su forma y no se recorta en obra',
     origen: '17-08: el faldón de la artesa (Y −253,5) atravesaba la brida de la UCF206 (Y −251…−266, 127 mm de diagonal) con un paso de sólo Ø48 — las seis chumaceras de LBP y GT, en un paquete ya emitido como Rev.E.1. Nadie lo vio porque ninguna compuerta comparaba sólidos entre sí y la sección nunca se cortó ahí' },
+  { id: 'esquina-viva', regla: 'ningún vértice CONVEXO de un desarrollo sale sin radio (t≤2 → R4 · t>2 → R6); las copias MEASURED del hardware 24V quedan como el original',
+    origen: 'Sergio 18-08 («each part need to be with soft corners»): puntas que cortan al que manipula, concentran tensión y descascaran pintura — redondear() en lib_chapa es la ejecución; esta compuerta caza al que construya un contorno por fuera de la librería' },
+  { id: 'espejo-preferido', regla: 'toda pieza se diseña AMBIDIESTRA si la función lo permite; la pieza CON MANO se declara en su aviso («PIEZA CON MANO — no voltear») y el par L/R con desarrollo idéntico se emite como UN artículo ×2',
+    origen: 'Sergio 18-08 («think as possible in mirror parts like the directional assembly»): el costado del tensor ya salía ambidiestro (un desarrollo, dos manos) y nadie lo había declarado como criterio' },
+  { id: 'junta-ajustable', regla: 'toda junta apernada declara si AJUSTA (dirección y carrera: ranura, cruciforme, arco) o si es DATUM (sin juego A PROPÓSITO, fija una cota funcional); el equipo publica su MAPA DE AJUSTES',
+    origen: 'Sergio 18-08 («possibility to adjust, to square the structure… the factory process is not always perfect»): el sistema 24V ya lo practica (cruciformes del bracket, arco de aplome, ranuras 11×20) y las juntas nuevas nacían fijas por omisión' },
   { id: 'abertura-vs-alcance', regla: 'ISO 13857, alcance a través de aberturas: una perforación, ranura o mirilla de ancho e exige distancia mínima s al peligro (e≤4→2 · 6<e≤8→ranura 20/cuadrado 15/círculo 5 · 12<e≤20→120 · e>120 no es abertura, es hueco)',
     origen: 'guardas.md (12-08) fijó holguras «ISO 13857 como criterio general, SIN respaldo en la fuente» y así quedó en el drenaje Ø8 de la artesa: el 17-08 se citó la tabla real (BG ETEM S 044 E, págs. 5-6) y dejó de ser criterio para ser cifra' },
 ];
@@ -637,6 +643,40 @@ export function peligroExpuesto(parts, {
 }
 
 /**
+ * ESQUINA VIVA: vértice convexo franco (>25°) sin arco en el contorno del
+ * desarrollo. Un arco de redondear() deja tramos cortos consecutivos: un
+ * vértice con ambos lados ≥4 mm y giro ≥25° es esquina sin radio.
+ */
+export function esquinaViva(parts, { exentos = [] } = {}) {
+  const errs = [];
+  for (const p of parts) {
+    const c = p.flat?.contorno;
+    if (!c || c.length < 4) continue;
+    if (exentos.some(rx => rx.test(p.name || ''))) continue;
+    const pts = (c[0][0] === c[c.length - 1][0] && c[0][1] === c[c.length - 1][1]) ? c.slice(0, -1) : c;
+    let area = 0;
+    for (let i = 0; i < pts.length; i++) {
+      const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % pts.length];
+      area += x1 * y2 - x2 * y1;
+    }
+    const ccw = area > 0;
+    let vivas = 0, peor = null;
+    for (let i = 0; i < pts.length; i++) {
+      const p0 = pts[(i - 1 + pts.length) % pts.length], p1 = pts[i], p2 = pts[(i + 1) % pts.length];
+      const v1 = [p1[0] - p0[0], p1[1] - p0[1]], v2 = [p2[0] - p1[0], p2[1] - p1[1]];
+      const l1 = Math.hypot(...v1), l2 = Math.hypot(...v2);
+      if (l1 < 4 || l2 < 4) continue;                       // tramo de arco
+      const cruz = v1[0] * v2[1] - v1[1] * v2[0];
+      const ang = Math.atan2(Math.abs(cruz), v1[0] * v2[0] + v1[1] * v2[1]);
+      const convexo = ccw ? cruz > 0 : cruz < 0;
+      if (convexo && ang > 0.44) { vivas++; if (!peor) peor = p1.map(r2); }
+    }
+    if (vivas) errs.push(`esquina VIVA en «${(p.name || '').slice(0, 60)}»: ${vivas} vértice(s) convexo(s) sin radio (primero en dev ${JSON.stringify(peor)}) — redondear() de lib_chapa o exención measured`);
+  }
+  return errs;
+}
+
+/**
  * Corredor universal. Un generador nuevo llama SOLO a esto y hereda todo.
  * @param equipos {nombre: {parts, ...}}
  * @param opts {exentosMargen, soldadas, ...}
@@ -675,12 +715,13 @@ export function compuertasUniversales(equipos, opts = {}) {
     });
     errs.push(...pe.errs.map(e => `${nm}: ${e}`));
     if (pe.expuestos.length) info[nm].partes_moviles_fuera = pe.expuestos;
+    errs.push(...esquinaViva(eq.parts, { exentos: opts.exentosEsquina || [] }).map(e => `${nm}: ${e}`));
     // CHAPA CONTRA COMPONENTE COMPRADO
     const cvc = chapaVsComponente(eq.parts, { exentos: opts.exentosChoque || [], componente: opts.componentesChoque });
     errs.push(...cvc.errs.map(e => `${nm}: ${e}`));
     if (cvc.choques.length) info[nm].choques_chapa_componente = cvc.choques;
   }
-  ejecutadas.push('peligro-expuesto', 'chapa-vs-componente');
+  ejecutadas.push('peligro-expuesto', 'chapa-vs-componente', 'esquina-viva');
   return { errs, info, ejecutadas };
 }
 

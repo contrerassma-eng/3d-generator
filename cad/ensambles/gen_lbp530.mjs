@@ -742,10 +742,13 @@ function build(tipo, L) {
     for (const h of holesAla) {
       f.push(hole(h.nombre || 'Paso en ala', [h.x, s * h.yAbs, zAlaTop - D.plT / 2], [0, 0, 1], h.dia, 0, true));
     }
-    addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
+    // AMBIDIESTRA (espejo-preferido, Sergio 18-08): las dos manos comparten el
+    // MISMO desarrollo (firma de corte verificada idéntica) — un artículo ×2;
+    // la MANO la define el pliegue del ala en plegadora
+    addPart(`FAB · Placa lateral PL6 L=${L} (ambidiestra ×2 — la mano la da el pliegue)`, C.placa, [L / 2, y, D.plTop], f, {
       flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
         'Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)',
-        'MECHAS PORTA-CHUMACERA APERNADAS 6×M10 (Rev.C — ver plano de mecha)', holesAla, muescasAuto),
+        'AMBIDIESTRA: un desarrollo para ambas manos — plegar el ala 1× a IZQUIERDA y 1× a DERECHA por equipo; MECHAS APERNADAS 6×M10 (ver plano de mecha)', holesAla, muescasAuto),
     });
   }
 
@@ -772,9 +775,16 @@ function build(tipo, L) {
         box('Pestaña de fondo', [xm, yPest, K.fondoZ + tCaja / 2], Lg, pestCaja, tCaja),
       ];
       const hAlma = [];
+      // junta-ajustable (Sergio 18-08): el paso del espárrago es RANURA
+      // VERTICAL 7×13 — la caja se nivela ±3 contra la mecha real; el taller
+      // no siempre entrega la mecha al décimo. El fondo queda DATUM (Ø7:
+      // láser contra láser, ±0,1 garantizado por proceso).
+      const yCara = Math.max(yIn0, yExt);
       for (const q of K.mounts) {
-        hAlma.push({ x: q.x, z: q.z, dia: 7 });
-        f.push(hole('Paso M6 separador a mecha', [q.x, yIn0 + s * tCaja / 2, q.z], [0, s, 0], 7, 0, true));
+        hAlma.push({ x: q.x, z: q.z, ran: { w: 7, h: 13 } });
+        f.push(sketchXZ(`Ranura ajuste 7×13 (separador a mecha) ${q.x},${q.z}`, yCara,
+          [[q.x - 3.5, q.z - 6.5], [q.x + 3.5, q.z - 6.5], [q.x + 3.5, q.z + 6.5], [q.x - 3.5, q.z + 6.5], [q.x - 3.5, q.z - 6.5]],
+          tCaja, 'cut'));
       }
       for (const g of K.grasa) if (g.s === s) {
         hAlma.push({ x: g.x, z: g.z, dia: 25 });
@@ -790,11 +800,16 @@ function build(tipo, L) {
       }
       for (const x of pestHolesX) f.push(hole('M6 pestaña a fondo', [x, yM6, K.fondoZ + tCaja / 2], [0, 0, 1], 7, 0, true));
       const lado = K.hub ? (s > 0 ? 'motor' : 'libre') : 'lateral';
+      const avisoMano = K.hub
+        ? 'PIEZA CON MANO — NO voltear (los puertos definen el lado)'
+        : 'AMBIDIESTRA — el mismo desarrollo sirve a ambos lados';
       addPart(`FAB · Guarda ${K.tag} — costado ${lado} e${tCaja} (${Lg}×${altura})`, C.guarda,
         [xm, yExt, (topCaja + K.fondoZ) / 2], f, {
           flat: flatCostadoCaja(Lg, altura, alaW, pestCaja, tCaja, K.xa, topCaja, hAlma, pestHolesX,
             'Acero S275JR e2.0 — terminación PINTADO RAL 7035',
-            ['MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)',
+            [avisoMano,
+             'RANURA 7×13: ajuste de ALTURA ±3 contra la mecha real (apretar a nivel)',
+             'MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)',
              ...(hAlma.some(h => h.dia === 25) ? ['PUERTO Ø25: OJAL CIEGO OBLIGATORIO — se retira solo para engrasar'] : []),
              ...(hAlma.some(h => h.dia === 8) ? ['PUERTO Ø8: manguera de extensión de grasera M6×1 (el niple queda dentro)'] : [])]),
         });
@@ -1631,6 +1646,10 @@ function verify(res) {
   // ── universales: heredadas de la librería, no reescritas aquí ──
   const uni = compuertasUniversales(res, { exentos: EXENTOS_MARGEN, uniones: SOLDADURA.uniones,
     cerramientosDe, exentosPeligro: EXENTOS_PELIGRO,
+    // esquina-viva: EXENTAS sólo las copias measured con CALCE en sus vértices
+    // (pestaña-en-ranura del B_002A, cruciformes del bracket) — redondear ahí
+    // altera el encaje del original 24V
+    exentosEsquina: [/Bracket soporte B_005A/, /Travesaño de patas B_002A/],
     // la guarda tampoco puede ocupar el espacio de la ESTRUCTURA que la
     // rodea: columnas, tiras telescópicas y travesaños de pata (así se
     // cazaron las columnas que perforaban el fondo de la artesa Rev.E.1)
@@ -1677,6 +1696,18 @@ const chk = verify(res);
 
 const here = dirname(fileURLToPath(import.meta.url));
 const metaComun = {
+  // MAPA DE AJUSTES (junta-ajustable, Sergio 18-08): qué junta absorbe qué —
+  // y qué es DATUM a propósito. El GA lo publica en sus notas.
+  mapa_ajustes: [
+    'AJUSTA · bracket B_005A: 4 ranuras cruciformes 32×19 = posición del soporte en X·Y bajo el ala',
+    'AJUSTA · arco de aplome R52: ±60° de giro de columna (aplomar en piso desnivelado)',
+    'AJUSTA · tira BR_3002: ranuras 11×20 paso 34 = ALTURA de trabajo (apriete 3×M10)',
+    'AJUSTA · pata B_004A: ranuras de anclaje 11×22 = posición del perno de piso',
+    'AJUSTA · guarda: ranura vertical 7×13 en costados = nivelación ±3 contra la mecha real',
+    'DATUM · portacarril→pletina de carril: SIN juego a propósito — fija la cota del carryway',
+    'DATUM · mecha→alma 6×M10 y fondo de guarda→pestañas Ø7: láser contra láser (±0,1 de proceso)',
+    'TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)',
+  ],
   revision: 'F',
   revision_causa: 'guardas: las artesas Rev.E.1 se reemplazan por cajas de accionamiento — el faldón atravesaba la brida de las 6 chumaceras (D-07), la punta de muñón giraba al aire (D-05), las columnas de soporte perforaban el fondo, y el perfil medido del lazo mostró que la artesa motriz cubría una catenaria que ya no existe (la banda nunca baja de −274 fuera de las envolturas)',
   capa: 'user',

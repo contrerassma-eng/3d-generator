@@ -26,6 +26,8 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const dims = JSON.parse(readFileSync(process.env.DIMS || 'ensambles/lbp530_dims.json', 'utf8'));
+// revisión vigente para el cajetín: la porta el ensamble emitido
+const doc = JSON.parse(readFileSync(process.env.DOC || 'ensambles/lbp530_5m.json', 'utf8'));
 const outDir = process.env.OUT || 'ensambles/planos_lbp530';
 const fecha = process.env.FECHA || '2026-07-19';
 mkdirSync(outDir, { recursive: true });
@@ -196,6 +198,7 @@ function shaftSheet(eje, opts) {
 
   sh.frame();
   sh.titleBlock({
+    rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
     designacion: opts.designacion, proyecto: 'LBP530-18 · Conveyone',
     fuente: 'gen_lbp530.mjs — capa user', verificacion: 'DISEÑO CAD (CAPA USER)',
     piezas: `${eje.cantidad} (4 líneas)`, piezasLabel: 'CANTIDAD',
@@ -279,6 +282,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
 
   sh.frame();
   sh.titleBlock({
+    rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
     designacion: 'EJES — corte de barras y lista de compra (4 líneas)',
     proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
     verificacion: 'DISEÑO CAD (CAPA USER)', piezas: `${dims.ejes.motriz.cantidad + dims.ejes.tensor.cantidad} ejes`, piezasLabel: 'CANTIDAD',
@@ -432,6 +436,7 @@ if (dims.ejes.retorno) {
 
   sh.frame();
   sh.titleBlock({
+    rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
     designacion: 'RODILLO DE RETORNO Ø63.5 — conjunto torneado-soldado',
     proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
     verificacion: 'DISEÑO CAD (CAPA USER)', piezas: `${R.cantidad} (${R.porEquipo?.LBP ?? '—'}/LBP + ${R.porEquipo?.GT ?? '—'}/GT × 4 líneas)`,

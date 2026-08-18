@@ -15,6 +15,51 @@ import { bendAllowance } from '../js/sheetmetal.js';
 
 const r2 = (v) => Math.round(v * 100) / 100;
 
+// ── ESQUINAS SUAVES (Sergio 18-08: «each part need to be with soft corners»)
+// Todo vértice CONVEXO del contorno se redondea: sin puntas vivas que corten
+// al que manipula, sin esquinas que concentren tensión ni descascaren pintura.
+// r por espesor: t≤2 → R4 · t>2 → R6. Las copias MEASURED del sistema 24V
+// (bracket, tira, pata) NO se tocan: son el original del fabricante.
+export const rEsquina = (t) => (t <= 2 ? 4 : 6);
+export function redondear(contorno, r) {
+  if (!r || contorno.length < 3) return contorno;
+  const pts = contorno[0][0] === contorno[contorno.length - 1][0]
+    && contorno[0][1] === contorno[contorno.length - 1][1]
+    ? contorno.slice(0, -1) : contorno.slice();
+  // orientación (área con signo) para distinguir convexo de cóncavo
+  let area = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % pts.length];
+    area += x1 * y2 - x2 * y1;
+  }
+  const ccw = area > 0;
+  const out = [];
+  for (let i = 0; i < pts.length; i++) {
+    const p0 = pts[(i - 1 + pts.length) % pts.length], p1 = pts[i], p2 = pts[(i + 1) % pts.length];
+    const v1 = [p1[0] - p0[0], p1[1] - p0[1]], v2 = [p2[0] - p1[0], p2[1] - p1[1]];
+    const l1 = Math.hypot(...v1), l2 = Math.hypot(...v2);
+    const cruz = v1[0] * v2[1] - v1[1] * v2[0];
+    const ang = Math.atan2(Math.abs(cruz), v1[0] * v2[0] + v1[1] * v2[1]);
+    const convexo = ccw ? cruz > 0 : cruz < 0;
+    const d = Math.abs(Math.tan(ang / 2)) > 1e-6 ? r / Math.tan((Math.PI - ang) / 2) : 0;
+    // sólo esquinas francas (>25°) con lados que aguanten el recorte
+    if (!convexo || ang < 0.44 || d > l1 / 2 - 0.5 || d > l2 / 2 - 0.5) { out.push(p1); continue; }
+    const u1 = [v1[0] / l1, v1[1] / l1], u2 = [v2[0] / l2, v2[1] / l2];
+    const a1 = [p1[0] - u1[0] * d, p1[1] - u1[1] * d];
+    const b1 = [p1[0] + u2[0] * d, p1[1] + u2[1] * d];
+    // arco por Bézier discreta entre tangentes (5 tramos): suficiente al láser
+    for (let k = 0; k <= 5; k++) {
+      const t = k / 5, mt = 1 - t;
+      out.push([
+        mt * mt * a1[0] + 2 * mt * t * p1[0] + t * t * b1[0],
+        mt * mt * a1[1] + 2 * mt * t * p1[1] + t * t * b1[1],
+      ]);
+    }
+  }
+  out.push(out[0]);
+  return out.map(q => [r2(q[0]), r2(q[1])]);
+}
+
 export const KCH = 0.44;
 export const rect = (w, h, x0 = 0, y0 = 0) =>
   [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]];
@@ -65,7 +110,7 @@ export function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, a
     pl.push({ a: [a, r2(alaFlat + BA)], b: [b, r2(alaFlat + BA)], tipo: 'tangente' });
   }
   return {
-    contorno,
+    contorno: redondear(contorno, rEsquina(t)),
     cortes: { circles, polys: [] },
     pliegues: pl,
     etiquetas: [{ x: L / 2, y: r2(yEje) + 4, s: `PLEGAR ARRIBA 90° R${r}${mk.length ? ' — ala SEGMENTADA (muescas = paso del lazo de banda)' : ''}` }],
@@ -90,7 +135,7 @@ export function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
     pl.push({ a: [0, r2(yb)], b: [largo, r2(yb)], tipo: 'tangente' });
   }
   return {
-    contorno: rect(largo, r2(H)),
+    contorno: redondear(rect(largo, r2(H)), rEsquina(t)),
     cortes: { circles: holes.map(h => ({ c: [h.x, h.y], r: h.dia / 2 })), polys: [] },
     pliegues: pl,
     etiquetas: [{ x: largo / 2, y: r2((y1 + y2) / 2) + 4, s: `PLEGAR ARRIBA 90° R${r} (×2)` }],
@@ -119,12 +164,21 @@ export function flatCostadoCaja(Lg, altura, alaW, pestW, t, x0, zTop, holesAlma,
   }
   const zBot = zTop - altura;
   const devY = (z) => r2(pest + BA + (z - (zBot + r + t)));
-  const circles = [];
-  for (const h of holesAlma) circles.push({ c: [r2(h.x - x0), devY(h.z)], r: h.dia / 2 });
+  const circles = [], polys = [];
+  for (const h of holesAlma) {
+    if (h.ran) {
+      // ranura de AJUSTE (junta-ajustable): rectángulo w×h centrado — misma
+      // convención que las ranuras 11×20 del sistema 24V
+      const cx = r2(h.x - x0), cy = devY(h.z), hw = h.ran.w / 2, hh = h.ran.h / 2;
+      polys.push([[cx - hw, cy - hh], [cx + hw, cy - hh], [cx + hw, cy + hh], [cx - hw, cy + hh], [cx - hw, cy - hh]].map(q => [r2(q[0]), r2(q[1])]));
+    } else {
+      circles.push({ c: [r2(h.x - x0), devY(h.z)], r: h.dia / 2 });
+    }
+  }
   for (const x of holesPestX) circles.push({ c: [r2(x - x0), 12.5], r: 3.5 });
   return {
-    contorno: rect(Lg, r2(H)),
-    cortes: { circles, polys: [] },
+    contorno: redondear(rect(Lg, r2(H)), rEsquina(t)),
+    cortes: { circles, polys },
     pliegues: pl,
     // la etiqueta va a 3/4 del alma, no al centro: el paso del cubo suele ir
     // centrado y la cruz de centro atravesaba el texto (Sergio 18-08, lámina)
@@ -152,7 +206,7 @@ export function flatFondoTapa(Lf, W, t, tapaAlt, xa, xb, yF0, holes, tapaEn, mat
   const xDev = (x) => r2(tapaEn === 'fin' ? x - xa : xb - x);
   const circles = holes.map(h => ({ c: [xDev(h.x), r2(h.y - yF0)], r: h.dia / 2 }));
   return {
-    contorno: rect(r2(Ldev), W),
+    contorno: redondear(rect(r2(Ldev), W), rEsquina(t)),
     cortes: { circles, polys: [] },
     pliegues: pl,
     etiquetas: [{ x: fondo / 2, y: W / 2, s: `1 PLIEGUE 90° R${r} — TAPA DE EXTREMO ${tapaAlt} ARRIBA` }],
@@ -165,7 +219,7 @@ export function flatFondoTapa(Lf, W, t, tapaAlt, xa, xb, yF0, holes, tapaEn, mat
 // Placa plana sin pliegues (mechas, placas de piso, guardas planas).
 export function flatPlaca(w, h, t, holes, material, aviso) {
   return {
-    contorno: rect(w, h),
+    contorno: redondear(rect(w, h), rEsquina(t)),
     // rosca: se propaga al DXF/_agujeros — un Ø5 sin llamado de rosca llega
     // al taller como agujero liso (hallazgo del panel: los M6 de la mecha)
     cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2, ...(q.rosca ? { rosca: q.rosca } : {}) })), polys: [] },

@@ -112,7 +112,17 @@ dimV(oxL + lat.widthMM, oyL, oyL + lat.heightMM, `${r0(lat.spanV)} (alto total a
 dimV(oxT + top.widthMM, oyT, oyT + top.heightMM, `${r0(top.spanV)} (ancho total con motorreductor)`, 10);
 
 // ── ISOMÉTRICA de referencia + globos de conjuntos ──────────────────────────
-const iso = escena().project({ dir: [-1, 1, -0.62], widthMM: 190, res: 1600 });
+// ISOMÉTRICA PINTADA (Sergio 18-08: «faltan diagonales de banda en retorno,
+// sombras o cambios de tono»): la misma escena, con las caras encendidas y
+// sombra de piso — el retorno de banda se LEE porque sus caras toman tono,
+// no sólo por sus aristas. Clon barato: reusa las geometrías ya computadas.
+const isoScene = (() => {
+  const c = Object.create(Object.getPrototypeOf(SC));
+  Object.assign(c, SC);
+  c.items = SC.items.map(it => ({ ...it, opts: { ...it.opts, paint: true } }));
+  return c;
+})();
+const iso = isoScene.project({ dir: [-1, 1, -0.62], widthMM: 190, res: 1600, shadow: true });
 const kIso = Math.min(1, 120 / iso.heightMM);
 for (const s of iso.segments) { s.a = s.a.map(v => v * kIso); s.b = s.b.map(v => v * kIso); }
 for (const pm of iso.parts) { pm.anchor = pm.anchor.map(v => v * kIso); }
@@ -123,7 +133,7 @@ sh.text('ISOMÉTRICA (referencia)', oxI + iso.widthMM / 2, oyI - 7, 3, 'C');
 
 // globos de conjuntos principales, con el ÍTEM del BOM
 const grupos = [
-  [/Placa lateral motriz/, 'bastidor'],
+  [/Placa lateral/, 'bastidor'],
   [/EJE MOTRIZ/, 'accionamiento'],
   [/Banda Movex/, 'banda'],
   [/Nosebar entrada/, 'nosebar'],
@@ -131,16 +141,24 @@ const grupos = [
   [/Guarda motriz — costado/, 'guardas'],
   [/Motorreductor/, 'motorreductor'],
 ];
-let gy = oyI + iso.heightMM - 4;
+// los SLOTS de globo se reparten por la ALTURA del ancla, no por el orden de
+// la tabla: con el orden de tabla los líderes se cruzaban entre sí (Sergio
+// 18-08: «que no se te crucen líneas de numeración»)
+const gEntradas = [];
 for (const [re] of grupos) {
   const n = itemDe(re);
   if (n === '') continue;
   const pm = iso.parts.find((q, i) => re.test(doc.parts.filter(p => !/Rodillos LBP/.test(p.name))[i]?.name || ''));
   if (!pm) continue;
+  gEntradas.push({ n, anchor: pm.anchor });
+}
+gEntradas.sort((p, q) => q.anchor[1] - p.anchor[1]);   // ancla más alta → slot más alto
+let gy = oyI + iso.heightMM - 4;
+for (const e of gEntradas) {
   const at = [oxI + iso.widthMM + 16, gy];
-  sh.line(at, [oxI + pm.anchor[0], oyI + pm.anchor[1]], 'COTAS');
+  sh.line(at, [oxI + e.anchor[0], oyI + e.anchor[1]], 'COTAS');
   sh.circle(at, 4.4, 'VISIBLE');
-  sh.text(String(n), at[0], at[1] - 1.2, 3.2, 'C');
+  sh.text(String(e.n), at[0], at[1] - 1.2, 3.2, 'C');
   gy -= 13;
 }
 
@@ -243,6 +261,7 @@ notasSec.forEach((t, i) => sh2.text(t, 330, 106 - i * 5, 2.8, 'L'));
 
 sh2.frame();
 sh2.titleBlock({
+    rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
   designacion: `SECCIONES ${codigo}`,
   proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
   verificacion: 'CORTES DEL MODELO 3D — no dibujados a mano', piezas: '1', piezasLabel: 'CONJUNTO',
@@ -255,6 +274,7 @@ const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
 const sold = dims.soldadura || {};
 const notas = [
+  ...(doc.meta?.mapa_ajustes ? ['', 'AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x)] : []),
   `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los`,
   `globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
@@ -274,6 +294,7 @@ notas.forEach((t, i) => sh.text(t, 320, 130 - i * 4.6, 2.8, 'L'));
 
 sh.frame();
 sh.titleBlock({
+    rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
   designacion: `CONJUNTO GENERAL ${codigo}`,
   proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
   verificacion: 'COTAS AUTO-MEDIDAS DEL MODELO', piezas: '1', piezasLabel: 'CONJUNTO',
