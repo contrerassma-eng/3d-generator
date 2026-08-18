@@ -18,9 +18,9 @@ const REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000];
 const ENLARGEMENTS = [2, 5, 10, 20, 50];
 const GRIDREF = { A4: [6, 4], A3: [8, 6], A2: [12, 8], A1: [16, 12], A0: [24, 16] };
 const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, OCULTA: 7 }; // color ACI
-const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, OCULTA: 0.25 }; // mm (PDF)
-const DASH = { PLIEGUE: [4, 2], OCULTA: [2.5, 1.5] };  // línea segmentada (mm)
+const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, OCULTA: 7, EJE: 4 }; // color ACI
+const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, OCULTA: 0.25, EJE: 0.25 }; // mm (PDF)
+const DASH = { PLIEGUE: [4, 2], OCULTA: [2.5, 1.5], EJE: [7, 1.2, 1.2, 1.2] };  // segmentada · EJE = cadena punto-raya (ISO 128)
 // capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
 // PDF las traza como línea fina sin espesor (hairline, aptas para corte)
 const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
@@ -459,15 +459,17 @@ function writeDXF(sheet) {
   g(9, '$DWGCODEPAGE'); g(3, 'ANSI_1252');
   g(0, 'ENDSEC');
   g(0, 'SECTION'); g(2, 'TABLES');
-  g(0, 'TABLE'); g(2, 'LTYPE'); g(70, 2);
+  g(0, 'TABLE'); g(2, 'LTYPE'); g(70, 3);
   g(0, 'LTYPE'); g(2, 'CONTINUOUS'); g(70, 0); g(3, 'Solid line'); g(72, 65); g(73, 0); g(40, 0);
   g(0, 'LTYPE'); g(2, 'DASHED'); g(70, 0); g(3, 'Segmentada __ __ __'); g(72, 65);
   g(73, 2); g(40, 6); g(49, 4); g(49, -2);
+  g(0, 'LTYPE'); g(2, 'CENTER'); g(70, 0); g(3, 'Centro ____ _ ____'); g(72, 65);
+  g(73, 4); g(40, 11); g(49, 7); g(49, -1.2); g(49, 1.2); g(49, -1.2);
   g(0, 'ENDTAB');
   g(0, 'TABLE'); g(2, 'LAYER'); g(70, Object.keys(LAYERS).length);
   for (const [name, color] of Object.entries(LAYERS)) {
     g(0, 'LAYER'); g(2, name); g(70, 0); g(62, color);
-    g(6, name === 'PLIEGUE' ? 'DASHED' : 'CONTINUOUS');
+    g(6, name === 'EJE' ? 'CENTER' : (name === 'PLIEGUE' || name === 'OCULTA') ? 'DASHED' : 'CONTINUOUS');
   }
   g(0, 'ENDTAB'); g(0, 'ENDSEC');
   g(0, 'SECTION'); g(2, 'ENTITIES');
@@ -696,7 +698,11 @@ export function buildFlatSheet(flat, meta, K) {
   const w = hi[0] - lo[0], h = hi[1] - lo[1];
   const [name, W, H, num, den] = chooseSheet(w, h);
   const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
-  sheet.hairline = true;   // geometría de corte sin espesor de línea en el PDF
+  // hairline SÓLO en la salida para el LÁSER (K='real'): en el libro la lámina
+  // lleva jerarquía ISO de grosores — con hairline incondicional las láminas
+  // de fabricación salían pálidas y sin peso (hallazgo Sergio 18-08)
+  const soloCorte = K === 'real';
+  sheet.hairline = soloCorte;
   const s = num / den;
   const uw = W - MARGIN_L - MARGIN, uh = H - 2 * MARGIN - TITLE_H - 5;
   const ox = MARGIN_L + (uw - w * s) / 2 - lo[0] * s;
@@ -718,10 +724,54 @@ export function buildFlatSheet(flat, meta, K) {
     const orden = [...grupos.values()].sort((a, b) => a.dia - b.dia || a.rosca.localeCompare(b.rosca));
     orden.forEach((g, i) => { g.letra = String.fromCharCode(65 + i); });
     const letraDe = (c) => grupos.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`).letra;
+    // ejes de FILA/COLUMNA: ≥3 barrenos alineados comparten una línea de
+    // centro corrida (lectura de taladrado); el resto lleva cruz individual.
+    // Decoración del LIBRO: el DXF del láser (soloCorte) queda geometría pura.
+    const enFila = new Set(), enCol = new Set();
+    if (!soloCorte) {
+      const filas = new Map(), cols = new Map();
+      for (const c of flat.cortes.circles) {
+        const ky = c.c[1].toFixed(1), kx = c.c[0].toFixed(1);
+        (filas.get(ky) ?? filas.set(ky, []).get(ky)).push(c);
+        (cols.get(kx) ?? cols.set(kx, []).get(kx)).push(c);
+      }
+      for (const [ky, cs] of filas) {
+        if (cs.length < 3) continue;
+        const xs = cs.map(c => c.c[0]);
+        sheet.line(T([Math.min(...xs) - 5, +ky]), T([Math.max(...xs) + 5, +ky]), 'EJE');
+        cs.forEach(c => enFila.add(c));
+      }
+      for (const [kx, cs] of cols) {
+        if (cs.length < 3) continue;
+        const ys = cs.map(c => c.c[1]);
+        sheet.line(T([+kx, Math.min(...ys) - 5]), T([+kx, Math.max(...ys) + 5]), 'EJE');
+        cs.forEach(c => enCol.add(c));
+      }
+    }
     for (const c of flat.cortes.circles) {
       sheet.circle(T(c.c), c.r * s, 'VISIBLE');
+      const [cx, cy] = T(c.c);
+      if (!soloCorte) {
+        // cruz de centro (cadena fina): el brazo sale 2,2 del borde del barreno
+        const arm = c.r * s + 2.2;
+        if (!enFila.has(c)) sheet.line([cx - arm, cy], [cx + arm, cy], 'EJE');
+        if (!enCol.has(c)) sheet.line([cx, cy - arm], [cx, cy + arm], 'EJE');
+        // rosca interior ISO 6410: el diámetro MAYOR del hilo como arco FINO a
+        // ~3/4 de vuelta alrededor de la broca dibujada
+        const M = c.rosca && /M(\d+(?:[.,]\d+)?)/.exec(c.rosca);
+        if (M) {
+          const rM = (parseFloat(M[1].replace(',', '.')) / 2) * s;
+          const a0 = Math.PI * 0.12, a1 = Math.PI * 1.62, n = 20;
+          let prev = null;
+          for (let i = 0; i <= n; i++) {
+            const t = a0 + (a1 - a0) * i / n;
+            const q = [cx + rM * Math.cos(t), cy + rM * Math.sin(t)];
+            if (prev) sheet.line(prev, q, 'FINA');
+            prev = q;
+          }
+        }
+      }
       if (orden.length > 1) {
-        const [cx, cy] = T(c.c);
         sheet.text(letraDe(c), cx + c.r * s + 0.7, cy - 0.8, 1.9, 'L');
       }
     }
@@ -774,6 +824,9 @@ export function buildFlatSheet(flat, meta, K) {
   }
   sheet.text(`ESPESOR DE CHAPA e = ${flat.t} mm (constante en toda la pieza)`,
     x1, y2 + 5, 4.0, 'L');
+  // layout usado, para que el compositor (planos_fab) aproveche el sobrante
+  // de lámina con la miniatura de la pieza PLEGADA u otra vista auxiliar
+  sheet._flatLayout = { ox, oy, w: w * s, h: h * s, W, H };
   sheet.frame();
   const aviso = flat.avisos.length ? flat.avisos[0] : '';
   sheet.titleBlock({

@@ -16,6 +16,7 @@
 import * as THREE from 'three';
 import { buildPartGeometry } from '../js/model.js';
 import { buildSheet, buildFlatSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
+import { IsoScene, drawFigure } from '../js/iso3d.mjs';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 // masa por pieza desde la librería de compuertas: la lámina y el BOM leen la
@@ -381,7 +382,27 @@ for (const g of lista) {
         // dominante) → perfil analítico con perforaciones; otras mallas grandes
         // (canal, chumaceras) → envolvente; el resto → plano completo con vistas.
         let sheet = null;
-        if (g.part.flat) sheet = buildFlatSheet(g.part.flat, meta);
+        if (g.part.flat) {
+          sheet = buildFlatSheet(g.part.flat, meta);
+          // DISTRIBUCIÓN (Sergio 18-08): el sobrante de lámina deja de ir en
+          // blanco — miniatura isométrica de la pieza PLEGADA junto a su
+          // desarrollo, para que el taller vea la forma final sin ir al GA
+          const ly = sheet._flatLayout;
+          const spare = ly ? ly.W - 10 - (ly.ox + ly.w) : 0;
+          // sólo piezas CON pliegues: en una placa plana la miniatura es el
+          // mismo rectángulo del desarrollo, no agrega lectura
+          if (ly && spare >= 110 && g.part.flat.pliegueInfo?.length) {
+            try {
+              const mini = new IsoScene();
+              mini.add(g.part, { paint: false });
+              const fig = mini.project({ dir: [-1, 1, -0.62], widthMM: Math.min(spare - 26, 170), res: 900 });
+              const mx = ly.ox + ly.w + 16;
+              const my = ly.oy + Math.max(0, (ly.h - fig.heightMM) / 2);
+              drawFigure(sheet, fig, mx, my);
+              sheet.text('PIEZA PLEGADA (referencia visual — cotas en el desarrollo)', mx, my - 5, 2.8, 'L');
+            } catch (e) { console.warn(`  ! sin miniatura plegada: ${desig} (${e.message})`); }
+          }
+        }
         else if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
         else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
         ponTips(sheet, tipsDe(g.name));

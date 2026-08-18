@@ -49,8 +49,13 @@ sh.text(`PLANO DE CONJUNTO — ${codigo}`, 297, 404, 6, 'C');
 sh.text(doc.meta?.nombre || base, 297, 396, 3.2, 'C');
 
 // ── PLANTA arriba, ELEVACIÓN al medio (layout de lámina descendente) ─────────
-const lat = escena().project({ dir: [0, 1, -0.0001], widthMM: 470, res: 2400 });
-const top = escena().project({ dir: [0, 0, -1], up: [0, 1, 0], widthMM: 470, res: 2400 });
+// hidden:true — las ARISTAS OCULTAS del motor (kind 9, segmentada fina) en
+// planta y elevación: ejes y sprockets dentro de las cajas, barrenos tras la
+// placa. El motor las calculaba desde siempre y nadie las pedía (Sergio
+// 18-08: «líneas que no se están proyectando y ayudarían»). ISO e secciones
+// quedan sin ocultas: allí serían ruido sobre el rayado y los globos.
+const lat = escena().project({ dir: [0, 1, -0.0001], widthMM: 470, res: 2400, hidden: true });
+const top = escena().project({ dir: [0, 0, -1], up: [0, 1, 0], widthMM: 470, res: 2400, hidden: true });
 // Un equipo CORTO (GT 800) con ancho de vista fijo 470 quedaba a escala ~1:1.7
 // y la elevación sola (941 de alto) desbordaba el A2 pisando iso y notas.
 // Presupuesto VERTICAL compartido del par de vistas: si no cabe, ambas se

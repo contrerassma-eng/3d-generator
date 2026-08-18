@@ -126,7 +126,9 @@ export function flatCostadoCaja(Lg, altura, alaW, pestW, t, x0, zTop, holesAlma,
     contorno: rect(Lg, r2(H)),
     cortes: { circles, polys: [] },
     pliegues: pl,
-    etiquetas: [{ x: Lg / 2, y: r2(yl[2] + alma / 2), s: `2 PLIEGUES 90° R${r} — COSTADO EN C (pestaña ${pestW} · alma ${altura} · tira ${alaW})` }],
+    // la etiqueta va a 3/4 del alma, no al centro: el paso del cubo suele ir
+    // centrado y la cruz de centro atravesaba el texto (Sergio 18-08, lámina)
+    etiquetas: [{ x: Lg / 2, y: r2(yl[2] + alma * 0.78), s: `2 PLIEGUES 90° R${r} — COSTADO EN C (pestaña ${pestW} · alma ${altura} · tira ${alaW})` }],
     pliegueInfo: [1, 2].map(() => ({ ang: 90, r, ba: r2(BA) })),
     t, k: KCH, radio: r, material,
     avisos,
