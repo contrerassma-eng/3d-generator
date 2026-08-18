@@ -276,9 +276,14 @@ const tipsDe = (n) => {
     'Presentar APERNADA 6×M10 sobre el alma y verificar coaxialidad de los 4 Ø12 de brida.',
     'Roscar M6 de montaje de guarda con la broca Ø5 del plano (no taladrar a Ø6).',
   ];
-  if (/Guarda inferior/.test(n)) return [
-    'Plegar la artesa U en secuencia: fondo → laterales → pestañas (chapa 1,5 — radio suave).',
-    'Presentar sobre el ala antes de pintar: las pestañas segmentadas calzan entre muescas.',
+  if (/Guarda .* costado/.test(n)) return [
+    'Perfil en C: plegar pestaña de fondo y tira superior a 90° (chapa 2,0 — R2).',
+    'Presentar sobre los espárragos de la mecha CON separadores antes de pintar.',
+    'Puerto Ø25: montar OJAL CIEGO — no queda abierto (punta de eje gira a 10 mm).',
+  ];
+  if (/Guarda .* fondo/.test(n)) return [
+    'Un pliegue: la tapa de extremo sube 90° (chapa 2,0 — R2).',
+    'Monta M6×12 bajo las pestañas de ambos costados; drenaje Ø8 queda al eje.',
   ];
   if (/Cabezal porta-nosebar/.test(n)) return [
     'La grilla 18×Ø9 es del nosebar Movex (cols 15,9/75,9/135,9): verificar contra _agujeros.csv.',

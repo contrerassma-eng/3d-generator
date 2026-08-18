@@ -127,11 +127,13 @@ const FIGURAS = [
       : 'Transfer plate P22862 c/rodamientos (h19): transferencia de punta estándar — el concepto IDLER/acumulación aplica SOLO al nosebar LBP (catálogo imperial p.227). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal. Rev.E: el rodillo del nosebar de ENTRADA además DEVUELVE la banda (el GT es de un solo eje) — verificar giro libre antes de tender la banda.',
   },
   {
-    id: 'F', nombre: 'GUARDAS INFERIORES',
-    sel: /Guarda inferior|Placa lateral|Mecha porta-chumacera/,
-    explode: (p) => /Guarda/.test(p.name) ? [0, 0, -300] : [0, 0, 0],
-    torn: /guarda inferior → ala|faldón de guarda/,
-    nota: 'Artesa U desmontable: pestañas → ala de placas (M6×16) y faldón → roscados de la mecha (M6×12). Retirar para tensado y limpieza.',
+    id: 'F', nombre: 'CAJAS DE ACCIONAMIENTO (Rev.F)',
+    sel: /Guarda (motriz|tensor)|Separador guarda|Ojal ciego|Placa lateral|Mecha porta-chumacera/,
+    explode: (p) => /costado/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 260, 0]
+      : /fondo con tapa/.test(p.name) ? [0, 0, -300]
+      : /Separador|Ojal/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 130, 0] : [0, 0, 0],
+    torn: /espárrago|fondo de guarda/i,
+    nota: 'Caja desmontable: costados sobre ESPÁRRAGOS M6 fijos de la mecha con separador Ø12 y tuerca ciega (el fijador queda en la máquina); fondo M6×12 bajo las pestañas. Puerto Ø25 SIEMPRE con ojal ciego; lado motor engrasa por manguera al puerto Ø8. Retirar solo con el equipo bloqueado (LOTO).',
   },
   {
     id: 'G', nombre: 'CARRYWAY — BANDA Y GUÍAS',

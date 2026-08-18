@@ -676,7 +676,7 @@ export function compuertasUniversales(equipos, opts = {}) {
     errs.push(...pe.errs.map(e => `${nm}: ${e}`));
     if (pe.expuestos.length) info[nm].partes_moviles_fuera = pe.expuestos;
     // CHAPA CONTRA COMPONENTE COMPRADO
-    const cvc = chapaVsComponente(eq.parts, { exentos: opts.exentosChoque || [] });
+    const cvc = chapaVsComponente(eq.parts, { exentos: opts.exentosChoque || [], componente: opts.componentesChoque });
     errs.push(...cvc.errs.map(e => `${nm}: ${e}`));
     if (cvc.choques.length) info[nm].choques_chapa_componente = cvc.choques;
   }
@@ -811,22 +811,28 @@ export function chapaVsComponente(parts, {
   componente = [/^NORM · /],
   exentos = [], paso = 6, minPuntos = 3,
 } = {}) {
-  const hojas = parts.filter(p => chapa.some(rx => rx.test(p.name || '')));
+  // «chapa» = pieza con DESARROLLO: un separador torneado con «guarda» en el
+  // nombre no es chapa (la primera corrida los comparó consigo mismos).
+  const hojas = parts.filter(p => p.flat?.contorno && chapa.some(rx => rx.test(p.name || '')));
   const comps = parts.filter(p => componente.some(rx => rx.test(p.name || '')));
   const errs = [], choques = [];
   for (const h of hojas) {
     const cajaH = cajaMundo(h);
     if (!cajaH) continue;
     for (const c of comps) {
+      if (c === h) continue;               // una pieza no choca consigo misma
       const cajaC = cajaMundo(c);
       if (!cajaC) continue;
       let solapa = true;                       // descarte rápido por cajas
       for (let i = 0; i < 3; i++) if (cajaH[2 * i] > cajaC[2 * i + 1] || cajaC[2 * i] > cajaH[2 * i + 1]) solapa = false;
       if (!solapa) continue;
       if (exentos.some(e => (e.chapa || /.^/).test(h.name || '') && (e.comp || /.^/).test(c.name || ''))) continue;
-      // muestreo SÓLO en la caja común: barato y suficiente
-      const lo = [0, 1, 2].map(i => Math.max(cajaH[2 * i], cajaC[2 * i]));
-      const hi = [0, 1, 2].map(i => Math.min(cajaH[2 * i + 1], cajaC[2 * i + 1]));
+      // muestreo SÓLO en la caja común, ENCOGIDA 0,5: el contacto de cara
+      // diseñado (separador que remata EN la cara del alma) no es choque —
+      // penetrar sí. Una caja común de espesor cero desaparece al encoger.
+      const lo = [0, 1, 2].map(i => Math.max(cajaH[2 * i], cajaC[2 * i]) + 0.5);
+      const hi = [0, 1, 2].map(i => Math.min(cajaH[2 * i + 1], cajaC[2 * i + 1]) - 0.5);
+      if (lo.some((v, i) => v >= hi[i])) continue;
       const n = [0, 1, 2].map(i => Math.max(1, Math.ceil((hi[i] - lo[i]) / paso)));
       let k = 0, peor = null;
       for (let i = 0; i <= n[0]; i++) for (let j = 0; j <= n[1]; j++) for (let m = 0; m <= n[2]; m++) {

@@ -123,7 +123,7 @@ const grupos = [
   [/Banda Movex/, 'banda'],
   [/Nosebar entrada/, 'nosebar'],
   [/Soporte tipo/, 'soportes'],
-  [/Guarda inferior/, 'guardas'],
+  [/Guarda motriz — costado/, 'guardas'],
   [/Motorreductor/, 'motorreductor'],
 ];
 let gy = oyI + iso.heightMM - 4;
@@ -224,7 +224,8 @@ rotula(sh2, aa, oxA, oyA, oxA + aa.widthMM + 74, {
     [/Bracket soporte/, 'bracket B_005A (ángulo): cruciformes bajo el ala + arco de aplome'],
     [/Tira telescópica/, 'tira BR_3002 telescópica (altura por ranuras 11×20, apriete 3×M10)'],
     [/Travesaño de patas/, 'travesaño B_002A 71×38 encajado en las columnas (soldado)'],
-    [/Guarda inferior/, 'guarda inferior — faldón por fuera del bastidor'],
+    [/Guarda (motriz|tensor) — costado/, 'caja de accionamiento Rev.F — costados por fuera de chumaceras y puntas de eje, en espárragos de la mecha'],
+    [/Guarda (motriz|tensor) — fondo/, 'fondo de caja con tapa de extremo plegada (drenaje Ø8)'],
   ],
 });
 const notasSec = [

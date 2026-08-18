@@ -431,93 +431,63 @@ function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
   };
 }
 
-// Desarrollo de la GUARDA INFERIOR (artesa en U con pestañas de montaje):
-// fondo + 2 laterales + 2 pestañas superiores hacia afuera, 4 pliegues a 90°.
-// dev Y (de abajo hacia arriba): pestaña | BA | lateral | BA | fondo | BA |
-// lateral | BA | pestaña. Agujeros de montaje en las pestañas (M6, Ø7).
-function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo, muescas, extras) {
+// Desarrollo del COSTADO de caja de accionamiento (perfil en C con pestaña):
+// dev Y de abajo hacia arriba: pestaña | BA | alma | BA | tira superior.
+// Cotas EXTERIORES. Agujeros del alma en coordenadas del EQUIPO (x absoluta,
+// z absoluta): la conversión a desarrollo vive AQUÍ, una sola vez — el 3D y
+// el láser no pueden divergir porque nacen de la misma lista.
+function flatCostadoCaja(Lg, altura, alaW, pestW, t, x0, zTop, holesAlma, holesPestX, material, avisos) {
   const r = t;
   const BA = bendAllowance(90, r, t, KCH);
-  // Cotas EXTERIORES → franjas planas: pestaña pestW−r · lateral latAlto−2(r+t)
-  // · fondo fondoW−2r (correccion del panel: antes el reparto corria 1,5 mm)
-  const pest = pestW - r, lat = latAlto - 2 * (r + t), fondo = fondoW - 2 * r;
-  const H = 2 * pest + 4 * BA + 2 * lat + fondo;
-  const yl = [];  // fronteras acumuladas de franjas
-  let acc = 0;
-  for (const seg of [pest, BA, lat, BA, fondo, BA, lat, BA, pest]) { yl.push(acc); acc += seg; }
-  yl.push(acc);
+  const pest = pestW - (r + t), alma = altura - 2 * (r + t), ala = alaW - (r + t);
+  const H = pest + BA + alma + BA + ala;
+  const yl = [0, pest, pest + BA, pest + BA + alma, pest + BA + alma + BA, H];
   const pl = [];
-  for (const i of [1, 3, 5, 7]) {
+  for (const i of [1, 3]) {
     pl.push({ a: [0, r2(yl[i])], b: [Lg, r2(yl[i])], tipo: 'tangente' });
     pl.push({ a: [0, r2((yl[i] + yl[i + 1]) / 2)], b: [Lg, r2((yl[i] + yl[i + 1]) / 2)], tipo: 'eje' });
     pl.push({ a: [0, r2(yl[i + 1])], b: [Lg, r2(yl[i + 1])], tipo: 'tangente' });
   }
+  const zBot = zTop - altura;
+  const devY = (z) => r2(pest + BA + (z - (zBot + r + t)));
   const circles = [];
-  // M6 de pestaña: misma cota que el 3D — holeY desde el eje ⇒ distancia al
-  // borde libre de la pestaña = holeY − (skirtY − pestW). (Antes pest/2: 7,5 mm
-  // de desalineación detectados por el panel.)
-  const yM6 = extras ? r2(extras.holeY - (extras.skirtY - pestW)) : r2(pest / 2);
-  for (const x of holesX) {
-    circles.push({ c: [r2(x), yM6], r: 3.5 });
-    circles.push({ c: [r2(x), r2(H - yM6)], r: 3.5 });
-  }
-  // Drenaje del fondo (criterio conveyone-simulator/biblioteca/CV-LBP18/guardas.md): Ø8 al eje, cada ~450
-  if (extras?.drenaje) {
-    for (let x = 90; x <= Lg - 90; x += 450) {
-      circles.push({ c: [r2(x), r2(pest + BA + lat + BA + fondo / 2)], r: 4 });
-    }
-  }
-  // Pasos de muñón en los FALDONES (los ejes salen del bastidor hacia las
-  // chumaceras): Ø48 en ambas franjas laterales, a la altura real del eje.
-  for (const grp of [[extras?.munones, 24], [extras?.mechaMounts, 3.5]]) {
-    for (const m of (grp[0] || [])) {
-      // franja lateral inferior corre de la pestaña (z=ala) hacia el fondo:
-      // devY = inicio de franja + distancia plana desde la tangente del ala
-      const latOff = r2((extras.zAlaBot - m.z) - (r + t));
-      circles.push({ c: [r2(m.x), r2(pest + BA + latOff)], r: grp[1] });
-      circles.push({ c: [r2(m.x), r2(pest + BA + lat + BA + fondo + BA + (lat - latOff))], r: grp[1] });
-    }
-  }
-  // Tapas de extremo: pestaña adicional del FONDO, plegada 90° hacia arriba,
-  // que cierra la cara del extremo (acceso principal al accionamiento).
-  const y4 = yl[4], y5 = yl[5];                    // franja del fondo en el dev
-  const tapaDev = lat - 3;                          // llega casi al ala, con luz
-  let cont;
-  const tapas = { a: !!tapasExtremo?.a, b: !!tapasExtremo?.b };
-  const xa0 = tapas.a ? -(BA + tapaDev) : 0, xb0 = Lg + (tapas.b ? BA + tapaDev : 0);
-  // Muescas: ventanas [x0,x1] donde la PESTAÑA se recorta (la bajada de banda
-  // al motriz/tensor cruza el plano de la pestaña; sin muesca, roce).
-  const mk = (muescas || []).map(m => [r2(m[0]), r2(m[1])]).sort((a, b) => a[0] - b[0]);
-  const bordeConMuescas = (yBorde, yFondoPest, reverse) => {
-    // recorre el borde exterior de la franja de pestaña insertando escalones
-    const pts = [];
-    let x = 0;
-    for (const [m0, m1] of mk) {
-      pts.push([x, yBorde], [m0, yBorde], [m0, yFondoPest], [m1, yFondoPest], [m1, yBorde]);
-      x = m1;
-    }
-    pts.push([x, yBorde], [Lg, yBorde]);
-    return reverse ? pts.reverse() : pts;
-  };
-  cont = [...bordeConMuescas(0, yl[1], false), [Lg, y4]];
-  if (tapas.b) cont.push([xb0, y4], [xb0, y5]);
-  cont.push([Lg, y5], [Lg, r2(H)]);
-  cont.push(...bordeConMuescas(r2(H), r2(yl[8]), true));
-  cont.push([0, y5]);
-  if (tapas.a) cont.push([xa0, y5], [xa0, y4]);
-  cont.push([0, y4], [0, 0]);
-  for (const [on, xl] of [[tapas.a, 0], [tapas.b, Lg]]) {
-    if (!on) continue;
-    pl.push({ a: [xl, r2(y4)], b: [xl, r2(y5)], tipo: 'eje' });
-  }
+  for (const h of holesAlma) circles.push({ c: [r2(h.x - x0), devY(h.z)], r: h.dia / 2 });
+  for (const x of holesPestX) circles.push({ c: [r2(x - x0), 12.5], r: 3.5 });
   return {
-    contorno: cont.map(p => [r2(p[0]), r2(p[1])]),
+    contorno: rect(Lg, r2(H)),
     cortes: { circles, polys: [] },
     pliegues: pl,
-    etiquetas: [{ x: Lg / 2, y: r2(yl[4] + fondo / 2), s: `4 PLIEGUES 90° R${r} — ARTESA EN U${tapas.a || tapas.b ? ' + TAPA(S) DE EXTREMO' : ''}` }],
-    pliegueInfo: [1, 2, 3, 4].map(() => ({ ang: 90, r, ba: r2(BA) })),
+    etiquetas: [{ x: Lg / 2, y: r2(yl[2] + alma / 2), s: `2 PLIEGUES 90° R${r} — COSTADO EN C (pestaña ${pestW} · alma ${altura} · tira ${alaW})` }],
+    pliegueInfo: [1, 2].map(() => ({ ang: 90, r, ba: r2(BA) })),
     t, k: KCH, radio: r, material,
-    avisos: ['MONTA APERNADA M6 AL ALA INFERIOR DE LAS PLACAS (desmontable para mantención)'],
+    avisos,
+  };
+}
+
+// Desarrollo del FONDO con tapa de extremo (1 pliegue): dev X = fondo | BA |
+// tapa. Para tapa al INICIO el dev se refleja (xDev = xb − x) para que la
+// tapa quede siempre al extremo alto del desarrollo.
+function flatFondoTapa(Lf, W, t, tapaAlt, xa, xb, yF0, holes, tapaEn, material, avisos) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const fondo = Lf - (r + t), tapa = tapaAlt - (r + t);
+  const Ldev = fondo + BA + tapa;
+  const xl = [fondo, fondo + BA];
+  const pl = [
+    { a: [r2(xl[0]), 0], b: [r2(xl[0]), W], tipo: 'tangente' },
+    { a: [r2((xl[0] + xl[1]) / 2), 0], b: [r2((xl[0] + xl[1]) / 2), W], tipo: 'eje' },
+    { a: [r2(xl[1]), 0], b: [r2(xl[1]), W], tipo: 'tangente' },
+  ];
+  const xDev = (x) => r2(tapaEn === 'fin' ? x - xa : xb - x);
+  const circles = holes.map(h => ({ c: [xDev(h.x), r2(h.y - yF0)], r: h.dia / 2 }));
+  return {
+    contorno: rect(r2(Ldev), W),
+    cortes: { circles, polys: [] },
+    pliegues: pl,
+    etiquetas: [{ x: fondo / 2, y: W / 2, s: `1 PLIEGUE 90° R${r} — TAPA DE EXTREMO ${tapaAlt} ARRIBA` }],
+    pliegueInfo: [{ ang: 90, r, ba: r2(BA) }],
+    t, k: KCH, radio: r, material,
+    avisos,
   };
 }
 
@@ -697,24 +667,35 @@ function build(tipo, L) {
     const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
     const rows = [-250, -350].filter(z => z > zBot + 30 && z < -210);
     m.mounts = [];
-    for (const x of [m.x0 + 55, m.x1 - 55]) for (const z of rows) m.mounts.push({ x: r2(x), z });
+    // ±50 del borde de mecha (era ±55): a ±55 el separador Ø12 del montaje de
+    // guarda quedaba TANGENTE al canto de la brida UCF206 (x 4940 vs cara
+    // 4934: luz 6 − r6 = 0). A ±50 la luz es 5 y el roscado conserva 50 al
+    // borde de la mecha.
+    for (const x of [m.x0 + 50, m.x1 - 50]) for (const z of rows) m.mounts.push({ x: r2(x), z });
   }
+  // GT Rev.F: la caja de accionamiento arranca en x 610 (la tira telescópica
+  // de la pata 2 cruza el plano del fondo hasta x 599, y es AJUSTABLE) y la
+  // columna de separadores de x 530 quedaría fuera de la caja. Los 4 roscados
+  // M6 de guarda de la mecha GT se recolocan a x 660/735 · z −250/−330,
+  // verificados contra los M10 de la propia mecha (515/755 × −113/−183/−253)
+  // y los pernos de chumacera (638,7/721,3 × −359/−441): pared mínima 11,9.
+  if (!esLBP) mechasSpec[0].mounts = [660, 735].flatMap(x => [-250, -330].map(z => ({ x, z })));
 
-  const G = {
-    // holeY 229 (era 222): el paso M6 quedaba a 6 del borde libre de la
-    // pestaña (margen 2.5 — la compuerta de margen agujero→borde lo cazó).
-    // A 229: 9.5 al borde de pestaña, 18 al borde del ala, y el dado de
-    // apriete no topa la placa. Constante COMPARTIDA placa↔guarda.
-    // holeY 218 (era 229): a 229 el paso M6 caía EXACTAMENTE sobre la tangente
-    // del pliegue del ala (medio barreno dentro del radio — la plegadora lo
-    // deforma). A 218 queda a 15 del borde libre del ala, fuera del pliegue.
-    // La pestaña crece 36→46 para conservar SU margen de borde (≥1×Ø=7):
-    // es chapa nuestra de 1,5 y no cuesta nada.
-    t: 1.5, fondoW: 504, skirtY: 252, pestW: 46, holeY: 218,
-    // fondoZTen −460 (era −415): con el tensor Rev.C a −340 el lazo llega a
-    // −417 — la compuerta de holgura ≥40 al lazo lo exigió
-    fondoZ: -525, fondoZTen: -465, pasoM6: 400, holeDia: 7,
-  };
+  // ---- CAJAS DE ACCIONAMIENTO (Rev.F — reemplazan a las artesas) ----
+  // El perfil MEDIDO del lazo (17-08) desmontó la artesa corrida de Rev.E.1:
+  // fuera de las envolturas la banda nunca baja de −274 y viaja DENTRO de las
+  // placas (fondo −293) — la artesa motriz cuidaba aire, sus faldones
+  // atravesaban la brida de las seis chumaceras (D-07) y las columnas de
+  // soporte perforaban su fondo (LBP pata 4300, GT patas 150 y 382). Lo
+  // profundo real: el tensor (sag −421 en x 150..450) y las envolturas
+  // motrices (−481). Cada zona lleva su CAJA: dos costados en C colgados de
+  // los roscados M6 de la mecha con SEPARADORES (la fijación queda unida a la
+  // máquina: ISO 14120 §5.19), tira superior que sella contra la cara de la
+  // mecha, y fondo con tapa de extremo plegada. Los costados van POR FUERA de
+  // chumaceras y puntas de eje (D-05 y D-07 cerradas); el costado motor pasa
+  // entre la chumacera (287) y el cuerpo del reductor (311) con paso Ø70
+  // ajustado al cubo Ø62 — anillo de 4 mm: ISO 13857 e≤4 → s≥2, cumple.
+  const tCaja = 2, topCaja = -230, pestCaja = 27;
   const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
   const zAlaBot = D.plTop - D.plAlto;              // cara inferior del ala (asiento de guarda)
   // Muescas de pestaña CALCULADAS desde el lazo real: cada cruce del contorno
@@ -756,12 +737,23 @@ function build(tipo, L) {
     return tr.filter(([a, b]) => b - a >= 30).map(([a, b]) => [r2(a), r2(b)]);
   })();
   if (process.env.DBG_ALA) console.log('DBG', esLBP?'LBP':'GT', 'muescas', JSON.stringify(muescasAuto.map(m=>m.map(r2))), 'segs', JSON.stringify(alaSegs));
-  const guardas = esLBP
-    ? [
-      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true } },
-      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false } },
-    ]
-    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true } }];
+  // La caja motriz cubre desde antes de la bajada al snub hasta 3 tras la
+  // placa (la tapa cierra fuera de la barrida de la envoltura: 4957 en LBP,
+  // 757 en GT). El fondo motriz a −560 libra el brazo de torque (−540) y el
+  // tensor a −465 deja 44 a la sag medida (−421, compuerta exige ≥40).
+  const cajas = [{
+    tag: 'motriz', xa: esLBP ? 4645 : 610, xb: L + 3, fondoZ: -560,
+    yn: -314, yp: 300, tapa: 'fin',
+    hub: { x: xDrv, z: D.zMotriz, dia: 70 },
+    grasa: [{ s: -1, x: xDrv, z: -361 }],
+    puerto: [{ s: 1, x: xDrv, z: -480 }],
+  }];
+  if (esLBP) cajas.push({
+    tag: 'tensor', xa: -3, xb: 614, fondoZ: -465,
+    yn: -314, yp: 314, tapa: 'inicio',
+    grasa: [{ s: -1, x: xTen, z: -301 }, { s: 1, x: xTen, z: -301 }],
+    puerto: [],
+  });
   // M6 por TRAMO de pestaña (entre muescas): ≥1 por tramo ≥80, a 40 de cada
   // borde y relleno cada ≤400 — así ninguna guarda queda sin fijación.
   const holesAla = [];
@@ -784,51 +776,8 @@ function build(tipo, L) {
   // GT Rev.E: DOS estaciones (una sola no es estable — directriz Sergio 13-08);
   // snapPata las asienta en el tramo de ala íntegro que deja el lazo sin tensor.
   const patasX = (esLBP ? [700, L / 2, L - 700] : [150, 520]).map(snapPata);
-  for (const g of guardas) {
-    g.muescas = clip(g.xa, g.xb);
-    for (const m of mechasSpec) {
-      if (m.x1 > g.xa && m.x0 < g.xb) g.muescas.push([Math.max(g.xa, m.x0 - 10), Math.min(g.xb, m.x1 + 10)]);
-    }
-    for (const px of patasX) {
-      const w0 = px - brkSemiancho - 2, w1 = px + brkSemiancho + 2;
-      if (w1 > g.xa && w0 < g.xb) g.muescas.push([Math.max(g.xa, w0), Math.min(g.xb, w1)]);
-    }
-    g.muescas.sort((u, v) => u[0] - v[0]);
-    const fus = [];
-    for (const w of g.muescas) {
-      const last = fus[fus.length - 1];
-      if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
-      else fus.push([...w]);
-    }
-    g.muescas = fus;
-    g.munones = [[xDrv, D.zMotriz], [xTen, zTen]]
-      .filter(([x]) => x > g.xa && x < g.xb).map(([x, z]) => ({ x: r2(x), z }));
-    g.mechaMounts = mechasSpec.flatMap(m => (m.mounts || []))
-      .filter(q => q.x > g.xa && q.x < g.xb);
-    let tramos = [[g.xa, g.xb]];
-    for (const [m0, m1] of g.muescas) {
-      tramos = tramos.flatMap(([a, b]) => {
-        const out = [];
-        if (m0 > a) out.push([a, Math.min(m0, b)]);
-        if (m1 < b) out.push([Math.max(m1, a), b]);
-        return out;
-      });
-    }
-    g.tramos = tramos.filter(([a, b]) => b - a >= 80);
-    if (process.env.DBG) console.log(`  DBG guarda ${g.tag}: muescas=${JSON.stringify(g.muescas.map(m=>m.map(r2)))} tramos=${JSON.stringify(g.tramos.map(m=>m.map(r2)))}`);
-    g.holesX = [];
-    for (const [a, b] of g.tramos) {
-      const len = b - a;
-      const n = Math.max(2, Math.ceil(len / G.pasoM6) + 1);
-      for (let i = 0; i < n; i++) {
-        const x = r2(a + 40 + (len - 80) * (n === 1 ? 0.5 : i / (n - 1)));
-        g.holesX.push(x);
-        // yDev DERIVADO de la misma constante que posiciona el agujero 3D
-        // (G.holeY): estaba hardcodeado en 11 y el láser habría perforado a
-        // 7 mm del 3D — inconsistencia cazada por la compuerta de márgenes
-        holesAla.push({ x, yDev: r2(G.holeY - (yIn + D.plT - D.alaAncho)), dia: G.holeDia });
-      }
-    }
+  for (const K of cajas) {
+    K.mounts = (mechasSpec.find(m => m.rol === K.tag) || mechasSpec[0]).mounts;
   }
 
   // ---- POSICIONES de la estructura transversal Rev.C (sistema 24V) ----
@@ -948,7 +897,7 @@ function build(tipo, L) {
       f.push(hole(h.nombre || `Paso perno M${D.retPernoM} eje muerto retorno`, [h.x, y, D.plTop - h.dz], [0, s, 0], h.dia, 0, true));
     }
     for (const h of holesAla) {
-      f.push(hole(h.nombre || 'Paso M6 guarda inferior', [h.x, s * (h.yAbs ?? G.holeY), zAlaTop - D.plT / 2], [0, 0, 1], h.dia, 0, true));
+      f.push(hole(h.nombre || 'Paso en ala', [h.x, s * h.yAbs, zAlaTop - D.plT / 2], [0, 0, 1], h.dia, 0, true));
     }
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
       flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
@@ -957,64 +906,96 @@ function build(tipo, L) {
     });
   }
 
-  // ---- piezas de guarda ----
-  // Faldones POR FUERA del bastidor (interior 485 > banda 457,2 y > exterior
-  // 482): la catenaria y la banda descendente viajan dentro de la artesa sin
-  // roce. Pestañas hacia ADENTRO apoyadas bajo el ala, con M6 en la zona
-  // plana del ala (11 del borde libre) y tramos segmentados por las muescas.
-  for (const g of guardas) {
-    const Lg = r2(g.xb - g.xa);
-    const latAlto = r2(zAlaBot - g.fondoZ);
-    const xm = (g.xa + g.xb) / 2;
-    const f = [
-      box('Fondo artesa', [xm, 0, g.fondoZ + G.t / 2], Lg, G.fondoW, G.t),
-    ];
+  // ---- piezas de las cajas de accionamiento (Rev.F) ----
+  // Costado en C por lado (pestaña 27 · alma · tira superior hasta la cara de
+  // la mecha) + fondo con tapa de extremo. Fijación: separadores torneados
+  // Ø12 sobre los roscados M6 de la mecha — el perno queda unido a la máquina
+  // al desmontar (ISO 14120 §5.19). Puertos de grasera Ø25 SIEMPRE con ojal
+  // ciego (ISO 13857: e=25 → s≥120, y la punta de eje gira a 10 del plano);
+  // el lado motor engrasa por manguera de extensión M6×1 al puerto Ø8 bajo.
+  for (const K of cajas) {
+    const Lg = r2(K.xb - K.xa), xm = (K.xa + K.xb) / 2;
+    const altura = r2(topCaja - K.fondoZ);
+    const pestHolesX = [K.xa + 60, xm, K.xb - 60].map(r2);
     for (const s of [-1, 1]) {
-      f.push(box('Lateral artesa', [xm, s * (G.skirtY + G.t / 2), (zAlaBot + g.fondoZ) / 2], Lg, G.t, latAlto));
-      // pestaña hacia adentro, segmentada entre muescas
-      let segs = [[g.xa, g.xb]];
-      for (const [m0, m1] of g.muescas) {
-        segs = segs.flatMap(([a, b]) => {
-          const out = [];
-          if (m0 > a) out.push([a, Math.min(m0, b)]);
-          if (m1 < b) out.push([Math.max(m1, a), b]);
-          return out;
+      const yIn0 = s < 0 ? K.yn : K.yp;          // cara interior del alma
+      const yExt = yIn0 + s * tCaja;             // cara exterior
+      const alaW = r2(Math.abs(yExt) - 249);     // tira superior hasta la mecha
+      const yPest = yExt - s * (pestCaja / 2);   // centro de pestaña de fondo
+      const yM6 = s * (Math.abs(yExt) - 14.5);   // M6 pestaña↔fondo (12,5 del borde libre)
+      const f = [
+        box('Tira superior', [xm, s * (249 + alaW / 2), topCaja - tCaja / 2], Lg, alaW, tCaja),
+        box('Alma', [xm, yIn0 + s * tCaja / 2, (topCaja + K.fondoZ) / 2], Lg, tCaja, altura),
+        box('Pestaña de fondo', [xm, yPest, K.fondoZ + tCaja / 2], Lg, pestCaja, tCaja),
+      ];
+      const hAlma = [];
+      for (const q of K.mounts) {
+        hAlma.push({ x: q.x, z: q.z, dia: 7 });
+        f.push(hole('Paso M6 separador a mecha', [q.x, yIn0 + s * tCaja / 2, q.z], [0, s, 0], 7, 0, true));
+      }
+      for (const g of K.grasa) if (g.s === s) {
+        hAlma.push({ x: g.x, z: g.z, dia: 25 });
+        f.push(hole('Puerto de grasera Ø25 (ojal ciego OBLIGATORIO)', [g.x, yIn0 + s * tCaja / 2, g.z], [0, s, 0], 25, 0, true));
+      }
+      for (const g of K.puerto) if (g.s === s) {
+        hAlma.push({ x: g.x, z: g.z, dia: 8 });
+        f.push(hole('Puerto Ø8 extensión de grasera', [g.x, yIn0 + s * tCaja / 2, g.z], [0, s, 0], 8, 0, true));
+      }
+      if (K.hub && s > 0) {
+        hAlma.push({ x: K.hub.x, z: K.hub.z, dia: K.hub.dia });
+        f.push(hole(`Paso cubo reductor Ø${K.hub.dia}`, [K.hub.x, yIn0 + s * tCaja / 2, K.hub.z], [0, s, 0], K.hub.dia, 0, true));
+      }
+      for (const x of pestHolesX) f.push(hole('M6 pestaña a fondo', [x, yM6, K.fondoZ + tCaja / 2], [0, 0, 1], 7, 0, true));
+      const lado = K.hub ? (s > 0 ? 'motor' : 'libre') : 'lateral';
+      addPart(`FAB · Guarda ${K.tag} — costado ${lado} e${tCaja} (${Lg}×${altura})`, C.guarda,
+        [xm, yExt, (topCaja + K.fondoZ) / 2], f, {
+          flat: flatCostadoCaja(Lg, altura, alaW, pestCaja, tCaja, K.xa, topCaja, hAlma, pestHolesX,
+            'Acero S275JR e2.0 — terminación PINTADO RAL 7035',
+            ['MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)',
+             ...(hAlma.some(h => h.dia === 25) ? ['PUERTO Ø25: OJAL CIEGO OBLIGATORIO — se retira solo para engrasar'] : []),
+             ...(hAlma.some(h => h.dia === 8) ? ['PUERTO Ø8: manguera de extensión de grasera M6×1 (el niple queda dentro)'] : [])]),
         });
-      }
-      for (const [a, b] of segs) {
-        if (b - a < 30) continue;
-        f.push(box('Pestaña de montaje', [(a + b) / 2, s * (G.skirtY - G.pestW / 2), zAlaBot - G.t / 2], r2(b - a), G.pestW, G.t));
-      }
-      for (const x of g.holesX) {
-        f.push(hole('Paso M6', [x, s * G.holeY, zAlaBot - G.t / 2], [0, 0, 1], G.holeDia, 0, true));
-      }
-      // pasos de muñón: el eje sale del faldón hacia la chumacera/motor
-      for (const m of g.munones) {
-        f.push(hole('Paso muñón Ø48', [m.x, s * (G.skirtY + G.t / 2), m.z], [0, s, 0], 48, 0, true));
-      }
-      // montaje faldón→mecha (M6 a los roscados de la PL8)
-      for (const q of g.mechaMounts) {
-        f.push(hole('Paso M6 a mecha', [q.x, s * (G.skirtY + G.t / 2), q.z], [0, s, 0], G.holeDia, 0, true));
+    }
+    // fondo con tapa de extremo plegada (misma pieza, 1 pliegue)
+    const yF0 = K.yn + 1, yF1 = K.yp - 1, WF = r2(yF1 - yF0), yFc = (yF0 + yF1) / 2;
+    const enFin = K.tapa === 'fin';
+    const xF0 = K.xa + (enFin ? 0 : tCaja), xF1 = K.xb - (enFin ? tCaja : 0);
+    const xTapa = enFin ? K.xb - tCaja / 2 : K.xa + tCaja / 2;
+    const fF = [
+      box('Fondo', [(xF0 + xF1) / 2, yFc, K.fondoZ + tCaja / 2], r2(xF1 - xF0), WF, tCaja),
+      box('Tapa de extremo', [xTapa, yFc, (topCaja + K.fondoZ) / 2], tCaja, WF, altura),
+    ];
+    const hFondo = [];
+    for (const s of [-1, 1]) {
+      const yM6 = s * (Math.abs((s < 0 ? K.yn : K.yp) + s * tCaja) - 14.5);
+      for (const x of pestHolesX) {
+        hFondo.push({ x, y: yM6, dia: 7 });
+        fF.push(hole('M6 a pestaña de costado', [x, yM6, K.fondoZ + tCaja / 2], [0, 0, 1], 7, 0, true));
       }
     }
-    // drenaje del fondo (criterio conveyone-simulator/biblioteca/CV-LBP18/guardas.md)
-    for (let x = g.xa + 90; x <= g.xb - 90; x += 450) {
-      f.push(hole('Drenaje Ø8', [r2(x), 0, g.fondoZ + G.t / 2], [0, 0, 1], 8, 0, true));
+    for (let x = K.xa + 80; x <= K.xb - 80; x += 300) {
+      hFondo.push({ x: r2(x), y: 0, dia: 8 });
+      fF.push(hole('Drenaje Ø8', [r2(x), 0, K.fondoZ + tCaja / 2], [0, 0, 1], 8, 0, true));
     }
-    for (const [on, xe] of [[g.tapas.a, g.xa], [g.tapas.b, g.xb]]) {
-      if (!on) continue;
-      const xin = xe === g.xa ? xe + G.t / 2 : xe - G.t / 2;
-      f.push(box('Tapa de extremo', [xin, 0, (zAlaBot - 3 + g.fondoZ) / 2], G.t, G.fondoW, r2(zAlaBot - 3 - g.fondoZ)));
-    }
-    addPart(`FAB · Guarda inferior ${g.tag} — artesa U chapa ${G.t} (${Lg}×${G.fondoW})`, C.guarda,
-      [xm, 0, g.fondoZ], f, {
-        flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
-          'Acero S275JR e1.5 — terminación PINTADO RAL 7035', g.tapas,
-          g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)]),
-          { holeY: G.holeY, skirtY: G.skirtY, zAlaBot, drenaje: true,
-            munones: g.munones.map(m => ({ x: r2(m.x - g.xa), z: m.z })),
-            mechaMounts: g.mechaMounts.map(m => ({ x: r2(m.x - g.xa), z: m.z })) }),
+    addPart(`FAB · Guarda ${K.tag} — fondo con tapa e${tCaja} (${r2(xF1 - xF0)}×${WF})`, C.guarda,
+      [(xF0 + xF1) / 2, yFc, K.fondoZ], fF, {
+        flat: flatFondoTapa(Lg, WF, tCaja, altura, K.xa, K.xb, yF0, hFondo, K.tapa,
+          'Acero S275JR e2.0 — terminación PINTADO RAL 7035',
+          ['MONTA M6 BAJO LAS PESTAÑAS DE LOS COSTADOS — desmontable para mantención']),
       });
+    // separadores torneados (uno por roscado, por lado) + ojales de puerto
+    for (const s of [-1, 1]) {
+      const len = r2(Math.abs(s < 0 ? K.yn : K.yp) - 249);
+      for (const q of K.mounts) {
+        addPart(`NORM · Separador guarda Ø12×${len} (pasada Ø6,4, torneado)`, C.chum,
+          [q.x, s * 249, q.z], [cyl(`Separador Ø12×${len}`, [q.x, s * 249, q.z], [0, s, 0], 12, len)]);
+      }
+    }
+    for (const g of K.grasa) {
+      addPart('NORM · Ojal ciego Ø25 EPDM (tapón de puerto de grasera)', C.goma,
+        [g.x, g.s * (Math.abs(g.s < 0 ? K.yn : K.yp) + tCaja), g.z],
+        [cyl('Ojal Ø28×5', [g.x, g.s * (Math.abs(g.s < 0 ? K.yn : K.yp) + tCaja), g.z], [0, g.s, 0], 28, 5)]);
+    }
   }
 
   // ---- Mechas porta-chumacera PL8 (pieza PROPIA, soldada a cada placa) ----
@@ -1550,8 +1531,14 @@ function build(tipo, L) {
   }
 
   // datos para verify(): puntos del lazo, chequeo de guardas y travesaños
-  const guardasChk = guardas.map(g => ({
-    tag: g.tag, xa: g.xa, xb: g.xb, fondoZ: g.fondoZ, pernos: g.holesX.length * 2 + g.mechaMounts.length * 2,
+  const guardasChk = cajas.map(K => ({
+    tag: K.tag, xa: K.xa, xb: K.xb, fondoZ: K.fondoZ, pernos: K.mounts.length * 2,
+  }));
+  // volúmenes de cerramiento DECLARADOS (los tres costados + fondo + tapa +
+  // mecha cierran la caja, pero ninguna pieza sola representa el volumen)
+  const cajasDecl = cajas.map(K => ({
+    nombre: `caja de accionamiento ${K.tag} (costados + fondo + tapa + mecha)`,
+    caja: [K.xa, K.xb, K.yn - tCaja, K.yp + tCaja, K.fondoZ, topCaja],
   }));
   // Rev.C: cada elemento transversal verifica su PROPIA banda z contra el lazo
   const travChk = [
@@ -1563,7 +1550,7 @@ function build(tipo, L) {
     if (mechasSpec[i].x1 > mechasSpec[j].x0 && mechasSpec[j].x1 > mechasSpec[i].x0) mechasOverlap = true;
   }
   return {
-    parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, travChk, mechasOverlap, cabChk,
+    parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, cajasDecl, travChk, mechasOverlap, cabChk,
     // interferencia ala↔banda (hallazgo de Sergio 12-08): el lazo solo puede
     // cruzar la banda z del ala DENTRO de una muesca
     alaChk: { zBot: D.plTop - D.plAlto, zTop: D.plTop - D.plAlto + D.plT, muescas: muescasAuto, alaSegs },
@@ -1634,18 +1621,23 @@ const cerramientosDe = (nm, eq) => {
   const out = [];
   const pl = eq.parts.filter(p => /Placa lateral/.test(p.name || '')).map(cajaMundo).filter(Boolean);
   if (pl.length >= 2) out.push({
-    nombre: 'entre placas laterales PL6 (costados), banda arriba, artesa abajo',
+    nombre: 'entre placas laterales PL6 (costados), banda arriba',
     caja: [Math.min(...pl.map(c => c[0])), Math.max(...pl.map(c => c[1])),
       Math.min(...pl.map(c => c[2])), Math.max(...pl.map(c => c[3])),
       Math.min(...pl.map(c => c[4])), Math.max(...pl.map(c => c[5]))],
   });
-  // El muñón que corre DENTRO del eje hueco del reductor está cerrado por el
-  // cubo, no por el cárter: se declara el CUBO (Ø62 × 120), no la caja del
-  // motorreductor. Declarar el cárter completo taparía justo lo que hay que
-  // ver — el tramo de muñón al aire entre la cara de la mecha y la boca del
-  // cubo, y la punta que asoma por detrás.
+  // Volúmenes de las cajas de accionamiento (declarados por build(): los
+  // costados, el fondo, la tapa y la mecha cierran la caja entre todos, y
+  // ninguna pieza sola contiene su volumen).
+  for (const c of eq.cajasDecl || []) out.push(c);
+  // El muñón que corre DENTRO del eje hueco lo cierra el cubo del reductor;
+  // los 16 mm que asoman tras el cubo terminan dentro del alojamiento del
+  // cárter y se cierran con el TAPÓN PROTECTOR del eje hueco (accesorio
+  // estándar NMRV — pedirlo EN la OC del motorreductor).
   for (const p of eq.parts) {
     if (!/Motorreductor/.test(p.name || '')) continue;
+    const cc = cajaMundo(p);
+    if (cc) out.push({ nombre: 'carcasa reductor + tapón de eje hueco (accesorio NMRV en OC)', caja: cc });
     for (const f of p.features || []) {
       if (!/cubo hueco/i.test(f.name || '')) continue;
       const P = p.pos || [0, 0, 0], a = f.at || [0, 0, 0];
@@ -1667,16 +1659,10 @@ const cerramientosDe = (nm, eq) => {
 const EXENTOS_PELIGRO = [
   { patron: /Motorreductor/, razon: 'componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05' },
 ];
-const DEUDA_DECLARADA = [
-  { patron: /ocupa el mismo espacio que «NORM · Chumacera UCF206/,
-    razon: 'D-07 · NO FABRICAR LAS GUARDAS. El faldón de la artesa corre a Y ±253,5 y la brida de la UCF206 ocupa Y 251…266 con 127 mm de diagonal: el faldón atraviesa la brida en las SEIS chumaceras (LBP motriz y tensor, GT motriz, ambos costados). El paso de Ø48 sirve para el muñón, no para la brida. Agrandarlo no arregla: en el tensor la brida ya asoma 17 mm por sobre el borde superior del faldón. La corrección es la que guardas.md especifica y el código fundió en una sola pieza — SEPARAR G1 y G2: la artesa termina antes de la mecha y cada extremo lleva su propia caja de accionamiento, con los costados por fuera de las chumaceras. El resto del equipo (bastidor, ejes, transmisión, soportes) NO está afectado y se puede fabricar' },
-  { patron: /parte móvil sin cerramiento: «FAB · EJE (MOTRIZ|TENSOR)/,
-    razon: 'D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido' },
-  { patron: /Paso M6 guarda inferior|barreno Ø7 en «FAB · Placa lateral/,
-    razon: 'ALA de 38 no admite el M6 de guarda fuera de la zona de plegado Y con margen al borde de la pestaña a la vez (ventana v 15,5..16,5 contra pestaña 9,5): decisión de Sergio — ensanchar ala a ~46, o pasar la fijación de guarda al faldón' },
-  { patron: /barreno Ø9 en «FAB · Placa lateral/,
-    razon: 'M8 del bracket a piso: la ventana de la regla es VACÍA con ala 38 (borde ≥16,5 y plegado ≤15,5). Misma decisión: ensanchar ala o cambiar la fijación del bracket' },
-];
+// DEUDA vigente: VACÍA. D-05 y D-07 se cerraron el 17-08 con las cajas de
+// accionamiento Rev.F. Un patrón que ya no caza nada NO se deja «por si
+// acaso»: un patrón dormido se traga en silencio la próxima violación real.
+const DEUDA_DECLARADA = [];
 
 function verify(res) {
   const e = [];
@@ -1801,7 +1787,11 @@ function verify(res) {
   const nEspecificas = e.length;   // compuertas propias del equipo ya evaluadas
   // ── universales: heredadas de la librería, no reescritas aquí ──
   const uni = compuertasUniversales(res, { exentos: EXENTOS_MARGEN, uniones: SOLDADURA.uniones,
-    cerramientosDe, exentosPeligro: EXENTOS_PELIGRO });
+    cerramientosDe, exentosPeligro: EXENTOS_PELIGRO,
+    // la guarda tampoco puede ocupar el espacio de la ESTRUCTURA que la
+    // rodea: columnas, tiras telescópicas y travesaños de pata (así se
+    // cazaron las columnas que perforaban el fondo de la artesa Rev.E.1)
+    componentesChoque: [/^NORM · /, /Columna soporte/, /Tira telescópica/, /Travesaño de patas/] });
   const deuda = [], nuevos = [];
   for (const msg of uni.errs) {
     const d = DEUDA_DECLARADA.find(q => q.patron.test(msg));
@@ -1844,6 +1834,8 @@ const chk = verify(res);
 
 const here = dirname(fileURLToPath(import.meta.url));
 const metaComun = {
+  revision: 'F',
+  revision_causa: 'guardas: las artesas Rev.E.1 se reemplazan por cajas de accionamiento — el faldón atravesaba la brida de las 6 chumaceras (D-07), la punta de muñón giraba al aire (D-05), las columnas de soporte perforaban el fondo, y el perfil medido del lazo mostró que la artesa motriz cubría una catenaria que ya no existe (la banda nunca baja de −274 fuera de las envolturas)',
   capa: 'user',
   origen: 'gen_lbp530.mjs (paramétrico) — proyecto projects/LBP530-18',
   banda: `${BELT.serie} 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json`,
@@ -2000,3 +1992,5 @@ const dims = {
 };
 writeFileSync(join(here, 'lbp530_dims.json'), JSON.stringify(dims, null, 1));
 console.log(`OK lbp530_dims.json · lazo LBP ${lazoLBP} m · lazo GT ${lazoGT} m`);
+
+

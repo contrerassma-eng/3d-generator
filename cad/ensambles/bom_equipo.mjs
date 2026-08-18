@@ -119,9 +119,18 @@ const nAlaPlaca = nHoles(/Paso M6 guarda inferior/);
 const nAlaGuarda = nHoles(/^Paso M6$/);
 gate(nAlaPlaca === nAlaGuarda,
   `pasos M6 de pestaña desalineados: placa ${nAlaPlaca} ≠ guarda ${nAlaGuarda}`);
-// el faldón→mecha también es un perno por par (cara guarda «Paso M6 a mecha»
-// contra roscado «M6 roscado (montaje guarda)» de la mecha)
-const nFaldon = nHoles(/Paso M6 a mecha/);
+// guarda→mecha también es un perno por par: el paso del costado (Rev.F: «Paso
+// M6 separador a mecha», antes «Paso M6 a mecha» del faldón) contra el
+// roscado «M6 roscado (montaje guarda)» de la mecha — 1:1 o no arma
+const nFaldon = nHoles(/Paso M6 (separador )?a mecha/);
+// Rev.F: el roscado de la guarda en la mecha es CIEGO (PL8 pegada al alma —
+// 8 de hilo útil). Un perno pasante por costado+separador (67 de paquete) o
+// topa fondo o engancha 3 hilos: va ESPÁRRAGO fijo en la mecha + tuerca ciega
+// (práctica Hytrol citada en guardas.md; el fijador queda unido a la máquina,
+// ISO 14120 §5.19). Largo por separador: 65→M6×85 · 51→M6×70.
+const nSep65 = doc.parts.filter(q => /Separador guarda Ø12×65/.test(q.name)).length;
+const nSep51 = doc.parts.filter(q => /Separador guarda Ø12×51/.test(q.name)).length;
+const nFondoPest = nHoles(/M6 a pestaña de costado/);
 const nRoscMecha = nHoles(/M6 roscado \(montaje guarda\)/);
 gate(nFaldon === nRoscMecha,
   `faldón→mecha desalineado: pasos ${nFaldon} ≠ roscados ${nRoscMecha}`);
@@ -174,7 +183,9 @@ const herrajes = [
   { n: 'Perno de anclaje M10×90 (piso)', cant: nAncla, uso: 'pata B_004A de la tira → losa (2 por pata)' },
   { n: 'Perno pivote M10×25 + tuerca (pivote y arco de aplome)', cant: nPivote, uso: 'columna → bracket B_005A: 1 pivote + 1 perno viajando por la RANURA EN ARCO (aplome angular)' },
   { n: 'Perno hex M6×16 8.8 + golilla', cant: nAlaPlaca, uso: 'guarda inferior → ala de placas (1 por unión pestaña-ala)' },
-  { n: 'Perno hex M6×12 8.8', cant: nFaldon, uso: 'faldón de guarda → roscados M6 de la mecha' },
+  { n: 'Espárrago M6×85 8.8 + tuerca ciega M6 + golilla', cant: nSep65, uso: 'roscado CIEGO de la mecha (8) → separador Ø12×65 → costado de guarda; el espárrago queda en la máquina (ISO 14120 §5.19)' },
+  { n: 'Espárrago M6×70 8.8 + tuerca ciega M6 + golilla', cant: nSep51, uso: 'ídem con separador Ø12×51 (lado motor)' },
+  { n: 'Perno hex M6×12 8.8 + tuerca + golillas (fondo de guarda)', cant: nFondoPest, uso: 'fondo con tapa → pestañas de los costados (paquete 2+2)' },
   { n: 'Perno hex M8×30 8.8 + tuerca + golilla', cant: nNose, uso: 'nosebar → cabezal (tuerca por cara interior)' },
   { n: 'Perno hex M10×35 8.8 + tuerca + golilla plana y presión', cant: nM12, uso: 'brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)' },
 ].filter(h => h.cant > 0);
