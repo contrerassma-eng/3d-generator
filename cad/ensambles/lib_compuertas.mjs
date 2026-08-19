@@ -54,6 +54,8 @@ export const REGISTRO = [
     origen: 'Sergio 18-08 («possibility to adjust, to square the structure… the factory process is not always perfect») + 2ª orden del mismo día («don\'t use square holes. Just use circle holes»): el sistema 24V ya lo practica (cruciformes, arco, ranuras 11×20 — copia fiel, se quedan) y las juntas nuevas nacían fijas por omisión; la primera ejecución usó ranuras 7×13 y Sergio la corrigió a Ø10 en vivo' },
   { id: 'barreno-redondo', regla: 'una pieza NUEVA no lleva cortes interiores rectangulares (ranura/ventana): los pasos son barrenos redondos y la holgura se da con diámetro; las ranuras del hardware 24V copiado (measured) quedan como el original, declaradas exentas',
     origen: 'Sergio 18-08 («don\'t use square holes. Just use circle holes»): dicho sobre la lámina del costado con ranuras 7×13 recién introducidas — la corrección llegó el mismo día que la pieza' },
+  { id: 'desarrollo-valido', regla: 'todo desarrollo emitido es un polígono SANO: sin auto-intersección, con área ≥ 60% de su bbox (un dev de chapa es casi-rectangular) y con TODA línea de pliegue dentro del contorno',
+    origen: 'panel adversarial 18-08: el travesaño B_002A salió con contorno bow-tie (W leído de un punto Bézier tras redondear) — 20 piezas incortables con pliegues FLOTANDO fuera del blank, y ninguna compuerta miraba la SANIDAD del polígono (flat-vs-solido compara barrenos, no contornos)' },
   { id: 'abertura-vs-alcance', regla: 'ISO 13857, alcance a través de aberturas: una perforación, ranura o mirilla de ancho e exige distancia mínima s al peligro (e≤4→2 · 6<e≤8→ranura 20/cuadrado 15/círculo 5 · 12<e≤20→120 · e>120 no es abertura, es hueco)',
     origen: 'guardas.md (12-08) fijó holguras «ISO 13857 como criterio general, SIN respaldo en la fuente» y así quedó en el drenaje Ø8 de la artesa: el 17-08 se citó la tabla real (BG ETEM S 044 E, págs. 5-6) y dejó de ser criterio para ser cifra' },
 ];
@@ -698,6 +700,57 @@ export function barrenoRedondo(parts, { exentos = [] } = {}) {
 }
 
 /**
+ * DESARROLLO VÁLIDO (panel 18-08 — travesaño B_002A): el polígono del dev
+ * debe ser SANO. Tres chequeos baratos que habrían cazado el bow-tie:
+ *  (1) sin auto-intersección (pares de segmentos no adyacentes);
+ *  (2) área shoelace ≥ 60% del bbox (un dev es casi-rectangular; el bow-tie
+ *      colapsó a 1084 mm² sobre un bbox de 35.000);
+ *  (3) toda línea de pliegue DENTRO del rango Y del contorno.
+ */
+export function desarrolloValido(parts, { exentos = [] } = {}) {
+  const errs = [];
+  const seg = (a2, b2, c2, d2) => {
+    const d1x = b2[0] - a2[0], d1y = b2[1] - a2[1], d2x = d2[0] - c2[0], d2y = d2[1] - c2[1];
+    const den = d1x * d2y - d1y * d2x;
+    if (Math.abs(den) < 1e-9) return false;
+    const t = ((c2[0] - a2[0]) * d2y - (c2[1] - a2[1]) * d2x) / den;
+    const u = ((c2[0] - a2[0]) * d1y - (c2[1] - a2[1]) * d1x) / den;
+    return t > 0.001 && t < 0.999 && u > 0.001 && u < 0.999;
+  };
+  for (const p of parts) {
+    const f = p.flat; if (!f?.contorno || f.contorno.length < 4) continue;
+    if (exentos.some(rx => rx.test(p.name || ''))) continue;
+    const c = (f.contorno[0][0] === f.contorno[f.contorno.length - 1][0] &&
+               f.contorno[0][1] === f.contorno[f.contorno.length - 1][1]) ? f.contorno.slice(0, -1) : f.contorno;
+    let cruces = 0;
+    for (let i = 0; i < c.length && cruces === 0; i++) {
+      for (let j = i + 2; j < c.length; j++) {
+        if (i === 0 && j === c.length - 1) continue;
+        if (seg(c[i], c[(i + 1) % c.length], c[j], c[(j + 1) % c.length])) { cruces++; break; }
+      }
+    }
+    let area2 = 0;
+    for (let i = 0; i < c.length; i++) {
+      const [x1, y1] = c[i], [x2, y2] = c[(i + 1) % c.length];
+      area2 += x1 * y2 - x2 * y1;
+    }
+    const xs = c.map(q => q[0]), ys = c.map(q => q[1]);
+    const bbox = (Math.max(...xs) - Math.min(...xs)) * (Math.max(...ys) - Math.min(...ys));
+    const area = Math.abs(area2) / 2;
+    const yMin = Math.min(...ys) - 0.01, yMax = Math.max(...ys) + 0.01;
+    const plieguesFuera = (f.pliegues || []).filter(pl => {
+      const yy = [pl.a?.[1], pl.b?.[1]].filter(v => v !== undefined);
+      return yy.some(v => v < yMin || v > yMax);
+    }).length;
+    const nm = (p.name || '').slice(0, 60);
+    if (cruces) errs.push(`desarrollo AUTO-INTERSECTADO en «${nm}» — el láser no puede interpretar el contorno`);
+    if (bbox > 1 && area < 0.6 * bbox) errs.push(`desarrollo COLAPSADO en «${nm}»: área ${Math.round(area)} mm² < 60% del bbox ${Math.round(bbox)} — contorno perdió material`);
+    if (plieguesFuera) errs.push(`${plieguesFuera} línea(s) de pliegue FUERA del contorno en «${nm}»`);
+  }
+  return errs;
+}
+
+/**
  * Corredor universal. Un generador nuevo llama SOLO a esto y hereda todo.
  * @param equipos {nombre: {parts, ...}}
  * @param opts {exentosMargen, soldadas, ...}
@@ -738,12 +791,13 @@ export function compuertasUniversales(equipos, opts = {}) {
     if (pe.expuestos.length) info[nm].partes_moviles_fuera = pe.expuestos;
     errs.push(...esquinaViva(eq.parts, { exentos: opts.exentosEsquina || [] }).map(e => `${nm}: ${e}`));
     errs.push(...barrenoRedondo(eq.parts, { exentos: opts.exentosRanura || [] }).map(e => `${nm}: ${e}`));
+    errs.push(...desarrolloValido(eq.parts, { exentos: opts.exentosDesarrollo || [] }).map(e => `${nm}: ${e}`));
     // CHAPA CONTRA COMPONENTE COMPRADO
     const cvc = chapaVsComponente(eq.parts, { exentos: opts.exentosChoque || [], componente: opts.componentesChoque });
     errs.push(...cvc.errs.map(e => `${nm}: ${e}`));
     if (cvc.choques.length) info[nm].choques_chapa_componente = cvc.choques;
   }
-  ejecutadas.push('peligro-expuesto', 'chapa-vs-componente', 'esquina-viva', 'barreno-redondo');
+  ejecutadas.push('peligro-expuesto', 'chapa-vs-componente', 'esquina-viva', 'barreno-redondo', 'desarrollo-valido');
   return { errs, info, ejecutadas };
 }
 

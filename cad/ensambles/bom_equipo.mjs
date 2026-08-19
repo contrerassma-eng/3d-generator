@@ -216,7 +216,9 @@ const filas = [];
 let item = 0;
 const orden = (a, b) => a.part.name.localeCompare(b.part.name);
 const fabricadas = [...grupos.values()].filter(g => g.part.name.startsWith('FAB')).sort(orden);
-const compradas = [...grupos.values()].filter(g => !g.part.name.startsWith('FAB')).sort(orden);
+// 'VIS ·' = geometría solo-visual (p. ej. goma integral de la banda GT):
+// ni fabricada ni comprable — no entra al BOM (panel 18-08: ítem fantasma)
+const compradas = [...grupos.values()].filter(g => !g.part.name.startsWith('FAB') && !g.part.name.startsWith('VIS')).sort(orden);
 
 // pletina del carryway: FABRICADA de corte a largo (no láser) — sin esta fila
 // la superficie de deslizamiento no era fabricable desde el BOM (panel)
@@ -389,7 +391,7 @@ if (regPath) {
 const COLS = ['item', 'tipo', 'item_desc', 'cant_equipo', 'cant_proyecto', 'origen',
   'referencia', 'plano_corte', 'plano_vistas', 'material', 'desarrollo', 'masa_kg',
   'area_m2_pintar', 'bbox_m2_plancha'];
-const esc = (v) => /,|"/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
+const esc = (v) => { if (v === undefined || v === null || v === 'undefined') return ''; const t = String(v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
 writeFileSync(join(outDir, `bom_${base}.csv`),
   [COLS.join(','), ...filas.map(f => COLS.map(c => esc(f[c])).join(','))].join('\n') + '\n');
 // ── totales DERIVADOS del equipo: masa de transporte y superficie a pintar

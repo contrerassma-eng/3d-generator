@@ -11,17 +11,18 @@
    "AJUSTA · guarda: pasos Ø10 en costados = holgura radial ±2 sobre espárrago M6 (nivelar contra la mecha real)",
    "DATUM · portacarril→pletina de carril: SIN juego a propósito — fija la cota del carryway",
    "DATUM · mecha→alma 6×M10 y fondo de guarda→pestañas Ø7: láser contra láser (±0,1 de proceso)",
-   "TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)"
+   "TENSADO · banda GT (friction top): por eslabones — un solo eje, retorno por NOSEBAR (sin catenaria, Rev.E)"
   ],
-  "revision": "F",
-  "revision_causa": "guardas: las artesas Rev.E.1 se reemplazan por cajas de accionamiento — el faldón atravesaba la brida de las 6 chumaceras (D-07), la punta de muñón giraba al aire (D-05), las columnas de soporte perforaban el fondo, y el perfil medido del lazo mostró que la artesa motriz cubría una catenaria que ya no existe (la banda nunca baja de −274 fuera de las envolturas)",
+  "revision": "G",
+  "revision_reemplaza": "Rev. F (cajas de accionamiento)",
+  "revision_causa": "panel adversarial 18-08 (20 graves): desarrollo del travesaño B_002A reconstruido (regresión de esquinas suaves), muñón libre 50→58 (la mecha Rev.C alargó la cadena de montaje), roscados de guarda LBP a filas −215/−315 (pared 2,44 con los Ø11), TR_S fuera de la huella de mechas, pata B_004A con desarrollo propio, goma GT integral (no comprable), nosebar con ÍTEM",
   "capa": "user",
   "origen": "gen_lbp530.mjs (paramétrico) — proyecto projects/LBP530-18",
   "banda": "Movex 530 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json",
   "ejes": {
    "material": "Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada",
-   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 h6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
-   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 h6×50",
+   "motriz": "L=697: cuadrado 466 + muñón libre Ø30 h6×58 + muñón motriz Ø30×173 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
+   "tensor": "L=582: cuadrado 466 + 2 muñones Ø30 h6×58",
    "chumaceras": "UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa",
    "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
   },
@@ -35,8 +36,8 @@
    "wrapMotrizGT": 158.51,
    "wrapNoseEntradaGT": 107.79,
    "sagCatenariaLBP": 130,
-   "corteBarraMotrices": 5520,
-   "corteBarraTensores": 2300
+   "corteBarraMotrices": 5648,
+   "corteBarraTensores": 2364
   },
   "largo_nose_a_nose": 800,
   "largo_banda_lazo_mm": 2295.49,
@@ -60,7 +61,8 @@
     "peligro-expuesto",
     "chapa-vs-componente",
     "esquina-viva",
-    "barreno-redondo"
+    "barreno-redondo",
+    "desarrollo-valido"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
@@ -156,11 +158,11 @@
        "barrenos": "4×Ø7.0"
       }
      ],
-     "masa_chapa_kg": 244.1,
+     "masa_chapa_kg": 249.6,
      "cobertura": {
-      "piezas": 122,
-      "con_desarrollo": 45,
-      "pct": 37
+      "piezas": 128,
+      "con_desarrollo": 51,
+      "pct": 40
      }
     },
     "GT": {
@@ -191,11 +193,11 @@
        "barrenos": "4×Ø7.0"
       }
      ],
-     "masa_chapa_kg": 64.2,
+     "masa_chapa_kg": 67.9,
      "cobertura": {
-      "piezas": 64,
-      "con_desarrollo": 24,
-      "pct": 38
+      "piezas": 68,
+      "con_desarrollo": 28,
+      "pct": 41
      }
     }
    },
@@ -3944,8 +3946,8 @@
    ]
   },
   {
-   "id": "p15_fab_mecha_porta_chumacera_pl8_motriz_320_422",
-   "name": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
+   "id": "p15_fab_mecha_porta_chumacera_pl8_motriz_320_422_montaje_guarda_gt_660_735_250_330",
+   "name": "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",
    "color": "#d3d5cf",
    "pos": [
     635,
@@ -4556,8 +4558,8 @@
    ]
   },
   {
-   "id": "p16_fab_mecha_porta_chumacera_pl8_motriz_320_422",
-   "name": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
+   "id": "p16_fab_mecha_porta_chumacera_pl8_motriz_320_422_montaje_guarda_gt_660_735_250_330",
+   "name": "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",
    "color": "#d3d5cf",
    "pos": [
     635,
@@ -9024,8 +9026,8 @@
    ]
   },
   {
-   "id": "p35_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_h6",
-   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
+   "id": "p35_fab_eje_motriz_cuadrado_38_1_l_697_mu_ones_30_h6",
+   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
    "color": "#9aa2a8",
    "pos": [
     680,
@@ -9084,12 +9086,12 @@
     },
     {
      "id": "f262",
-     "name": "Muñón libre Ø30×50",
+     "name": "Muñón libre Ø30×58",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -281,
+      -289,
       0
      ],
      "dir": [
@@ -9099,7 +9101,7 @@
      ],
      "params": {
       "dia": 30,
-      "h": 45.5
+      "h": 53.5
      }
     },
     {
@@ -9109,7 +9111,7 @@
      "op": "union",
      "at": [
       0,
-      -283,
+      -291,
       0
      ],
      "dir": [
@@ -9144,7 +9146,7 @@
     },
     {
      "id": "f265",
-     "name": "Muñón motriz Ø30×165",
+     "name": "Muñón motriz Ø30×173",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -9159,7 +9161,7 @@
      ],
      "params": {
       "dia": 30,
-      "h": 160.5
+      "h": 168.5
      }
     },
     {
@@ -9169,7 +9171,7 @@
      "op": "union",
      "at": [
       0,
-      396,
+      404,
       0
      ],
      "dir": [
@@ -9189,7 +9191,7 @@
      "op": "cut",
      "at": [
       0,
-      343,
+      351,
       11.5
      ],
      "dir": [
@@ -9210,7 +9212,7 @@
      "op": "cut",
      "at": [
       0,
-      398,
+      406,
       0
      ],
      "dir": [
@@ -16203,8 +16205,8 @@
    ]
   },
   {
-   "id": "p51_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20_pata_b_004a_soldada",
-   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
+   "id": "p51_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20",
+   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
    "color": "#d3d5cf",
    "pos": [
     150,
@@ -17156,7 +17158,191 @@
        0
       ]
      }
+    }
+   ]
+  },
+  {
+   "id": "p52_fab_pata_b_004a_158_40_4_pie_de_anclaje_soldada_a_tira_br_3002",
+   "name": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+   "color": "#d3d5cf",
+   "pos": [
+    150,
+    -221,
+    -898
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      152,
+      0
+     ],
+     [
+      154.16,
+      0.24
+     ],
+     [
+      155.84,
+      0.96
+     ],
+     [
+      157.04,
+      2.16
+     ],
+     [
+      157.76,
+      3.84
+     ],
+     [
+      158,
+      6
+     ],
+     [
+      158,
+      34
+     ],
+     [
+      157.76,
+      36.16
+     ],
+     [
+      157.04,
+      37.84
+     ],
+     [
+      155.84,
+      39.04
+     ],
+     [
+      154.16,
+      39.76
+     ],
+     [
+      152,
+      40
+     ],
+     [
+      6,
+      40
+     ],
+     [
+      3.84,
+      39.76
+     ],
+     [
+      2.16,
+      39.04
+     ],
+     [
+      0.96,
+      37.84
+     ],
+     [
+      0.24,
+      36.16
+     ],
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": [
+      [
+       [
+        9.9,
+        9
+       ],
+       [
+        20.9,
+        9
+       ],
+       [
+        20.9,
+        31
+       ],
+       [
+        9.9,
+        31
+       ],
+       [
+        9.9,
+        9
+       ]
+      ],
+      [
+       [
+        137.1,
+        9
+       ],
+       [
+        148.1,
+        9
+       ],
+       [
+        148.1,
+        31
+       ],
+       [
+        137.1,
+        31
+       ],
+       [
+        137.1,
+        9
+       ]
+      ]
+     ]
     },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 4,
+    "k": 0.44,
+    "radio": 4,
+    "material": "Acero S275JR e4 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR a escuadra (90°±0,5°) bajo la tira BR_3002 ANTES de pintar (fílete 4 perimetral — soporte a piso: permitido)",
+     "Ranuras de anclaje 11×22 en ±63.6: posición del perno de piso M10×90 (24V, ajuste declarado en el mapa)"
+    ]
+   },
+   "features": [
     {
      "id": "f529",
      "name": "Pata B_004A 158×40",
@@ -17164,8 +17350,8 @@
      "op": "union",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -17184,8 +17370,8 @@
      "op": "cut",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -17229,8 +17415,8 @@
      "op": "cut",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -17271,7 +17457,7 @@
    ]
   },
   {
-   "id": "p52_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
+   "id": "p53_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
    "name": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
    "color": "#d3d5cf",
    "pos": [
@@ -18498,7 +18684,7 @@
    ]
   },
   {
-   "id": "p53_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
+   "id": "p54_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
    "name": "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
    "color": "#d3d5cf",
    "pos": [
@@ -19059,8 +19245,8 @@
    ]
   },
   {
-   "id": "p54_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20_pata_b_004a_soldada",
-   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
+   "id": "p55_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20",
+   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
    "color": "#d3d5cf",
    "pos": [
     150,
@@ -20012,7 +20198,191 @@
        0
       ]
      }
+    }
+   ]
+  },
+  {
+   "id": "p56_fab_pata_b_004a_158_40_4_pie_de_anclaje_soldada_a_tira_br_3002",
+   "name": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+   "color": "#d3d5cf",
+   "pos": [
+    150,
+    221,
+    -898
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      152,
+      0
+     ],
+     [
+      154.16,
+      0.24
+     ],
+     [
+      155.84,
+      0.96
+     ],
+     [
+      157.04,
+      2.16
+     ],
+     [
+      157.76,
+      3.84
+     ],
+     [
+      158,
+      6
+     ],
+     [
+      158,
+      34
+     ],
+     [
+      157.76,
+      36.16
+     ],
+     [
+      157.04,
+      37.84
+     ],
+     [
+      155.84,
+      39.04
+     ],
+     [
+      154.16,
+      39.76
+     ],
+     [
+      152,
+      40
+     ],
+     [
+      6,
+      40
+     ],
+     [
+      3.84,
+      39.76
+     ],
+     [
+      2.16,
+      39.04
+     ],
+     [
+      0.96,
+      37.84
+     ],
+     [
+      0.24,
+      36.16
+     ],
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": [
+      [
+       [
+        9.9,
+        9
+       ],
+       [
+        20.9,
+        9
+       ],
+       [
+        20.9,
+        31
+       ],
+       [
+        9.9,
+        31
+       ],
+       [
+        9.9,
+        9
+       ]
+      ],
+      [
+       [
+        137.1,
+        9
+       ],
+       [
+        148.1,
+        9
+       ],
+       [
+        148.1,
+        31
+       ],
+       [
+        137.1,
+        31
+       ],
+       [
+        137.1,
+        9
+       ]
+      ]
+     ]
     },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 4,
+    "k": 0.44,
+    "radio": 4,
+    "material": "Acero S275JR e4 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR a escuadra (90°±0,5°) bajo la tira BR_3002 ANTES de pintar (fílete 4 perimetral — soporte a piso: permitido)",
+     "Ranuras de anclaje 11×22 en ±63.6: posición del perno de piso M10×90 (24V, ajuste declarado en el mapa)"
+    ]
+   },
+   "features": [
     {
      "id": "f545",
      "name": "Pata B_004A 158×40",
@@ -20020,8 +20390,8 @@
      "op": "union",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -20040,8 +20410,8 @@
      "op": "cut",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -20085,8 +20455,8 @@
      "op": "cut",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -20127,7 +20497,7 @@
    ]
   },
   {
-   "id": "p55_fab_travesa_o_de_patas_b_002a_canal_71_38_3_l_470",
+   "id": "p57_fab_travesa_o_de_patas_b_002a_canal_71_38_3_l_470",
    "name": "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",
    "color": "#d3d5cf",
    "pos": [
@@ -20171,11 +20541,11 @@
      ],
      [
       470,
-      2.16
+      136.57
      ],
      [
       0,
-      2.16
+      136.57
      ],
      [
       0,
@@ -20406,7 +20776,7 @@
    ]
   },
   {
-   "id": "p56_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
+   "id": "p58_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
    "name": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
    "color": "#d3d5cf",
    "pos": [
@@ -21633,7 +22003,7 @@
    ]
   },
   {
-   "id": "p57_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
+   "id": "p59_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
    "name": "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
    "color": "#d3d5cf",
    "pos": [
@@ -22194,8 +22564,8 @@
    ]
   },
   {
-   "id": "p58_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20_pata_b_004a_soldada",
-   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
+   "id": "p60_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20",
+   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
    "color": "#d3d5cf",
    "pos": [
     382.29,
@@ -23147,7 +23517,191 @@
        0
       ]
      }
+    }
+   ]
+  },
+  {
+   "id": "p61_fab_pata_b_004a_158_40_4_pie_de_anclaje_soldada_a_tira_br_3002",
+   "name": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+   "color": "#d3d5cf",
+   "pos": [
+    382.29,
+    -221,
+    -898
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      152,
+      0
+     ],
+     [
+      154.16,
+      0.24
+     ],
+     [
+      155.84,
+      0.96
+     ],
+     [
+      157.04,
+      2.16
+     ],
+     [
+      157.76,
+      3.84
+     ],
+     [
+      158,
+      6
+     ],
+     [
+      158,
+      34
+     ],
+     [
+      157.76,
+      36.16
+     ],
+     [
+      157.04,
+      37.84
+     ],
+     [
+      155.84,
+      39.04
+     ],
+     [
+      154.16,
+      39.76
+     ],
+     [
+      152,
+      40
+     ],
+     [
+      6,
+      40
+     ],
+     [
+      3.84,
+      39.76
+     ],
+     [
+      2.16,
+      39.04
+     ],
+     [
+      0.96,
+      37.84
+     ],
+     [
+      0.24,
+      36.16
+     ],
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": [
+      [
+       [
+        9.9,
+        9
+       ],
+       [
+        20.9,
+        9
+       ],
+       [
+        20.9,
+        31
+       ],
+       [
+        9.9,
+        31
+       ],
+       [
+        9.9,
+        9
+       ]
+      ],
+      [
+       [
+        137.1,
+        9
+       ],
+       [
+        148.1,
+        9
+       ],
+       [
+        148.1,
+        31
+       ],
+       [
+        137.1,
+        31
+       ],
+       [
+        137.1,
+        9
+       ]
+      ]
+     ]
     },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 4,
+    "k": 0.44,
+    "radio": 4,
+    "material": "Acero S275JR e4 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR a escuadra (90°±0,5°) bajo la tira BR_3002 ANTES de pintar (fílete 4 perimetral — soporte a piso: permitido)",
+     "Ranuras de anclaje 11×22 en ±63.6: posición del perno de piso M10×90 (24V, ajuste declarado en el mapa)"
+    ]
+   },
+   "features": [
     {
      "id": "f566",
      "name": "Pata B_004A 158×40",
@@ -23155,8 +23709,8 @@
      "op": "union",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -23175,8 +23729,8 @@
      "op": "cut",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -23220,8 +23774,8 @@
      "op": "cut",
      "at": [
       0,
-      18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -23262,7 +23816,7 @@
    ]
   },
   {
-   "id": "p59_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
+   "id": "p62_fab_bracket_soporte_b_005a_24v_ngulo_cruciformes_pivote_arco_de_aplome",
    "name": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
    "color": "#d3d5cf",
    "pos": [
@@ -24489,7 +25043,7 @@
    ]
   },
   {
-   "id": "p60_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
+   "id": "p63_fab_columna_soporte_24v_canal_c_77_38_3_pivote_arco_apriete_3_m10",
    "name": "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
    "color": "#d3d5cf",
    "pos": [
@@ -25050,8 +25604,8 @@
    ]
   },
   {
-   "id": "p61_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20_pata_b_004a_soldada",
-   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
+   "id": "p64_fab_tira_telesc_pica_br_3002_84_38_3_10_ranuras_11_20",
+   "name": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
    "color": "#d3d5cf",
    "pos": [
     382.29,
@@ -26003,7 +26557,191 @@
        0
       ]
      }
+    }
+   ]
+  },
+  {
+   "id": "p65_fab_pata_b_004a_158_40_4_pie_de_anclaje_soldada_a_tira_br_3002",
+   "name": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+   "color": "#d3d5cf",
+   "pos": [
+    382.29,
+    221,
+    -898
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      152,
+      0
+     ],
+     [
+      154.16,
+      0.24
+     ],
+     [
+      155.84,
+      0.96
+     ],
+     [
+      157.04,
+      2.16
+     ],
+     [
+      157.76,
+      3.84
+     ],
+     [
+      158,
+      6
+     ],
+     [
+      158,
+      34
+     ],
+     [
+      157.76,
+      36.16
+     ],
+     [
+      157.04,
+      37.84
+     ],
+     [
+      155.84,
+      39.04
+     ],
+     [
+      154.16,
+      39.76
+     ],
+     [
+      152,
+      40
+     ],
+     [
+      6,
+      40
+     ],
+     [
+      3.84,
+      39.76
+     ],
+     [
+      2.16,
+      39.04
+     ],
+     [
+      0.96,
+      37.84
+     ],
+     [
+      0.24,
+      36.16
+     ],
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": [
+      [
+       [
+        9.9,
+        9
+       ],
+       [
+        20.9,
+        9
+       ],
+       [
+        20.9,
+        31
+       ],
+       [
+        9.9,
+        31
+       ],
+       [
+        9.9,
+        9
+       ]
+      ],
+      [
+       [
+        137.1,
+        9
+       ],
+       [
+        148.1,
+        9
+       ],
+       [
+        148.1,
+        31
+       ],
+       [
+        137.1,
+        31
+       ],
+       [
+        137.1,
+        9
+       ]
+      ]
+     ]
     },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 4,
+    "k": 0.44,
+    "radio": 4,
+    "material": "Acero S275JR e4 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR a escuadra (90°±0,5°) bajo la tira BR_3002 ANTES de pintar (fílete 4 perimetral — soporte a piso: permitido)",
+     "Ranuras de anclaje 11×22 en ±63.6: posición del perno de piso M10×90 (24V, ajuste declarado en el mapa)"
+    ]
+   },
+   "features": [
     {
      "id": "f582",
      "name": "Pata B_004A 158×40",
@@ -26011,8 +26749,8 @@
      "op": "union",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -26031,8 +26769,8 @@
      "op": "cut",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -26076,8 +26814,8 @@
      "op": "cut",
      "at": [
       0,
-      -18.5,
-      -188.5
+      0,
+      -2
      ],
      "dir": [
       0,
@@ -26118,7 +26856,7 @@
    ]
   },
   {
-   "id": "p62_fab_travesa_o_de_patas_b_002a_canal_71_38_3_l_470",
+   "id": "p66_fab_travesa_o_de_patas_b_002a_canal_71_38_3_l_470",
    "name": "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",
    "color": "#d3d5cf",
    "pos": [
@@ -26162,11 +26900,11 @@
      ],
      [
       470,
-      2.16
+      136.57
      ],
      [
       0,
-      2.16
+      136.57
      ],
      [
       0,
@@ -26397,7 +27135,7 @@
    ]
   },
   {
-   "id": "p63_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_3_m",
+   "id": "p67_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_3_m",
    "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m",
    "color": "#1a4f9c",
    "pos": [
@@ -27469,8 +28207,8 @@
    ]
   },
   {
-   "id": "p64_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
-   "name": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
+   "id": "p68_vis_goma_grip_top_75_sha_disp_50_sha_integral_de_la_banda_530_gt_no_comprable_aparte",
+   "name": "VIS · Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)",
    "color": "#3a3f43",
    "pos": [
     400,

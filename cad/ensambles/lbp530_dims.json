@@ -155,8 +155,8 @@
   "sq": 38.1,
   "jrnDia": 30,
   "jrnTol": "h6",
-  "jrnLibre": 50,
-  "jrnMotriz": 165,
+  "jrnLibre": 58,
+  "jrnMotriz": 173,
   "cuboMotor": 110,
   "chaveta": {
    "w": 8,
@@ -235,8 +235,8 @@
   "innerW": 470,
   "outerW": 482,
   "sqLen": 466,
-  "ejeMotrizL": 681,
-  "ejeTensorL": 566,
+  "ejeMotrizL": 697,
+  "ejeTensorL": 582,
   "rSprk": 72.35,
   "ySprkLBP": [
    -152.4,
@@ -258,19 +258,23 @@
   "LBP_5000": 10.95,
   "GT_800": 2.3
  },
+ "wraps": {
+  "LBP": 141.62,
+  "GT": 158.51
+ },
  "ejes": {
   "motriz": {
    "plano": "LBP530-EJ-01",
    "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
-   "largoTotal": 681,
-   "corte": 690,
+   "largoTotal": 697,
+   "corte": 706,
    "cantidad": 8,
    "tramos": [
     {
      "nombre": "muñón libre",
      "dia": 30,
      "tol": "h6",
-     "largo": 50
+     "largo": 58
     },
     {
      "nombre": "cuadrado",
@@ -281,7 +285,7 @@
      "nombre": "muñón motriz",
      "dia": 30,
      "tol": "h6",
-     "largo": 165
+     "largo": 173
     }
    ],
    "chaveta": {
@@ -295,8 +299,8 @@
   "tensor": {
    "plano": "LBP530-EJ-02",
    "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
-   "largoTotal": 566,
-   "corte": 575,
+   "largoTotal": 582,
+   "corte": 591,
    "cantidad": 4,
    "soloEn": "LBP (el GT Rev.E es de un solo eje)",
    "tramos": [
@@ -304,7 +308,7 @@
      "nombre": "muñón",
      "dia": 30,
      "tol": "h6",
-     "largo": 50
+     "largo": 58
     },
     {
      "nombre": "cuadrado",
@@ -315,7 +319,7 @@
      "nombre": "muñón",
      "dia": 30,
      "tol": "h6",
-     "largo": 50
+     "largo": 58
     }
    ]
   },
@@ -323,11 +327,11 @@
    "espec": "Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m",
    "motriz": {
     "porBarra": 8,
-    "usado": 5520
+    "usado": 5648
    },
    "tensor": {
     "porBarra": 4,
-    "usado": 2300
+    "usado": 2364
    },
    "comprar": 2,
    "nota": "considerar 1 barra extra de respaldo"

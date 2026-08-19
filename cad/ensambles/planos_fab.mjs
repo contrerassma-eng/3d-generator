@@ -252,11 +252,16 @@ const lista = [...grupos.values()].sort((a, b) =>
 const bomPathFab = join(outDir, `bom_${docBase}.json`);
 const itemBom = new Map();
 if (existsSync(bomPathFab)) {
-  const stripP = (n) => n.replace(/^(FAB|NORM)\s*[·.-]\s*/, '');
+  const stripP = (n) => n.replace(/^(FAB|NORM|VIS)\s*[·.-]\s*/, '');
   const filasBom = JSON.parse(readFileSync(bomPathFab, 'utf8')).filas;
   for (const part of doc.parts) {
-    const f = filasBom.find(q => q.item_desc === stripP(part.name));
-    if (f) itemBom.set(part.name, f.item);
+    const nom = stripP(part.name);
+    // exacto primero; si el BOM enriqueció la descripción (nosebar con PN,
+    // panel 18-08: quedaba ÍTEM '—' y CANT 1), calza por CONTENCIÓN al más largo
+    const f = filasBom.find(q => q.item_desc === nom)
+      || filasBom.filter(q => q.item_desc.includes(nom.slice(0, 40)) || nom.includes(q.item_desc.slice(0, 40)))
+          .sort((x, y2) => y2.item_desc.length - x.item_desc.length)[0];
+    if (f) itemBom.set(part.name, { item: f.item, cant: f.cant_equipo });
   }
 } else console.warn('  AVISO: sin bom_' + docBase + '.json — el despiece sale sin ÍTEM (correr la cadena completa)');
 const despiece = [];
@@ -435,7 +440,8 @@ for (const g of lista) {
     }
   }
   despiece.push({
-    item: itemBom.get(g.name) ?? '—', designacion: desig, nombres: [...g.nombres], cant: g.cant,
+    item: itemBom.get(g.name)?.item ?? '—', designacion: desig, nombres: [...g.nombres],
+    cant: itemBom.get(g.name)?.cant ?? g.cant,
     tipo: fabricada ? 'FABRICADA' : (norma ? 'NORMALIZADA' : 'CONJUNTO'),
     material_norma: material + notaEspejo, plano: plano || '—',
   });

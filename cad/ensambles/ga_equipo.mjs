@@ -278,7 +278,7 @@ sh2.titleBlock({
   proyecto: G.proyecto || 'LBP530-18 · Conveyone', fuente: G.fuente || 'gen_lbp530.mjs — capa user',
   verificacion: 'CORTES DEL MODELO 3D — no dibujados a mano', piezas: '1', piezasLabel: 'CONJUNTO',
   nota: `A-A y B-B por coordenada declarada — ver lámina 1 (${gaNum})`,
-  escala: 'según vista', fecha, numPlano: gaNum + ' · 2/2',
+  escala: 'según vista', fecha, numPlano: gaNum + ' · 2/2', lamina: '2 / 2',
 });
 
 // ── tabla resumen + cajetín ──────────────────────────────────────────────────
@@ -316,7 +316,11 @@ const notas = [
   ...(sold.uniones || []).map(u => '· ' + u),
   sold.nota ? '· ' + sold.nota : '',
 ].filter(t => t !== null).flatMap(t => (t === '' ? [''] : envuelve(t, 128)));
-notas.forEach((t, i) => { const y = 156 - i * 4.2; if (y > 18) sh.text(t, 210, y, 2.6, 'L'); });
+// en el equipo CORTO (GT) la elevación baja hasta ~y 190 con su cota a −8:
+// la columna parte BAJO la vista más baja (panel 18-08: las notas tachaban
+// el rótulo ELEVACIÓN y la cota 800 en el GA del GT)
+const yNotas0 = Math.min(156, oyL - 16);
+notas.forEach((t, i) => { const y = yNotas0 - i * 4.2; if (y > 18) sh.text(t, 210, y, 2.6, 'L'); });
 
 sh.frame();
 sh.titleBlock({
@@ -325,7 +329,7 @@ sh.titleBlock({
   proyecto: G.proyecto || 'LBP530-18 · Conveyone', fuente: G.fuente || 'gen_lbp530.mjs — capa user',
   verificacion: 'COTAS AUTO-MEDIDAS DEL MODELO', piezas: '1', piezasLabel: 'CONJUNTO',
   nota: G.notaBanda || `banda Movex 530 ${esLBP ? 'LBP' : 'GT (friction top)'} 18 in · paso 15 — ver bom_${base}.csv`,
-  escala: 'según vista', fecha, numPlano: gaNum,
+  escala: 'según vista', fecha, numPlano: gaNum, lamina: '1 / 2',
 });
 
 const pdf = exportSheetsPDF([sh, sh2], `plano_conjunto_${base}.pdf`);

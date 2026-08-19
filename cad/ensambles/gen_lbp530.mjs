@@ -41,7 +41,7 @@
 
 import { writeFileSync } from 'node:fs';
 import { bendAllowance } from '../js/sheetmetal.js';
-import { KCH, rect, flatPlaca, flatPlacaConAla, flatPerfilC, flatCostadoCaja, flatFondoTapa } from './lib_chapa.mjs';
+import { KCH, rect, redondear, rEsquina, flatPlaca, flatPlacaConAla, flatPerfilC, flatCostadoCaja, flatFondoTapa } from './lib_chapa.mjs';
 import { fileURLToPath } from 'node:url';
 import { compuertasUniversales, sellarCompuertas, cajaMundo } from './lib_compuertas.mjs';
 import { dirname, join } from 'node:path';
@@ -145,8 +145,8 @@ export const D = {
   // el trio "0,37 kW + 42 rpm + >=85 Nm" no existe. Seleccion: NMRV-P 075 FA
   // 1/30, eje hueco O30 H8, motor 80A-4 0,55 kW -> n2 46 rpm, 89 Nm, fs 2,8.
   // v banda = pi*0.1534*46 = 22,2 m/min (rango 5-45 OK).
-  jrnLibre: 50,                // placa 6 + UC206 (B=38.1) + margen
-  jrnMotriz: 165,              // rodamiento 50 + garganta + cubo motorreductor 110
+  jrnLibre: 58,                // holgura 2 + placa 6 + MECHA 8 + UC206 B=38.1 = 54.1 + chaflán 2 + margen (panel 18-08: con 50 la punta quedaba 4,1 ANTES de la cara del aro y el prisionero mordía chaflán/aire)
+  jrnMotriz: 173,              // zona chumacera 58 (misma cadena que jrnLibre) + garganta 5 + cubo motorreductor 110
   cuboMotor: 110,
   chaveta: { w: 8, h: 7, l: 90 },   // DIN 6885 A (zona del motorreductor)
   m10: 22, garganta: 2.5,
@@ -508,7 +508,10 @@ function build(tipo, L) {
   // de la grilla UCF). Comparten coordenadas: no pueden desalinearse.
   for (const m of mechasSpec) {
     const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
-    const rows = [-250, -350].filter(z => z > zBot + 30 && z < -210);
+    // filas LEJOS de la grilla M10 del alma (−113/−183/−253): con −250 el M6
+    // quedaba a 10,44 del Ø11 (pared 2,44 en PL8) y golilla M10 vs separador
+    // Ø12 se traslapaban (panel 18-08). Con −215/−315: pared mínima 25,5.
+    const rows = [-215, -315].filter(z => z > zBot + 30 && z < -180);
     m.mounts = [];
     // ±50 del borde de mecha (era ±55): a ±55 el separador Ø12 del montaje de
     // guarda quedaba TANGENTE al canto de la brida UCF206 (x 4940 vs cara
@@ -647,13 +650,15 @@ function build(tipo, L) {
     }
     return false;
   };
-  const posicionesLibres = (paso, halfW, z0, z1, margen = 150) => {
+  const posicionesLibres = (paso, halfW, z0, z1, margen = 150, bandasX = []) => {
+    const enBanda = (c) => bandasX.some(([b0, b1]) => c + halfW > b0 && c - halfW < b1);
     const xs = [];
     for (let x = paso / 2; x < L; x += paso) {
       let xt = null;
       for (const dx of [0, -200, 200, -300, 300]) {
         const c = x + dx;
         if (c < margen || c > L - margen) continue;
+        if (enBanda(c)) continue;
         if (!lazoOcupa(c - halfW - 10, c + halfW + 10, z0, z1)) { xt = r2(c); break; }
       }
       if (xt === null) console.warn(`  ! elemento transversal en x=${x} omitido (lazo ocupa la ventana z ${z0}..${z1})`);
@@ -669,7 +674,10 @@ function build(tipo, L) {
   const xsPC = posicionesLibres(pasoT, PC.w / 2, zPCtop - PC.t - 4, zPCtop + 4);
   // TR_S en la zona BAJA del canal: bajo el retorno (−147) y sobre el fondo
   const zTRtop = -160;
-  const xsTrav = posicionesLibres(pasoT, TT.w / 2, zTRtop - TT.h - 6, zTRtop + 6);
+  // los TR_S no pueden caer bajo la HUELLA de una mecha (panel 18-08: el de
+  // x=300 quedaba con sus M6 atravesando el alma bajo la mecha tensora)
+  const bandasMecha = mechasSpec.map(m => [m.x0 - 25, m.x1 + 25]);
+  const xsTrav = posicionesLibres(pasoT, TT.w / 2, zTRtop - TT.h - 6, zTRtop + 6, 150, bandasMecha);
   // agujeros ESTRUCTURALES del alma (apernado 24V): orejas TR_S y clips del
   // portacarril — entran al desarrollo y al 3D por holesAlma, con nombre
   // propio para que el BOM cuente cada perno real
@@ -901,7 +909,7 @@ function build(tipo, L) {
           f.push(hole(`Paso M${D.retPernoM} retorno (a través de mecha)`, [h.x, y, z], [0, s, 0], h.dia, 0, true));
         }
       }
-      addPart(`FAB · Mecha porta-chumacera PL8 ${m.rol} ${w}×${hM}`, C.placa, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], f, {
+      addPart(`FAB · Mecha porta-chumacera PL8 ${m.rol} ${w}×${hM}${esLBP ? '' : ' — montaje guarda GT (660/735×−250/−330)'}`, C.placa, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], f, {
         flat: flatPlaca(w, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
           'APERNADA 6×M10 A CARA EXTERIOR DEL ALMA (Rev.C — sin soldadura); escariar Ø40 del muñón tras pintura'),
       });
@@ -1311,14 +1319,27 @@ function build(tipo, L) {
           atT, [0, 1, 0], [1, 0, 0],
           ranuraPoly(0, vC, ST.slotW, ST.slotH), ST.t, 'cut'));
       }
-      // pata B_004A soldada bajo la tira (158×40×4, ranuras de anclaje 11×22)
-      fT.push(box(`Pata B_004A ${SP.w}×${SP.h}`, [x, sd * (yOut - SP.h / 2), D.pisoZ + SP.t / 2], SP.w, SP.h, SP.t));
+      addPart(`FAB · Tira telescópica BR_3002 84×38×3 (${ST.nSlots} ranuras ${ST.slotW}×${ST.slotH})`, C.pata,
+        [x, yTiraWeb, zTira0 + ST.largo / 2], fT, { flat: flatTira() });
+      // PATA B_004A: pieza PROPIA con desarrollo (panel 18-08: 40 uds sin
+      // definición de fabricación en ningún artefacto — y sus ranuras 11×22
+      // NO salen de un «corte a largo»: necesitan láser/punzón)
+      const fP = [box(`Pata B_004A ${SP.w}×${SP.h}`, [x, sd * (yOut - SP.h / 2), D.pisoZ + SP.t / 2], SP.w, SP.h, SP.t)];
       for (const dxp of [-1, 1]) {
-        fT.push(sk(`Ranura de anclaje ${SP.slotW}×${SP.slotH}`, [x, sd * (yOut - SP.h / 2), D.pisoZ], [0, 0, 1], [1, 0, 0],
+        fP.push(sk(`Ranura de anclaje ${SP.slotW}×${SP.slotH}`, [x, sd * (yOut - SP.h / 2), D.pisoZ], [0, 0, 1], [1, 0, 0],
           ranuraPoly(dxp * SP.slotOff, 0, SP.slotW, SP.slotH), SP.t, 'cut'));
       }
-      addPart(`FAB · Tira telescópica BR_3002 84×38×3 (${ST.nSlots} ranuras ${ST.slotW}×${ST.slotH}) + pata B_004A (soldada)`, C.pata,
-        [x, yTiraWeb, zTira0 + ST.largo / 2], fT, { flat: flatTira() });
+      addPart(`FAB · Pata B_004A ${SP.w}×${SP.h}×${SP.t} — pie de anclaje (SOLDADA a tira BR_3002)`, C.pata,
+        [x, sd * (yOut - SP.h / 2), D.pisoZ + SP.t / 2], fP, {
+          flat: {
+            contorno: redondear(rect(SP.w, SP.h), rEsquina(SP.t)),
+            cortes: { circles: [], polys: [-1, 1].map(d2 => ranuraPoly(r2(SP.w / 2 + d2 * SP.slotOff), SP.h / 2, SP.slotW, SP.slotH)) },
+            pliegues: [], etiquetas: [], pliegueInfo: [], t: SP.t, k: KCH, radio: SP.t,
+            material: 'Acero S275JR e4 — PINTADO RAL 7035',
+            avisos: [`SOLDAR a escuadra (90°±0,5°) bajo la tira BR_3002 ANTES de pintar (fílete 4 perimetral — soporte a piso: permitido)`,
+                     `Ranuras de anclaje ${SP.slotW}×${SP.slotH} en ±${SP.slotOff}: posición del perno de piso M10×90 (24V, ajuste declarado en el mapa)`],
+          },
+        });
     }
 
     // --- TRAVESAÑO B_002A: canal 71×38 ENCAJADO dentro de las columnas ---
@@ -1339,7 +1360,10 @@ function build(tipo, L) {
         const f = flatPerfilC(LB2, SB2.d, SB2.alto, SB2.t,
           'Acero S275JR e3 — PINTADO RAL 7035');
         const wmX = webMidC(SB2.d, SB2.alto, SB2.t);
-        const W = f.contorno[2][1];                     // alto total del dev
+        // alto REAL del dev: máximo Y del contorno (panel 18-08: contorno[2]
+        // era un punto Bézier tras redondear() y W salía 2,16 → blank 74,1,
+        // 20 travesaños incortables; el índice fijo era una bomba de tiempo)
+        const W = Math.max(...f.contorno.map(q => q[1]));
         f.contorno = [
           [0, 0], [LB2, 0], [LB2, r2(wmX - 5.8)], [r2(LB2 + SC.t), r2(wmX - 5.8)],
           [r2(LB2 + SC.t), r2(wmX + 5.8)], [LB2, r2(wmX + 5.8)], [LB2, W], [0, W],
@@ -1383,7 +1407,9 @@ function build(tipo, L) {
     for (let x = xa; x <= xb; x += BELT.paso, filas++) {
       feats.push(box('Goma grip top', [x, 0, -BELT.gt.goma / 2], BELT.paso - 4, BELT.ancho - 50, BELT.gt.goma));
     }
-    addPart(`NORM · Goma Grip Top ${BELT.gt.dureza} (+${BELT.gt.goma}, ${filas} filas)`, C.goma,
+    // (panel 18-08) la goma Grip Top viene VULCANIZADA de fábrica en la banda
+    // 530 GT — era un ítem fantasma de compra; queda solo como geometría visual
+    addPart(`VIS · Goma Grip Top ${BELT.gt.dureza} — integral de la banda 530 GT (no comprable aparte)`, C.goma,
       [L / 2, 0, -BELT.gt.goma / 2], feats);
   }
 
@@ -1528,6 +1554,11 @@ function verify(res) {
   if (D.cuboMotor + D.jrnLibre > D.jrnMotriz) e.push('muñón motriz corto: rodamiento + cubo motor no caben');
   if (D.chaveta.l > D.cuboMotor - 10) e.push('chavetero más largo que la zona del cubo');
   if (D.ucf.bore !== D.jrnDia) e.push('bore de chumacera ≠ Ø muñón');
+  // CADENA DE MONTAJE del muñón (panel 18-08 — el hallazgo Rev.C): holgura
+  // cuadrado→placa 2 + placa 6 + MECHA 8 + inserto UC206 B=38,1 + chaflán 2.
+  // Si una revisión inserta otra lámina en la pila, esta compuerta grita.
+  const cadenaMunon = r2(2 + 6 + 8 + 38.1 + 2);
+  if (D.jrnLibre < cadenaMunon) e.push(`muñón libre ${D.jrnLibre} < cadena de montaje ${cadenaMunon} (holgura+placa+mecha+UC206+chaflán)`);
   if (BELT.sprocket.od / 2 > Math.abs(D.zMotriz) - 100) e.push('sprocket motriz invade el bastidor');
   if (D.gtRetDia / 2 < BELT.backflex) e.push(`rodillo de retorno R${D.gtRetDia / 2} < backflex ${BELT.backflex}`);
   // grid de sprockets del 530 LBP (manual p.30 / brochure p.11): A·B·C·B·C·A
@@ -1651,7 +1682,7 @@ function verify(res) {
     exentosEsquina: [/Bracket soporte B_005A/, /Travesaño de patas B_002A/],
     // barreno-redondo: las ranuras rectangulares interiores viven SOLO en la
     // copia fiel del sistema 24V (measured) — toda pieza nueva usa barrenos
-    exentosRanura: [/Bracket soporte B_005A/, /Columna soporte/, /Tira telescópica/, /Travesaño de patas B_002A/],
+    exentosRanura: [/Bracket soporte B_005A/, /Columna soporte/, /Tira telescópica/, /Travesaño de patas B_002A/, /Pata B_004A/],
     // la guarda tampoco puede ocupar el espacio de la ESTRUCTURA que la
     // rodea: columnas, tiras telescópicas y travesaños de pata (así se
     // cazaron las columnas que perforaban el fondo de la artesa Rev.E.1)
@@ -1708,11 +1739,13 @@ const metaComun = {
     'AJUSTA · guarda: pasos Ø10 en costados = holgura radial ±2 sobre espárrago M6 (nivelar contra la mecha real)',
     'DATUM · portacarril→pletina de carril: SIN juego a propósito — fija la cota del carryway',
     'DATUM · mecha→alma 6×M10 y fondo de guarda→pestañas Ø7: láser contra láser (±0,1 de proceso)',
-    'TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)',
+    // el TENSADO del GT difiere (un solo eje, retorno por nosebar) — la línea
+    // se especializa por equipo en el bloque de emisión (panel 18-08: el GA GT
+    // hablaba de la banda del OTRO equipo)
   ],
-  revision: 'F',
-  revision_reemplaza: 'Rev. E.1 (guardas de artesa)',
-  revision_causa: 'guardas: las artesas Rev.E.1 se reemplazan por cajas de accionamiento — el faldón atravesaba la brida de las 6 chumaceras (D-07), la punta de muñón giraba al aire (D-05), las columnas de soporte perforaban el fondo, y el perfil medido del lazo mostró que la artesa motriz cubría una catenaria que ya no existe (la banda nunca baja de −274 fuera de las envolturas)',
+  revision: 'G',
+  revision_reemplaza: 'Rev. F (cajas de accionamiento)',
+  revision_causa: 'panel adversarial 18-08 (20 graves): desarrollo del travesaño B_002A reconstruido (regresión de esquinas suaves), muñón libre 50→58 (la mecha Rev.C alargó la cadena de montaje), roscados de guarda LBP a filas −215/−315 (pared 2,44 con los Ø11), TR_S fuera de la huella de mechas, pata B_004A con desarrollo propio, goma GT integral (no comprable), nosebar con ÍTEM',
   capa: 'user',
   origen: 'gen_lbp530.mjs (paramétrico) — proyecto projects/LBP530-18',
   banda: `${BELT.serie} 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json`,
@@ -1742,7 +1775,13 @@ for (const [tipo, b] of Object.entries(builds)) {
     format: 'foto3d-cad', version: 1,
     // SELLO de compuertas: sin él, dxf_flat / bom_equipo / planos_fab /
     // ga_equipo / manual_partes se NIEGAN a emitir (CELULA_DISENO regla 11)
-    meta: { nombre: b.nombre, ...metaComun, largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda), secciones: r.secciones, compuertas: chk.sello },
+    meta: { nombre: b.nombre, ...metaComun,
+      // TENSADO por equipo (panel 18-08: el GA del GT citaba la banda del otro)
+      mapa_ajustes: [...metaComun.mapa_ajustes,
+        tipo === 'LBP'
+          ? 'TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)'
+          : 'TENSADO · banda GT (friction top): por eslabones — un solo eje, retorno por NOSEBAR (sin catenaria, Rev.E)'],
+      largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda), secciones: r.secciones, compuertas: chk.sello },
     parts: r.parts, constraints: [],
   };
   writeFileSync(join(here, b.file), JSON.stringify(doc, null, 1));
@@ -1756,6 +1795,7 @@ const dims = {
   transportadoresPorLinea: { GT_800: 1, LBP_5000: 1 },
   belt: BELT, D,
   lazos_m: { LBP_5000: lazoLBP, GT_800: lazoGT },
+  wraps: { LBP: res.LBP.wrapMotriz, GT: res.GT.wrapMotriz },
   ejes: {
     motriz: {
       plano: 'LBP530-EJ-01', material: 'SAE 1045 cuadrado 38.1 (1.5 in) calibrado',

@@ -186,7 +186,7 @@ const wrap = (s, n) => {
 };
 function cabecera(sh, tituloPag, sub) {
   sh.text('CONVEYONE SpA', 22, 285, 4.2, 'L');
-  sh.text(`MANUAL DE PARTES — ${codigo}`, 398, 285, 3.4, 'R');
+  sh.text(`MANUAL DE PARTES — ${codigo}`, 396, 285, 2.9, 'R');
   sh.line([22, 281.5], [398, 281.5], 'NORMA');
   sh.text(tituloPag, 22, 274, 5.2, 'L');
   if (sub) sh.text(sub, 22, 268, 3.0, 'L');
@@ -416,7 +416,7 @@ for (const F of FIGURAS) {
   }
   y -= 8;
   sh.text('PARES DE APRIETE (pernos 8.8, rosca seca)', 26, y, 3.2, 'L'); y -= 7;
-  for (const [m, t] of [['M6', '10 Nm'], ['M8', '25 Nm'], ['M10', '49 Nm'], ['grano M8 sprocket', '12 Nm + Loctite 243'], ['prisioneros UCF206', 'según fabricante de la chumacera']]) {
+  for (const [m, t] of [['M6', '10 Nm'], ['M8', '25 Nm'], ['M10', '49 Nm'], ['grano M8 sprocket', 'Loctite 243 — par POR CONFIRMAR con Movex (los 12 Nm citados son de los TORNILLOS del sprocket PARTIDO)'], ['prisioneros UCF206', 'según fabricante de la chumacera']]) {
     sh.text(`${m}: ${t}`, 30, y, 2.9, 'L'); y -= 5.4;
   }
   sheets.push(sh);
@@ -453,7 +453,7 @@ for (const F of FIGURAS) {
     ]],
     [esLBP ? '4 · EJES Y SPROCKETS (Fig. C y D)' : '4 · EJE Y SPROCKETS (Fig. C)', [
       'Enfilar sprockets en el eje ANTES de montar chumaceras: el CENTRAL fijo con grano M8',
-      '(12 Nm + Loctite) flanqueado por 2 collarines; los demás flotan (los carriles de la banda',
+      '(Loctite 243; par POR CONFIRMAR con Movex) flanqueado por 2 collarines; los demás flotan',
       'los posicionan). Montar UCF206 en mechas (M10×35, 49 Nm) y fijar prisioneros al eje.',
       'Verificar giro libre y concentricidad; el eje motriz lleva el muñón largo hacia el lado motor.',
     ]],
@@ -510,7 +510,7 @@ for (const F of FIGURAS) {
     sh.text(wrap(f.item_desc, 78)[0], 44, y, 2.4, 'L');
     sh.text(f.plano_corte || '—', 244, y, 2.6, 'L');
     sh.text(f.plano_vistas || '—', 300, y, 2.6, 'L');
-    sh.text(String(f.masa_aprox_kg || '—'), 354, y, 2.6, 'L');
+    sh.text(String(f.masa_kg ?? f.masa_aprox_kg ?? '—'), 354, y, 2.6, 'L');
     y -= 6;
     sh.line([24, y + 1.8], [396, y + 1.8], 'FINA');
   }

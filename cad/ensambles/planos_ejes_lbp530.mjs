@@ -151,7 +151,7 @@ function shaftSheet(eje, opts) {
     // rosca de retención en la punta motriz
     leader(sh, [x, oy], [x - 30, oy + 40], `${eje.roscaPunta} (retención motorreductor)`, 'R');
     // zona del cubo del motorreductor
-    dimHt(sh, x - D.cuboMotor * s, x, oy + 22, -38, `zona cubo motorreductor eje hueco Ø30 H7 — ${D.cuboMotor}`);
+    dimHt(sh, x - D.cuboMotor * s, x, oy + 22, -38, `zona cubo Ø30 h7 (eje) — hueco NMRV H8 Motovario — ${D.cuboMotor}`);
   }
 
   // sección del cuadrado (B-B) y vista del extremo motriz
@@ -276,7 +276,8 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   const notas = [
     'Cálculo (memoria en projects/LBP530-18/out/MEMORIA_EJES.md): tiro de banda LBP ~ 0.8 kN (7% de la carga admisible',
     'Movex 24 kN/m×0.457; límite de diseño 50%) · par en eje ~ 58 Nm (Z32, PD 153.4) · torsión muñón O30 ~ 11 MPa (SF>5)',
-    '· deflexión ~ 0.06 mm (supuesto industria <=2.5 mm) · wrap motriz 141°/139° (Movex 140±10°) · 20 m/min -> 41.5 rpm.',
+    `· deflexión ~ 0.06 mm (supuesto industria <=2.5 mm) · wrap motriz LBP ${dims.wraps?.LBP ?? '—'}° (Movex 140±10 OK) · GT ${dims.wraps?.GT ?? '—'}° — EXCEDE 140±10: D-11 pendiente de Sergio (un solo eje).`,
+    'D-12 pendiente: snubs Ø63.5 bajo el mínimo Movex para rodillo de deflexión — evaluar Ø75+ o justificar.',
   ];
   notas.forEach((t, i) => sh.text(t, 24, 64 - i * 4.6, 2.5, 'L'));
 

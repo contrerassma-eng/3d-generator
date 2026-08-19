@@ -59,4 +59,8 @@ done
 
 OUTDIR=$OUT FECHA="$FECHA" node ensambles/paquete_unico.mjs | tail -1
 
+# el README del paquete declara la fecha de LA corrida (panel 18-08: decía
+# 2026-08-12 con artefactos del 18 — la promesa «una corrida» quedaba falsa)
+[ -f "$OUT/README_PAQUETE.md" ] && sed -i -E "s/el 20[0-9-]{8} en UNA/el $FECHA en UNA/" "$OUT/README_PAQUETE.md"
+
 echo "CADENA COMPLETA — paquete en $OUT (ver README_PAQUETE.md)"
