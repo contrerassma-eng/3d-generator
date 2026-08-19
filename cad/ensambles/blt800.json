@@ -41,7 +41,8 @@
     "peligro-expuesto",
     "chapa-vs-componente",
     "esquina-viva",
-    "barreno-redondo"
+    "barreno-redondo",
+    "desarrollo-valido"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
