@@ -7,7 +7,6 @@ COMPRADA,"Chaveta DIN 6885 A 8×7×90, acero C45",8,local,,,lbp530_5m+lbp530_gt0
 COMPRADA,Chumacera UCF206 Ø30,24,rodamientos · local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Collarín P21703Y (fija el sprocket central),16,Movex · Italia (importado),P21703Y,,lbp530_5m+lbp530_gt08
 COMPRADA,Collarín P21703Y (referencia eje tensor),8,Movex · Italia (importado),P21703Y,,lbp530_5m
-COMPRADA,"Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",4,local,,,lbp530_gt08
 COMPRADA,Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30),68,Movex · Italia (importado),P101203-30,,lbp530_5m+lbp530_gt08
 COMPRADA,Guía lateral conical rail L 1¼ in (P12501C) + escuadras,16,Movex · Italia (importado),P12501C,,lbp530_5m+lbp530_gt08
 COMPRADA,"Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",8,Motovario (distribuidor local),,,lbp530_5m+lbp530_gt08
@@ -28,8 +27,8 @@ FABRICADA,Cabezal porta-nosebar entrada PL6 470×55,8,maestranza / taller,,LBD-0
 FABRICADA,Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0,48,maestranza / taller,,ficha de soldadura (GA),lbp530_5m+lbp530_gt08
 FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,32,maestranza / taller,,ficha de soldadura (GA),lbp530_5m+lbp530_gt08
 FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),40,maestranza / taller,,LBD-03 / LB-04,lbp530_5m+lbp530_gt08
-FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
-FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),4,maestranza / taller,,LBP530-EJ-02,lbp530_5m
+FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
+FABRICADA,EJE TENSOR cuadrado 38.1 — L=582 (muñones Ø30 h6),4,maestranza / taller,,LBP530-EJ-02,lbp530_5m
 FABRICADA,Guarda motriz — costado libre e2 (193×330),4,maestranza / taller,,GTD-04 / GT-05,lbp530_gt08
 FABRICADA,Guarda motriz — costado libre e2 (358×330),4,maestranza / taller,,LBD-04 / LB-05,lbp530_5m
 FABRICADA,Guarda motriz — costado motor e2 (193×330),4,maestranza / taller,,GTD-05 / GT-06,lbp530_gt08
@@ -38,18 +37,20 @@ FABRICADA,Guarda motriz — fondo con tapa e2 (191×612),4,maestranza / taller,,
 FABRICADA,Guarda motriz — fondo con tapa e2 (356×612),4,maestranza / taller,,LBD-06 / LB-07,lbp530_5m
 FABRICADA,Guarda tensor — costado lateral e2 (617×235),8,maestranza / taller,,LBD-07 / LB-08,lbp530_5m
 FABRICADA,Guarda tensor — fondo con tapa e2 (615×626),4,maestranza / taller,,LBD-08 / LB-09,lbp530_5m
-FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,16,maestranza / taller,,LBD-09 / LB-10,lbp530_5m+lbp530_gt08
+FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,8,maestranza / taller,,LBD-09 / LB-10,lbp530_5m
+FABRICADA,Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330),8,maestranza / taller,,GTD-07 / GT-08,lbp530_gt08
 FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,8,maestranza / taller,,LBD-10 / LB-11,lbp530_5m
 FABRICADA,Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0,40,maestranza / taller,,ficha de soldadura (GA),lbp530_5m
-FABRICADA,Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,LBD-11 / LB-01,lbp530_5m
-FABRICADA,Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,GTD-08 / GT-01,lbp530_gt08
+FABRICADA,Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002),40,maestranza / taller,,LBD-11 / LB-12,lbp530_5m+lbp530_gt08
+FABRICADA,Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,LBD-12 / LB-01,lbp530_5m
+FABRICADA,Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,GTD-09 / GT-01,lbp530_gt08
 FABRICADA,"Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, sin láser)",40,maestranza / taller,,,lbp530_5m
 FABRICADA,"Pletina 12×30 × 704 — guía de apoyo de canto (corte a largo, sin láser)",28,maestranza / taller,,,lbp530_gt08
-FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),24,maestranza / taller,,LBD-12 / LB-12,lbp530_5m+lbp530_gt08
+FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),24,maestranza / taller,,LBD-13 / LB-13,lbp530_5m+lbp530_gt08
 FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",40,maestranza / taller,,LBP530-EJ-04,lbp530_5m+lbp530_gt08
-FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),40,maestranza / taller,,LBD-13 / LB-13,lbp530_5m+lbp530_gt08
-FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),20,maestranza / taller,,LBD-14 / LB-14,lbp530_5m+lbp530_gt08
-FABRICADA,"Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",20,maestranza / taller,,LBD-15 / LB-15,lbp530_5m
+FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20),40,maestranza / taller,,LBD-14 / LB-14,lbp530_5m+lbp530_gt08
+FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),20,maestranza / taller,,LBD-15 / LB-15,lbp530_5m+lbp530_gt08
+FABRICADA,"Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",20,maestranza / taller,,LBD-16 / LB-16,lbp530_5m
 TORNILLERÍA,Espárrago M6×70 8.8 + tuerca ciega M6 + golilla,32,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Espárrago M6×85 8.8 + tuerca ciega M6 + golilla,64,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno de anclaje M10×90 (piso),80,local,,,lbp530_5m+lbp530_gt08

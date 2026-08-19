@@ -1,5 +1,5 @@
-PAQUETE DE CORTE LÁSER — CV-BLT-800×500 · banda plana estilo MB800 M-HASTE (ejemplo L800 W500 H750)
-Generado: 2026-08-18 · 3 desarrollos DXF (R12, unidades mm, escala 1:1)
+PAQUETE DE CORTE LÁSER — CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)
+Generado: 2026-08-19 · 0 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
@@ -9,8 +9,6 @@ CONTENIDO
   _agujeros.csv  coordenadas de TODOS los barrenos por pieza (verificación)
 
 MATERIALES DEL PAQUETE
-  Acero inoxidable AISI 304 e2.0 — cara de deslizamiento PULIDA · e2 — 1 piezas distintas, 1 unidades
-  Acero S275JR PL6 — PINTADO RAL 7035 · e6 — 2 piezas distintas, 4 unidades
 
 NOTAS
   · Los pares espejo comparten desarrollo: cortar la cantidad indicada y

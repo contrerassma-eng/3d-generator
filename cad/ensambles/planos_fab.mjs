@@ -265,6 +265,9 @@ if (existsSync(bomPathFab)) {
   }
 } else console.warn('  AVISO: sin bom_' + docBase + '.json — el despiece sale sin ÍTEM (correr la cadena completa)');
 const despiece = [];
+// piezas de CATÁLOGO (part.glb = original del fabricante): no se fabrican —
+// no llevan lámina propia, pero SÍ figuran en el despiece como suministro
+const esVendor = (p) => !!p.glb;
 const fabSheets = [];
 let itemN = 0, planoN = 0;
 const M4 = new THREE.Matrix4();

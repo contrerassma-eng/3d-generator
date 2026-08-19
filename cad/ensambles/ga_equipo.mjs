@@ -12,6 +12,7 @@
 
 import { Sheet, exportSheetsPDF } from '../js/drawing2d.js';
 import { IsoScene, drawFigure } from '../js/iso3d.mjs';
+import { geometriasDelDoc } from './lib_glb.mjs';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { exigirSello } from './lib_compuertas.mjs';
 import { join } from 'node:path';
@@ -38,11 +39,14 @@ const r0 = (v) => Math.round(v);
 
 // UNA sola escena (la geometría CSG de 96 piezas se computa una vez) — las
 // cinco proyecciones (planta, elevación, iso, A-A, B-B) reutilizan las mallas
+// ORIGINALES (Sergio 19-08): las piezas con part.glb entran con su malla REAL
+// de fábrica — no se representan con cajas
+const GEOM = await geometriasDelDoc(doc);
 const SC = (() => {
   const sc = new IsoScene();
   for (const p of doc.parts) {
     if (/Rodillos LBP/.test(p.name)) continue;
-    sc.add(p, { simplify: /Banda Movex/.test(p.name) ? 'band' : undefined, paint: false });
+    sc.add(p, { geometry: GEOM.get(p.id), simplify: /Banda Movex/.test(p.name) ? 'band' : undefined, paint: false });
   }
   return sc;
 })();
@@ -111,7 +115,7 @@ const dimV = (x, y1, y2, txt, d = 12) => {
   sh.solid([[xl, y2], [xl + 0.45, y2 - 2.4], [xl - 0.45, y2 - 2.4]], 'COTAS');
   sh.text(txt, xl + 2, (y1 + y2) / 2, 3.2, 'ML', 'COTAS');
 };
-dim(oxL, oxL + lat.widthMM, oyL - 2, `${r0(lat.spanU)} (extremo a extremo, nosebar incluido)`, 14);
+dim(oxL, oxL + lat.widthMM, oyL - 2, `${r0(lat.spanU)} (extremo a extremo${G.notaLargo ?? ', nosebar incluido'})`, 14);
 dimV(oxL + lat.widthMM, oyL, oyL + lat.heightMM, `${r0(lat.spanV)} (alto total al piso)`, 10);
 dimV(oxT + top.widthMM, oyT, oyT + top.heightMM, `${r0(top.spanV)} (ancho total con motorreductor)`, 10);
 
@@ -284,7 +288,7 @@ sh2.titleBlock({
 // ── tabla resumen + cajetín ──────────────────────────────────────────────────
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
-const sold = doc.meta?.soldadura || dims.soldadura || {};
+const sold = doc.meta?.soldadura || (esLBP || /gt08/.test(base) ? dims.soldadura : null) || null;
 // Las notas van en UNA columna fluida a la derecha de la iso, con envoltura
 // de línea y PISO explícito (hallazgo visual 18-08: el mapa de ajustes
 // empujaba la soldadura DENTRO del cajetín; el arreglo en dos zonas chocó
@@ -306,20 +310,23 @@ const envuelve = (t, max) => {
 const notas = [
   ...(doc.meta?.mapa_ajustes ? ['AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x), ''] : []),
   `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los globos son los del BOM y el Manual de Partes (boletín CV-MP-${G.boletin || (esLBP ? '01' : '02')}).`,
+  ...(nF === 0 ? ['Equipo de CATÁLOGO: no se fabrica ninguna pieza — todo es suministro original del fabricante.'] : []),
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
-  'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
-  ...(bom.totales ? [
+  G.notaTerminacion ?? 'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
+  ...(bom.totales && nF ? [
     `MASA de partes FABRICADAS: ${bom.totales.masa_fabricada_kg} kg (área exacta del desarrollo × espesor; sin comprados) · SUPERFICIE A PINTAR: ${bom.totales.area_pintar_m2} m² (2 caras) · PLANCHA A PEDIR: ${bom.totales.plancha_m2} m².`,
   ] : []),
   '',
-  `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
-  ...(sold.uniones || []).map(u => '· ' + u),
-  sold.nota ? '· ' + sold.nota : '',
+  ...(sold ? [
+    `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
+    ...(sold.uniones || []).map(u => '· ' + u),
+    sold.nota ? '· ' + sold.nota : '',
+  ] : (G.notas || [])),
 ].filter(t => t !== null).flatMap(t => (t === '' ? [''] : envuelve(t, 128)));
 // en el equipo CORTO (GT) la elevación baja hasta ~y 190 con su cota a −8:
 // la columna parte BAJO la vista más baja (panel 18-08: las notas tachaban
 // el rótulo ELEVACIÓN y la cota 800 en el GA del GT)
-const yNotas0 = Math.min(156, oyL - 16);
+const yNotas0 = Math.min(156, oyL - 30);
 notas.forEach((t, i) => { const y = yNotas0 - i * 4.2; if (y > 18) sh.text(t, 210, y, 2.6, 'L'); });
 
 sh.frame();

@@ -247,22 +247,25 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
     for (const l of lineas) { sh.text('· ' + l, 30, y, 2.9, 'L'); y -= 5.4; }
     y -= 4;
   };
-  blq('ANTES DE INTERVENIR EL EQUIPO', [
+  // los bloques de seguridad/operación describen ESTE equipo: un equipo de
+  // catálogo los declara en meta.manual (panel 19-08: el manual del BLT
+  // hablaba de sprockets, nosebar y catenaria, que ese equipo no tiene)
+  blq('ANTES DE INTERVENIR EL EQUIPO', M.seguridad || [
     'Bloqueo y consignación (LOTO): corte y candadeo de la alimentación del motorreductor.',
     'Verificar detención total de la banda antes de retirar guardas.',
     'Las guardas inferiores (Figura F) protegen el accionamiento: reponerlas SIEMPRE tras intervenir.',
   ]);
-  blq('PUNTOS DE ATRAPAMIENTO', [
+  blq('PUNTOS DE ATRAPAMIENTO', M.atrapamiento || [
     'Entrada de banda a sprockets (extremo motriz, bajo el equipo).',
     'Nosebar en ambas puntas: rodillos de transferencia.',
     'Catenaria de retorno: masa de banda colgante tras la motriz.',
   ]);
-  blq('OPERACIÓN', [
+  blq('OPERACIÓN', M.operacion || [
     'Velocidad de diseño 22,2 m/min (46 rpm × PD 153,4 del sprocket Z-32). No exceder sin revisar la memoria.',
     `Carga admisible de banda: ${esLBP ? '24 000' : '26 000'} N/m según Movex — límite de diseño 50 %.`,
     'Producto: cajas/bandejas de fruta. La acumulación con banda LBP es de BAJA presión.',
   ]);
-  blq('MANTENCIÓN PERIÓDICA', [
+  blq('MANTENCIÓN PERIÓDICA', M.mantencion || [
     'Semanal: inspección visual de banda (rodillos LBP giran libres), flecha de catenaria ~130 mm.',
     'Mensual: reapriete de pernos de chumaceras y soportes; estado del BAR CAP y guías.',
     'Rodamientos UCF206: engrase según fabricante; 6202-2RS del retorno son sellados (sin engrase).',

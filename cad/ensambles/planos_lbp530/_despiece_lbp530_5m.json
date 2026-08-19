@@ -1,10 +1,10 @@
 {
   "proyecto": "CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m",
   "archivo": "lbp530_5m.json",
-  "fecha": "2026-08-18",
-  "total_piezas": 122,
-  "items_distintos": 38,
-  "planos_fabricacion": 15,
+  "fecha": "2026-08-19",
+  "total_piezas": 128,
+  "items_distintos": 39,
+  "planos_fabricacion": 16,
   "despiece": [
     {
       "item": 1,
@@ -49,28 +49,6 @@
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
       "plano": "LB-04"
-    },
-    {
-      "item": 5,
-      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
-      "nombres": [
-        "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-01"
-    },
-    {
-      "item": 6,
-      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
-      "nombres": [
-        "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-02"
     },
     {
       "item": 7,
@@ -158,7 +136,7 @@
       "cant": 5,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e6",
-      "plano": "LB-12"
+      "plano": "LB-13"
     },
     {
       "item": 17,
@@ -172,17 +150,6 @@
       "plano": "LBP530-EJ-04"
     },
     {
-      "item": 18,
-      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
-      "nombres": [
-        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)"
-      ],
-      "cant": 6,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR e3",
-      "plano": "LB-13"
-    },
-    {
       "item": 19,
       "designacion": "FAB · Travesaño de patas B_002A canal 71×38×3",
       "nombres": [
@@ -191,7 +158,7 @@
       "cant": 3,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
-      "plano": "LB-14"
+      "plano": "LB-15"
     },
     {
       "item": 20,
@@ -202,7 +169,7 @@
       "cant": 5,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
-      "plano": "LB-15"
+      "plano": "LB-16"
     },
     {
       "item": 22,
@@ -279,6 +246,28 @@
       "cant": 1,
       "tipo": "NORMALIZADA",
       "material_norma": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 ",
+      "plano": "—"
+    },
+    {
+      "item": 29,
+      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "nombres": [
+        "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación)",
+      "plano": "—"
+    },
+    {
+      "item": 30,
+      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "nombres": [
+        "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) ",
       "plano": "—"
     },
     {
@@ -403,26 +392,48 @@
       "plano": "LB-01"
     },
     {
-      "item": "—",
-      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "item": 60,
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
       "nombres": [
-        "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+        "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación)",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
+      "plano": "LBP530-EJ-01"
     },
     {
-      "item": "—",
-      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "item": 61,
+      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=582 (muñones Ø30 h6)",
       "nombres": [
-        "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+        "FAB · EJE TENSOR cuadrado 38.1 — L=582 (muñones Ø30 h6)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) ",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
+      "plano": "LBP530-EJ-02"
+    },
+    {
+      "item": 62,
+      "designacion": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+      "nombres": [
+        "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e4",
+      "plano": "LB-12"
+    },
+    {
+      "item": 63,
+      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
+      "nombres": [
+        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "LB-14"
     }
   ]
 }

@@ -1,174 +1,64 @@
 {
-  "proyecto": "CV-BLT-800×500 · banda plana estilo MB800 M-HASTE (ejemplo L800 W500 H750)",
+  "proyecto": "CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)",
   "archivo": "blt800.json",
-  "fecha": "2026-08-18",
-  "total_piezas": 28,
-  "items_distintos": 15,
-  "planos_fabricacion": 5,
+  "fecha": "2026-08-19",
+  "total_piezas": 5,
+  "items_distintos": 5,
+  "planos_fabricacion": 0,
   "despiece": [
     {
-      "item": 1,
-      "designacion": "FAB · Cama deslizante e2 607.6×520 (apoyo de banda)",
+      "item": 18,
+      "designacion": "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
       "nombres": [
-        "FAB · Cama deslizante e2 607.6×520 (apoyo de banda)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero inoxidable AISI 304 e2.0",
-      "plano": "BT-03"
-    },
-    {
-      "item": 2,
-      "designacion": "FAB · EJE MOTRIZ Ø25 SAE1045 — L=660 (muñones Ø20 h6 · extremo motor Ø14 h7 · chavetero 6×6)",
-      "nombres": [
-        "FAB · EJE MOTRIZ Ø25 SAE1045 — L=660 (muñones Ø20 h6 · extremo motor Ø14 h7 · chavetero 6×6)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-01"
-    },
-    {
-      "item": 3,
-      "designacion": "FAB · EJE TENSOR muerto Ø20 SAE1045 — L=662 (planos fresados 18 e/c en puntas · roscas M10 de retención)",
-      "nombres": [
-        "FAB · EJE TENSOR muerto Ø20 SAE1045 — L=662 (planos fresados 18 e/c en puntas · roscas M10 de retención)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-02"
-    },
-    {
-      "item": 4,
-      "designacion": "FAB · Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2)",
-      "nombres": [
-        "FAB · Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2)"
-      ],
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL6",
-      "plano": "BT-01"
-    },
-    {
-      "item": 5,
-      "designacion": "FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)",
-      "nombres": [
-        "FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)"
-      ],
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL6",
-      "plano": "BT-02"
-    },
-    {
-      "item": 6,
-      "designacion": "FAB · TAMBOR MOTRIZ Ø88.9 — tubo 88.9×3 L=520 + 2 cabezales torneados (CORONA +1 al centro, chaveta 6×6)",
-      "nombres": [
-        "FAB · TAMBOR MOTRIZ Ø88.9 — tubo 88.9×3 L=520 + 2 cabezales torneados (CORONA +1 al centro, chaveta 6×6)"
+        "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)"
       ],
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero (grado en la lámina de la pieza)",
-      "plano": "BT-04"
+      "plano": "—"
     },
     {
-      "item": 7,
-      "designacion": "FAB · TAMBOR TENSOR Ø63.5 — tubo 63.5×3 L=520 + 2 cabezales con asiento 6204-2RS + seeger DIN 472-47",
+      "item": 19,
+      "designacion": "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
       "nombres": [
-        "FAB · TAMBOR TENSOR Ø63.5 — tubo 63.5×3 L=520 + 2 cabezales con asiento 6204-2RS + seeger DIN 472-47"
+        "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)"
       ],
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero (grado en la lámina de la pieza)",
-      "plano": "BT-05"
+      "plano": "—"
     },
     {
-      "item": 8,
-      "designacion": "NORM · Banda PVC 2.0 — W500 × lazo 1638.99 mm sinfín (opción vendor PVC)",
+      "item": 20,
+      "designacion": "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
       "nombres": [
-        "NORM · Banda PVC 2.0 — W500 × lazo 1638.99 mm sinfín (opción vendor PVC)"
+        "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Banda PVC 2.0 — W500 × lazo 1638.99 mm sinfín (opción vendor",
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
       "plano": "—"
     },
     {
-      "item": 9,
-      "designacion": "NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR",
+      "item": 21,
+      "designacion": "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
       "nombres": [
-        "NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR"
+        "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Motorreductor 120 W acople DIRECTO al eje (DL — criterio ven",
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
       "plano": "—"
     },
     {
-      "item": 10,
-      "designacion": "NORM · Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a largo)",
+      "item": 22,
+      "designacion": "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",
       "nombres": [
-        "NORM · Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a largo)"
-      ],
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a larg",
-      "plano": "—"
-    },
-    {
-      "item": 11,
-      "designacion": "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
-      "nombres": [
-        "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)"
-      ],
-      "cant": 4,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
-      "plano": "—"
-    },
-    {
-      "item": 12,
-      "designacion": "NORM · Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a largo)",
-      "nombres": [
-        "NORM · Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a largo)"
-      ],
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a lar",
-      "plano": "—"
-    },
-    {
-      "item": 13,
-      "designacion": "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)",
-      "nombres": [
-        "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)"
-      ],
-      "cant": 4,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geomet",
-      "plano": "—"
-    },
-    {
-      "item": 14,
-      "designacion": "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)",
-      "nombres": [
-        "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)"
-      ],
-      "cant": 4,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría rea",
-      "plano": "—"
-    },
-    {
-      "item": 15,
-      "designacion": "NORM · Portarrodamiento brida 2 pernos UCFL204 Ø20",
-      "nombres": [
-        "NORM · Portarrodamiento brida 2 pernos UCFL204 Ø20 (×2)"
+        "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Portarrodamiento brida 2 pernos UCFL204 Ø20 (×2)",
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
       "plano": "—"
     }
   ]

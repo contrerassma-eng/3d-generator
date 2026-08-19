@@ -1,10 +1,10 @@
 {
   "proyecto": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
   "archivo": "lbp530_gt08.json",
-  "fecha": "2026-08-18",
-  "total_piezas": 64,
-  "items_distintos": 30,
-  "planos_fabricacion": 11,
+  "fecha": "2026-08-19",
+  "total_piezas": 68,
+  "items_distintos": 31,
+  "planos_fabricacion": 13,
   "despiece": [
     {
       "item": 1,
@@ -51,17 +51,6 @@
       "plano": "GT-04"
     },
     {
-      "item": 5,
-      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
-      "nombres": [
-        "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-01"
-    },
-    {
       "item": 6,
       "designacion": "FAB · Guarda motriz — costado libre e2",
       "nombres": [
@@ -95,17 +84,6 @@
       "plano": "GT-07"
     },
     {
-      "item": 9,
-      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
-      "nombres": [
-        "FAB · Mecha porta-chumacera PL8 motriz 320×422"
-      ],
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL8",
-      "plano": "GT-08"
-    },
-    {
       "item": 12,
       "designacion": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
       "nombres": [
@@ -114,7 +92,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e6",
-      "plano": "GT-09"
+      "plano": "GT-10"
     },
     {
       "item": 13,
@@ -128,17 +106,6 @@
       "plano": "LBP530-EJ-04"
     },
     {
-      "item": 14,
-      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
-      "nombres": [
-        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)"
-      ],
-      "cant": 4,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR e3",
-      "plano": "GT-10"
-    },
-    {
       "item": 15,
       "designacion": "FAB · Travesaño de patas B_002A canal 71×38×3",
       "nombres": [
@@ -147,7 +114,7 @@
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
-      "plano": "GT-11"
+      "plano": "GT-12"
     },
     {
       "item": 17,
@@ -183,17 +150,6 @@
       "plano": "—"
     },
     {
-      "item": 20,
-      "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
-      "nombres": [
-        "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)"
-      ],
-      "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
-      "plano": "—"
-    },
-    {
       "item": 21,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "nombres": [
@@ -224,6 +180,28 @@
       "cant": 1,
       "tipo": "NORMALIZADA",
       "material_norma": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 ",
+      "plano": "—"
+    },
+    {
+      "item": 24,
+      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "nombres": [
+        "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamient",
+      "plano": "—"
+    },
+    {
+      "item": 25,
+      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "nombres": [
+        "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamiento",
       "plano": "—"
     },
     {
@@ -315,26 +293,59 @@
       "plano": "GT-01"
     },
     {
-      "item": "—",
-      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "item": 51,
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
       "nombres": [
-        "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+        "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamient",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
+      "plano": "LBP530-EJ-01"
+    },
+    {
+      "item": 52,
+      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT",
+      "nombres": [
+        "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL8",
+      "plano": "GT-08"
+    },
+    {
+      "item": 53,
+      "designacion": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+      "nombres": [
+        "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e4",
+      "plano": "GT-09"
+    },
+    {
+      "item": 54,
+      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
+      "nombres": [
+        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "GT-11"
     },
     {
       "item": "—",
-      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "designacion": "VIS · Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)",
       "nombres": [
-        "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+        "VIS · Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)"
       ],
       "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamiento",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
+      "plano": "GT-13"
     }
   ]
 }

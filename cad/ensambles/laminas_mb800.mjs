@@ -32,10 +32,17 @@ if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
 const catalogo = JSON.parse(readFileSync(join(here, '../../componentes/catalogo.json'), 'utf8'));
 const comps = Array.isArray(catalogo) ? catalogo : (catalogo.componentes || catalogo.items || []);
 const piezas = comps
-  .filter(c => /^(MTB800|MT800)-/.test(c.nombre || ''))
+  // TODA la biblioteca M-HASTE (Sergio 19-08: usar los originales): soportes,
+  // tambores, cabezales, ejes y piezas de bastidor — cada una con su lámina
+  .filter(c => /^(MTB800|MT800|MC400|MC300|MHD|MJD)/.test(c.nombre || '') && !/FL-A-L6000/.test(c.nombre || ''))
   .map(c => ({
     nombre: c.nombre,
-    rol: /Soporte\/pata/.test(c.descripcion || '') ? 'soporte / pata' : 'soporte / estructura',
+    rol: /Soporte\/pata/.test(c.descripcion || '') ? 'soporte / pata'
+      : /^MC400-W300\.222/.test(c.nombre) ? 'tambor (motriz / cola)'
+      : /^(MHD|MJD)/.test(c.nombre) ? 'eje / husillo'
+      : /^MC400-(223|225)/.test(c.nombre) ? 'cabezal / placa lateral'
+      : /^MC(400|300)/.test(c.nombre) ? 'pieza de bastidor'
+      : 'soporte / estructura',
     bboxCat: (c.descripcion || '').match(/bbox ([\d.]+)×([\d.]+)×([\d.]+) mm/)?.slice(1, 4).map(Number) || null,
     stepHash: (c.fuente?.detalle || '').match(/stepHash (\w+)/)?.[1] || '—',
     glb: join(here, '../componentes/models', c.nombre + '.glb'),

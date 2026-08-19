@@ -1,11 +1,165 @@
 {
  "_que": "Despiece del paquete MB800 — geometría GLB M-HASTE tal cual (PRD CV-BLT)",
- "fecha": "2026-08-18",
+ "fecha": "2026-08-19",
  "rev": "A",
  "piezas": [
   {
    "item": 1,
    "plano": "MB800-MB-01",
+   "pieza": "MC300-W300-drive-shaft",
+   "rol": "pieza de bastidor",
+   "bbox_mm": [
+    390.8,
+    43.94,
+    43.99
+   ],
+   "triangulos": 5612,
+   "stepHash": "3e0eefdd6f03d2a6",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 2,
+   "plano": "MB800-MB-02",
+   "pieza": "MC400-201",
+   "rol": "pieza de bastidor",
+   "bbox_mm": [
+    14.49,
+    39,
+    114.5
+   ],
+   "triangulos": 2400,
+   "stepHash": "0abadd788c5547ef",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 3,
+   "plano": "MB800-MB-03",
+   "pieza": "MC400-223",
+   "rol": "cabezal / placa lateral",
+   "bbox_mm": [
+    200,
+    185.01,
+    12.99
+   ],
+   "triangulos": 4470,
+   "stepHash": "f393d430a6901890",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 4,
+   "plano": "MB800-MB-04",
+   "pieza": "MC400-224",
+   "rol": "pieza de bastidor",
+   "bbox_mm": [
+    13,
+    35,
+    12
+   ],
+   "triangulos": 1064,
+   "stepHash": "87e4736c77e02cf5",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 5,
+   "plano": "MB800-MB-05",
+   "pieza": "MC400-225",
+   "rol": "cabezal / placa lateral",
+   "bbox_mm": [
+    200,
+    185.01,
+    12.99
+   ],
+   "triangulos": 4312,
+   "stepHash": "e4b829057f6254fe",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 6,
+   "plano": "MB800-MB-06",
+   "pieza": "MC400-W300-306",
+   "rol": "pieza de bastidor",
+   "bbox_mm": [
+    65,
+    38.99,
+    38.98
+   ],
+   "triangulos": 2128,
+   "stepHash": "0db71191df4e417d",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 7,
+   "plano": "MB800-MB-07",
+   "pieza": "MC400-W300.222.S",
+   "rol": "tambor (motriz / cola)",
+   "bbox_mm": [
+    294,
+    39.98,
+    39.98
+   ],
+   "triangulos": 2636,
+   "stepHash": "32a6a60f9673fc7a",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 8,
+   "plano": "MB800-MB-08",
+   "pieza": "MC400-W300.222",
+   "rol": "tambor (motriz / cola)",
+   "bbox_mm": [
+    294,
+    43.93,
+    44
+   ],
+   "triangulos": 3860,
+   "stepHash": "fe5fd6969663446f",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 9,
+   "plano": "MB800-MB-09",
+   "pieza": "MC400SM-02",
+   "rol": "pieza de bastidor",
+   "bbox_mm": [
+    14.49,
+    39,
+    114.5
+   ],
+   "triangulos": 2400,
+   "stepHash": "f2b661947d5bf925",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 10,
+   "plano": "MB800-MB-10",
+   "pieza": "MHD15-L321MC400",
+   "rol": "eje / husillo",
+   "bbox_mm": [
+    321,
+    14.97,
+    15.01
+   ],
+   "triangulos": 1744,
+   "stepHash": "03ba74f4b864eb88",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 11,
+   "plano": "MB800-MB-11",
+   "pieza": "MJD15-L300-2M6MC400",
+   "rol": "eje / husillo",
+   "bbox_mm": [
+    300,
+    14.94,
+    15.02
+   ],
+   "triangulos": 1514,
+   "stepHash": "9e683c7eec53b66b",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 12,
+   "plano": "MB800-MB-12",
    "pieza": "MT800-05-301-W100",
    "rol": "soporte / estructura",
    "bbox_mm": [
@@ -18,8 +172,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 2,
-   "plano": "MB800-MB-02",
+   "item": 13,
+   "plano": "MB800-MB-13",
    "pieza": "MT800-217",
    "rol": "soporte / estructura",
    "bbox_mm": [
@@ -32,8 +186,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 3,
-   "plano": "MB800-MB-03",
+   "item": 14,
+   "plano": "MB800-MB-14",
    "pieza": "MTB800-207",
    "rol": "soporte / pata",
    "bbox_mm": [
@@ -46,8 +200,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 4,
-   "plano": "MB800-MB-04",
+   "item": 15,
+   "plano": "MB800-MB-15",
    "pieza": "MTB800-301",
    "rol": "soporte / pata",
    "bbox_mm": [
@@ -60,8 +214,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 5,
-   "plano": "MB800-MB-05",
+   "item": 16,
+   "plano": "MB800-MB-16",
    "pieza": "MTB800-302",
    "rol": "soporte / pata",
    "bbox_mm": [
@@ -74,8 +228,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 6,
-   "plano": "MB800-MB-06",
+   "item": 17,
+   "plano": "MB800-MB-17",
    "pieza": "MTB800-304",
    "rol": "soporte / pata",
    "bbox_mm": [
@@ -88,8 +242,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión)"
   },
   {
-   "item": 7,
-   "plano": "MB800-MB-07",
+   "item": 18,
+   "plano": "MB800-MB-18",
    "pieza": "MTB800-317",
    "rol": "soporte / pata",
    "bbox_mm": [
@@ -102,8 +256,8 @@
    "unidades": "unidades m→mm (conversión declarada, no distorsión) · teselado vendor: catálogo (STEP) difiere hasta 0.75 mm de la malla — no es distorsión nuestra"
   },
   {
-   "item": 8,
-   "plano": "MB800-MB-08",
+   "item": 19,
+   "plano": "MB800-MB-19",
    "pieza": "MTB800-331",
    "rol": "soporte / pata",
    "bbox_mm": [

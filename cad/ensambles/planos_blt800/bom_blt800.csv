@@ -1,18 +1,6 @@
 item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_kg,area_m2_pintar,bbox_m2_plancha
-1,FABRICADA,Cama deslizante e2 607.6×520 (apoyo de banda),1,1,maestranza / taller,,BTD-01,BT-03,Acero inoxidable AISI 304 e2.0 — cara de deslizamiento PULIDA,607.6×520,4.96,0.632,0.316
-2,FABRICADA,EJE MOTRIZ Ø25 SAE1045 — L=660 (muñones Ø20 h6 · extremo motor Ø14 h7 · chavetero 6×6),1,1,maestranza / taller,,,LBP530-EJ-01,,,6.5,undefined,undefined
-3,FABRICADA,EJE TENSOR muerto Ø20 SAE1045 — L=662 (planos fresados 18 e/c en puntas · roscas M10 de retención),1,1,maestranza / taller,,,LBP530-EJ-02,,,5.9,undefined,undefined
-4,FABRICADA,Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2),2,2,maestranza / taller,,BTD-02,BT-01,Acero S275JR PL6 — PINTADO RAL 7035,160×140,1.02,0.043,0.022
-5,FABRICADA,Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2),2,2,maestranza / taller,,BTD-03,BT-02,Acero S275JR PL6 — PINTADO RAL 7035,200×140,1.24,0.052,0.028
-6,FABRICADA,"TAMBOR MOTRIZ Ø88.9 — tubo 88.9×3 L=520 + 2 cabezales torneados (CORONA +1 al centro, chaveta 6×6)",1,1,maestranza / taller,,,BT-04,,,,undefined,undefined
-7,FABRICADA,TAMBOR TENSOR Ø63.5 — tubo 63.5×3 L=520 + 2 cabezales con asiento 6204-2RS + seeger DIN 472-47,1,1,maestranza / taller,,,BT-05,,,,undefined,undefined
-8,COMPRADA,Banda PVC 2.0 — W500 × lazo 1638.99 mm sinfín (opción vendor PVC),1,1,local,,,,,,,undefined,undefined
-9,COMPRADA,Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR,1,1,Motovario (distribuidor local),,,,,,,undefined,undefined
-10,COMPRADA,Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a largo),2,2,local,,,,,,,undefined,undefined
-11,COMPRADA,Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo),4,4,local,,,,,,,undefined,undefined
-12,COMPRADA,Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a largo),2,2,local,,,,,,,undefined,undefined
-13,COMPRADA,Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01),4,4,local,,,,,,,undefined,undefined
-14,COMPRADA,Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03),4,4,local,,,,,,,undefined,undefined
-15,COMPRADA,Portarrodamiento brida 2 pernos UCFL204 Ø20 (×2),1,1,rodamientos · local,,,,,,,undefined,undefined
-16,COMPRADA,"Chaveta DIN 6885 A 8×7×90, acero C45",1,1,local,,,,muñón motriz → cubo del motorreductor (1 por eje motriz),,,undefined,undefined
-17,COMPRADA,Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243,1,1,local,,,,retención axial del motorreductor en la rosca M10×22 de punta de eje (EJ-01 nota 6),,,undefined,undefined
+18,COMPRADA,"VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",1,1,local,,,,,,,,
+19,COMPRADA,"VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",1,1,Motovario (distribuidor local),,,,,,,,
+20,COMPRADA,VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original),1,1,local,,,,,,,,
+21,COMPRADA,"VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",1,1,local,,,,,,,,
+22,COMPRADA,"VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",1,1,local,,,,,,,,

@@ -400,9 +400,13 @@ export class IsoScene {
       if (!g0) { g0 = partGeometry(part, opts); porSimp.set(kSimp, g0); }
     }
     const geom = g0.clone();
-    const off = new THREE.Vector3(...(opts.explode || [0, 0, 0]))
-      .add(new THREE.Vector3(...(part.pos || [0, 0, 0])));
-    const q = new THREE.Quaternion(...(part.quat || [0, 0, 0, 1]));
+    // ORIGINALES: una malla pasada en opts.geometry viene en coordenadas del
+    // ENSAMBLE (lib_glb ya la colocó) — aplicarle part.pos otra vez la
+    // desplazaba el doble. Sólo el explode del despiece sigue valiendo.
+    const off = opts.geometry
+      ? new THREE.Vector3(...(opts.explode || [0, 0, 0]))
+      : new THREE.Vector3(...(opts.explode || [0, 0, 0])).add(new THREE.Vector3(...(part.pos || [0, 0, 0])));
+    const q = opts.geometry ? new THREE.Quaternion() : new THREE.Quaternion(...(part.quat || [0, 0, 0, 1]));
     const m = new THREE.Matrix4().compose(off, q, new THREE.Vector3(1, 1, 1));
     geom.applyMatrix4(m);
     this.items.push({ part, geom, opts, off });

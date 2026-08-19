@@ -5,8 +5,9 @@ GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M
 GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,193.0,417.1,8,2,0.44,2,ISO 2768-mK
 GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,193.0,403.1,9,2,0.44,2,ISO 2768-mK
 GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,519.5,612.0,7,1,0.44,2,ISO 2768-mK
-GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,422.0,16,0,0.44,8,ISO 2768-mK
-GTD-08,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,312.6,22,1,0.44,6,ISO 2768-mK
-GTD-09,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",1,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,7,0,0.44,6,ISO 2768-mK
-GTD-10,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",4,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
-GTD-11,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,74.1,0,2,0.44,3,ISO 2768-mK
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,422.0,16,0,0.44,8,ISO 2768-mK
+GTD-08,"FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",4,"Acero S275JR e4 — PINTADO RAL 7035",4,158.0,40.0,0,0,0.44,4,ISO 2768-mK
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,312.6,22,1,0.44,6,ISO 2768-mK
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",1,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,7,0,0.44,6,ISO 2768-mK
+GTD-11,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",4,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
+GTD-12,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,136.6,0,2,0.44,3,ISO 2768-mK
