@@ -51,6 +51,16 @@ done
 
 if [ -n "${EJES:-}" ]; then FECHA="$FECHA" node "$EJES" | tail -1; fi
 
+# STEP AP203 por pieza FABRICADA (Sergio 19-08): el proveedor externo abre
+# STEP en cualquier CAD — sin él, cada cotización empieza pidiendo el 3D.
+# Nomenclatura de tres niveles TIPO-FAMILIA-ÍTEM (docs/sr/NOMENCLATURA.md).
+if [ -n "${TIPO:-}" ]; then
+  for eq in "${EQUIPOS[@]}"; do
+    set -- $eq
+    DOC=ensambles/$1.json TIPO="$TIPO" OUTDIR=$OUT/step REGISTRO_DIR="${REGISTRO_DIR:-}" node ensambles/step_export.mjs | tail -1
+  done
+fi
+
 for eq in "${EQUIPOS[@]}"; do
   set -- $eq
   DOC=ensambles/$1.json OUTDIR=$OUT FECHA="$FECHA" node ensambles/ga_equipo.mjs | tail -1
