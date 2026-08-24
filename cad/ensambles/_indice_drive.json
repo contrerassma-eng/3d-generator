@@ -1,5 +1,5 @@
 {
- "generado": "2026-08-24 14:50 UTC",
+ "generado": "2026-08-24 15:00 UTC",
  "repositorio": "contrerassma-eng/3d-generator",
  "rama": "claude/conveyone-central-structure-npmox4",
  "regla": "EL REPOSITORIO MANDA — Drive es espejo de sólo lectura",
@@ -8,9 +8,9 @@
    "70_ENTREGA": [
     {
      "nombre": "PAQUETE_FABRICACION_LBP530-18.pdf",
-     "bytes": 7872214,
-     "sha256": "5ba9edae8c8a4152",
-     "modificado": "2026-08-19",
+     "bytes": 7481240,
+     "sha256": "6fcec295d3dd13f5",
+     "modificado": "2026-08-24",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/PAQUETE_FABRICACION_LBP530-18.pdf",
      "destino": "Diseños/CV-LBP18/70_ENTREGA/PAQUETE_FABRICACION_LBP530-18.pdf"
     }
@@ -20,7 +20,7 @@
      "nombre": "README_PAQUETE.md",
      "bytes": 2565,
      "sha256": "d6d24f7cd8779aea",
-     "modificado": "2026-08-19",
+     "modificado": "2026-08-24",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/README_PAQUETE.md",
      "destino": "Diseños/CV-LBP18/10_INVESTIGACION/README_PAQUETE.md"
     },
@@ -382,9 +382,9 @@
     },
     {
      "nombre": "plano_conjunto_lbp530_gt08.pdf",
-     "bytes": 783582,
-     "sha256": "4db98eb0969d0519",
-     "modificado": "2026-08-19",
+     "bytes": 764113,
+     "sha256": "437feec8c49b708d",
+     "modificado": "2026-08-24",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/plano_conjunto_lbp530_gt08.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/plano_conjunto_lbp530_gt08.pdf"
     },
