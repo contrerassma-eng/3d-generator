@@ -29,7 +29,17 @@ correa redonda). Ver §7 — es la única ambigüedad funcional del modelo.
 
 Masa impresa por rueda (PA-CF, ~70 % efectivo con paredes+relleno recomendados): **~95–110 g**.
 
-Renders y sección: `img_rueda_v7/` (`assembly.png`, `section.png`, `part_*.png`).
+Láminas render (Cycles, materiales según §5) en `img_rueda_v7/`:
+
+- `RUEDA_V7_materiales.png` — ensamble con código de color por material.
+- `RUEDA_V7_explosion.png` — despiece etiquetado con material y cantidad por pieza.
+- `RUEDA_V7_placas.png` — las 4 placas de impresión con cada pieza en su orientación.
+
+Vistas técnicas: `assembly.png`, `section.png`, `part_*.png`.
+
+![Materiales](img_rueda_v7/RUEDA_V7_materiales.png)
+![Despiece](img_rueda_v7/RUEDA_V7_explosion.png)
+![Placas](img_rueda_v7/RUEDA_V7_placas.png)
 
 ---
 
