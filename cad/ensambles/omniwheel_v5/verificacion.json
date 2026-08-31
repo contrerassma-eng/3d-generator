@@ -1,0 +1,86 @@
+{
+ "pieza": "omniwheel v5 — doble hilera, cuerpo vaciado con nervios",
+ "capa": "user",
+ "parametros": {
+  "D_rodadura": 50.0,
+  "bore": 12.2,
+  "cubo_d": 18.0,
+  "cubo_l": 22.0,
+  "W_hilera": 19.0,
+  "N": 6,
+  "d_rodillo": 12.0,
+  "L_rodillo": 13.0,
+  "eje_rodillo": 3.0,
+  "hub_d": 19.0,
+  "alma_e": 1.6,
+  "alma_re": 18.0,
+  "techo_e": 1.6,
+  "nervio_e": 2.0,
+  "nervio2_e": 1.6,
+  "banda_ri": 16.0,
+  "holgura_rod": 0.8,
+  "holgura_eje": 0.2,
+  "holgura_bore": 0.0,
+  "pin_L": 22.0,
+  "z_rodillo": 9.5
+ },
+ "derivados": {
+  "radio_rodadura": 25.0,
+  "radio_primitivo": 19.0,
+  "paso_deg": 60.0,
+  "desfase_hileras_deg": 30.0,
+  "ancho_cuerpo_total": 38.0,
+  "largo_total_con_cubos": 82.0
+ },
+ "volumenes_mm3": {
+  "hilera_v5": 12146.3,
+  "cuerpo_macizo_ref": 18945.1,
+  "rodillo": 1012.2
+ },
+ "material_cuerpo": {
+  "v5_2_hileras_cm3": 24.29,
+  "macizo_2_hileras_cm3": 37.89,
+  "ahorro_pct": 35.9,
+  "petg_v5_g": 30.9,
+  "petg_macizo_g": 48.1,
+  "tpu_rodillos_g": 14.7
+ },
+ "laminado_estimado": {
+  "nota": "piel 1.2 mm + relleno interior; v5 al 5 %, macizo al 35 %",
+  "v5_cm3": 24.29,
+  "macizo_cm3": 30.95,
+  "ahorro_tiempo_estimado_pct": 21.5
+ },
+ "compuertas": {
+  "GV1_estanqueidad": {
+   "hilera": true,
+   "rodillo": true,
+   "macizo_ref": true
+  },
+  "GV2_cobertura": {
+   "abanico_por_rodillo_deg": 37.77,
+   "solape_en_junta_deg": 7.77
+  },
+  "GV3_colision": {
+   "volumen_interseccion_inflado_0p35": 0.0
+  },
+  "GV4_apoyo_pasador": {
+   "apoyo_min_por_lado_mm": 3.6
+  },
+  "GV5_envolvente": {
+   "r_max_cuerpo": 23.0,
+   "r_rodadura": 25.0
+  },
+  "GV6_espesores": {
+   "nervio_principal": 2.0,
+   "nervio_corto": 1.6,
+   "alma": 1.6,
+   "techo_cierre": 1.6,
+   "pared_cubo_nucleo": 3.4000000000000004,
+   "pared_cubo_separador": 2.9000000000000004,
+   "pared_tonel_extremo": 3.44,
+   "pared_tonel_media": 2.5
+  }
+ },
+ "fallas": []
+}
