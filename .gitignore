@@ -42,3 +42,6 @@ cad/_tmp_*.mjs
 # STEP y GLB derivados: se regeneran con a_step.py / export_glb.mjs en menos de un minuto
 cad/ensambles/nbt90/step/
 cad/ensambles/stl/
+
+# Omniwheel v5: STL/GLB derivados, se regeneran con gen_omniwheel_v5.py
+cad/ensambles/omniwheel_v5/out/
