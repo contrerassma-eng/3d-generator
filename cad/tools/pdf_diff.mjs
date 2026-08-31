@@ -12,7 +12,7 @@
 // Salida: una línea por página con píxeles distintos y su bbox, y el TOTAL.
 // Los PNG quedan en out/pdf_diff/{A,B}-pNN.png para mirar la diferencia.
 import { execFileSync } from 'node:child_process';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, rmSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -23,6 +23,11 @@ if (!antes || !despues) {
 }
 const here = dirname(fileURLToPath(import.meta.url));
 const out = resolve(here, '../out/pdf_diff');
+// LIMPIAR antes de cada corrida: los PNG de una comparación anterior con OTRAS
+// páginas sobreviven y se cuentan como diferencia — un falso positivo que hace
+// desconfiar de un cambio que estaba bien. La herramienta de verificación es
+// la última que puede permitirse mentir.
+rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
 for (const [pdf, tag] of [[antes, 'A'], [despues, 'B']]) {
