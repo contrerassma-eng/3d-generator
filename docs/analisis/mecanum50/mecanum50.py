@@ -32,21 +32,20 @@ W2 = 17.3
 BORE_D = 9.0   # (solo referencia; el hex 14 va PASANTE)
 HEX_AF = 14.0
 PIN_D = 3.2
-ROD_BORE = 3.4
-CLR = 0.7
+ROD_BORE = 3.5      # perforacion real del rodillo (usuario)
+CLR = 1.0           # holgura placa-rodillo: +0.3 por descuelgue (eje 3.2 en 3.5)
 S_BOSS = SMAX + 0.55 + 2.4          # 19.7: centro del teton sobre el eje
 BOSS_D, BOSS_L = 7.6, 5.2
 ROWS = [0, 60, 120, 180, 240, 300]
 SCREW_AXLES = []          # v3: todos los ejes son pasadores en cunas cerradas
-# --- acople telescopico central (mecanismo 'juguete') ---
+# --- acople v5: tambores almenados que se topan + 4 pernos (ref. Printables 58) ---
 HEX_DEPTH = 6.0           # bolsillo hex 14 e/c en cada cara
-FLOOR_T = 2.5             # placa de fondo tras el bolsillo
-TUBE_B_OUT = 7.95         # cilindro estrecho de B (calza en el bore de A)
-TUBE_A_BORE = 8.10        # bore del cilindro de A
-TUBE_B_END = -8.2         # hasta donde telescopa B dentro de A
-SCREW_R_T = 6.3           # circulo de los 3 pernos A->B (expansion)
-SCREW_ANGS = [30, 150, 270]
-DECOR_ANGS = [90, 210, 330]
+FLOOR_T = 2.5
+DRUM_OUT = 12.6           # tambor central (se topan en el plano medio)
+TEETH_H = 3.5             # altura de la corona almenada (6 dientes de 30°)
+TEETH_CLR = 0.8           # holgura angular TOTAL por flanco (0.4+0.4)
+SCREW4_R = 10.8           # circulo de los 4 pernos 2.9x25
+SCREW4_ANGS = [45, 135, 225, 315]
 
 def zc_of(k):
     return ZOFF if k % 2 == 0 else -ZOFF
@@ -148,7 +147,27 @@ def estrella_v4(Rt, r_in, centers, hs, chord_off=6.0, n_arc=16):
             t2 = t1 + 1.0
         for t in np.linspace(t1, t2, max(4, int((t2 - t1) / 6))):
             pts.append((r_in * cos(radians(t)), r_in * sin(radians(t))))
-    return cq.Workplane("XY").polyline(pts).close()
+    from shapely.geometry import Polygon
+    poly = Polygon(pts)
+    poly = poly.buffer(10.0, quad_segs=24).buffer(-10.0, quad_segs=24)   # concavos r10
+    poly = poly.buffer(-3.0, quad_segs=24).buffer(3.0, quad_segs=24)     # convexos r3
+    coords = list(poly.exterior.coords)[:-1]
+    return cq.Workplane("XY").polyline(coords).close()
+
+def bombeo_solid():
+    """abombado lateral: de costado la rueda cierra levemente arriba/abajo"""
+    zk = W2 - 6.0
+    prof = [(0.02, -W2), (R - 4.0, -W2)]
+    for t in np.linspace(0, 1, 9)[1:]:
+        z = -W2 + 6.0 * t
+        prof.append((R - 0.8 - 3.2 * (1 - t) ** 2, z))
+    prof += [(R - 0.8, zk), ]
+    for t in np.linspace(0, 1, 9)[1:]:
+        z = zk + (W2 - zk) * t
+        prof.append((R - 0.8 - 3.2 * t ** 2, z))
+    prof += [(0.02, W2)]
+    return (cq.Workplane("XZ").polyline(prof).close()
+            .revolve(360, (0, 0, 0), (0, 1, 0)))
 
 def placa(side):
     """v3 — mecanismo de acople tipo juguete:
@@ -176,42 +195,34 @@ def placa(side):
            [(0.02, prof[-1][1])]
     s = s.union(cq.Workplane("XZ").polyline(poly).close()
                 .revolve(360, (0, 0, 0), (0, 1, 0)))
-    if side > 0:
-        # cilindro estrecho de B: telescopa dentro de A
-        s = s.union(cq.Workplane("XY").circle(TUBE_B_OUT)
-                    .extrude(0.0 - TUBE_B_END).translate((0, 0, TUBE_B_END)))
-    # tetones + brazos espiral
-    rb = float(np.hypot(*axis_pt(0, side * S_BOSS)[:2]))
-    for k in range(6):
-        p = axis_pt(k, side * S_BOSS)
-        u = axis_dir(k) * side
-        s = s.union(cyl_along(p - u * (BOSS_L / 2), u, BOSS_D, BOSS_L + 1.2))
-        a_bs = ROWS[k] + boss_ang
-        pf = np.array([(rb - 1.0) * cos(radians(a_bs)),
-                       (rb - 1.0) * sin(radians(a_bs)), z_face + 2.3])
-        v = p - pf
-        L = float(np.linalg.norm(v))
-        if L > 1.0:
-            s = s.union(cq.Workplane(obj=cq.Solid.makeCylinder(
-                3.2, L + 1.2, cq.Vector(*pf), cq.Vector(*(v / L)))))
-    s = s.intersect(cq.Workplane("XY").circle(R - 0.6).extrude(2 * W2)
-                    .translate((0, 0, -W2)))
-    half = cq.Workplane("XY").box(150, 150, 2 * W2 + 20) \
-        .translate((0, 0, (W2 + 10) if side > 0 else (-W2 - 10)))
-    s = s.intersect(half)
-    if side > 0:
-        # restaurar el tubo de B (la mitad lo recorto): re-union tras el corte
-        s = s.union(cq.Workplane("XY").circle(TUBE_B_OUT)
-                    .extrude(0.0 - TUBE_B_END).translate((0, 0, TUBE_B_END)))
+    # tambor central almenado: los DIENTES de A cruzan el plano medio (z 0..3.3)
+    # y entran en BOLSILLOS de B (prof. 3.5) -> bloqueo rotacional real
+    if side < 0:
+        s = s.union(cq.Workplane("XY").circle(DRUM_OUT)
+                    .extrude(W2 + TEETH_H - 0.2).translate((0, 0, -W2)))
+        for k in range(6):
+            g0, g1 = 60 * k + 30 - TEETH_CLR / 2, 60 * k + 60 + TEETH_CLR / 2
+            s = s.cut(wedge(g0, g1, -0.01, TEETH_H + 0.05).intersect(
+                cq.Workplane("XY").circle(DRUM_OUT + 1).extrude(TEETH_H + 0.06)
+                .translate((0, 0, -0.01))))
+    else:
+        s = s.union(cq.Workplane("XY").circle(DRUM_OUT).extrude(W2))
+        for k in range(6):
+            g0, g1 = 60 * k - TEETH_CLR / 2, 60 * k + 30 + TEETH_CLR / 2
+            s = s.cut(wedge(g0, g1, -0.05, TEETH_H).intersect(
+                cq.Workplane("XY").circle(DRUM_OUT + 1).extrude(TEETH_H + 0.05)
+                .translate((0, 0, -0.05))))
+    # abombado lateral
+    s = s.intersect(bombeo_solid())
     # holgura de rodillos
     for k in range(6):
-        s = s.cut(rodillo_en_sitio(k, extra_r=CLR, extra_l=0.55))
-    # cunas de pasador (bloqueo positivo, caras cerradas)
+        s = s.cut(rodillo_en_sitio(k, extra_r=CLR, extra_l=0.7))
+    # cunas de pasador Ø3.5 (eje 3.2 flotante, capturado al cerrar)
     for k in range(6):
         u = axis_dir(k)
         if side < 0:
             p0 = axis_pt(k, -(S_BOSS + BOSS_L / 2 - 1.5))
-            s = s.cut(cyl_along(p0, u, 3.35, 60))
+            s = s.cut(cyl_along(p0, u, 3.5, 60))
         else:
             p_in = axis_pt(k, SMAX + 0.2)
             p_out = axis_pt(k, S_BOSS + BOSS_L / 2 - 1.5)
@@ -219,39 +230,25 @@ def placa(side):
             Lg = float(np.linalg.norm(seg))
             for dz in np.linspace(0, 6, 13):
                 s = s.cut(cq.Workplane(obj=cq.Solid.makeCylinder(
-                    3.35 / 2, Lg, cq.Vector(p_in[0], p_in[1], p_in[2] - dz),
+                    3.5 / 2, Lg, cq.Vector(p_in[0], p_in[1], p_in[2] - dz),
                     cq.Vector(*(seg / Lg)))))
-    # bolsillo hex en la cara + taladro Ø9 pasante
+    # 4 pernos 2.9x25 en el circulo del tambor (cosen la almena)
+    for a in SCREW4_ANGS:
+        x, y = SCREW4_R * cos(radians(a)), SCREW4_R * sin(radians(a))
+        if side < 0:
+            s = s.cut(cq.Workplane("XY").circle(1.55).extrude(W2 + 1)
+                      .translate((x, y, -W2 - 0.5)))
+            s = s.cut(cq.Workplane("XY").circle(2.9).extrude(2.0)
+                      .translate((x, y, -W2 - 0.01)))
+        else:
+            s = s.cut(cq.Workplane("XY").circle(1.25).extrude(13.0)
+                      .translate((x, y, -0.5)))
+    # bolsillo hex en la cara + taladro Ø9.5 pasante
     zhx = (-W2 - 0.01) if side < 0 else (W2 - HEX_DEPTH + 0.01)
     s = s.cut(cq.Workplane("XY").polygon(6, HEX_AF / cos(radians(30)))
               .extrude(HEX_DEPTH).translate((0, 0, zhx)))
-    s = s.cut(cq.Workplane("XY").circle(BORE_D / 2).extrude(2 * W2 + 22)
+    s = s.cut(cq.Workplane("XY").circle(4.75).extrude(2 * W2 + 22)
               .translate((0, 0, -W2 - 11)))
-    if side < 0:
-        # bore del tubo de A (recibe el cilindro de B)
-        s = s.cut(cq.Workplane("XY").circle(TUBE_A_BORE)
-                  .extrude(W2).translate((0, 0, -(W2 - HEX_DEPTH - FLOOR_T))))
-        # 3 pernos de expansion: taladro Ø2.9 con asiento de cabeza en el fondo
-        for a in SCREW_ANGS:
-            x, y = SCREW_R_T * cos(radians(a)), SCREW_R_T * sin(radians(a))
-            s = s.cut(cq.Workplane("XY").circle(1.45).extrude(FLOOR_T + 1.0)
-                      .translate((x, y, -W2 + HEX_DEPTH - 0.5)))
-        # patron de 6 angulos: 3 rebajes gemelos
-        for a in DECOR_ANGS:
-            x, y = SCREW_R_T * cos(radians(a)), SCREW_R_T * sin(radians(a))
-            s = s.cut(cq.Workplane("XY").circle(2.8).extrude(1.2)
-                      .translate((x, y, -W2 + HEX_DEPTH - 0.01)))
-    else:
-        # extremo del tubo de B: 3 pilotos Ø2.4 (el perno expande la corona)
-        for a in SCREW_ANGS:
-            x, y = SCREW_R_T * cos(radians(a)), SCREW_R_T * sin(radians(a))
-            s = s.cut(cq.Workplane("XY").circle(1.2).extrude(7.5)
-                      .translate((x, y, TUBE_B_END - 0.01)))
-        # patron de 6 angulos en el fondo de su bolsillo
-        for a in SCREW_ANGS + DECOR_ANGS:
-            x, y = SCREW_R_T * cos(radians(a)), SCREW_R_T * sin(radians(a))
-            s = s.cut(cq.Workplane("XY").circle(2.8).extrude(1.8)
-                      .translate((x, y, W2 - HEX_DEPTH - 1.79)))
     return s
 
 def pasador():
@@ -268,9 +265,9 @@ def tornillo_m3x40_eje():
             .union(cq.Workplane("XY").circle(2.75).extrude(3).translate((0, 0, -3)))
             .translate((0, 0, -20)))
 
-def perno_expansion():
-    return (cq.Workplane("XY").circle(1.45).extrude(9.5)
-            .union(cq.Workplane("XY").circle(2.6).extrude(1.8).translate((0, 0, -1.8))))
+def tornillo_29x25():
+    return (cq.Workplane("XY").circle(1.45).extrude(25)
+            .union(cq.Workplane("XY").circle(2.75).extrude(2.0).translate((0, 0, -2.0))))
 
 def build(hand='izq'):
     pa = placa(-1)
@@ -295,11 +292,11 @@ def build(hand='izq'):
         nm = f"pasador_{k}"
         asm.add(herr, name=nm, color=cq.Color(0.45, 0.45, 0.48), loc=loc)
     from math import cos as _c, sin as _s, radians as _r
-    for i, a in enumerate([30, 150, 270]):
+    for i, a in enumerate(SCREW4_ANGS):
         aa = a if hand == 'izq' else -a
-        asm.add(perno_expansion(), name=f"perno_{i}", color=cq.Color(0.5, 0.5, 0.52),
-                loc=cq.Location(cq.Vector(6.3 * _c(_r(aa)), 6.3 * _s(_r(aa)),
-                                          -17.2 + 6.0)))
+        asm.add(tornillo_29x25(), name=f"perno_{i}", color=cq.Color(0.5, 0.5, 0.52),
+                loc=cq.Location(cq.Vector(SCREW4_R * _c(_r(aa)), SCREW4_R * _s(_r(aa)),
+                                          -W2 + 1.9)))
     return pa, pb, rod, asm
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ Hexágono 14 e/c en bolsillo de 6 mm en ambas caras + taladro pasante Ø9.5.
 holgura rodillo-placa 1.0 radial / 0.70 axial · interferencia rodillo-placa
 0.00 · interferencia A↔B 0.00 (holgura de corona ~0.2) · cruce entre
 rodillos 0.73 (destrenzado) · envolvente Ø63.8–64.0 · bombeo Ø62.0→Ø57.9 ·
-placas 11.5 / 12.1 cm³.
+placas 12.9 / 12.1 cm³.
 
 ## Impresión PA-CF
 
