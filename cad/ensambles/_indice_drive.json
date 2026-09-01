@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-01 17:16 UTC",
+ "generado": "2026-09-01 23:27 UTC",
  "repositorio": "contrerassma-eng/3d-generator",
  "rama": "claude/conveyone-central-structure-npmox4",
  "regla": "EL REPOSITORIO MANDA — Drive es espejo de sólo lectura",
@@ -8,8 +8,8 @@
    "70_ENTREGA": [
     {
      "nombre": "PAQUETE_FABRICACION_LBP530-18.pdf",
-     "bytes": 6980071,
-     "sha256": "040d31268a9572d3",
+     "bytes": 4764873,
+     "sha256": "26bfe366b7d2c4a0",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/PAQUETE_FABRICACION_LBP530-18.pdf",
      "destino": "Diseños/CV-LBP18/70_ENTREGA/PAQUETE_FABRICACION_LBP530-18.pdf"
@@ -19,7 +19,7 @@
     {
      "nombre": "README_PAQUETE.md",
      "bytes": 2565,
-     "sha256": "1f04f00756085891",
+     "sha256": "0b940d2d1f4661b6",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/README_PAQUETE.md",
      "destino": "Diseños/CV-LBP18/10_INVESTIGACION/README_PAQUETE.md"
@@ -53,7 +53,7 @@
     {
      "nombre": "_despiece_lbp530_5m.json",
      "bytes": 14551,
-     "sha256": "523cf4dda5c236eb",
+     "sha256": "cffe66e78ac28f31",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/_despiece_lbp530_5m.json",
      "destino": "Diseños/CV-LBP18/40_BOM/_despiece_lbp530_5m.json"
@@ -61,7 +61,7 @@
     {
      "nombre": "_despiece_lbp530_gt08.json",
      "bytes": 11910,
-     "sha256": "294c0e4a1e029d8c",
+     "sha256": "f225081502883387",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/_despiece_lbp530_gt08.json",
      "destino": "Diseños/CV-LBP18/40_BOM/_despiece_lbp530_gt08.json"
@@ -374,40 +374,40 @@
     },
     {
      "nombre": "plano_conjunto_lbp530_5m.pdf",
-     "bytes": 463930,
-     "sha256": "db77808055374da6",
+     "bytes": 423467,
+     "sha256": "1c6c8d9ecddb9c66",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/plano_conjunto_lbp530_5m.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/plano_conjunto_lbp530_5m.pdf"
     },
     {
      "nombre": "plano_conjunto_lbp530_gt08.pdf",
-     "bytes": 641807,
-     "sha256": "9714dd7a049a125f",
+     "bytes": 570399,
+     "sha256": "d27a256bbf907528",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/plano_conjunto_lbp530_gt08.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/plano_conjunto_lbp530_gt08.pdf"
     },
     {
      "nombre": "planos_ejes_lbp530.pdf",
-     "bytes": 18903,
-     "sha256": "a9bca7f65facbd05",
+     "bytes": 18906,
+     "sha256": "5077897e6ee96004",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/planos_ejes_lbp530.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/planos_ejes_lbp530.pdf"
     },
     {
      "nombre": "planos_fabricacion_lbp530_5m.pdf",
-     "bytes": 266422,
-     "sha256": "81e86b93a4fd5956",
+     "bytes": 219647,
+     "sha256": "f4da587db01f076a",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/planos_fabricacion_lbp530_5m.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/planos_fabricacion_lbp530_5m.pdf"
     },
     {
      "nombre": "planos_fabricacion_lbp530_gt08.pdf",
-     "bytes": 233477,
-     "sha256": "0f7ec0eea6a7e48f",
+     "bytes": 177347,
+     "sha256": "932f3c25a2f85d3f",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/planos_fabricacion_lbp530_gt08.pdf",
      "destino": "Diseños/CV-LBP18/30_PLANOS/planos_fabricacion_lbp530_gt08.pdf"
@@ -682,16 +682,16 @@
    "50_MANUAL": [
     {
      "nombre": "manual_partes_lbp530_5m.pdf",
-     "bytes": 3104584,
-     "sha256": "ca5d0935fe698adb",
+     "bytes": 2065474,
+     "sha256": "6efbfa2696ba793c",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/manual_partes_lbp530_5m.pdf",
      "destino": "Diseños/CV-LBP18/50_MANUAL/manual_partes_lbp530_5m.pdf"
     },
     {
      "nombre": "manual_partes_lbp530_gt08.pdf",
-     "bytes": 2261506,
-     "sha256": "b9b789c77f4b0859",
+     "bytes": 1300191,
+     "sha256": "7f4a19545ca181d2",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_lbp530/manual_partes_lbp530_gt08.pdf",
      "destino": "Diseños/CV-LBP18/50_MANUAL/manual_partes_lbp530_gt08.pdf"
@@ -702,8 +702,8 @@
    "70_ENTREGA": [
     {
      "nombre": "PAQUETE_FABRICACION_BLT800.pdf",
-     "bytes": 335806,
-     "sha256": "bedf691ab2d47c87",
+     "bytes": 326268,
+     "sha256": "340f248587b6f965",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_blt800/PAQUETE_FABRICACION_BLT800.pdf",
      "destino": "Diseños/CV-BLT/70_ENTREGA/PAQUETE_FABRICACION_BLT800.pdf"
@@ -713,7 +713,7 @@
     {
      "nombre": "_despiece_blt800.json",
      "bytes": 2217,
-     "sha256": "1c8ecc1e000c87f2",
+     "sha256": "240eb5c7af393bea",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_blt800/_despiece_blt800.json",
      "destino": "Diseños/CV-BLT/40_BOM/_despiece_blt800.json"
@@ -772,16 +772,16 @@
     },
     {
      "nombre": "plano_conjunto_blt800.pdf",
-     "bytes": 300799,
-     "sha256": "074cd67fb80726de",
+     "bytes": 291265,
+     "sha256": "da489c7a6338c4fd",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_blt800/plano_conjunto_blt800.pdf",
      "destino": "Diseños/CV-BLT/30_PLANOS/plano_conjunto_blt800.pdf"
     },
     {
      "nombre": "planos_fabricacion_blt800.pdf",
-     "bytes": 3418,
-     "sha256": "5fee07b96812ad1a",
+     "bytes": 3419,
+     "sha256": "09356008d8b0e065",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_blt800/planos_fabricacion_blt800.pdf",
      "destino": "Diseños/CV-BLT/30_PLANOS/planos_fabricacion_blt800.pdf"
@@ -824,8 +824,8 @@
    "50_MANUAL": [
     {
      "nombre": "manual_partes_blt800.pdf",
-     "bytes": 8762,
-     "sha256": "59aaef9665673b4b",
+     "bytes": 8761,
+     "sha256": "67192cfd3b2dee33",
      "modificado": "2026-09-01",
      "url": "https://raw.githubusercontent.com/contrerassma-eng/3d-generator/refs/heads/claude/conveyone-central-structure-npmox4/cad/ensambles/planos_blt800/manual_partes_blt800.pdf",
      "destino": "Diseños/CV-BLT/50_MANUAL/manual_partes_blt800.pdf"
