@@ -1,5 +1,5 @@
 PAQUETE DE CORTE LÁSER — CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)
-Generado: 2026-08-19 · 0 desarrollos DXF (R12, unidades mm, escala 1:1)
+Generado: 2026-09-01 · 0 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
