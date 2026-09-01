@@ -658,6 +658,7 @@ export class IsoScene {
             // pintor se vuelven LOCALES (las astillas que cruzan medio equipo
             // pintaban sobre la banda o dejaban rasguños blancos)
             const MAXE = 25 / sMM;                    // en mm proyectados
+            const visTris = [];
             const emit = (t0, t1, t2, prof) => {
               const e01 = Math.hypot(t1[0] - t0[0], t1[1] - t0[1]);
               const e12 = Math.hypot(t2[0] - t1[0], t2[1] - t1[1]);
@@ -678,9 +679,40 @@ export class IsoScene {
               // blancas «salpicadura» (visto en las mechas del manual GT)
               const a2 = Math.abs((l2[1][0] - l2[0][0]) * (l2[2][1] - l2[0][1]) - (l2[2][0] - l2[0][0]) * (l2[1][1] - l2[0][1]));
               if (a2 < 0.05) return;
-              fills.push({ loops: [l2], rgb, depth: cd });
+              visTris.push({ l2, cd });
             };
             for (const t of projTris) emit(t.p3[0], t.p3[1], t.p3[2], 0);
+            // FUSIÓN DEL PARCHE (23-08): los sub-triángulos visibles de un
+            // parche son COPLANARES, del MISMO tono y todos pasaron la prueba
+            // de visibilidad (nada los tapa). Emitirlos uno a uno escribía sus
+            // aristas interiores DOS veces — 54.515 polígonos y 3,7 MB de
+            // dígitos en una sola lámina del manual. Se fusionan por CONTORNO:
+            // las aristas que aparecen una sola vez son el borde de la unión;
+            // el interior desaparece. La mancha pintada es la misma.
+            // …pero fusionar el parche ENTERO lo pintaría a la profundidad de su
+            // punto MÁS LEJANO: en una placa de 5 m que se aleja, el orden del
+            // pintor se pierde y lo que va detrás (la guía azul) queda encima.
+            // Se fusiona DENTRO de bandas finas de profundidad: se gana el
+            // archivo sin perder el orden.
+            if (visTris.length) {
+              let dLo = Infinity, dHi = -Infinity;
+              for (const v of visTris) { if (v.cd < dLo) dLo = v.cd; if (v.cd > dHi) dHi = v.cd; }
+              const paso = (dR || 1) / 128;
+              const nBan = Math.max(1, Math.min(128, Math.ceil((dHi - dLo) / paso)));
+              const bandas = new Map();
+              for (const v of visTris) {
+                const i = nBan === 1 ? 0
+                  : Math.min(nBan - 1, Math.floor((v.cd - dLo) / (dHi - dLo) * nBan));
+                let b = bandas.get(i);
+                if (!b) bandas.set(i, b = { tris: [], d: -Infinity });
+                b.tris.push(v.l2); if (v.cd > b.d) b.d = v.cd;
+              }
+              for (const b of bandas.values()) {
+                const fus = fusionaTris(b.tris);
+                if (fus) fills.push({ loops: fus, rgb, depth: b.d });
+                else for (const l2 of b.tris) fills.push({ loops: [l2], rgb, depth: b.d });
+              }
+            }
           }
         }
       }
@@ -763,6 +795,84 @@ export class IsoScene {
 }
 
 // ── SECCIÓN: recorte de la malla contra el semiespacio n·p ≥ d ───────────────
+// Fusiona triángulos COPLANARES del mismo tono en el polígono de su unión.
+// Las aristas interiores se cancelan (aparecen dos veces); las que aparecen
+// UNA sola vez son el contorno. Devuelve los lazos, o null si el contorno no
+// cierra (los T-junction de la subdivisión pueden dejarlo abierto) — el
+// llamador entonces emite los triángulos sueltos y no se dibuja de menos.
+function fusionaTris(tris) {
+  if (tris.length < 2) return tris.length ? [tris[0]] : null;
+  const Q = 1e3;                                   // rejilla de 1 µm
+  const pos = new Map();                           // clave → punto canónico
+  const cnt = new Map();                           // arista NO dirigida → veces
+  const vistas = new Set();                        // arista dirigida vista
+  const kDe = (p) => {
+    const k = `${Math.round(p[0] * Q)},${Math.round(p[1] * Q)}`;
+    if (!pos.has(k)) pos.set(k, p);
+    return k;
+  };
+  for (const t of tris) {
+    const k = [kDe(t[0]), kDe(t[1]), kDe(t[2])];
+    if (k[0] === k[1] || k[1] === k[2] || k[2] === k[0]) continue;   // degenerado
+    for (let i = 0; i < 3; i++) {
+      const a = k[i], b = k[(i + 1) % 3];
+      const nd = a < b ? `${a}|${b}` : `${b}|${a}`;
+      cnt.set(nd, (cnt.get(nd) || 0) + 1);
+      vistas.add(`${a}>${b}`);
+    }
+  }
+  // contorno: aristas de multiplicidad 1, en el sentido en que se recorrieron
+  const sig = new Map();
+  let nB = 0;
+  for (const [nd, c] of cnt) {
+    if (c !== 1) continue;
+    const [a, b] = nd.split('|');
+    const ok = vistas.has(`${a}>${b}`);
+    const o = ok ? a : b, d = ok ? b : a;
+    if (!sig.has(o)) sig.set(o, []);
+    sig.get(o).push(d); nB++;
+  }
+  if (!nB) return null;
+  // En un vértice donde el contorno se PELLIZCA (la región visible se toca a
+  // sí misma) salen varias aristas: tomar «la primera libre» arma un lazo que
+  // corta por dentro de la región y pinta donde no debe (se vio la guía azul
+  // encima de la placa). Se elige por ÁNGULO: la primera arista en sentido
+  // horario a partir de la de entrada invertida — el recorrido estándar de
+  // caras de un grafo plano, que nunca cruza el interior.
+  const ang = (a, b) => {
+    const pa = pos.get(a), pb = pos.get(b);
+    return Math.atan2(pb[1] - pa[1], pb[0] - pa[0]);
+  };
+  const usada = new Set(), lazos = [];
+  for (const [o, dests] of sig) {
+    for (const d0 of dests) {
+      if (usada.has(`${o}>${d0}`)) continue;
+      usada.add(`${o}>${d0}`);
+      const lazo = [o]; let prev = o, cur = d0, guard = 0;
+      while (cur !== o) {
+        lazo.push(cur);
+        const salidas = (sig.get(cur) || []).filter(x => !usada.has(`${cur}>${x}`));
+        if (!salidas.length || ++guard > nB + 4) return null;    // no cierra
+        let nx = salidas[0];
+        if (salidas.length > 1) {
+          const ref = ang(cur, prev);                            // de vuelta
+          let mejor = Infinity;
+          for (const c of salidas) {
+            let d = ref - ang(cur, c);
+            while (d <= 0) d += 2 * Math.PI;
+            while (d > 2 * Math.PI) d -= 2 * Math.PI;
+            if (d < mejor) { mejor = d; nx = c; }
+          }
+        }
+        usada.add(`${cur}>${nx}`);
+        prev = cur; cur = nx;
+      }
+      if (lazo.length >= 3) lazos.push(lazo.map(k => pos.get(k)));
+    }
+  }
+  return lazos.length ? lazos : null;
+}
+
 // Devuelve los triángulos del lado que QUEDA y los tramos de corte (los que
 // cruzan el plano) para encadenarlos en lazos y rayarlos como material.
 function clipGeomHalf(geom, n, d) {
