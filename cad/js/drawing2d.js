@@ -311,6 +311,206 @@ class Sheet {
     this.text(fmtNum(value), xl + 2.2, (y1 + y2) / 2, 3.5, 'C', 'COTAS');
   }
 
+  // ── ACOTADO COMPLETO ─────────────────────────────────────────────────────
+  // Hasta el 23-08 la lámina sólo sabía hacer cota horizontal y vertical, y por
+  // eso un plano de chapa salía con tres cotas y mandaba al calderero a un CSV
+  // («no quiero tener que diseñar yo en Inventor» — Sergio, 23-08). Aquí viven
+  // las que faltaban: diámetro, radio, ordenada, angular, directriz, marca de
+  // centro, marco de tolerancia geométrica (ISO 1101) y rugosidad (ISO 1302).
+
+  // flecha llena apuntando A `pt` desde la dirección `ang` (rad)
+  flecha(pt, ang, L = 2.5) {
+    const w = 0.45;
+    const ux = Math.cos(ang), uy = Math.sin(ang);
+    this.solid([pt,
+      [pt[0] + ux * L - uy * w, pt[1] + uy * L + ux * w],
+      [pt[0] + ux * L + uy * w, pt[1] + uy * L - ux * w]], 'COTAS');
+  }
+
+  // Directriz (leader): línea quebrada desde el elemento hasta un texto
+  // horizontal. `lado` +1 el texto va a la derecha, -1 a la izquierda.
+  directriz(pt, codo, texto, lado = 1, h = 3.5) {
+    const fin = [codo[0] + lado * 7, codo[1]];
+    this.line(pt, codo, 'COTAS');
+    this.line(codo, fin, 'COTAS');
+    this.flecha(pt, Math.atan2(codo[1] - pt[1], codo[0] - pt[0]));
+    this.text(texto, fin[0] + lado * 1.2, fin[1] + 1.2, h, lado > 0 ? 'L' : 'R', 'COTAS');
+  }
+
+  // Cota de DIÁMETRO sobre un círculo: flecha al borde y texto «Ø…» afuera.
+  // Es la cota que un taller espera ver en un barreno — no una nota al pie.
+  dimDia(c, r, texto, angDeg = 45, fuera = 8) {
+    const a = angDeg * Math.PI / 180;
+    const pt = [c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)];
+    const codo = [c[0] + (r + fuera) * Math.cos(a), c[1] + (r + fuera) * Math.sin(a)];
+    this.directriz(pt, codo, texto, Math.cos(a) >= 0 ? 1 : -1);
+  }
+
+  // Cota de RADIO: flecha desde el centro al arco, texto «R…».
+  dimRad(c, r, texto, angDeg = 45, fuera = 6) {
+    const a = angDeg * Math.PI / 180;
+    const pt = [c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)];
+    const codo = [c[0] + (r + fuera) * Math.cos(a), c[1] + (r + fuera) * Math.sin(a)];
+    this.line(c, pt, 'COTAS');
+    this.flecha(pt, a + Math.PI);
+    const lado = Math.cos(a) >= 0 ? 1 : -1;
+    const fin = [codo[0] + lado * 6, codo[1]];
+    this.line(pt, codo, 'COTAS');
+    this.line(codo, fin, 'COTAS');
+    this.text(texto, fin[0] + lado * 1.2, fin[1] + 1.2, 3.5, lado > 0 ? 'L' : 'R', 'COTAS');
+  }
+
+  // Marca de centro + ejes (ISO 128): la cruz corta y, si se pide, los ejes
+  // largos que salen del contorno. Un barreno sin marca de centro no está
+  // acotado, está dibujado.
+  marcaCentro(c, r, largo = 0) {
+    const m = Math.max(1.6, r * 0.35);
+    this.line([c[0] - r - m, c[1]], [c[0] + r + m, c[1]], 'EJE');
+    this.line([c[0], c[1] - r - m], [c[0], c[1] + r + m], 'EJE');
+    if (largo > 0) {
+      this.line([c[0] - largo, c[1]], [c[0] + largo, c[1]], 'EJE');
+      this.line([c[0], c[1] - largo], [c[0], c[1] + largo], 'EJE');
+    }
+  }
+
+  // ACOTADO POR ORDENADAS desde un origen declarado (ISO 129-1 §12): es LA
+  // forma de acotar una chapa de corte láser con muchos barrenos — cada cota
+  // sale del mismo cero, así no se acumula error ni se tapan las cotas entre sí.
+  //   xs: [{v: valor real, x: coordenada de lámina}]  ·  y0: línea base
+  ordenadasH(x0, items, yBase, alto = 10) {
+    this.line([x0, yBase], [x0, yBase - alto * 0.55], 'COTAS');
+    this.text('0', x0, yBase - alto * 0.55 - 3.4, 2.6, 'C', 'COTAS');
+    // un valor repetido se escribe UNA vez: cuatro barrenos en la misma
+    // coordenada son UNA cota, no cuatro (defecto visto en la muestra 23-08)
+    const vistos = new Map();
+    for (const o of items) {
+      const k = Math.round(o.v * 100);
+      if (!vistos.has(k)) vistos.set(k, o);
+    }
+    const filas = [];
+    for (const o of [...vistos.values()].sort((a, b) => a.x - b.x)) {
+      let n = 0;
+      while (filas.some(f => Math.abs(f.x - o.x) < 7 && f.n === n)) n++;
+      filas.push({ x: o.x, n });
+      const yl = yBase - alto - n * 4.2;
+      this.line([o.x, o.yFeat ?? yBase], [o.x, yl + 1.2], 'COTAS');
+      this.text(fmtNum(o.v), o.x, yl - 2.4, 2.6, 'C', 'COTAS');
+    }
+  }
+  ordenadasV(y0, items, xBase, ancho = 10) {
+    this.line([xBase, y0], [xBase - ancho * 0.55, y0], 'COTAS');
+    this.text('0', xBase - ancho * 0.55 - 1.2, y0 - 0.9, 2.6, 'R', 'COTAS');
+    const vistos = new Map();
+    for (const o of items) {
+      const k = Math.round(o.v * 100);
+      if (!vistos.has(k)) vistos.set(k, o);
+    }
+    const filas = [];
+    for (const o of [...vistos.values()].sort((a, b) => a.y - b.y)) {
+      let n = 0;
+      while (filas.some(f => Math.abs(f.y - o.y) < 4.5 && f.n === n)) n++;
+      filas.push({ y: o.y, n });
+      const xl = xBase - ancho - n * 9;
+      this.line([o.xFeat ?? xBase, o.y], [xl + 1.2, o.y], 'COTAS');
+      this.text(fmtNum(o.v), xl - 1.2, o.y - 0.9, 2.6, 'R', 'COTAS');
+    }
+  }
+
+  // Cota ANGULAR entre dos radios (para el vano de un arco de regulación).
+  dimAng(c, r, a0Deg, a1Deg, texto) {
+    const a0 = a0Deg * Math.PI / 180, a1 = a1Deg * Math.PI / 180;
+    const N = Math.max(6, Math.ceil(Math.abs(a1 - a0) * 12));
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const a = a0 + (a1 - a0) * i / N;
+      pts.push([c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)]);
+    }
+    for (let i = 1; i < pts.length; i++) this.line(pts[i - 1], pts[i], 'COTAS');
+    this.flecha(pts[0], a0 + (a1 > a0 ? Math.PI / 2 : -Math.PI / 2));
+    this.flecha(pts[N], a1 + (a1 > a0 ? -Math.PI / 2 : Math.PI / 2));
+    const am = (a0 + a1) / 2;
+    this.text(texto, c[0] + (r + 3) * Math.cos(am), c[1] + (r + 3) * Math.sin(am) - 1.2, 3.0, 'C', 'COTAS');
+  }
+
+  // Símbolo de tolerancia geométrica dibujado como VECTOR, no como carácter:
+  // la fuente del PDF no tiene esos glifos y un cuadrito vacío en un plano es
+  // peor que no ponerlo.
+  simGDT(x, y, h, tipo) {
+    const c = [x + h / 2, y + h / 2], r = h * 0.36;
+    const L = (a, b) => this.line(a, b, 'COTAS');
+    if (tipo === 'concentricidad') { this.circle(c, r, 'COTAS'); this.circle(c, r * 0.5, 'COTAS'); }
+    else if (tipo === 'posicion') { this.circle(c, r, 'COTAS'); L([c[0] - r * 1.5, c[1]], [c[0] + r * 1.5, c[1]]); L([c[0], c[1] - r * 1.5], [c[0], c[1] + r * 1.5]); }
+    else if (tipo === 'perpendicularidad') { L([c[0] - r, c[1] - r], [c[0] + r, c[1] - r]); L([c[0], c[1] - r], [c[0], c[1] + r]); }
+    else if (tipo === 'paralelismo') { L([c[0] - r, c[1] - r], [c[0], c[1] + r]); L([c[0] + r * 0.2, c[1] - r], [c[0] + r * 1.2, c[1] + r]); }
+    else if (tipo === 'planitud') { this.poly([[c[0] - r, c[1] - r * 0.6], [c[0] + r * 0.4, c[1] - r * 0.6], [c[0] + r, c[1] + r * 0.6], [c[0] - r * 0.4, c[1] + r * 0.6]], 'COTAS'); }
+    else if (tipo === 'cilindricidad') { this.circle(c, r * 0.7, 'COTAS'); L([c[0] - r * 1.25, c[1] - r], [c[0] - r * 0.55, c[1] + r]); L([c[0] + r * 0.55, c[1] - r], [c[0] + r * 1.25, c[1] + r]); }
+    else if (tipo === 'salto') { L([c[0] - r * 0.8, c[1] - r], [c[0] + r * 0.6, c[1] + r]); this.flecha([c[0] + r * 0.6, c[1] + r], Math.atan2(r * 2, r * 1.4) + Math.PI, 1.6); }
+    else this.circle(c, r, 'COTAS');
+  }
+
+  // Marco de control (ISO 1101): [símbolo | tolerancia | datum…]
+  marcoGDT(x, y, tipo, tol, datums = [], h = 6) {
+    const anchos = [h, Math.max(12, textWidth(tol, 3.0) + 4), ...datums.map(() => h)];
+    let cx = x;
+    this.rect(x, y, anchos.reduce((a, b) => a + b, 0), h, 'COTAS');
+    this.simGDT(cx, y, h, tipo); cx += anchos[0];
+    this.line([cx, y], [cx, y + h], 'COTAS');
+    this.text(tol, cx + anchos[1] / 2, y + h / 2 - 1.1, 3.0, 'C', 'COTAS');
+    cx += anchos[1];
+    for (let i = 0; i < datums.length; i++) {
+      this.line([cx, y], [cx, y + h], 'COTAS');
+      this.text(datums[i], cx + h / 2, y + h / 2 - 1.1, 3.0, 'C', 'COTAS');
+      cx += h;
+    }
+    return anchos.reduce((a, b) => a + b, 0);
+  }
+
+  // Referencia de datum: triángulo lleno + cuadro con la letra.
+  datum(pt, letra, dx = 0, dy = -10) {
+    const sg = dy >= 0 ? 1 : -1;
+    const ap = [pt[0], pt[1] + sg * 3.2];                 // base del triángulo
+    this.solid([pt, [pt[0] - 1.7, ap[1]], [pt[0] + 1.7, ap[1]]], 'COTAS');
+    const cen = [pt[0] + dx, pt[1] + dy];                  // centro del cuadro
+    this.line(ap, [cen[0], cen[1] - sg * 3], 'COTAS');
+    this.rect(cen[0] - 3, cen[1] - 3, 6, 6, 'COTAS');
+    this.text(letra, cen[0], cen[1] - 1.1, 3.0, 'C', 'COTAS');
+  }
+
+  // Rugosidad ISO 1302: el «visto» con la barra superior y el valor.
+  rugosidad(pt, valor, lado = 1) {
+    const h = 4.5, x = pt[0], y = pt[1];
+    this.line([x, y], [x + lado * h * 0.5, y + h], 'COTAS');
+    this.line([x, y], [x - lado * h * 0.28, y + h * 0.55], 'COTAS');
+    this.line([x + lado * h * 0.5, y + h], [x + lado * h * 1.6, y + h], 'COTAS');
+    this.text(valor, x + lado * h * 0.62, y + h + 1.0, 2.6, lado > 0 ? 'L' : 'R', 'COTAS');
+  }
+
+  // TABLA DE BARRENOS: la forma normalizada de acotar una chapa con muchos
+  // agujeros iguales. Cada fila es una MARCA (A, B, C…) que se repite en el
+  // dibujo, con su Ø, su cantidad y sus coordenadas desde el cero declarado.
+  tablaBarrenos(x, y, filas, cols = ['MARCA', 'Ø', 'CANT', 'X', 'Y'], anchos = [14, 14, 14, 18, 18]) {
+    const h = 5.2, W = anchos.reduce((a, b) => a + b, 0);
+    let cy = y;
+    this.rect(x, cy, W, h, 'COTAS');
+    let cx = x;
+    for (let i = 0; i < cols.length; i++) {
+      if (i) this.line([cx, cy], [cx, cy + h], 'COTAS');
+      this.text(cols[i], cx + anchos[i] / 2, cy + h / 2 - 1.0, 2.4, 'C');
+      cx += anchos[i];
+    }
+    for (const f of filas) {
+      cy -= h;
+      this.rect(x, cy, W, h, 'COTAS');
+      cx = x;
+      for (let i = 0; i < cols.length; i++) {
+        if (i) this.line([cx, cy], [cx, cy + h], 'COTAS');
+        this.text(String(f[i] ?? ''), cx + anchos[i] / 2, cy + h / 2 - 1.0, 2.4, 'C');
+        cx += anchos[i];
+      }
+    }
+    return { w: W, h: (filas.length + 1) * h };
+  }
+
   // casilla ISO 7200: rótulo pequeño + valor; encoge la letra antes de truncar
   cell(x, y, w, h, label, value, vh = 2.6, al = 'ML') {
     this.text(label, x + 1.3, y + h - 2.4, 1.4, 'L');
