@@ -34,6 +34,7 @@ de la letra: es una máquina de estados con compuertas (gates) que NUNCA se salt
 | "plano en cara / plano desfasado" | `cad_cli.py plano-cara <id>` / `plano-desfasado <plano> <mm>` / `plano-3p`. |
 | "extruye / revoluciona / barre \<boceto\>" | `cad_cli.py extruir|revolucionar|barrer …` → sólido `out/cad/*.glb` (capa user). Ofrece dibujarlo con S6 `--fuente out/cad/<n>.glb`. |
 | "componentes" / "biblioteca de componentes" / "agrega \<componente\> a la carcasa" | Biblioteca en `componentes/catalogo.json` (ESP32, buck, sensores, pulsadores, conectores de panel, mecánicos: rodillos/poleas/ejes; capa `user`, dims nominales → verificar con calibre). `python pipeline/componentes_cli.py listar\|info\|generar\|huella\|cad-json\|sync-web …` → GLB/STL, DXF de taladrado, o piezas para el CAD del navegador; en la interfaz web se insertan directo con el botón 🔌 Comp. Con `--proyecto <X>` audita en el proyecto. Agregar componente = editar el JSON + `validar` + `sync-web`. Detalle: `docs/COMPONENTES.md`. |
+| "soporte mecanum" / "bloque motor TT + rueda" | Bloque modular imprimible (base + tapa) para motor TT doble eje + rueda mecanum 48: `python pipeline/soporte_tt_mecanum.py [--png] [--proyecto <X>]` → GLB/STL/plantilla DXF en `cad/componentes/models/`. Paramétrico, verificado contra sí mismo. Detalle: `docs/SOPORTE_TT_MECANUM.md`. |
 | "estado \<código\>" | Resume `state.json` + último bloque de `audit.log.jsonl` en lenguaje claro. |
 | "verifica entorno" | Ejecuta `tools/check_env.ps1` y reporta qué falta con instrucciones de `docs/INSTALACION.md`. |
 

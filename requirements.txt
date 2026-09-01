@@ -10,3 +10,6 @@ mapbox-earcut>=1.0
 networkx>=3.0
 # Biblioteca de componentes (docs/COMPONENTES.md): GLB con colores por cara
 scipy>=1.11
+# Piezas imprimibles con booleanos reales (pipeline/soporte_tt_mecanum.py)
+manifold3d>=2.5
+rtree>=1.0
