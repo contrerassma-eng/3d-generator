@@ -555,6 +555,73 @@ function pdfEscape(s) {
   return out;
 }
 
+// ── alambre: de segmentos sueltos a POLILÍNEAS ──────────────────────────────
+// El isométrico de una geometría de fábrica (723 mil triángulos en el CV-BLT)
+// deja decenas de miles de tramos visibles: 74 % miden menos de 1 pt, el 20 %
+// son el MISMO borde emitido dos veces (lo comparten dos parches) y el 80 % de
+// los extremos los comparte otro tramo. Emitirlos uno a uno cuesta ` m ` y ` S`
+// por tramo y no comprime (las coordenadas son entropía pura).
+//
+// Aquí se hacen tres cosas, todas SIN cambiar un píxel:
+//   1. se descarta el duplicado exacto (pintar dos veces la misma línea del
+//      mismo color se ve igual que pintarla una),
+//   2. se encadenan los tramos que comparten extremo en una sola polilínea
+//      (con tapa y unión REDONDAS —`1 J 1 j`— el empalme es indistinguible),
+//   3. se funden los tramos COLINEALES (desviación < 0,02 pt = 7 µm).
+//
+// Sólo en capas SIN guion: en una capa punteada la polilínea arrastraría la
+// fase del guion de tramo en tramo y el dibujo cambiaría de verdad.
+function polilineas(segs, f) {
+  const q = (v) => Math.round(v * 100);                 // rejilla = precisión de salida
+  const kp = (x, y) => `${q(x)},${q(y)}`;
+  const pt = new Map();                                 // clave → [x,y]
+  const ady = new Map();                                // clave → [{a,b,i}]
+  const vistos = new Set();
+  const E = [];
+  for (const s of segs) {
+    const ka = kp(s.a[0], s.a[1]), kb = kp(s.b[0], s.b[1]);
+    if (ka === kb) continue;                            // tramo nulo
+    const ke = ka < kb ? ka + '|' + kb : kb + '|' + ka;
+    if (vistos.has(ke)) continue;                       // (1) duplicado exacto
+    vistos.add(ke);
+    pt.set(ka, s.a); pt.set(kb, s.b);
+    const i = E.length; E.push({ ka, kb, usado: false });
+    if (!ady.has(ka)) ady.set(ka, []); ady.get(ka).push(i);
+    if (!ady.has(kb)) ady.set(kb, []); ady.get(kb).push(i);
+  }
+  const otro = (i, k) => (E[i].ka === k ? E[i].kb : E[i].ka);
+  const sigue = (k, desde) => {                         // vecino no usado
+    for (const i of (ady.get(k) || [])) if (!E[i].usado && i !== desde) return i;
+    return -1;
+  };
+  const cadenas = [];
+  for (let i0 = 0; i0 < E.length; i0++) {
+    if (E[i0].usado) continue;
+    E[i0].usado = true;
+    const cad = [E[i0].ka, E[i0].kb];
+    for (let k = cad[cad.length - 1], j; (j = sigue(k, -1)) >= 0; ) {   // hacia adelante
+      E[j].usado = true; k = otro(j, k); cad.push(k);
+    }
+    for (let k = cad[0], j; (j = sigue(k, -1)) >= 0; ) {                // hacia atrás
+      E[j].usado = true; k = otro(j, k); cad.unshift(k);
+    }
+    cadenas.push(cad.map(k => pt.get(k)));
+  }
+  const ops = [];
+  for (const cad of cadenas) {
+    const v = [cad[0]];
+    for (let i = 1; i < cad.length - 1; i++) {          // (3) fusión de colineales
+      const a = v[v.length - 1], b = cad[i], c = cad[i + 1];
+      const ux = b[0] - a[0], uy = b[1] - a[1], vx = c[0] - a[0], vy = c[1] - a[1];
+      const cruz = Math.abs(ux * vy - uy * vx), len = Math.hypot(vx, vy);
+      if (!(len > 0 && cruz / len < 0.02)) v.push(b);   // desviación < 0,02 pt
+    }
+    v.push(cad[cad.length - 1]);
+    ops.push(v.map((p, i) => `${f(p[0])} ${f(p[1])} ${i ? 'l' : 'm'}`).join(' ') + ' S');
+  }
+  return ops;
+}
+
 // stream de contenido (operadores PDF) de una sola lámina, en puntos
 //
 // ESTADO GRÁFICO PERSISTENTE (23-08): antes cada primitiva re-emitía su color,
@@ -589,7 +656,26 @@ function sheetContent(sheet, k) {
     const lyRGB = RGB[ly];
     const lyCol = lyRGB ? lyRGB.map(f).join(' ') : '0 0 0';
     setDash(dash);
-    for (const p of prims) {
+    for (let ip = 0; ip < prims.length; ip++) {
+      const p = prims[ip];
+      // ALAMBRE: tirada contigua de tramos del MISMO color → polilíneas. Se
+      // respeta el orden (sólo se funde lo que ya iba seguido) y se excluyen
+      // las capas con guion, donde la fase del punteado sí cambiaría.
+      if (p.k === 'l' && !DASH[ly]) {
+        const col = p.rgb ? p.rgb.map(f).join(' ') : lyCol;
+        const run = [];
+        let j = ip;
+        while (j < prims.length && prims[j].k === 'l' &&
+               (prims[j].rgb ? prims[j].rgb.map(f).join(' ') : lyCol) === col) {
+          const q = prims[j];
+          run.push({ a: [q.a[0] * k, q.a[1] * k], b: [q.b[0] * k, q.b[1] * k] });
+          j++;
+        }
+        setW(w); setStroke(col);
+        for (const op of polilineas(run, f)) ops.push(op);
+        ip = j - 1;
+        continue;
+      }
       if (p.k === 'sh') { // triángulo sombreado (relleno gris, sin borde)
         setFill(`${f(p.g)} ${f(p.g)} ${f(p.g)}`);
         ops.push(p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ') + ' h f');
@@ -601,7 +687,7 @@ function sheetContent(sheet, k) {
         // adyacentes del pintor (el rasterizador deja huecos de sub-píxel)
         setFill(col); setStroke(col); setW(f(0.28 * k));
         ops.push(`${sub} B*`);
-      } else if (p.k === 'l') {
+      } else if (p.k === 'l') {                  // capa con guion: tramo a tramo
         setW(w); setStroke(p.rgb ? p.rgb.map(f).join(' ') : lyCol);
         ops.push(`${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S`);
       } else if (p.k === 'p' || p.k === 's') {
