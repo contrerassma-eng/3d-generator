@@ -29,6 +29,13 @@ a Ø64 (envolvente verificada Ø63.8–64.0).
    llevan un **perfil de esbeltez**: planas hasta r24 y cayendo en curva
    cuadrática hasta 1.6 mm por lado en el filo (marca amarilla). El arranque
    en r24 conserva 1.15 mm en las tapas que capturan los pasadores.
+5. **Anti-lasca**: dentro de la banda de la cara, la ventana del rodillo se
+   amplía +0.9 para que su borde nazca donde el material ya es grueso — el
+   cono de holgura salía atravesando la cara y dejaba filos <0.5 mm que
+   imprimen como hilachas (lascas <0.5 mm: −31 % medido por columnas de
+   material; raíz de pestaña +1.4). La holgura funcional del rodillo no
+   cambia; la boca de las cunas se retrasa 1 mm (captura de 3.1 mm, sigue
+   positiva).
 
 Sin cambios de la v5: cunas de pasador Ø3.5 (ciegas en A, captura en B),
 holgura placa-rodillo 1.0 radial / 0.7 axial, bombeo lateral, dientes de
@@ -38,7 +45,7 @@ corona con 0.8° de holgura total por flanco.
 
 rodillo-placa 0.700 · interferencia 0.00 · rodillo-rodillo 0.728 ·
 corona A↔B 0.013 · envolvente Ø63.8–64.0 · hex 14.5/Ø16.74 exacto ·
-placas 10.26 / 11.16 cm³.
+placas 9.49 / 10.75 cm³.
 
 ## Montaje
 
