@@ -23,6 +23,12 @@ a Ø64 (envolvente verificada Ø63.8–64.0).
    flancos rectos tangentes — las líneas verdes — con filetes leves r3.0 en
    cóncavos y r1.5 en puntas (las zonas rojas). Cabezas de perno en la cara A
    (bolsillo Ø5.9 × 2.2), a 0.7 de la cara plana del hex.
+4. **Refuerzo y esbeltez (v7.1, sobre el corte anotado)**: la cara de la
+   estrella pasa de 4.6 a **6.0 mm** — las pestañas junto a los rodillos que
+   quedaban como lascas (marcas rojas) ganan 1.4 mm de raíz — y las caras
+   llevan un **perfil de esbeltez**: planas hasta r24 y cayendo en curva
+   cuadrática hasta 1.6 mm por lado en el filo (marca amarilla). El arranque
+   en r24 conserva 1.15 mm en las tapas que capturan los pasadores.
 
 Sin cambios de la v5: cunas de pasador Ø3.5 (ciegas en A, captura en B),
 holgura placa-rodillo 1.0 radial / 0.7 axial, bombeo lateral, dientes de
@@ -32,7 +38,7 @@ corona con 0.8° de holgura total por flanco.
 
 rodillo-placa 0.700 · interferencia 0.00 · rodillo-rodillo 0.728 ·
 corona A↔B 0.013 · envolvente Ø63.8–64.0 · hex 14.5/Ø16.74 exacto ·
-placas 9.56 / 9.91 cm³.
+placas 10.26 / 11.16 cm³.
 
 ## Montaje
 
@@ -46,7 +52,7 @@ placas 9.56 / 9.91 cm³.
 
 Mismo perfil reconstruido del gcode de Sergio (PA-CF, 0.4/0.2, 280/100) con
 relleno 100 %, soporte árbol y brim 5. `M64V7_cama_PACF_100.gcode` trae **un
-par de ruedas por cama** (4 placas: izq A/B + der A/B): 42.6 g, 2 h 50 min.
+par de ruedas por cama** (4 placas: izq A/B + der A/B): ~46 g, ~3 h.
 Comprar por rueda: 6 varillas 1/8" × 43 y 3 tornillos 2.9×25.
 
 ## Estado de las otras líneas
