@@ -1,48 +1,52 @@
-# Mecanum50 — rueda de rodillos a 49.4° (del boceto y cotas de Sergio)
+# Mecanum56 v3 — rueda para los rodillos existentes, con acople tipo juguete
 
-Interpretación del boceto (P1/P2, orientaciones de rodillos, "hubs enfrentados
-y alineados") + cotas medidas: rodillo **33.5 × Ø18 centro × Ø13 extremos**,
-eje **Ø3.2** (=1/8"), rueda Ø50 nominal, hexágono **14 e/c**.
+Iterada sobre el boceto de Sergio y sus correcciones. Rodillos **existentes**
+(moldeados, 33.5 × Ø18 × Ø13, eje Ø3.2 = 1/8"): las placas impresas los alojan
+tal cual. El barril medido es el perfil mecanum exacto ρ(s)=√(R²−s²cos²β)−d0;
+con el diámetro aumentado (autorizado) a **Ø56**, β=46.3° y el hexágono y el
+acople caben con holgura. Ancho 34.4. Envolvente verificada Ø56.0–56.7 en los
+360° (cobertura completa).
 
-## El hallazgo central
+## Mecanismo (las 3 correcciones)
 
-El barril medido no es un barril cualquiera: **es el perfil mecanum exacto**
-para R=25, d0=16, β=49.37° — ρ(s)=√(R²−s²cos²β)−d0 reproduce Ø18 al centro y
-Ø13.0 en los extremos con L=33.5. El "45°" del boceto es ese β=49.4°. Con ese
-rodillo el ancho real de la rueda es **34.8 mm** (el 28 del plano de catálogo
-corresponde a rodillos más cortos; aquí manda el rodillo físico medido).
+1. **Estrellas desfasadas** según el patrón de vértices del boceto: puntas de
+   la placa A sobre las líneas de referencia (ángulos de rodillo), puntas de B
+   a +30°.
+2. **Pasador bloqueado, caras cerradas**: cada eje Ø3.2×43 se apoya en una cuna
+   ciega de A y, al cerrar, la cuna de B captura el otro extremo (tetones
+   enfrentados y alineados = P1/P2 del boceto, z=±14.3). Ninguna dirección de
+   escape queda libre y **no hay ni un taladro en las caras**.
+3. **Acople telescópico tipo juguete**: el cilindro estrecho de B (Ø15.9) calza
+   en el bore de A (Ø16.2) hasta z=−8.2; **3 pernos rosca-plástico 2.9×9.5**
+   entran desde el fondo del bolsillo hex de A (círculo r6.3, a 30/150/270) en
+   la corona del tubo de B y **la expanden contra A → ensamble bloqueado**.
+   Patrón de 6 ángulos (3 pernos + 3 rebajes) en el fondo del bolsillo, como la
+   rueda de referencia.
 
-## Interpretación del boceto
+Hexágono 14 e/c en bolsillo de 6 mm en ambas caras (inserción del cubo motriz
+≤5.5 por los pernos) + taladro pasante Ø9.
 
-- **6 rodillos a paso 60°**, ejes a 49.37° del plano transversal.
-- **P1/P2 desfasados en profundidad** = los dos planos de tetones (z ≈ ±14.9):
-  el extremo −s de cada eje vive en la placa A y el +s en la placa B,
-  **enfrentados y alineados** sobre el mismo eje inclinado.
-- **Versiones izquierda y derecha** (espejo), como el par naranja/turquesa.
+## Secuencia de montaje
 
-## Decisiones de ingeniería (verificadas numéricamente)
+1. Pasador dentro de cada rodillo; los 6 conjuntos a las cunas ciegas de A.
+2. Placa B baja axialmente: sus cunas capturan los extremos +s y su cilindro
+   telescopa en A.
+3. 3 pernos 2.9×9.5 desde el bolsillo de A → expanden la corona de B →
+   bloqueado. (Desmontable sacando los pernos.)
 
-| Tema | Decisión | Verificación |
-|---|---|---|
-| Paso de ejes | d0 + 0.30 = 16.30 | en la rueda física los rodillos vecinos se tocan en el cruce de barriles; +0.3 da 0.10 mm nominal de holgura sin deformar el rodillo medido |
-| Envolvente | Ø50.0–50.8 en los 360° | cobertura completa; ondulación 0.4 por los hombros a 49° (idéntico al producto) |
-| Unión de placas | **jaula de pasadores autoblocante, sin tornillos**: 6 ejes inclinados a 60° no comparten ninguna dirección de traslación/rotación → insertados bloquean todo | pasador entra por el taladro pasante Ø3.3 de B, cruza el rodillo y se prensa en el ciego Ø3.15 de A |
-| Ejes-tornillo (descartado) | la cabeza de un M3×40 sobresaldría de la cara a r24.4 y tocaría el suelo | — |
-| Hexágono 14 | bolsillo de 6 mm en ambas caras + pasante Ø9 (los vientres de los rodillos llegan a r≈7.3: no cabe hex pasante) | perfil libre del carrete calculado punto a punto bajo los 6 rodillos |
-| Holgura placa-rodillo | 0.7 nominal | 0.55 medida en malla |
+## Verificación numérica
 
-## Impresión (todo en PA-CF)
+holgura rodillo-placa 0.55 · interferencia A↔B 0.00 (ajuste 0.15 radial) ·
+cruce entre rodillos ~0.05 = el de la rueda física (rodillos moldeados) ·
+envolvente Ø56.0–56.7 · placas 8.5 cm³ c/u.
 
-- **Placas**: cara exterior contra la cama, capa 0.12, 4 paredes, 40 % giroide.
-  Los tetones inclinados 49° necesitan un toque de soporte (pintado, solo bajo
-  los tetones). Taladros de eje a 49°: repasar con broca Ø3.2 (pasantes de B)
-  y Ø3.0 (ciegos de A) antes de montar.
-- **Rodillos ×6 (por rueda)**: de pie, 100 %, costura aleatoria. Si el cruce
-  entre rodillos roza al girar: compensación XY −0.05 en el rodillo.
-- **Pasadores**: varilla Ø3.2 (1/8") cortada a 43; entrada por B, prensa en A.
-- Un robot usa 2 izquierdas + 2 derechas (`mec50_ensamble_izq/der.step`).
+## Impresión PA-CF
 
-Archivos: `mecanum50.py` (generador paramétrico), ensambles STEP izq/der,
-placas A/B izq/der (STEP+STL), rodillo (STEP+STL), lámina `MECANUM50_lamina.png`.
+Placas cara exterior abajo, capa 0.12, 4 paredes / 40 % giroide, soporte
+pintado solo bajo los tetones (49°→46°); repasar cunas con broca Ø3.2.
+Un robot: 2 izquierdas + 2 derechas (`mec50_ensamble_izq/der.step`).
 
-![Lámina](MECANUM50_lamina.png)
+Comprar: varilla Ø3.2 (1/8") ×6 tramos de 43 por rueda; 3 tornillos
+rosca-plástico 2.9×9.5 por rueda.
+
+![Lámina](MECANUM56_lamina.png)
