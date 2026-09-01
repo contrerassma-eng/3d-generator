@@ -188,3 +188,38 @@ o (b) correas redondas de transmisión?** Las recomendaciones de §5.6 cubren am
 
 PLA-CF queda relegado a prototipos de ajuste y al anillo separador: en toda pieza con
 ajuste, apriete o par sostenido, su fluencia >45 °C y su fragilidad lo descartan.
+
+---
+
+## 9. V7-L: vaciados y nervios (ahorro de material y tiempo)
+
+Rediseño paramétrico generado en `rueda_v7L/rueda_v7L.py` (CadQuery). Reconstruye la
+polea y el separador desde las mediciones del STEP y les aplica vaciados con nervios
+**sin tocar ninguna interfaz**: garganta Ø55/Ø65, lengüetas Ø41.2/Ø31.6×39°, taladros
+M5 (Ø5.5+caja Ø9, círculo Ø28), asiento de rodamiento, Ø exterior, trébol R20.7/R15.5
+y caras de apoyo de tuerca. Fidelidad verificada por secciones contra la malla del
+STEP: 0 desviaciones exteriores >0.35 mm.
+
+| Pieza | Original | V7-L | Ahorro CAD | Notas |
+|---|---|---|---|---|
+| Polea (6004) | 41.2 cm³ | **32.6 cm³** | **−21 %** | 8 celdas abiertas a la cara interna (sin soportes en orientación bolsillo-abajo) + 8 nervios de 2 mm, torres Ø12 en los M5, columnas bajo lengüetas, celdas someras bajo la pestaña Ø65 |
+| Polea (608-2Z) | 41.2 cm³ | 35.0 cm³ | −15 % | Bolsillo Ø22.15×7.3; **−114 g de acero por rueda** (2×6004 ≈138 g → 2×608 ≈24 g) y rodamientos ~5× más baratos; el eje pasa a Ø8/M8 (cambia la interfaz del soporte); accesos Ø9.5 a los tornillos |
+| Separador | 24.3 cm³ | **19.1 cm³** | **−22 %** | Ventanas porta-tuercas fusionadas (se conservan las dos caras de apoyo), anillo vaciado pasante + 4 nervios diagonales |
+| Espaciador de eje (solo 608) | — | +3.9 cm³ | — | Tubo Ø12/Ø8.3×66.4 entre aros interiores |
+
+El bolsillo del 6004 ya actúa como vaciado (16.8 cm³): por eso pasar a 608 **no**
+ahorra plástico — ahorra acero, inercia y costo. La cavidad interna Ø37 (z7–11)
+del original se conserva en ambas variantes.
+
+**Receta de laminado V7-L** (el resto del ahorro viene de aquí, avalado por los
+márgenes de §3, todos >6): polea 4 paredes/25 % giroide (antes 5/40), separador
+3/25, anillo lobulado 6 paredes/60 % (antes 100 %), anillo separador 3/15.
+**Plástico extruido ≈ −35 %, tiempo de impresión ≈ −30–35 %** respecto a la
+receta de §5 con las piezas originales. Las orientaciones de impresión de §5 no
+cambian; todas las celdas quedan abiertas hacia arriba en esa orientación.
+
+Archivos en `rueda_v7L/`: STEP + STL de `polea_v7L_6004`, `polea_v7L_608`,
+`separador_v7L`, `espaciador_eje_608`, script paramétrico y lámina
+`RUEDA_V7L_aligerado.png` (cortes comparativos).
+
+![Aligerado V7-L](rueda_v7L/RUEDA_V7L_aligerado.png)
