@@ -98,7 +98,7 @@ def rodillo_en_sitio(k, extra_r=0.0, extra_l=0.0):
     return w.translate(tuple(axis_pt(k, 0)))
 
 def estrella_v4(Rt, r_in, centers, hs, chord_off=5.0, n_arc=16):
-    """receta del boceto + filetes morfologicos r10 (concavos) / r3 (convexos)"""
+    """receta del boceto (flancos tangentes rectos) + filetes leves 3.0/1.5"""
     da = degrees(np.arccos(r_in / Rt))
     pts = []
     centers = sorted(centers)
@@ -114,9 +114,12 @@ def estrella_v4(Rt, r_in, centers, hs, chord_off=5.0, n_arc=16):
         for t in np.linspace(t1, t2, max(4, int((t2 - t1) / 6))):
             pts.append((r_in * cos(radians(t)), r_in * sin(radians(t))))
     from shapely.geometry import Polygon
+    # redondeo LEVE (pedido 01-09): la estrella vuelve a la silueta v4 — los
+    # flancos rectos estructurales se conservan; solo se matan los vertices:
+    # concavos r3.0, convexos (puntas) r1.5. Nada de r10: eso borraba las lineas.
     poly = Polygon(pts)
-    poly = poly.buffer(10.0, quad_segs=24).buffer(-10.0, quad_segs=24)
-    poly = poly.buffer(-3.0, quad_segs=24).buffer(3.0, quad_segs=24)
+    poly = poly.buffer(3.0, quad_segs=24).buffer(-3.0, quad_segs=24)
+    poly = poly.buffer(-1.5, quad_segs=24).buffer(1.5, quad_segs=24)
     coords = list(poly.exterior.coords)[:-1]
     return cq.Workplane("XY").polyline(coords).close()
 

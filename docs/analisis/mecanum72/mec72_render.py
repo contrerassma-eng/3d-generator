@@ -96,7 +96,7 @@ for h in ('izq', 'der'):
                          tol_linear=0.05, tol_angular=0.3)
 izq, der = load('mec72_izq.glb'), load('mec72_der.glb')
 
-Rx90 = np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]], float)
+Rx90 = np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]], float)
 Rz2x = np.array([[0, 0, 1], [0, 1, 0], [-1, 0, 0]], float)
 
 def matfor(n, M, hand='izq'):
@@ -168,28 +168,4 @@ for k in list(anchors):
     anchors[k] = [uv.x * sc.render.resolution_x, (1 - uv.y) * sc.render.resolution_y]
 json.dump(anchors, open(p('m72_anchors.json'), 'w'))
 
-# ---- 4: corte por el eje y un perno ----
-clear(); M = mats(); allpts = []
-CUTS = [('mec72_cutA.stl', 'PLACA'), ('mec72_cutB.stl', 'PLACA2'),
-        ('mec72_cutPOL.stl', 'POLEA'), ('mec72_cutRET.stl', 'POLEA'),
-        ('mec72_cutBRGA.stl', 'BRG'), ('mec72_cutBRGB.stl', 'BRG'),
-        ('mec72_cutCASA.stl', 'POLEA'), ('mec72_cutCASB.stl', 'POLEA'),
-        ('mec72_cutEJE.stl', 'STEEL'), ('mec72_cutPER.stl', 'STEEL')]
-for f, mt in CUTS:
-    if not os.path.exists(p(f)): continue
-    mm = trimesh.load(p(f)); mm.merge_vertices(); mm.apply_scale(0.001)
-    v = mm.vertices @ Rx90.T
-    add_mesh(f[:-4], v, mm.faces, M[mt])
-    allpts += [v.min(0), v.max(0)]
-c45, s45 = math.cos(math.radians(-45)), math.sin(math.radians(-45))
-Rzc = np.array([[c45, -s45, 0], [s45, c45, 0], [0, 0, 1]])
-for n, m in izq.items():
-    if not n.startswith('rodillo'): continue
-    v = (m.vertices @ Rzc.T) @ Rx90.T
-    add_mesh(n, v, m.faces, M['TPU'])
-    allpts += [v.min(0), v.max(0)]
-lights()
-cam = camera((0.006, -0.13, 0.070), (0, 0, 0), 56)
-fit(cam, (0, 0, 0), allpts, m=(0.10, 0.90))
-render(p('m72_corte.png'), 1600, 1150, 64)
 print('ALL DONE')
