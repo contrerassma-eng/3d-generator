@@ -179,7 +179,7 @@ function stepDe(geom, nombre, autor = 'ConveyOne SpA') {
 
 const GEOM = await geometriasDelDoc(doc);
 let n = 0, saltadas = 0;
-const vendor = [], comprados = [];
+const vendor = [], comprados = [], sinItem = [];
 const indice = [];
 for (const p of doc.parts) {
   // PIEZAS VENDOR: su STEP lo entrega el fabricante (regla 22 — no
@@ -192,7 +192,16 @@ for (const p of doc.parts) {
   const nom = limpio(p.name);
   const fam = famDe(p.name);
   const item = itemBuscar(p.name);
-  const cod = `${TIPO}-${fam}-${item ? String(item).padStart(3, '0') : 'XXX'}`;
+  // SIN ÍTEM = SIN STEP (23-08). El código del STEP es TIPO·FAMILIA·ÍTEM y el
+  // ítem sale del registro persistente; una pieza que no está en el registro no
+  // es un artículo — emitir `XXX` fabricaba un código que no identifica nada y
+  // que viaja SOLO al proveedor (el STEP es el único artefacto que sale sin el
+  // resto del paquete). Se reporta como anomalía, igual que F90 vacío.
+  // Lo destapó `CV-LBP18-F40-XXX` = «Goma Grip Top», que ni siquiera es pieza:
+  // viene vulcanizada en la banda Movex — el mismo fantasma que ya había cazado
+  // el refutador de COMPRAS y que seguía teniendo archivo propio de 3D.
+  if (!item) { sinItem.push(limpio(p.name)); continue; }
+  const cod = `${TIPO}-${fam}-${String(item).padStart(3, '0')}`;
   if (indice.some(i => i.codigo === cod)) continue;             // un artículo, un STEP
   try {
     let g = GEOM.get(p.id);
@@ -214,5 +223,6 @@ for (const p of doc.parts) {
 writeFileSync(join(outDir, `_indice_step_${base}.json`), JSON.stringify({ tipo: TIPO, doc: base, piezas: indice,
   sin_step_propio: {
     nota: 'STEP a cargo de quien fabrica la pieza: originales M-HASTE y artículos comprados (Movex, chumaceras, sprockets) los entrega su proveedor con el artículo',
-    vendor, comprados } }, null, 1));
+    vendor, comprados, sin_item: sinItem } }, null, 1));
 console.log(`OK ${n} STEP AP203 en ${outDir}${saltadas ? ` · ${saltadas} sin geometría` : ''}${vendor.length ? ` · ${vendor.length} vendor` : ''}${comprados.length ? ` · ${comprados.length} comprados (STEP del proveedor)` : ''} — nomenclatura ${TIPO}-Fnn-ítem`);
+if (sinItem.length) console.log(`  AVISO — ${sinItem.length} pieza(s) SIN ítem en el registro, no se emitió STEP: ${sinItem.join(' · ')}`);

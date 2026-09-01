@@ -106,13 +106,6 @@
    "item": 15,
    "pieza": "Travesaño de patas B_002A canal 71×38×3 (L=470)",
    "kb": 16
-  },
-  {
-   "codigo": "CV-LBP18-F40-XXX",
-   "familia": "F40",
-   "item": null,
-   "pieza": "Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)",
-   "kb": 136
   }
  ],
  "sin_step_propio": {
@@ -155,6 +148,9 @@
    "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m"
+  ],
+  "sin_item": [
+   "Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)"
   ]
  }
 }
