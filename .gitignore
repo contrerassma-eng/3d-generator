@@ -43,3 +43,4 @@ cad/_tmp_*.mjs
 cad/ensambles/nbt90/step/
 cad/ensambles/stl/
 cad/tools/.pdf2png_host_*.html
+cad/out/
