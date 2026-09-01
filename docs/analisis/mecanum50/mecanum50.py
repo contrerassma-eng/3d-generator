@@ -18,16 +18,17 @@ import os
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 
-R = 28.0    # Ø56: autorizado aumentar el diametro para los rodillos existentes
-RHO0, RHOE = 9.0, 6.5
-SMAX = 33.5 / 2
-D0 = R - RHO0            # contacto exacto en R; el cruce entre rodillos (~0.05)
-                         # es el mismo de la rueda fisica (rodillos moldeados)
-CB = sqrt(R * R - (D0 + RHOE) ** 2) / SMAX   # beta del perfil medido
-SB = sqrt(1 - CB * CB)
-BETA = degrees(np.arcsin(SB))
+R = 32.0    # radio de envolvente nominal (Ø64): destrenza los rodillos
+RHO0, RHOE = 9.0, 6.5             # radios del rodillo fisico (centro / extremos)
+SMAX = 33.5 / 2                   # semilargo del rodillo fisico
+BETA = 46.0                       # el 45 del boceto; optimizado con d0
+D0 = 23.0                         # radio primitivo de ejes: holgura rodillos 0.71
+RARC = 16.75 ** 2 / (2 * 2.5) + 2.5 / 2   # 57.36: arco meridiano del rodillo FISICO
+from math import cos as _cos, sin as _sin
+CB = _cos(radians(BETA))
+SB = _sin(radians(BETA))
 ZOFF = 0.0    # P1/P2 del boceto = los dos planos de tetones (z ±14.9)
-W2 = 17.2
+W2 = 17.3
 BORE_D = 9.0   # (solo referencia; el hex 14 va PASANTE)
 HEX_AF = 14.0
 PIN_D = 3.2
@@ -52,7 +53,7 @@ def zc_of(k):
 
 def rho(s):
     s = max(min(s, SMAX), -SMAX)
-    return sqrt(R * R - (s * CB) ** 2) - D0
+    return (9.0 - RARC) + sqrt(RARC * RARC - s * s)
 
 def Rz(a):
     a = radians(a)
@@ -127,15 +128,26 @@ def free_hub_profile(zlo, zhi):
         prof.append((float(min(rfree, 11.5)), float(z0)))
     return prof
 
-def estrella_2d(r_punta, r_valle, ang0, p=1.55, n=84):
-    """estrella suave de 6 puntas: r(t)=rv+(rp-rv)*(0.5+0.5*cos(6t))^p"""
+def estrella_v4(Rt, r_in, centers, hs, chord_off=6.0, n_arc=16):
+    """Receta del boceto: por brazo, mini-ARCO exterior proyectado en la
+    circunferencia (Rt, semiancho hs); del borde derecho, TANGENTE recta a la
+    circunferencia invisible r_in; arco sobre r_in; y LADO CORTO en recta al
+    borde izquierdo del siguiente mini-arco. Todo tangente y armonico."""
+    da = degrees(np.arccos(r_in / Rt))          # avance de tangencia
     pts = []
-    for i in range(n):
-        t = i * 360.0 / n
-        w = (0.5 + 0.5 * cos(radians(6 * t))) ** p
-        rr = r_valle + (r_punta - r_valle) * w
-        ang = radians(ang0 + t)
-        pts.append((rr * cos(ang), rr * sin(ang)))
+    centers = sorted(centers)
+    m = len(centers)
+    for i, c in enumerate(centers):
+        aL, aR = c - hs, c + hs
+        for t in np.linspace(aL, aR, n_arc):    # mini arco exterior
+            pts.append((Rt * cos(radians(t)), Rt * sin(radians(t))))
+        c_next = centers[(i + 1) % m] + (360 if i == m - 1 else 0)
+        t1 = aR + da                            # tangencia del flanco largo
+        t2 = c_next - hs - chord_off            # arranque del lado corto
+        if t2 < t1:
+            t2 = t1 + 1.0
+        for t in np.linspace(t1, t2, max(4, int((t2 - t1) / 6))):
+            pts.append((r_in * cos(radians(t)), r_in * sin(radians(t))))
     return cq.Workplane("XY").polyline(pts).close()
 
 def placa(side):
@@ -149,8 +161,11 @@ def placa(side):
        fondo del bolsillo (3 cabezas + 3 rebajes)."""
     z_face = -W2 if side < 0 else W2 - 4.6
     boss_ang = degrees(atan2(side * S_BOSS * CB, D0))
-    star_ang = 0.0 if side < 0 else 30.0
-    s = estrella_2d(R - 1.0, 13.0, star_ang).extrude(4.6).translate((0, 0, z_face))
+    # brazos: cada uno abarca un PAR de tetones propios (como la rueda real)
+    # 6 brazos armonicos: cada brazo porta UN teton (mini-arco centrado en el)
+    centers = sorted((ROWS[k] + boss_ang) % 360 for k in range(6))
+    s = estrella_v4(R - 0.8, 13.5, centers, hs=10.0, chord_off=5.0) \
+        .extrude(4.6).translate((0, 0, z_face))
     # cubo de cara (aloja el bolsillo hex)
     zhub = -W2 if side < 0 else W2 - (HEX_DEPTH + FLOOR_T)
     s = s.union(cq.Workplane("XY").circle(12.0).extrude(HEX_DEPTH + FLOOR_T)
@@ -171,11 +186,7 @@ def placa(side):
         p = axis_pt(k, side * S_BOSS)
         u = axis_dir(k) * side
         s = s.union(cyl_along(p - u * (BOSS_L / 2), u, BOSS_D, BOSS_L + 1.2))
-        a_pt = ROWS[k] + star_ang
         a_bs = ROWS[k] + boss_ang
-        a0, a1 = min(a_pt, a_bs), max(a_pt, a_bs)
-        s = s.union(ring(rb - 4.0, R - 1.2, z_face, z_face + 4.6)
-                    .intersect(wedge(a0 - 4, a1 + 4, z_face - 0.1, z_face + 4.7)))
         pf = np.array([(rb - 1.0) * cos(radians(a_bs)),
                        (rb - 1.0) * sin(radians(a_bs)), z_face + 2.3])
         v = p - pf

@@ -1,11 +1,17 @@
-# Mecanum56 v3 — rueda para los rodillos existentes, con acople tipo juguete
+# Mecanum64 v4 — rodillos existentes destrenzados, estrella de 6 brazos, acople tipo juguete
 
 Iterada sobre el boceto de Sergio y sus correcciones. Rodillos **existentes**
 (moldeados, 33.5 × Ø18 × Ø13, eje Ø3.2 = 1/8"): las placas impresas los alojan
 tal cual. El barril medido es el perfil mecanum exacto ρ(s)=√(R²−s²cos²β)−d0;
-con el diámetro aumentado (autorizado) a **Ø56**, β=46.3° y el hexágono y el
-acople caben con holgura. Ancho 34.4. Envolvente verificada Ø56.0–56.7 en los
-360° (cobertura completa).
+el diámetro se llevó a **Ø64** (β=46°, d0=23): es el punto donde los barriles
+se DESTRENZAN — holgura real entre rodillos 0.76 mm (a Ø50–56 se tocaban a
+~0.05, el riesgo que señaló Sergio). Ancho 34.6. Envolvente Ø62.4–64.0.
+
+Estrella de **6 brazos armónicos** construida con la receta del boceto: mini
+arco exterior proyectado en la circunferencia sobre cada tetón, flanco largo
+en recta TANGENTE a la circunferencia invisible (r13.5, desfasada hacia
+afuera del cubo), arco sobre ella y lado corto en recta al borde del
+siguiente mini arco.
 
 ## Mecanismo (las 3 correcciones)
 
@@ -37,8 +43,8 @@ Hexágono 14 e/c en bolsillo de 6 mm en ambas caras (inserción del cubo motriz
 ## Verificación numérica
 
 holgura rodillo-placa 0.55 · interferencia A↔B 0.00 (ajuste 0.15 radial) ·
-cruce entre rodillos ~0.05 = el de la rueda física (rodillos moldeados) ·
-envolvente Ø56.0–56.7 · placas 8.5 cm³ c/u.
+cruce entre rodillos 0.76 (destrenzado) ·
+envolvente Ø62.4–64.0 · placas 8.5 cm³ c/u.
 
 ## Impresión PA-CF
 
@@ -49,4 +55,4 @@ Un robot: 2 izquierdas + 2 derechas (`mec50_ensamble_izq/der.step`).
 Comprar: varilla Ø3.2 (1/8") ×6 tramos de 43 por rueda; 3 tornillos
 rosca-plástico 2.9×9.5 por rueda.
 
-![Lámina](MECANUM56_lamina.png)
+![Lámina](MECANUM64_lamina.png)
