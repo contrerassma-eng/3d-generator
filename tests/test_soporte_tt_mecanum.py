@@ -31,14 +31,20 @@ def main():
     fallas = S.verificar(base, tapa)
     check("verificacion geometrica del generador sin fallas: " +
           (", ".join(fallas) or "-"), not fallas)
-    check("base estanca y con volumen razonable (25-40 cm3)",
-          base.is_watertight and 25e3 < base.volume < 40e3)
+    check("base estanca y con volumen razonable (40-58 cm3)",
+          base.is_watertight and 40e3 < base.volume < 58e3)
     check("tapa estanca y con volumen razonable (10-16 cm3)",
           tapa.is_watertight and 10e3 < tapa.volume < 16e3)
 
     # invariantes de diseno que no deben romperse al tocar parametros
-    check("el eje del motor queda a la altura del eje de la rueda montada",
-          abs(S.Z_EJE - (S.P["t_base"] + S.P["alzada_asiento"]
+    check("la rueda NO sobresale bajo la base (apoya plano, despeje >= 1.5)",
+          S.Z_EJE - S.R_RUEDA >= 1.5
+          and abs(S.Z_EJE - S.P["despeje_inferior"] - S.R_RUEDA) < 1e-9)
+    check("la rueda asoma SOLO por la tapa, exactamente asoma_tapa",
+          abs((S.Z_EJE + S.R_RUEDA) - S.Z_TAPA1 - S.P["asoma_tapa"]) < 1e-9
+          and abs(S.P["asoma_tapa"] - 5.0) < 1e-9)
+    check("el pedestal deja el eje del motor a Z_EJE",
+          abs(S.Z_EJE - (S.P["t_base"] + S.ALZADA
                          + S.MOTOR["alto_cuerpo"] / 2)) < 1e-9)
     check("luz entre caras de la abrazadera = caja + 2 holguras",
           abs((S.XA0 - S.XB1) - (S.MOTOR["ancho_caja"]

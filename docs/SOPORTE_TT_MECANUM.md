@@ -1,11 +1,15 @@
 # Soporte modular: motor TT doble eje + rueda mecanum 48 (FIT0662)
 
 Bloque modular imprimible en 3D que abraza un motorreductor TT de doble eje por
-ambos costados sobre una base cuadrada, con separadores roscados para una tapa
-superior con recorte por donde asoma la rueda mecanum, y perforaciones para
-apernar el bloque al chasis. Un robot mecanum usa **4 bloques idénticos**: dos
-con rueda izquierda (A) y dos con rueda derecha (B); para el lado opuesto el
-mismo bloque se gira 180°.
+ambos costados sobre una base cuadrada, con separadores roscados (con nervios a
+60°) para una tapa superior con recorte por donde asoma la rueda mecanum, y
+perforaciones para apernar el bloque al chasis. **El módulo apoya plano**: la
+rueda queda contenida (a 2 mm del plano de apoyo, sin sobresalir por la base) y
+asoma **solo por la tapa, exactamente 5 mm**. Como unidad de tracción se monta
+con la tapa hacia el suelo (la rueda toca con 5 mm de luz para la tapa) o con
+la rueda hacia afuera en un costado. Un robot mecanum usa **4 bloques
+idénticos**: dos con rueda izquierda (A) y dos con rueda derecha (B); para el
+lado opuesto el mismo bloque se gira 180°.
 
 ![Vista previa](img/soporte_tt_mecanum_preview.png)
 ![Cotas principales](img/soporte_tt_mecanum_cotas.png)
@@ -34,57 +38,68 @@ varían ±0.3 mm).
 Coordenadas del módulo: origen en el centro de la placa, Z=0 su plano
 inferior, rueda al lado +X, frente del motor (lengüeta) hacia −Y.
 
-### Base (`soporte_tt_mecanum_base`, 74 × 74 × 32 mm, ~30.2 cm³)
+### Base (`soporte_tt_mecanum_base`, 74 × 74 × 42 mm, ~48.3 cm³)
 
-- **Placa** 74 × 74 × 4 con **ranura pasante 28.2 × 45** (esquinas R6) por donde
-  la rueda asoma hacia abajo, y **bolsillo del cubo** 6 × 19 × 2.5 de
-  profundidad (el cubo Ø29.1 baja 2.3 mm bajo la cara superior de la placa).
-- **Abrazadera**: dos paredes de 4 mm que toman la caja del motor por ambos
-  costados (luz 19.2 = 18.8 + 0.2 por lado), con:
+- **Placa** 74 × 74 × 4 con **ranura 28.2 × 23.2** (esquinas R6) bajo la rueda:
+  la rueda apenas se hunde en el espesor de la placa y queda a **2 mm del
+  plano de apoyo** — no sobresale por debajo, el módulo apoya plano sin que la
+  rueda tope.
+- **Pedestal** de 10.75 mm que centra el eje del motor a **z = 26** (= despeje
+  2 + radio 24), la altura que deja a la rueda asomando exactamente 5 mm por
+  la tapa.
+- **Abrazadera**: dos paredes de 4 mm × 35 de alto que toman la caja del motor
+  por ambos costados (luz 19.2 = 18.8 + 0.2 por lado), con:
   - **ranura vertical de inserción** de 8 mm (el motor entra desde arriba; los
     anillos Ø7.2 del eje bajan por la ranura hasta el semicírculo R4 a la
-    altura del eje);
+    altura del eje, z = 26);
   - **2 pernos M3×35 pasantes** por los taladros propios del motor
-    (y = +20.6; z = 7.5 y 25.0), cabeza al lado −X y **tuerca alojada en
+    (y = +20.6; z = 17.25 y 34.75), cabeza al lado −X y **tuerca alojada en
     hexágono** (entrecaras 5.8 × 2 de profundidad) en la cara externa de la
     pared del lado rueda, fuera del barrido de los rodillos;
   - **rebaje circular Ø33 × 2** en esa misma cara para que el cubo de la rueda
     acerque y el eje enganche 6.9 mm.
-- **Asiento** de 1 mm bajo el motor (define la altura y despeja la cabeza del
-  perno inferior). Eje a **16.25 mm** de la placa.
 - **Horquilla frontal**: puente entre ambas paredes con ranura de 3.6 que
   captura la lengüeta del motor (anti-rotación) y taladro Ø2.8 pasante para un
   M3 autorroscante opcional a través del agujero de la lengüeta.
 - **Cuna de la lata**: costilla con arco R11.5 que recibe la lata Ø22.5 (la
   lata y la tapa trasera sobresalen del borde: los terminales quedan
   accesibles para soldar).
-- **Separadores integrados con hilo**: 3 postes Ø10 + 1 torre adosada a la
-  pared (la lata invade la esquina −X,+Y y los pernos del motor cruzan en
-  y = 20.6, por eso la torre vive en y = 12.9…17.4). Altura 28 mm. Cada uno
-  con **piloto Ø2.8 × 10 arriba** (hilo M3 autoformado, tornillos de la tapa)
-  y **piloto Ø2.8 pasante por la placa abajo** (apernado del bloque al chasis
-  desde abajo). Anclajes en (−30,−30), (30,−30), (30,30), (−33.25,15.15).
+- **Separadores integrados con hilo**, altura 38 mm: 3 postes Ø10 + 1 torre
+  adosada a la pared (la lata invade la esquina −X,+Y y los pernos del motor
+  cruzan en y = 20.6, por eso la torre vive en y = 12.9…17.4). Cada poste
+  lleva **2 nervios a 60°** (espesor 3, altura 20) **en dirección de las
+  aristas de la base**, hacia el interior, donde hay placa; la torre ya está
+  arriostrada por la pared B en toda su altura. Cada separador con **piloto
+  Ø2.8 × 10 arriba** (hilo M3 autoformado, tornillos de la tapa) y **piloto
+  Ø2.8 pasante por la placa abajo** (apernado del bloque al chasis). Anclajes
+  en (−30,−30), (30,−30), (30,30), (−33.25,15.15).
 - **2 perforaciones auxiliares Ø3.4** en (0,±31.5) para apernado alternativo,
   amarras o unión entre módulos.
 
-### Tapa (`soporte_tt_mecanum_tapa`, 74 × 74 × 3 mm, ~12.8 cm³)
+### Tapa (`soporte_tt_mecanum_tapa`, 74 × 74 × 3 mm, ~12.9 cm³)
 
-- **Recorte 28.2 × 40** (esquinas R6): la rueda asoma **5.25 mm** sobre la
-  tapa. El cubo (Ø29.1, techo a z=30.8) pasa por debajo de la tapa (z=32).
+- **Recorte 28.2 × 39.8** (esquinas R6): la rueda asoma **exactamente 5 mm**
+  sobre la tapa — el único lado por el que sobresale del bloque. El cubo
+  (Ø29.1, techo a z=40.55) pasa por debajo de la tapa (z=42).
 - 4 agujeros Ø3.4 **avellanados 90° Ø6.4** (M3×8 cabeza plana) sobre los
   separadores.
 - 2 perforaciones auxiliares Ø3.4 alineadas con las de la base (columna libre:
   permite apernar módulos a una estructura superior).
 - **Muesca pasacables Ø8** en el borde trasero, sobre la lata.
 
-### Alturas resultantes (rueda en el suelo)
+### Alturas resultantes (z = 0 en el plano de apoyo de la base)
 
 | Cota | mm |
 |---|---|
-| Luz de la placa al suelo | **7.75** |
-| Eje de la rueda sobre el suelo | 24.0 |
-| Cara superior de la tapa | 42.75 |
-| La rueda asoma sobre la tapa | **5.25** |
+| Punto más bajo de la rueda (despeje: NO toca donde apoya el módulo) | **2.0** |
+| Eje de la rueda / eje del motor | 26.0 |
+| Asiento de la tapa / cara superior de la tapa | 42.0 / 45.0 |
+| Techo de la rueda (asoma **solo por la tapa**) | 50.0 → **asoma 5.0** |
+
+Como unidad de tracción el bloque va **con la tapa hacia el suelo**: la rueda
+toca el piso 5 mm por debajo de la tapa (5 mm de luz) y la base queda arriba,
+apernada al chasis. El chasis **no necesita abertura**: la rueda no sobresale
+por el lado de la base.
 
 ## Tornillería (por bloque)
 
@@ -108,18 +123,22 @@ inferior, rueda al lado +X, frente del motor (lengüeta) hacia −Y.
 5. Monta la rueda en el eje doble-D hasta que el cubo entre en el rebaje
    (holgura axial ~0.5 mm) y asegúrala con su tornillo axial.
 6. Atornilla la tapa (4× M3×8 avellanado).
-7. Aperna el bloque al chasis: 4× M3 desde abajo roscando en los separadores.
-   El chasis necesita la abertura de la rueda: plantilla a escala real en
+7. Aperna el bloque al chasis: 4× M3 a través del chasis roscando en los
+   separadores (por la cara de la placa base). Como unidad de tracción el
+   bloque va con la **tapa hacia el suelo** y la base contra el chasis; la
+   rueda no sobresale por la base, así que el chasis **no necesita abertura**.
+   Plantilla de perforado a escala real en
    `cad/componentes/models/soporte_tt_mecanum_plantilla_chasis.dxf`
    (capa ESPEJO = módulo girado 180° para el lado opuesto). También puede
-   colgarse de una estructura superior con las perforaciones auxiliares.
+   apernarse a una estructura con las perforaciones auxiliares.
 
 ## Impresión 3D
 
 - **Orientación**: ambas piezas tal como salen del STL (base sobre la cama,
   tapa plana con los avellanados hacia arriba). **Sin soportes**: las ranuras
-  abren hacia arriba, el arco de la cuna es autoportante y los alojamientos
-  hexagonales van con vértice arriba.
+  abren hacia arriba, el arco de la cuna es autoportante, los alojamientos
+  hexagonales van con vértice arriba y los nervios de los separadores están a
+  60° (muy por encima del límite de voladizo de FDM).
 - **Material**: PETG (recomendado) o PLA. Boquilla 0.4, capa 0.2.
 - **Resistencia**: 4 perímetros, 40 % de relleno. Las paredes de la abrazadera
   cargan el par del motor: no bajar de 3 perímetros.

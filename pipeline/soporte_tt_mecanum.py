@@ -21,7 +21,10 @@ Concepto (ver docs/SOPORTE_TT_MECANUM.md):
 Convencion de coordenadas del modulo: origen en el centro de la placa base,
 Z=0 el plano inferior de la placa, +Z arriba. La rueda queda al lado +X,
 el frente del motor (lengueta) hacia -Y y la lata del motor hacia +Y.
-Con la rueda en el suelo, la placa flota LUZ_SUELO sobre el piso.
+El modulo APOYA PLANO sobre su base: la rueda no sobresale por debajo (queda
+despeje_inferior sobre el plano de apoyo) y asoma SOLO por la tapa, asoma_tapa.
+Como unidad de traccion se monta con la tapa hacia el suelo (la rueda toca
+asoma_tapa por debajo de la tapa) o con la rueda hacia afuera en un costado.
 
 uso:
   python pipeline/soporte_tt_mecanum.py [--salida <dir>] [--proyecto <X>] [--png]
@@ -74,16 +77,19 @@ RUEDA = dict(
 P = dict(
     lado=74.0, t_base=4.0, t_pared=4.0, t_tapa=3.0,
     holgura_caja=0.2,        # por lado, entre caja del motor y cada pared
-    alzada_asiento=1.0,      # cama bajo el motor (despeja cabeza de perno bajo)
-    alto_pared=25.0,         # sobre la cara superior de la placa
-    alto_separador=28.0,     # postes/torre: cara inferior de la tapa
+    despeje_inferior=2.0,    # la rueda queda a esta altura del plano de apoyo:
+                             # NO sobresale bajo la base (el modulo apoya plano)
+    asoma_tapa=5.0,          # cuanto asoma la rueda sobre la cara de la tapa
+    alto_pared=35.0,         # sobre la cara superior de la placa
+    nervio_esp=3.0,          # nervios de los separadores: espesor,
+    nervio_alto=20.0,        # altura sobre la placa,
+    nervio_ang_deg=60.0,     # angulo respecto de la placa
     ranura_eje_ancho=8.0,    # ranura vertical de insercion (boss O7.2 + holgura)
     perno_motor_d=3.4,       # pasante M3
     tuerca_af=5.8,           # alojamiento hex tuerca M3 (entrecaras 5.5 + holg.)
     tuerca_prof=2.0,
     rebaje_cubo_d=33.0, rebaje_cubo_prof=2.0,   # despeje del cubo en pared A
-    horquilla_esp=4.6, horquilla_alto=18.5,     # captura de la lengueta
-    horquilla_ranura=3.6, horquilla_taladro=2.8,
+    horquilla_ranura=3.6, horquilla_taladro=2.8,   # captura de la lengueta
     holgura_lata=0.25,       # radial, cuna de la lata
     piloto_d=2.8,            # hilo M3 autoformado en postes/torre
     piloto_prof=10.0,
@@ -98,8 +104,13 @@ P = dict(
 # ---- posiciones derivadas (modulo) ---------------------------------------
 
 H = P["lado"] / 2.0                                   # 37.0
-Z_EJE = P["t_base"] + P["alzada_asiento"] + MOTOR["alto_cuerpo"] / 2.0  # 16.25
-LUZ_SUELO = RUEDA["dia"] / 2.0 - Z_EJE                # 7.75
+R_RUEDA = RUEDA["dia"] / 2.0                          # 24.0
+# El punto mas bajo de la rueda queda despeje_inferior SOBRE el plano de apoyo
+# (z=0): la rueda no sobresale por debajo; asoma SOLO por la tapa, asoma_tapa.
+Z_EJE = P["despeje_inferior"] + R_RUEDA               # 26.0
+ALZADA = Z_EJE - P["t_base"] - MOTOR["alto_cuerpo"] / 2.0   # pedestal 10.75
+Z_TAPA1 = Z_EJE + R_RUEDA - P["asoma_tapa"]           # cara superior tapa 45.0
+Z_SEP = Z_TAPA1 - P["t_tapa"]                         # asiento de la tapa 42.0
 X_CARA_A = -11.5          # cara de la caja lado rueda
 X_CARA_B = X_CARA_A - MOTOR["ancho_caja"]             # -30.3
 XA0 = X_CARA_A + P["holgura_caja"]                    # pared A interna -11.3
@@ -107,21 +118,23 @@ XA1 = XA0 + P["t_pared"]                              # pared A externa -7.3
 XB1 = X_CARA_B - P["holgura_caja"]                    # pared B interna -30.5
 XB0 = XB1 - P["t_pared"]                              # pared B externa -34.5
 Y_PARED0, Y_PARED1 = -MOTOR["caja_frente"], 24.5      # extension de las paredes
-Z_PARED1 = P["t_base"] + P["alto_pared"]              # 29.0
-Z_SEP = P["t_base"] + P["alto_separador"]             # 32.0 (asiento de la tapa)
+Z_PARED1 = P["t_base"] + P["alto_pared"]              # 39.0
+Z_HORQ1 = Z_EJE + 6.25                                # techo de la horquilla
 
 # rueda montada: cara del cubo contra el fondo del rebaje de pared A (+0.1)
 X_CUBO = XA1 - P["rebaje_cubo_prof"] - 0.1            # -9.4
 X_RUEDA1 = X_CUBO + RUEDA["ancho_total"]              # 23.1 extremo exterior
 X_ROD0 = X_CUBO + RUEDA["rodillos_retiro"]            # -3.0 inicio rodillos
 
-# ranura de la rueda (pasante en base y tapa; solo envolvente de rodillos)
+# ranuras de la rueda (envolvente de rodillos): el semiancho sale de la cuerda
+# del circulo O48 al nivel de cada placa, mas holgura
 RAN_X0 = X_ROD0 - P["ranura_rueda_holg"] + 0.15       # -3.6
 RAN_X1 = X_RUEDA1 + 1.5                               # 24.6
-RAN_Y_BASE = 22.5     # semichord a nivel placa: 20.6 + holgura
-RAN_Y_TAPA = 20.0     # semichord a nivel tapa: 18.1 + holgura
-# bolsillo del cubo (el cubo O29.1 baja 2.3 bajo la cara superior de la placa)
-POCK_X0, POCK_X1, POCK_Y, POCK_Z = -9.6, RAN_X0, 9.5, 1.5
+RAN_Y_BASE = round(np.sqrt(R_RUEDA**2
+                           - (Z_EJE - P["t_base"])**2) + 2.0, 1)   # 11.6
+RAN_Y_TAPA = round(np.sqrt(R_RUEDA**2 - (Z_SEP - Z_EJE)**2) + 2.0, 1)  # 19.9
+L_NERVIO = P["poste_d"] / 2.0 + P["nervio_alto"] / np.tan(
+    np.radians(P["nervio_ang_deg"]))                  # 16.55 desde el eje
 
 # lata del motor
 X_LATA = X_CARA_A - (MOTOR["ancho_caja"] / 2.0 + MOTOR["lata_off"])   # -21.55
@@ -180,6 +193,26 @@ def _hex_x(af, y, z, x0, x1):
     return m
 
 
+def _nervio(px, py, dx, dy):
+    """Nervio triangular del separador: parte del poste (px,py) y baja a la
+    placa con el angulo nervio_ang_deg, apuntando en la direccion (dx,dy) de
+    una arista de la base (hacia el interior, donde hay placa)."""
+    from shapely.geometry import Polygon
+    t, h = P["t_base"], P["nervio_alto"]
+    perfil = Polygon([(0.0, t), (L_NERVIO, t), (0.0, t + h)])   # (u, z)
+    m = _ext(perfil, 0, P["nervio_esp"])                        # (u, z, esp)
+    v, e2 = m.vertices.copy(), P["nervio_esp"] / 2.0
+    if dy == 0:      # nervio segun X
+        m.vertices = np.stack([px + dx * v[:, 0], py + v[:, 2] - e2,
+                               v[:, 1]], axis=1)
+    else:            # nervio segun Y
+        m.vertices = np.stack([px + v[:, 2] - e2, py + dy * v[:, 0],
+                               v[:, 1]], axis=1)
+    if m.volume < 0:     # el reordenado puede invertir la orientacion
+        m.invert()
+    return m
+
+
 def _union(meshes):
     import trimesh
     return trimesh.boolean.union(meshes, engine="manifold")
@@ -218,7 +251,7 @@ def build_base():
     t, lado = P["t_base"], P["lado"]
     solidos = [
         _ext(sbox(-H, -H, H, H), 0, t),                                 # placa
-        _caja(XB1 - 0.2, XA0 + 0.2, -11.5, Y_PARED1, t, t + P["alzada_asiento"]),
+        _caja(XB1 - 0.2, XA0 + 0.2, -11.5, Y_PARED1, t, t + ALZADA),  # pedestal
     ]
     # paredes: perfil (y,z) extruido en su espesor y llevado al eje X
     for x0 in (XA0, XB0):
@@ -229,24 +262,26 @@ def build_base():
         solidos.append(pared)
     # horquilla de la lengueta (puente entre ambas paredes)
     solidos.append(_caja(XB1, XA0, -MOTOR["tab_punta"] - 1.4, Y_PARED0,
-                         t, t + P["horquilla_alto"]))
+                         t, Z_HORQ1))
     # cuna de la lata (bordes dentro del arco: sin paredes residuales delgadas)
-    solidos.append(_caja(-33.0, -10.3, 26.0, 31.0, t, 16.0))
-    # postes y torre
+    solidos.append(_caja(-33.0, -10.3, 26.0, 31.0, t, Z_EJE - 0.5))
+    # postes con 2 nervios a 60 grados cada uno, segun las aristas de la base
+    # (hacia adentro, donde hay placa; la torre ya esta arriostrada por la
+    # pared B en toda su altura)
     for (px, py) in POSTES:
-        c = _cil(P["poste_d"], [px, py, t - 0.5], [px, py, Z_SEP])
-        solidos.append(c)
+        solidos.append(_cil(P["poste_d"], [px, py, t - 0.5], [px, py, Z_SEP]))
+        solidos.append(_nervio(px, py, -np.sign(px), 0))
+        solidos.append(_nervio(px, py, 0, -np.sign(py)))
     solidos.append(_caja(TORRE["x0"], TORRE["x1"], TORRE["y0"], TORRE["y1"],
                          t, Z_SEP))
 
     base = _union(solidos)
 
     cortes = []
-    # ranura pasante de la rueda + bolsillo del cubo
+    # ranura pasante de la rueda (solo la placa: la rueda apenas se hunde
+    # despeje_inferior..t_base; el cubo queda muy por encima de la placa)
     cortes.append(_ext(_roundrect(RAN_X0, RAN_X1, -RAN_Y_BASE, RAN_Y_BASE,
-                                  P["ranura_r"]), -1, t + P["alzada_asiento"] + 0.5))
-    cortes.append(_caja(POCK_X0, POCK_X1 + 0.01, -POCK_Y, POCK_Y,
-                        POCK_Z, t + P["alzada_asiento"] + 0.5))
+                                  P["ranura_r"]), -1, t + 0.5))
     # ranura de insercion del eje (ambas paredes) + semicirculo inferior
     w = P["ranura_eje_ancho"] / 2.0
     cortes.append(_caja(-36, -6, -w, w, Z_EJE, Z_PARED1 + 0.5))
@@ -265,7 +300,7 @@ def build_base():
     cortes.append(_caja(X_TAB - P["horquilla_ranura"] / 2,
                         X_TAB + P["horquilla_ranura"] / 2,
                         -MOTOR["tab_punta"] - 2, Y_PARED0 + 0.5,
-                        t + 6.0, t + P["horquilla_alto"] + 0.5))
+                        Z_EJE - 6.25, Z_HORQ1 + 0.5))
     cortes.append(_cil(P["horquilla_taladro"],
                        [XB1 - 0.5, -MOTOR["tab_delante"], Z_EJE],
                        [XA0 + 0.5, -MOTOR["tab_delante"], Z_EJE]))
@@ -315,7 +350,7 @@ def build_tapa():
 
 def build_motor_ref():
     M, t = MOTOR, P["t_base"]
-    z0 = t + P["alzada_asiento"]
+    z0 = t + ALZADA
     piezas = [
         _color(_caja(X_CARA_B, X_CARA_A, -M["caja_frente"], M["lata_desde"],
                      z0, z0 + M["alto_cuerpo"]), "#e8c84a"),
@@ -375,28 +410,31 @@ def verificar(base, tapa) -> list[str]:
 
     dentro = base.contains(np.array([
         [-33.0, -33.0, 2.0],      # placa maciza en esquina delantera izquierda
-        [-32.5, 20.6, 12.0],      # pared B entre ambos taladros M3
+        [-8.0, -5.0, 2.0],        # placa maciza junto a la ranura (el cubo
+                                  # queda muy por encima: sin bolsillo)
+        [-32.5, 20.6, 26.0],      # pared B entre ambos taladros M3
         [-10.5, 10.0, 12.0],      # pared A plena (bajo el rebaje del cubo)
-        [-21.0, 5.0, 4.5],        # asiento del motor
+        [-21.0, 5.0, 10.0],       # pedestal del motor
         [-32.8, 28.5, 6.0],       # cuna, costado
         [-27.0, -30.0, 30.0],     # poste delantero (fuera del piloto)
         [-33.25, 13.4, 30.0],     # torre (fuera del piloto)
         [30.0, 30.0, 18.0],       # poste trasero derecho (entre ambos pilotos)
+        [20.0, 30.0, 6.0],        # nervio del poste (30,30) segun -X
+        [-30.0, -16.0, 6.0],      # nervio del poste (-30,-30) segun +Y
         [31.0, 0.0, 2.0],         # banda derecha de la placa
     ]))
     chk("material presente donde corresponde", bool(np.all(dentro)))
 
     fuera = base.contains(np.array([
         [10.0, 0.0, 2.0],         # ranura de la rueda (vacio pasante)
-        [-8.0, -5.0, 2.5],        # bolsillo del cubo
-        [-21.0, 5.0, 15.0],       # hueco del motor entre paredes
-        [-9.3, 0.0, 20.0],        # ranura del eje en pared A
-        [-32.5, 20.6, 7.5],       # taladro M3 inferior
-        [-32.5, 20.6, 25.0],      # taladro M3 superior
-        [-8.0, 20.6, 7.5],        # alojamiento de tuerca
-        [X_TAB, -13.8, 12.0],     # ranura de la lengueta
-        [X_LATA, 28.5, 10.0],     # arco de la cuna
-        [-30.0, -30.0, 30.0],     # piloto superior del poste
+        [-21.0, 5.0, 20.0],       # hueco del motor entre paredes
+        [-9.3, 0.0, 30.0],        # ranura del eje en pared A
+        [-32.5, 20.6, Z_M3[0]],   # taladro M3 inferior
+        [-32.5, 20.6, Z_M3[1]],   # taladro M3 superior
+        [-8.0, 20.6, Z_M3[0]],    # alojamiento de tuerca
+        [X_TAB, -13.8, 22.0],     # ranura de la lengueta
+        [X_LATA, 28.5, 20.0],     # arco de la cuna
+        [-30.0, -30.0, 38.0],     # piloto superior del poste
         [-30.0, -30.0, 1.0],      # piloto inferior (anclaje chasis)
         [0.0, 31.5, 2.0],         # perforacion auxiliar
     ]))
@@ -414,14 +452,31 @@ def verificar(base, tapa) -> list[str]:
     # holguras clave del diseno (independientes de la malla)
     chk("rueda dentro de la ranura (X)",
         RAN_X0 < X_ROD0 - 0.5 and X_RUEDA1 + 1.0 < RAN_X1 + 0.6)
-    chk("rueda asoma sobre la tapa",
-        Z_EJE + RUEDA["dia"] / 2 > Z_SEP + P["t_tapa"] + 3.0)
-    chk("luz al suelo positiva", LUZ_SUELO > 5.0)
+    chk("la rueda asoma por la tapa exactamente asoma_tapa",
+        abs((Z_EJE + R_RUEDA) - Z_TAPA1 - P["asoma_tapa"]) < 1e-9)
+    chk("la rueda NO sobresale bajo la base (el modulo apoya plano)",
+        Z_EJE - R_RUEDA >= 1.5)
+    chk("la tapa pasa sobre el motor",
+        Z_SEP > P["t_base"] + ALZADA + MOTOR["alto_cuerpo"] + 1.0)
+    chk("taladro M3 superior dentro de la pared",
+        Z_M3[1] + P["perno_motor_d"] / 2 + 2.0 < Z_PARED1)
     chk("lata no toca postes",
         min(abs(px - X_LATA) for px, py in POSTES if py > 0) - P["poste_d"] / 2
         > MOTOR["lata_d"] / 2 + 0.3)
     chk("cubo no toca la tapa",
         Z_EJE + RUEDA["cubo_d"] / 2 < Z_SEP - 0.5)
+    from shapely.geometry import box as sbox
+    ranura = sbox(RAN_X0, -RAN_Y_BASE, RAN_X1, RAN_Y_BASE)
+    e2 = P["nervio_esp"] / 2
+    huellas = []
+    for px, py in POSTES:
+        dx, dy = -np.sign(px), -np.sign(py)
+        huellas.append(sbox(min(px, px + dx * L_NERVIO), py - e2,
+                            max(px, px + dx * L_NERVIO), py + e2))
+        huellas.append(sbox(px - e2, min(py, py + dy * L_NERVIO),
+                            px + e2, max(py, py + dy * L_NERVIO)))
+    chk("nervios sin invadir la ranura de la rueda",
+        all(h.distance(ranura) > 0.3 for h in huellas))
     return fallas
 
 
@@ -460,9 +515,9 @@ def exportar(salida: Path, png: bool = False):
           f"estanca={base.is_watertight}")
     print(f"Tapa:  {len(tapa.faces)} caras, vol {tapa.volume/1000:.1f} cm3, "
           f"estanca={tapa.is_watertight}")
-    print(f"Eje a {Z_EJE} mm de la placa · luz al suelo {LUZ_SUELO:.2f} mm · "
-          f"la rueda asoma {Z_EJE + RUEDA['dia']/2 - Z_SEP - P['t_tapa']:.2f} mm "
-          f"sobre la tapa")
+    print(f"Eje a {Z_EJE:g} mm de la placa · la rueda queda a "
+          f"{Z_EJE - R_RUEDA:g} mm del plano de apoyo (no sobresale bajo la "
+          f"base) y asoma {Z_EJE + R_RUEDA - Z_TAPA1:g} mm sobre la tapa")
     for k, v in rutas.items():
         print(f"  -> {v}")
     if png:
@@ -473,13 +528,15 @@ def exportar(salida: Path, png: bool = False):
 
 def _dxf_chasis(salida: Path) -> Path:
     """Plantilla DXF a escala real para perforar el chasis: contorno del
-    modulo, abertura de la rueda y los 4 anclajes M3 (roscan en los postes
-    desde abajo). Capa ESPEJO: el mismo modulo girado 180 (lado opuesto)."""
+    modulo y los 4 anclajes M3 (roscan en los postes/torre). La rueda queda
+    contenida en el bloque (no sobresale por la base), asi que el chasis NO
+    necesita abertura. Capa ESPEJO: el mismo modulo girado 180 (lado
+    opuesto)."""
     import ezdxf
     dxf = ezdxf.new("R2018", setup=True)
     dxf.header["$INSUNITS"] = 4
     msp = dxf.modelspace()
-    for capa, color in (("CONTORNO", 7), ("ABERTURA", 1), ("ANCLAJES", 3),
+    for capa, color in (("CONTORNO", 7), ("ANCLAJES", 3), ("AUX", 4),
                         ("ESPEJO", 8), ("TEXTO", 7)):
         dxf.layers.add(capa, color=color)
 
@@ -488,21 +545,18 @@ def _dxf_chasis(salida: Path) -> Path:
         msp.add_lwpolyline([(s * H, s * H), (-s * H, s * H), (-s * H, -s * H),
                             (s * H, -s * H)], close=True,
                            dxfattribs={"layer": capa})
-        a = 1.5  # holgura extra de la abertura respecto de la ranura de la base
-        msp.add_lwpolyline([(s * (RAN_X0 - a), s * (RAN_Y_BASE + a)),
-                            (s * (RAN_X1 + a), s * (RAN_Y_BASE + a)),
-                            (s * (RAN_X1 + a), s * (-RAN_Y_BASE - a)),
-                            (s * (RAN_X0 - a), s * (-RAN_Y_BASE - a))],
-                           close=True,
-                           dxfattribs={"layer": "ABERTURA" if not rot else capa})
         for (px, py) in ANCLAJES:
             msp.add_circle((s * px, s * py), 3.2 / 2,
                            dxfattribs={"layer": "ANCLAJES" if not rot else capa})
+        for (px, py) in AUX:
+            msp.add_circle((s * px, s * py), P["aux_d"] / 2,
+                           dxfattribs={"layer": "AUX" if not rot else capa})
     dibujar(False, "CONTORNO")
     dibujar(True, "ESPEJO")
     msp.add_text("soporte_tt_mecanum - plantilla de chasis (mm reales). "
-                 "ANCLAJES O3.2 pasantes; ABERTURA de la rueda; "
-                 "ESPEJO = modulo girado 180 (rueda al lado opuesto)",
+                 "ANCLAJES O3.2 pasantes (M3 rosca en los separadores); "
+                 "AUX O3.4; sin abertura de rueda (la rueda no sobresale por "
+                 "la base); ESPEJO = modulo girado 180 (rueda al lado opuesto)",
                  dxfattribs={"layer": "TEXTO", "height": 2.5}
                  ).set_placement((-H, H + 4))
     p = salida / "soporte_tt_mecanum_plantilla_chasis.dxf"
@@ -536,8 +590,6 @@ def _lamina_cotas():
     rect(ax, -H, -H, P["lado"], P["lado"], lw=1.4, ec="k")
     rect(ax, RAN_X0, -RAN_Y_BASE, RAN_X1 - RAN_X0, 2 * RAN_Y_BASE,
          lw=1.1, ec="#06c")                                  # ranura rueda
-    rect(ax, POCK_X0, -POCK_Y, POCK_X1 - POCK_X0, 2 * POCK_Y,
-         lw=0.8, ec="#06c", ls="--")                         # bolsillo cubo
     for x0, x1 in ((XA0, XA1), (XB0, XB1)):
         rect(ax, x0, Y_PARED0, x1 - x0, Y_PARED1 - Y_PARED0, lw=1.0, ec="k")
     rect(ax, XB1, -MOTOR["tab_punta"] - 1.4, XA0 - XB1,
@@ -547,6 +599,12 @@ def _lamina_cotas():
          TORRE["y1"] - TORRE["y0"], lw=1.0, ec="k")
     for (px, py) in POSTES:
         ax.add_patch(Circle((px, py), P["poste_d"] / 2, fill=False, lw=1.0))
+        e2 = P["nervio_esp"] / 2
+        dx, dy = -np.sign(px), -np.sign(py)
+        rect(ax, min(px, px + dx * L_NERVIO), py - e2,
+             L_NERVIO, P["nervio_esp"], lw=0.8, ec="#909")   # nervio segun X
+        rect(ax, px - e2, min(py, py + dy * L_NERVIO),
+             P["nervio_esp"], L_NERVIO, lw=0.8, ec="#909")   # nervio segun Y
     for (px, py) in ANCLAJES:
         ax.add_patch(Circle((px, py), P["piloto_d"] / 2, fill=False,
                             lw=0.8, ec="#c60"))
@@ -572,39 +630,49 @@ def _lamina_cotas():
     ax.set_title("Base - planta (rueda al lado +X, frente del motor abajo)",
                  fontsize=10)
 
-    # ---- alzado (corte por el eje de la rueda) ----
+    # ---- alzado (corte por el eje de la rueda; el modulo apoya plano) ----
     ax = ax2
-    ax.plot([-48, 48], [-LUZ_SUELO, -LUZ_SUELO], color="#666", lw=2)  # suelo
-    ax.text(40, -LUZ_SUELO - 3.4, "suelo", fontsize=7, color="#666")
+    ax.plot([-48, 48], [0, 0], color="#666", lw=2)
+    ax.text(38, -3.2, "plano de apoyo", fontsize=7, color="#666")
     rect(ax, -H, 0, P["lado"], P["t_base"], lw=1.2, ec="k")
     for x0, x1 in ((XA0, XA1), (XB0, XB1)):
         rect(ax, x0, P["t_base"], x1 - x0, Z_PARED1 - P["t_base"], lw=1, ec="k")
     for (px, _) in POSTES[:1] + POSTES[1:2]:
         rect(ax, px - 5, P["t_base"], 10, Z_SEP - P["t_base"], lw=0.9, ec="k")
+        s = 1.0 if px < 0 else -1.0        # nervio hacia adentro (segun X)
+        ax.add_patch(plt.Polygon(
+            [(px + s * 5, P["t_base"] + P["nervio_alto"]),
+             (px + s * 5, P["t_base"]), (px + s * L_NERVIO, P["t_base"])],
+            closed=True, fill=False, ec="#909", lw=0.9))
     rect(ax, -H, Z_SEP, P["lado"], P["t_tapa"], lw=1.2, ec="k")
-    rect(ax, X_CUBO, Z_EJE - RUEDA["dia"] / 2, RUEDA["ancho_total"],
+    rect(ax, X_CUBO, Z_EJE - R_RUEDA, RUEDA["ancho_total"],
          RUEDA["dia"], lw=1.2, ec="#06c")                # perfil del cilindro
-    rect(ax, X_CARA_B, P["t_base"] + P["alzada_asiento"], MOTOR["ancho_caja"],
+    rect(ax, X_CARA_B, P["t_base"] + ALZADA, MOTOR["ancho_caja"],
          MOTOR["alto_cuerpo"], lw=1.0, ec="#b80")
     ax.plot([X_CARA_B - 9, X_CUBO + RUEDA["ancho_total"]], [Z_EJE, Z_EJE],
             ls="-.", color="#999", lw=0.8)
     cota(ax, (-44, 0), (-44, Z_EJE), f"eje a {Z_EJE:g}", ha="right")
-    cota(ax, (-40, -LUZ_SUELO), (-40, 0), f"luz {LUZ_SUELO:g}", ha="right")
-    cota(ax, (40, Z_SEP), (40, Z_SEP + P["t_tapa"]),
+    cota(ax, (-40, 0), (-40, Z_EJE - R_RUEDA),
+         f"despeje {Z_EJE - R_RUEDA:g} (la rueda NO baja de la base)",
+         ha="right", va="top", off=(0, -1.5))
+    cota(ax, (40, Z_SEP), (40, Z_TAPA1),
          f"tapa {P['t_tapa']:g}", ha="left", va="center")
     cota(ax, (44, 0), (44, Z_SEP), f"separadores {Z_SEP - P['t_base']:g}",
          ha="left")
-    cota(ax, (36, Z_SEP + P["t_tapa"]), (36, Z_EJE + RUEDA["dia"] / 2),
-         f"asoma {Z_EJE + RUEDA['dia'] / 2 - Z_SEP - P['t_tapa']:g}", ha="left")
+    cota(ax, (36, Z_TAPA1), (36, Z_EJE + R_RUEDA),
+         f"asoma {Z_EJE + R_RUEDA - Z_TAPA1:g} (solo por la tapa)", ha="left")
     cota(ax, (X_CARA_B, -3.5), (X_CARA_B + MOTOR["ancho_caja"], -3.5),
          f"caja {MOTOR['ancho_caja']:g}", va="top", off=(0, -1))
     ax.text(X_CUBO + 10, Z_EJE - 2.5, f"rueda O{RUEDA['dia']:g}", color="#06c",
             fontsize=8)
-    ax.set_title("Alzado - corte por el eje (mm)", fontsize=10)
+    ax.text(-27, P["t_base"] + P["nervio_alto"] + 1.2,
+            f"nervios {P['nervio_ang_deg']:g}°", color="#909", fontsize=7)
+    ax.set_title("Alzado - corte por el eje (mm); como traccion va tapa "
+                 "abajo", fontsize=10)
 
     for ax in (ax1, ax2):
         ax.set_xlim(-52, 55)
-        ax.set_ylim(-52 if ax is ax1 else -14, 55)
+        ax.set_ylim(-52 if ax is ax1 else -8, 58)
         ax.set_aspect("equal")
         ax.tick_params(labelsize=7)
         ax.grid(alpha=0.15)
@@ -638,7 +706,8 @@ def _previews(base, tapa_pos, ens):
 
     fig = plt.figure(figsize=(13, 10), dpi=110)
     vistas = [("Isometrica (ensamble)", (28, -50), ens, None),
-              ("Alzado — la rueda asoma arriba y abajo", (0, -90), ens, None),
+              ("Alzado — asoma solo por la tapa; apoya plano", (0, -90),
+               ens, None),
               ("Perfil (desde la rueda)", (0, 0), ens, None),
               ("Base sola (isometrica)", (32, -125), base, None)]
     for i, (titulo, (elev, azim), mesh, _) in enumerate(vistas, 1):
@@ -648,7 +717,7 @@ def _previews(base, tapa_pos, ens):
         ax.set_proj_type("ortho")
         lim = 48
         ax.set_xlim(-lim, lim); ax.set_ylim(-lim, lim)
-        ax.set_zlim(-14, 2 * lim - 14)
+        ax.set_zlim(-6, 2 * lim - 6)
         ax.set_box_aspect((1, 1, 1))
         ax.set_axis_off()
         ax.set_title(titulo, fontsize=10)

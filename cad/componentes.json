@@ -3730,7 +3730,7 @@
    "id": "soporte_tt_mecanum_base",
    "nombre": "Soporte TT+mecanum — base imprimible",
    "categoria": "mecanico",
-   "descripcion": "Base del bloque modular 74x74: abrazadera del motor TT por ambos costados (ranura de insercion vertical + 2 pernos M3x35 pasantes con tuerca alojada), horquilla de la lengueta, cuna de la lata, ranura pasante por donde la rueda asoma hacia abajo, bolsillo del cubo, separadores integrados (3 postes O10 + torre) con hilo M3 arriba (tapa) y abajo (anclaje al chasis). Eje a 16.25 de la placa; luz al suelo 7.75.",
+   "descripcion": "Base del bloque modular 74x74: abrazadera del motor TT por ambos costados (ranura de insercion vertical + 2 pernos M3x35 pasantes con tuerca alojada), horquilla de la lengueta, cuna de la lata, pedestal que centra el eje a 26 de la placa, ranura de la rueda (la rueda queda a 2 del plano de apoyo: NO sobresale por debajo, el modulo apoya plano) y separadores integrados de 38 (3 postes O10 con 2 nervios a 60 grados cada uno segun las aristas de la base + torre adosada a la pared) con hilo M3 arriba (tapa) y abajo (anclaje al chasis).",
    "fuente": {
     "tipo": "generador",
     "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
@@ -3742,9 +3742,9 @@
    "bbox_mm": [
     74.0,
     74.0,
-    32.0
+    42.0
    ],
-   "volumen_mm3": 30185.0,
+   "volumen_mm3": 48289.7,
    "diam_agujeros_mm": [
     2.8,
     3.4
@@ -3755,7 +3755,7 @@
    "id": "soporte_tt_mecanum_tapa",
    "nombre": "Soporte TT+mecanum — tapa imprimible",
    "categoria": "mecanico",
-   "descripcion": "Tapa 74x74x3 del bloque modular: recorte 28.2x40 por donde asoma la rueda hacia arriba (5.25 sobre la tapa), 4 tornillos M3 avellanados a los separadores, perforaciones auxiliares O3.4 y muesca pasacables O8 en el borde trasero.",
+   "descripcion": "Tapa 74x74x3 del bloque modular: recorte 28.2x39.8 por donde la rueda asoma hacia arriba exactamente 5 (unico lado por el que sobresale), 4 tornillos M3 avellanados a los separadores, perforaciones auxiliares O3.4 y muesca pasacables O8 en el borde trasero.",
    "fuente": {
     "tipo": "generador",
     "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
@@ -3769,7 +3769,7 @@
     74.0,
     3.0
    ],
-   "volumen_mm3": 12837.6,
+   "volumen_mm3": 12854.5,
    "diam_agujeros_mm": [
     3.4
    ],
@@ -3779,7 +3779,7 @@
    "id": "ens_soporte_tt_mecanum",
    "nombre": "CONJUNTO: soporte TT + mecanum 48 (bloque modular)",
    "categoria": "mecanico",
-   "descripcion": "Ensamble de referencia del bloque modular completo: base + tapa impresas, motor TT doble eje y rueda mecanum 48 posicionados. Con la rueda en el suelo la placa flota 7.75; la rueda asoma 5.25 sobre la tapa y 7.75 bajo la base. Girado 180 sirve para el lado opuesto (con rueda B).",
+   "descripcion": "Ensamble de referencia del bloque modular completo: base + tapa impresas, motor TT doble eje y rueda mecanum 48 posicionados. El modulo apoya plano (la rueda queda a 2 del plano de apoyo, sin sobresalir por la base) y la rueda asoma solo por la tapa, 5. Como unidad de traccion se monta con la tapa hacia el suelo (5 de luz) o con la rueda hacia afuera; girado 180 sirve para el lado opuesto (con rueda B).",
    "fuente": {
     "tipo": "generador",
     "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
@@ -3788,11 +3788,11 @@
    "bbox_mm": [
     76.3,
     91.0,
-    48.0
+    50.0
    ],
-   "volumen_mm3": 138487.3,
+   "volumen_mm3": 156609.0,
    "diam_agujeros_mm": [],
-   "notas": "Solo visualizacion/planificacion. Anclaje al chasis: 4x M3 desde abajo, plantilla en cad/componentes/models/soporte_tt_mecanum_plantilla_chasis.dxf.",
+   "notas": "Solo visualizacion/planificacion. Anclaje al chasis: 4x M3 que roscan en los separadores; el chasis NO necesita abertura de rueda. Plantilla: cad/componentes/models/soporte_tt_mecanum_plantilla_chasis.dxf.",
    "ensamble": {
     "glb": "componentes/models/soporte_tt_mecanum_ensamble.glb"
    }
