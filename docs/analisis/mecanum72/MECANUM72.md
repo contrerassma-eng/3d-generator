@@ -88,6 +88,14 @@ placa A, placa B, polea 48T, retenedor, 2 casquillos y eje Ø12.7 × 60.
   el hueco del rodamiento y bajo los tetones.
 - Tras imprimir: retirar el soporte del asiento Ø32, repasar las cunas con
   broca Ø3.5 y prensar los rodamientos en frío.
+- **Ajuste del asiento**: el hueco sale nominal Ø32.15 y en PA-CF con boquilla
+  0.4 suele imprimirse hacia Ø32.0, es decir ajuste suave sobre el 6804. Si
+  queda flojo, retenedor de rodamientos (tipo Loctite 638); si aprieta, lija
+  del 400 sobre la pared. Conviene probar con una sola placa antes de imprimir
+  las cuatro.
+- **Desmontaje**: los 4 pernos centrales quedan detrás del rodamiento. Para
+  abrir la rueda hay que sacar primero el 6804, empujándolo desde la cara
+  opuesta con una varilla que entre por el bore Ø13.4.
 
 > Nota: si "boquilla 0.2" se refiere literalmente a una tobera de 0.2 mm, el
 > PA-CF no puede imprimirse con ella — las fibras de carbono (50–150 µm) la
