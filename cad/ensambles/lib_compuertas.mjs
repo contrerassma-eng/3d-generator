@@ -22,6 +22,8 @@ const r2 = (v) => Math.round(v * 100) / 100;
 // Se mantiene junto al código A PROPÓSITO: la regla y su razón no pueden
 // separarse (si se separan, alguien "optimiza" la regla sin conocer el costo).
 export const REGISTRO = [
+  { id: 'identidad-analitica', regla: 'toda pieza PROPIA lleva ficha de cara analítica en ≥99 % de sus triángulos (plano · cilindro · cono); las del fabricante quedan EXENTAS por ser malla',
+    origen: 'PRD_MOTOR_BREP 23-08: el motor tiraba a la basura lo que ya sabía (un Ø10 es un círculo, no 48 triangulitos) y todo lo de aguas abajo —aristas, siluetas, oclusión, secciones, STEP— quedaba haciendo arqueología. De ahí salían el moteado (D-13), el punteado de teselación (D-15) y el peso de los libros' },
   { id: 'margen-agujero-borde', regla: 'margen borde-a-borde ≥ 1×Ø en corte LÁSER (junta apernada) · ≥ max(1×Ø, 2×t) si es PUNZONADO',
     origen: 'Sergio 12-08 («distancia de agujeros a bordes, cada pieza debe verse funcional por sí sola») + Sergio 13-08: el 2×t es regla de punzonado y aplicarla a láser dejaba ventanas vacías' },
   { id: 'agujero-en-pliegue', regla: 'ningún barreno dentro de la zona de plegado (R + 2×t de la línea)',
