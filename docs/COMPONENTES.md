@@ -4,6 +4,9 @@ Componentes estándar (placas ESP32, convertidores buck, sensores, pulsadores,
 conectores de panel, y elementos mecánicos: rodillos de tracción, poleas de
 banda plana y ejes calibrados — categoría `mecanico`) definidos **como
 datos** en `componentes/catalogo.json`.
+Las piezas **imprimibles** del bloque motor TT + rueda mecanum
+(`soporte_tt_mecanum_*`) se generan con `pipeline/soporte_tt_mecanum.py`
+(ver `docs/SOPORTE_TT_MECANUM.md`) y entran al catálogo como mallas.
 De cada registro se derivan, sin tocar código:
 
 | Salida | Comando | Para qué |

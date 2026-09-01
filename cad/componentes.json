@@ -3525,6 +3525,277 @@
    "agujeros_montaje": [],
    "despejes": [],
    "notas": "Corte de barra: 575. 8 unidades = 1 barra de 6 m. Plano: lamina 2 del PDF de ejes."
+  },
+  {
+   "id": "motor_tt_doble_eje",
+   "nombre": "Motor TT doble eje (reductor plastico)",
+   "categoria": "mecanico",
+   "descripcion": "Motorreductor TT amarillo de doble eje: caja reductora 37.65x18.8x22.5, eje doble-D O5.4 saliente 9 por lado con anillo O7.2x1.1, lata O22.5 desplazada 0.65 del centro, lengueta frontal de 3 mm con agujero O2.8. Largo total ~70. El origen es el centro de la cara inferior de la caja; +X hacia la lata, +Y lado rueda (el eje de salida corre segun Y).",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "STEP del usuario 'TT Motor Dual Shaft.step' (Autodesk Fusion / ST-Developer), dimensiones extraidas por analisis del B-rep"
+   },
+   "confianza": "cad",
+   "solidos": [
+    {
+     "nombre": "Caja reductora",
+     "tipo": "caja",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      37.65,
+      18.8,
+      22.5
+     ]
+    },
+    {
+     "nombre": "Lengueta frontal",
+     "tipo": "caja",
+     "at": [
+      -20.43,
+      0,
+      8.35
+     ],
+     "dim": [
+      3.2,
+      3.0,
+      5.8
+     ]
+    },
+    {
+     "nombre": "Lata del motor",
+     "tipo": "cilindro",
+     "at": [
+      18.83,
+      -0.65,
+      11.25
+     ],
+     "dia": 22.5,
+     "alto": 23.35,
+     "eje": [
+      1,
+      0,
+      0
+     ]
+    },
+    {
+     "nombre": "Tapa trasera",
+     "tipo": "cilindro",
+     "at": [
+      42.18,
+      -0.65,
+      11.25
+     ],
+     "dia": 15.8,
+     "alto": 5.0,
+     "eje": [
+      1,
+      0,
+      0
+     ]
+    },
+    {
+     "nombre": "Eje trasero",
+     "tipo": "cilindro",
+     "at": [
+      47.18,
+      -0.65,
+      11.25
+     ],
+     "dia": 1.8,
+     "alto": 0.9,
+     "eje": [
+      1,
+      0,
+      0
+     ]
+    },
+    {
+     "nombre": "Eje salida lado rueda",
+     "tipo": "cilindro",
+     "at": [
+      -6.83,
+      9.4,
+      11.25
+     ],
+     "dia": 5.4,
+     "alto": 9.0,
+     "eje": [
+      0,
+      1,
+      0
+     ]
+    },
+    {
+     "nombre": "Anillo lado rueda",
+     "tipo": "cilindro",
+     "at": [
+      -6.83,
+      9.4,
+      11.25
+     ],
+     "dia": 7.2,
+     "alto": 1.1,
+     "eje": [
+      0,
+      1,
+      0
+     ]
+    },
+    {
+     "nombre": "Eje salida lado opuesto",
+     "tipo": "cilindro",
+     "at": [
+      -6.83,
+      -9.4,
+      11.25
+     ],
+     "dia": 5.4,
+     "alto": 9.0,
+     "eje": [
+      0,
+      -1,
+      0
+     ]
+    },
+    {
+     "nombre": "Anillo lado opuesto",
+     "tipo": "cilindro",
+     "at": [
+      -6.83,
+      -9.4,
+      11.25
+     ],
+     "dia": 7.2,
+     "alto": 1.1,
+     "eje": [
+      0,
+      -1,
+      0
+     ]
+    }
+   ],
+   "notas": "Taladros M3 pasantes segun Y (no representables como agujeros_montaje verticales): en x=+13.78, z=2.5 y z=20.0. Agujero O2.8 de la lengueta segun Y en (x=-20.63, z=11.25). Agujero axial O1.9 en la punta de cada eje para tornillo de retencion de rueda. Eje doble-D: 5.4 de diametro con dos planos."
+  },
+  {
+   "id": "rueda_mecanum_48_izq",
+   "nombre": "Rueda mecanum 48 izquierda (DFRobot FIT0662)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda mecanum O48 x 32.5 de ancho total, lado IZQUIERDO (A). Cubo O29.1 con la cara de montaje al ras del extremo; la envolvente de los rodillos comienza 6.4 hacia adentro de esa cara. Se monta directo en el eje doble-D O5.4 del motor TT. Apoyada rodando: el eje queda a z=24.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "STEP del usuario 'Mecanum Left v5.step' (DFRobot FIT0662, 48 mm, lado izquierdo), dimensiones extraidas por analisis del B-rep"
+   },
+   "confianza": "cad",
+   "solidos": [
+    {
+     "nombre": "Nucleo y cubo",
+     "tipo": "cilindro",
+     "at": [
+      0,
+      -16.25,
+      24
+     ],
+     "dia": 29.1,
+     "alto": 32.5,
+     "eje": [
+      0,
+      1,
+      0
+     ]
+    },
+    {
+     "nombre": "Envolvente de rodillos",
+     "tipo": "cilindro",
+     "at": [
+      0,
+      -9.85,
+      24
+     ],
+     "dia": 48.0,
+     "alto": 26.1,
+     "eje": [
+      0,
+      1,
+      0
+     ]
+    }
+   ],
+   "notas": "Solo envolvente (los rodillos a 45 no se modelan con primitivas). Retencion axial con tornillo al agujero O1.9 del eje TT (incluido con la rueda). La rueda DERECHA (B) es espejo: mecanum requiere 2 A + 2 B."
+  },
+  {
+   "id": "soporte_tt_mecanum_base",
+   "nombre": "Soporte TT+mecanum — base imprimible",
+   "categoria": "mecanico",
+   "descripcion": "Base del bloque modular 74x74: abrazadera del motor TT por ambos costados (ranura de insercion vertical + 2 pernos M3x35 pasantes con tuerca alojada), horquilla de la lengueta, cuna de la lata, ranura pasante por donde la rueda asoma hacia abajo, bolsillo del cubo, separadores integrados (3 postes O10 + torre) con hilo M3 arriba (tapa) y abajo (anclaje al chasis). Eje a 16.25 de la placa; luz al suelo 7.75.",
+   "fuente": {
+    "tipo": "generador",
+    "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/soporte_tt_mecanum_base.glb"
+   },
+   "bbox_mm": [
+    74.0,
+    74.0,
+    32.0
+   ],
+   "volumen_mm3": 30185.0,
+   "diam_agujeros_mm": [
+    2.8,
+    3.4
+   ],
+   "notas": "Imprimir tal cual (placa sobre la cama), sin soportes. PETG/PLA, 4 perimetros, 40% relleno. STL junto al GLB. Regenerar: python pipeline/soporte_tt_mecanum.py. Detalle: docs/SOPORTE_TT_MECANUM.md."
+  },
+  {
+   "id": "soporte_tt_mecanum_tapa",
+   "nombre": "Soporte TT+mecanum — tapa imprimible",
+   "categoria": "mecanico",
+   "descripcion": "Tapa 74x74x3 del bloque modular: recorte 28.2x40 por donde asoma la rueda hacia arriba (5.25 sobre la tapa), 4 tornillos M3 avellanados a los separadores, perforaciones auxiliares O3.4 y muesca pasacables O8 en el borde trasero.",
+   "fuente": {
+    "tipo": "generador",
+    "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/soporte_tt_mecanum_tapa.glb"
+   },
+   "bbox_mm": [
+    74.0,
+    74.0,
+    3.0
+   ],
+   "volumen_mm3": 12837.6,
+   "diam_agujeros_mm": [
+    3.4
+   ],
+   "notas": "Imprimir plana tal cual (avellanados hacia arriba), sin soportes. Regenerar: python pipeline/soporte_tt_mecanum.py. Detalle: docs/SOPORTE_TT_MECANUM.md."
+  },
+  {
+   "id": "ens_soporte_tt_mecanum",
+   "nombre": "CONJUNTO: soporte TT + mecanum 48 (bloque modular)",
+   "categoria": "mecanico",
+   "descripcion": "Ensamble de referencia del bloque modular completo: base + tapa impresas, motor TT doble eje y rueda mecanum 48 posicionados. Con la rueda en el suelo la placa flota 7.75; la rueda asoma 5.25 sobre la tapa y 7.75 bajo la base. Girado 180 sirve para el lado opuesto (con rueda B).",
+   "fuente": {
+    "tipo": "generador",
+    "detalle": "pipeline/soporte_tt_mecanum.py (parametrico; motor y rueda medidos de los STEP del usuario)"
+   },
+   "confianza": "cad",
+   "bbox_mm": [
+    76.3,
+    91.0,
+    48.0
+   ],
+   "volumen_mm3": 138487.3,
+   "diam_agujeros_mm": [],
+   "notas": "Solo visualizacion/planificacion. Anclaje al chasis: 4x M3 desde abajo, plantilla en cad/componentes/models/soporte_tt_mecanum_plantilla_chasis.dxf.",
+   "ensamble": {
+    "glb": "componentes/models/soporte_tt_mecanum_ensamble.glb"
+   }
   }
  ]
 }
