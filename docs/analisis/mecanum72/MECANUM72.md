@@ -5,10 +5,16 @@ redondo de 1/2" (12.7 mm)**, girando sobre **dos rodamientos 6804 (20×32×7)**,
 uno insertado en cada cara, y accionada por **polea GT2 de 48 dientes para
 correa de 6 mm** atornillada sobre el costado.
 
-Todo lo aprobado en la v5 se conserva: rodillos existentes (33.5 · Ø18 · Ø13,
-perforación 3.5, pasador Ø3.2 = 1/8") a β=46°, estrella de 6 brazos con filetes
-r≥10 cóncavos / r3 convexos, bombeo lateral, corona almenada de 6 dientes y los
-4 pernos que la cosen.
+Se conservan: rodillos existentes (33.5 · Ø18 · Ø13, perforación 3.5, pasador
+Ø3.2 = 1/8") a β=46°, bombeo lateral, corona almenada de 6 dientes y los 4
+pernos que la cosen.
+
+**Estrella (corregida 01-09 sobre la anotación de Sergio)**: vuelve la silueta
+estructural de la v4 — mini-arco exterior por brazo y **flancos rectos
+tangentes** (las líneas verdes de su anotación) — con **filetes leves** en los
+vértices: r3.0 en los cóncavos y r1.5 en las puntas (las zonas rojas). El
+redondeo morfológico r10/r3 de la v5–v6 se descarta: borraba las líneas
+estructurales.
 
 ## La decisión de fondo: ancho en vez de diámetro
 
