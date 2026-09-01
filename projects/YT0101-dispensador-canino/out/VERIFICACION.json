@@ -1,0 +1,978 @@
+{
+  "generado": "2026-07-26T17:27:07+00:00",
+  "proyecto": "YT0101-dispensador-canino",
+  "capa": "user",
+  "pruebas": [
+    {
+      "id": "V1",
+      "titulo": "Todas las piezas son sólidos cerrados (imprimibles)",
+      "veredicto": "PASA",
+      "medido": {
+        "no_estancas": [],
+        "total": 25
+      },
+      "criterio": "malla estanca (watertight) en el 100% de las piezas",
+      "accion": "revisar la operación booleana de la pieza indicada"
+    },
+    {
+      "id": "V2",
+      "titulo": "Cada pieza cabe en la cama declarada",
+      "veredicto": "PASA",
+      "medido": {
+        "exceden": {},
+        "cama_mm": [
+          220.0,
+          220.0,
+          250.0
+        ]
+      },
+      "criterio": "envolvente ≤ [220.0, 220.0, 250.0]",
+      "accion": "partir la pieza o cambiar la cama en params.json"
+    },
+    {
+      "id": "V3",
+      "titulo": "El cajón recorre toda la carrera sin chocar con las piezas fijas",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_maximo_mm3": 0.0,
+        "pasos": 21,
+        "detalle": [
+          {
+            "paso": 0,
+            "avance_mm": 0.0,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 1,
+            "avance_mm": 3.0,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 2,
+            "avance_mm": 5.9,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 3,
+            "avance_mm": 8.8,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 4,
+            "avance_mm": 11.8,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 5,
+            "avance_mm": 14.8,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 6,
+            "avance_mm": 17.7,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 7,
+            "avance_mm": 20.6,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 8,
+            "avance_mm": 23.6,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 9,
+            "avance_mm": 26.6,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 10,
+            "avance_mm": 29.5,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 11,
+            "avance_mm": 32.5,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 12,
+            "avance_mm": 35.4,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 13,
+            "avance_mm": 38.4,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 14,
+            "avance_mm": 41.3,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 15,
+            "avance_mm": 44.2,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 16,
+            "avance_mm": 47.2,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 17,
+            "avance_mm": 50.1,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 18,
+            "avance_mm": 53.1,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 19,
+            "avance_mm": 56.0,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          },
+          {
+            "paso": 20,
+            "avance_mm": 59.0,
+            "solape_mm3": {
+              "ali_canal_base": 0.0,
+              "ali_canal_tapa": 0.0,
+              "ali_adaptador_cuello": 0.0,
+              "ali_chute": 0.0
+            }
+          }
+        ]
+      },
+      "criterio": "solape ≤ 25.0 mm³ en los 21 pasos de la carrera",
+      "accion": "aumentar corredera_holgura o revisar la geometría del canal"
+    },
+    {
+      "id": "V4",
+      "titulo": "Con el cajón afuera, la boca de la tolva queda obturada",
+      "veredicto": "PASA",
+      "medido": {
+        "cobertura": 1.0,
+        "volumen_sonda_mm3": 13068.0
+      },
+      "criterio": "cobertura ≥ 99.5% de la boca de carga",
+      "accion": "alargar la falda obturadora (sello_tabique) del cajón"
+    },
+    {
+      "id": "V16",
+      "titulo": "La cavidad queda alineada con la boca de carga y con la de descarga",
+      "veredicto": "PASA",
+      "medido": {
+        "paso_libre_pct": {
+          "llenado": 100.0,
+          "descarga": 100.0
+        },
+        "seccion_sonda_mm": [
+          96.0,
+          41.0
+        ]
+      },
+      "criterio": "≥97% de la sección de paso libre en las dos posiciones (si no, la croqueta ni entra ni cae)",
+      "accion": "revisar y_cavidad_local, la carrera o la posición de las bocas"
+    },
+    {
+      "id": "V18",
+      "titulo": "El camino de la croqueta está ABIERTO de la tolva al plato",
+      "veredicto": "PASA",
+      "medido": {
+        "hueco_libre_minimo_mm": 40.0,
+        "croqueta_mm": 12.0,
+        "donde": {
+          "carga": {
+            "z_mm": 338.0,
+            "hueco_libre_mm": 48.0,
+            "pieza_dominante": "ali_corredera"
+          },
+          "descarga": {
+            "z_mm": 326.4,
+            "hueco_libre_mm": 40.0,
+            "pieza_dominante": "ali_chute"
+          }
+        },
+        "perfiles": {
+          "carga": [
+            {
+              "z_mm": 338.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 340.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 343.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 346.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 349.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 351.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 354.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 357.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 360.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 362.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 365.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 368.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_tapa"
+            },
+            {
+              "z_mm": 371.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_tapa"
+            },
+            {
+              "z_mm": 373.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 376.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 379.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 382.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 384.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 387.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 390.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 393.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 395.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            }
+          ],
+          "descarga": [
+            {
+              "z_mm": 275.0,
+              "hueco_libre_mm": 76.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 279.3,
+              "hueco_libre_mm": 68.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 283.6,
+              "hueco_libre_mm": 64.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 287.8,
+              "hueco_libre_mm": 60.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 292.1,
+              "hueco_libre_mm": 60.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 296.4,
+              "hueco_libre_mm": 64.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 300.7,
+              "hueco_libre_mm": 68.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 305.0,
+              "hueco_libre_mm": 76.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 309.2,
+              "hueco_libre_mm": 80.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 313.5,
+              "hueco_libre_mm": 84.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 317.8,
+              "hueco_libre_mm": 88.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 322.1,
+              "hueco_libre_mm": 92.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 326.4,
+              "hueco_libre_mm": 40.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 330.7,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_base"
+            },
+            {
+              "z_mm": 334.9,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_base"
+            },
+            {
+              "z_mm": 339.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 343.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 347.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 352.1,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 356.3,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 360.6,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 364.9,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            }
+          ]
+        }
+      },
+      "criterio": "a NINGUNA altura del camino el hueco libre puede bajar de una croqueta (12 mm); si baja a 0 es que hay una pieza tapando el paso",
+      "accion": "mirar 'donde': dice la altura y la pieza que estrecha el camino"
+    },
+    {
+      "id": "V5",
+      "titulo": "La cavidad entrega la dosis objetivo con el alimento de diseño",
+      "veredicto": "PASA",
+      "medido": {
+        "volumen_cavidad_medido_ml": 139.1,
+        "volumen_nominal_ml": 139.1,
+        "dosis_g": 50.1,
+        "dosis_rango_g": [
+          37.5,
+          56.3
+        ],
+        "error_pct": 0.2,
+        "objetivo_g": 50.0
+      },
+      "criterio": "error ≤ 15.0% frente a la dosis objetivo",
+      "accion": "ajustar cavidad_z en params.json y regenerar"
+    },
+    {
+      "id": "V6",
+      "titulo": "Cremallera y piñón engranan con la distancia correcta",
+      "veredicto": "PASA",
+      "medido": {
+        "radio_primitivo_mm": 27.5,
+        "distancia_montaje_mm": 27.5,
+        "error_mm": 0.0,
+        "backlash_mm": 0.3,
+        "carrera_por_barrido_mm": 58.99,
+        "carrera_necesaria_mm": 59.0,
+        "barrido_palanca_deg": 122.9,
+        "dientes": 22,
+        "modulo": 2.5,
+        "angulo_presion": 20.0
+      },
+      "criterio": "línea primitiva de la cremallera tangente al primitivo del piñón (±0.25 mm) y carrera por barrido = carrera necesaria (±0.5 mm)",
+      "accion": "corregir x_pinon o el módulo/dientes"
+    },
+    {
+      "id": "V6c",
+      "titulo": "La cremallera queda engranada en los dos extremos de la carrera",
+      "veredicto": "PASA",
+      "medido": {
+        "tramo_cremallera_cargado_mm": [
+          -72.7,
+          13.7
+        ],
+        "tramo_cremallera_descargado_mm": [
+          -13.7,
+          72.7
+        ],
+        "posicion_pinon_mm": 0.0,
+        "margen_de_engrane_mm": 13.7
+      },
+      "criterio": "el eje del piñón (y=0) cae dentro de la cremallera en ambos extremos, con ≥5 mm de margen",
+      "accion": "recentrar y_cremallera_local o alargar la cremallera"
+    },
+    {
+      "id": "V6b",
+      "titulo": "El piñón no sufre socavado (undercut) a 20°",
+      "veredicto": "PASA",
+      "medido": {
+        "dientes": 22,
+        "minimo_recomendado": 17
+      },
+      "criterio": "z ≥ 17 dientes con ángulo de presión de 20°",
+      "accion": "subir el número de dientes o corregir el perfil"
+    },
+    {
+      "id": "V7",
+      "titulo": "Boca de carga (abertura rasgada) sobre el criterio anti-arco",
+      "veredicto": "PASA",
+      "medido": {
+        "ancho_mm": 45.0,
+        "croqueta_mm": 12.0,
+        "razon": 3.75,
+        "esbeltez": 2.22
+      },
+      "criterio": "ancho ≥ 3.0× la croqueta (abertura en cuña; la circular exige 6.0×)",
+      "accion": "ensanchar cavidad_y"
+    },
+    {
+      "id": "V7b",
+      "titulo": "Cuello del bidón (abertura circular) sobre el criterio anti-arco",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "diametro_interior_mm": 50.0,
+        "croqueta_mm": 12.0,
+        "razon": 4.17,
+        "croqueta_max_sin_agitador_mm": 8.3,
+        "agitador_montado": true
+      },
+      "criterio": "Ø interior ≥ 6.0× la croqueta",
+      "accion": "el cuello NO cumple para croqueta de 12 mm: el agitador es OBLIGATORIO, o bien usar croqueta ≤ 8.3 mm, o montar el adaptador de hombro (variante B, que elimina el cuello como sección crítica)"
+    },
+    {
+      "id": "V8",
+      "titulo": "Voladizos dentro de lo imprimible sin soportes",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "piezas_con_voladizo_pct": {
+          "est_pie": 18.3,
+          "est_soporte_cabezal": 10.7,
+          "est_escuadra_muro": 18.0,
+          "agua_boquilla": 10.0,
+          "agua_difusor": 17.9,
+          "ali_corredera": 13.8,
+          "ali_agitador": 9.3,
+          "ali_chute": 6.3
+        },
+        "limite_deg": 45.0
+      },
+      "criterio": "< 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión",
+      "accion": "reorientar la pieza en el laminador o activar soportes solo en ella"
+    },
+    {
+      "id": "V9",
+      "titulo": "Columnas y anillo soportan el bidón lleno",
+      "veredicto": "PASA",
+      "medido": {
+        "carga_total_N": 205.0,
+        "carga_por_columna_N": 68.3,
+        "tension_MPa": 0.26,
+        "fs_aplastamiento": 176.0,
+        "fs_pandeo_columna_impresa": 5.0,
+        "area_perfil_impreso_mm2": 267.3,
+        "area_perfil_macizo_mm2": 400.0,
+        "empuje_lateral_para_volcar_N": 72.5,
+        "radio_base_mm": 232.2
+      },
+      "criterio": "factor de seguridad ≥ 3.0 en aplastamiento y pandeo",
+      "accion": "con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento"
+    },
+    {
+      "id": "V13",
+      "titulo": "La palanca barre sin golpear columnas ni anillos",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_maximo_mm3": 0.0,
+        "primer_choque": null,
+        "barrido_deg": [
+          70.0,
+          192.9
+        ],
+        "columnas_a_deg": [
+          90,
+          210,
+          330
+        ]
+      },
+      "criterio": "solape ≤ 25.0 mm³ en los 13 pasos del barrido",
+      "accion": "recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, o acortar palanca_largo"
+    },
+    {
+      "id": "V13b",
+      "titulo": "Los topes limitan el barrido a una dosis exacta",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_al_pasarse_mm3": {
+          "antes del cierre": 1013.3,
+          "pasado el fin": 1013.3
+        },
+        "barrido_util_deg": 122.9
+      },
+      "criterio": "10° más allá de cada extremo la palanca ya choca con su tope (> 100 mm³)",
+      "accion": "acercar los postes de tope en ali_canal_base"
+    },
+    {
+      "id": "V12",
+      "titulo": "El biela-manivela del agitador cierra en toda la carrera",
+      "veredicto": "PASA",
+      "medido": {
+        "manivela_radio_mm": 23.88,
+        "biela_largo_mm": 98.81,
+        "error_maximo_cierre_mm": 0.0042,
+        "giro_del_agitador_por_golpe_deg": 200.8,
+        "relacion_biela_manivela": 4.14
+      },
+      "criterio": "la biela mantiene su largo (±0.05 mm) en los 21 pasos, el agitador gira ≥120° por golpe y la biela es ≥1.5× la manivela (sin punto muerto de bloqueo)",
+      "accion": "recalcular manivela_radio y biela_largo desde las posiciones del pasador"
+    },
+    {
+      "id": "V11",
+      "titulo": "Las tres ménsulas alcanzan las orejas del canal",
+      "veredicto": "PASA",
+      "medido": {
+        "holgura_minima_mm": {
+          "est_soporte_cabezal0": 0.0,
+          "est_soporte_cabezal1": 0.0,
+          "est_soporte_cabezal2": 0.0
+        },
+        "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"
+      },
+      "criterio": "cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste",
+      "accion": "corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal"
+    },
+    {
+      "id": "V14",
+      "titulo": "Ninguna pieza del cabezal ocupa el sitio de otra",
+      "veredicto": "PASA",
+      "medido": {
+        "solapes_mm3": {},
+        "piezas_comparadas": 28
+      },
+      "criterio": "todo par de piezas fijas con solape ≤ 25.0 mm³ (tocarse sí, invadirse no)",
+      "accion": "corregir la geometría de la pieza señalada"
+    },
+    {
+      "id": "V10",
+      "titulo": "Bebedero de nivel constante coherente (principio de Mariotte)",
+      "veredicto": "PASA",
+      "medido": {
+        "nivel_equilibrio_mm": 38.0,
+        "borde_ventanas_difusor_mm": 38.0,
+        "margen_hasta_el_borde_mm": 34.0,
+        "agua_en_el_plato_ml": 969.0,
+        "autonomia_total_l": 21.0,
+        "ajuste_de_nivel_mm": 60.0
+      },
+      "criterio": "borde inferior de las ventanas = nivel declarado (±0.5 mm) y ≥ 25 mm de margen hasta el borde del plato",
+      "accion": "corregir z_difusor o el alto del bebedero"
+    },
+    {
+      "id": "V15",
+      "titulo": "La cadena del bajante encaja y solapa lo suficiente",
+      "veredicto": "PASA",
+      "medido": {
+        "holguras_macho_hembra_mm": {
+          "boquilla→tramo fijo": 1.1,
+          "tramo fijo→tubo de nivel": 0.7,
+          "tubo de nivel→difusor": 0.7
+        },
+        "solapes_de_union_mm": {
+          "boquilla en el tramo fijo": 12.0,
+          "telescopio de nivel": 55.0,
+          "difusor sobre el tubo": 16.0
+        },
+        "diametros": {
+          "d_paso": 25.0,
+          "d_bajante_ext": 31.0,
+          "d_nivel_int": 31.7,
+          "d_nivel_ext": 37.7,
+          "d_difusor_int": 38.4
+        }
+      },
+      "criterio": "cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape",
+      "accion": "revisar la cadena de diámetros en calculos() o el alto de cada tramo"
+    },
+    {
+      "id": "V17",
+      "titulo": "Las piezas que se atornillan tienen los taladros enfrentados",
+      "veredicto": "PASA",
+      "medido": {
+        "taladros_ciegos": {},
+        "patrones": {
+          "tapa_base": 4,
+          "adaptador_tapa": 4,
+          "chute_base": 4,
+          "mensula_canal": 3
+        }
+      },
+      "criterio": "en cada punto del patrón, ambas piezas están perforadas de lado a lado",
+      "accion": "taladrar desde C['patrones'] en la pieza señalada"
+    }
+  ],
+  "resumen": {
+    "pruebas": 22,
+    "fallas": [],
+    "advertencias": [
+      "V7b",
+      "V8"
+    ],
+    "veredicto": "PASA_CON_ADVERTENCIAS"
+  },
+  "calculos": {
+    "cavidad_z_calculada": 30.86,
+    "cavidad_z": 30.9,
+    "cavidad_z_limitada_por_croqueta": false,
+    "volumen_cavidad_ml": 139.1,
+    "dosis_g": 50.1,
+    "dosis_rango_g": [
+      37.6,
+      56.3
+    ],
+    "carrera": 59.0,
+    "pinon": {
+      "modulo": 2.5,
+      "dientes": 22,
+      "angulo_presion": 20.0,
+      "dia_primitivo": 55.0,
+      "dia_cabeza": 60.0,
+      "dia_pie": 48.75,
+      "dia_base": 51.68309414322496,
+      "paso": 7.853981633974483
+    },
+    "paso_cremallera": 7.854,
+    "palanca_barrido_deg": 122.9,
+    "cremallera_dientes": 11,
+    "cremallera_largo": 86.4,
+    "ventaja_palanca": 6.55,
+    "falda_obturadora": 92.0,
+    "corredera_largo": 173.0,
+    "corredera_ancho": 144.0,
+    "canal_largo": 134.0,
+    "canal_ancho": 154.7,
+    "y_carga": -29.5,
+    "y_descarga": 29.5,
+    "z_canal_base": 330.0,
+    "z_deslizamiento": 336.0,
+    "z_corredera_sup": 366.9,
+    "z_tapa_inf": 367.25,
+    "z_tapa_sup": 373.25,
+    "z_agitador": 428.25,
+    "transicion_alto": 75.0,
+    "z_labio_alimento": 448.2,
+    "x_linea_primitiva": 67.5,
+    "x_pinon": 95.0,
+    "palanca_ang_cerrado": 70.0,
+    "palanca_ang_abierto": 192.9,
+    "y_cavidad_local": 28.0,
+    "y_desplazamiento_cajon": -57.5,
+    "y_cremallera_local": 28.0,
+    "z_pinon": 351.4,
+    "z_torre_sup": 397.2,
+    "z_palanca": 407.2,
+    "patrones": {
+      "tapa_base": [
+        [
+          -74.85,
+          -55.0
+        ],
+        [
+          -74.85,
+          55.0
+        ],
+        [
+          74.85,
+          -55.0
+        ],
+        [
+          74.85,
+          55.0
+        ]
+      ],
+      "adaptador_tapa": [
+        [
+          -55.0,
+          -57.0
+        ],
+        [
+          -55.0,
+          -2.0
+        ],
+        [
+          55.0,
+          -57.0
+        ],
+        [
+          55.0,
+          -2.0
+        ]
+      ],
+      "chute_base": [
+        [
+          -61.0,
+          -4.0
+        ],
+        [
+          -61.0,
+          63.0
+        ],
+        [
+          61.0,
+          -4.0
+        ],
+        [
+          61.0,
+          63.0
+        ]
+      ],
+      "mensula_canal": [
+        [
+          5.8170722959499274e-15,
+          95.0
+        ],
+        [
+          -82.27241335952166,
+          -47.50000000000001
+        ],
+        [
+          82.27241335952165,
+          -47.50000000000004
+        ]
+      ]
+    },
+    "x_biela": 88.0,
+    "z_pasador_cajon": 372.9,
+    "y_pasador_cerrado": -139.0,
+    "y_pasador_abierto": -80.0,
+    "biela_largo": 98.81,
+    "manivela_radio": 23.88,
+    "agitador_largo": 158.0,
+    "biela_dz": 55.35,
+    "hombro_alto": 150.0,
+    "subida_asiento": 85.2,
+    "z_anillo_alimento": 565.4,
+    "z_tope_bidon_alimento": 943.2,
+    "z_labio_agua": 210.0,
+    "z_anillo_agua": 327.2,
+    "d_paso": 25.0,
+    "d_bajante_ext": 31.0,
+    "d_nivel_int": 31.7,
+    "d_nivel_ext": 37.7,
+    "d_difusor_int": 38.4,
+    "d_difusor_ext": 44.4,
+    "d_copa_bajante": 31.7,
+    "z_difusor": 33.0,
+    "z_tubo_nivel_inf": 51.0,
+    "z_tubo_nivel_sup": 171.0,
+    "z_bajante_inf": 116.0,
+    "bajante_largo": 86.0,
+    "agua_util_ml": 969.0,
+    "autonomia_agua_l": 20.969,
+    "anti_arco": {
+      "factor_exigido": 6.0,
+      "seccion_critica_cuello_mm": 50.0,
+      "seccion_critica_tolva_mm": 45.0,
+      "croqueta_mm": 12.0,
+      "razon_cuello": 4.17,
+      "razon_tolva": 3.75,
+      "esbeltez_tolva": 2.22,
+      "factor_exigido_rasgada": 3.0,
+      "cumple_cuello": false,
+      "cumple_tolva": true,
+      "croqueta_max_sin_agitador_mm": 8.3,
+      "agitador_obligatorio": true
+    },
+    "z_anillo": {
+      "agua": 327.2,
+      "alimento": 565.4
+    },
+    "carga_bidon_agua_N": 205.0,
+    "masa_alimento_kg": 8.0,
+    "carga_bidon_alimento_N": 86.5,
+    "autonomia_alimento_dosis": 159
+  },
+  "masa_pla_total_g": 2258.5
+}

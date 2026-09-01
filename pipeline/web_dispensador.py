@@ -1,0 +1,277 @@
+"""Paquete web navegable del dispensador canino.
+
+Arma `out/web/` con el visor 3D de los dos conjuntos, la lista de piezas, el
+resultado de la verificación y la animación del ciclo de dosificación. Es el
+equivalente del paquete S5 para un proyecto de DISEÑO: no lleva capa
+`measured`, y lo dice en pantalla para que nadie confunda una cosa con otra.
+
+servir: cd projects/<X>/out/web && python -m http.server 8080
+
+uso: python pipeline/web_dispensador.py projects/<X>
+"""
+from __future__ import annotations
+
+import json
+import shutil
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+import gen_dispensador as G
+from lib_audit import REPO_ROOT, audit, now_iso, project_dir, sha256_file
+
+HTML = """<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITULO__</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>&#129454;</text></svg>">
+<style>
+  :root { color-scheme: light dark; --bg:#11161c; --panel:#1a222b; --tx:#e8eef4;
+          --mut:#93a4b4; --ok:#4caf50; --warn:#ffb300; --bad:#ef5350; --acc:#ff8f3f; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.55 ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+         background:var(--bg); color:var(--tx); display:grid; grid-template-columns: 1fr 380px;
+         height:100vh; overflow:hidden; }
+  @media (max-width: 900px){ body{ grid-template-columns:1fr; grid-template-rows: 55vh 45vh; } }
+  #vista { position:relative; }
+  canvas { display:block; }
+  #barra { position:absolute; top:12px; left:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  button { background:var(--panel); color:var(--tx); border:1px solid #2c3742; border-radius:8px;
+           padding:8px 12px; cursor:pointer; font-size:14px; }
+  button.on { border-color:var(--acc); color:var(--acc); }
+  button:hover { border-color:var(--acc); }
+  aside { background:var(--panel); overflow-y:auto; padding:20px; border-left:1px solid #26303a; }
+  h1 { font-size:19px; margin:0 0 4px; }
+  h2 { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--mut);
+       margin:22px 0 8px; border-bottom:1px solid #26303a; padding-bottom:6px; }
+  .cap { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px;
+         background:#2a3441; color:var(--mut); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td { padding:4px 0; vertical-align:top; border-bottom:1px solid #232c36; }
+  td:last-child { text-align:right; color:var(--mut); white-space:nowrap; padding-left:8px; }
+  .big { font-size:30px; font-weight:600; color:var(--acc); line-height:1.1; }
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+  details { margin:6px 0; } summary { cursor:pointer; color:var(--mut); font-size:13px; }
+  img { width:100%; border-radius:10px; margin-top:8px; }
+  p.n { color:var(--mut); font-size:13px; }
+  a { color:var(--acc); }
+</style>
+<div id="vista"><div id="barra">
+  <button id="b-alimento" class="on">Alimento</button>
+  <button id="b-agua">Agua</button>
+  <button id="b-bidon" class="on">Bidón</button>
+  <button id="b-giro" class="on">Girar</button>
+</div></div>
+<aside>
+  <h1>__TITULO__</h1>
+  <span class="cap">capa user — diseño paramétrico</span>
+  <span class="cap">sin capa measured</span>
+  <p class="n">Este proyecto no nace de fotogrametría: la geometría se genera
+  acotada en milímetros desde <code>input/params.json</code>. El botellón que se
+  ve es una <b>envolvente de referencia</b> reconstruida de cotas de catálogo,
+  no una pieza a fabricar.</p>
+
+  <h2>Dosificación</h2>
+  <div class="big" id="dosis"></div>
+  <table id="t-dosis"></table>
+
+  <h2>Ciclo</h2>
+  <img src="data/ciclo_dosificacion.gif" alt="ciclo de dosificación">
+  <p class="n">Un barrido completo de palanca = una dosis. El propio cajón tapa
+  la tolva mientras la dosis viaja hasta la boca de descarga.</p>
+
+  <h2>Verificación</h2>
+  <div id="veredicto"></div>
+  <table id="t-pruebas"></table>
+
+  <h2>Piezas impresas</h2>
+  <table id="t-piezas"></table>
+</aside>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from './vendor/OrbitControls.js';
+import { GLTFLoader } from './vendor/GLTFLoader.js';
+
+const cont = document.getElementById('vista');
+const ren = new THREE.WebGLRenderer({ antialias:true });
+ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+cont.appendChild(ren.domElement);
+const esc = new THREE.Scene();
+esc.background = new THREE.Color(0x11161c);
+const cam = new THREE.PerspectiveCamera(45, 1, 1, 12000);
+cam.position.set(900, -1100, 780);
+cam.up.set(0, 0, 1);
+const ctr = new OrbitControls(cam, ren.domElement);
+ctr.target.set(0, 0, 380);
+esc.add(new THREE.HemisphereLight(0xdfe9f2, 0x39424c, 2.1));
+const sol = new THREE.DirectionalLight(0xffffff, 2.0); sol.position.set(700, -900, 1200);
+esc.add(sol);
+const suelo = new THREE.GridHelper(2400, 24, 0x2b3742, 0x1e2731);
+suelo.rotation.x = Math.PI / 2; esc.add(suelo);
+
+const cargador = new GLTFLoader();
+const grupos = {};
+function cargar(nombre, archivo, visible) {
+  cargador.load('data/' + archivo, g => {
+    // trimesh escribe el color por vértice en COLOR_0: hay que decirle al
+    // material que lo use, si no todo sale gris
+    g.scene.traverse(o => {
+      if (!o.isMesh) return;
+      if (o.geometry.attributes.color) o.material.vertexColors = true;
+      o.material.roughness = 0.72; o.material.metalness = 0.0;
+      o.material.side = THREE.DoubleSide;
+      o.material.needsUpdate = true;
+    });
+    g.scene.visible = visible;
+    grupos[nombre] = g.scene;
+    esc.add(g.scene);
+    encuadrar();
+  });
+}
+
+function encuadrar() {
+  const caja = new THREE.Box3();
+  let hay = false;
+  for (const g of Object.values(grupos)) {
+    if (!g.visible) continue;
+    caja.expandByObject(g); hay = true;
+  }
+  if (!hay) return;
+  const c = caja.getCenter(new THREE.Vector3()), t = caja.getSize(new THREE.Vector3());
+  radio = Math.max(t.x, t.y, t.z) * 1.9;
+  ctr.target.copy(c);
+  cam.position.set(radio, -radio, c.z + t.z * 0.35);
+  cam.near = radio / 100; cam.far = radio * 20; cam.updateProjectionMatrix();
+}
+cargar('alimento', 'conjunto_alimento.glb', true);
+cargar('agua', 'conjunto_agua.glb', false);
+cargar('bidon', 'referencia_bidon.glb', true);
+
+let girar = true, radio = 1450;
+function bot(id, fn) {
+  const b = document.getElementById(id);
+  b.onclick = () => { b.classList.toggle('on'); fn(b.classList.contains('on')); };
+}
+bot('b-alimento', v => { if (grupos.alimento) grupos.alimento.visible = v; colocarBidon(); encuadrar(); });
+bot('b-agua', v => { if (grupos.agua) grupos.agua.visible = v; colocarBidon(); encuadrar(); });
+bot('b-bidon', v => { if (grupos.bidon) grupos.bidon.visible = v; encuadrar(); });
+bot('b-giro', v => girar = v);
+
+let Z = { alimento: 0, agua: 0 };
+function colocarBidon() {
+  if (!grupos.bidon) return;
+  const alim = grupos.alimento && grupos.alimento.visible;
+  grupos.bidon.position.set(0, 0, alim ? Z.alimento : Z.agua);
+}
+
+function medir() {
+  const w = cont.clientWidth, h = cont.clientHeight;
+  cam.aspect = w / h; cam.updateProjectionMatrix(); ren.setSize(w, h);
+}
+addEventListener('resize', medir); medir();
+(function bucle(){
+  requestAnimationFrame(bucle);
+  if (girar) { const t = performance.now() * 0.00012;
+    cam.position.x = ctr.target.x + Math.cos(t) * radio;
+    cam.position.y = ctr.target.y + Math.sin(t) * radio; }
+  ctr.update(); ren.render(esc, cam);
+})();
+
+// ---- datos del proyecto -------------------------------------------------
+const j = async f => (await fetch('data/' + f)).json();
+const fila = (a, b) => `<tr><td>${a}</td><td>${b}</td></tr>`;
+(async () => {
+  const [cal, ver, idx] = await Promise.all([j('calculos.json'), j('verificacion.json'), j('indice.json')]);
+  const C = cal.calculos;
+  Z = { alimento: C.z_labio_alimento, agua: C.z_labio_agua };
+  colocarBidon(); encuadrar();
+  document.getElementById('dosis').textContent = C.dosis_g.toFixed(0) + ' g por golpe';
+  document.getElementById('t-dosis').innerHTML = [
+    fila('Rango según el alimento', C.dosis_rango_g[0].toFixed(0) + '–' + C.dosis_rango_g[1].toFixed(0) + ' g'),
+    fila('Cavidad', C.volumen_cavidad_ml.toFixed(0) + ' ml'),
+    fila('Carrera del cajón', C.carrera.toFixed(0) + ' mm'),
+    fila('Barrido de palanca', C.palanca_barrido_deg.toFixed(0) + '°'),
+    fila('Autonomía de alimento', C.autonomia_alimento_dosis + ' dosis'),
+    fila('Autonomía de agua', C.autonomia_agua_l.toFixed(1) + ' L'),
+    fila('Nivel del bebedero', '38 mm (autorregulado)'),
+  ].join('');
+
+  const cls = v => v === 'PASA' ? 'ok' : (v === 'FALLA' ? 'bad' : 'warn');
+  document.getElementById('veredicto').innerHTML =
+    `<b class="${cls(ver.resumen.veredicto.startsWith('PASA') ? 'PASA' : 'FALLA')}">${ver.resumen.veredicto}</b>
+     <span class="n"> — ${ver.resumen.pruebas} pruebas, ${ver.resumen.fallas.length} fallas,
+     ${ver.resumen.advertencias.length} advertencias</span>`;
+  document.getElementById('t-pruebas').innerHTML = ver.pruebas.map(p =>
+    `<tr><td><b>${p.id}</b> ${p.titulo}${p.accion && p.veredicto !== 'PASA'
+      ? `<details><summary>por qué</summary>${p.accion}</details>` : ''}</td>
+     <td class="${cls(p.veredicto)}">${p.veredicto}</td></tr>`).join('');
+
+  const ps = Object.entries(idx.piezas);
+  document.getElementById('t-piezas').innerHTML =
+    fila('<b>Total PLA</b>', '<b>' + (idx.masa_pla_total_g / 1000).toFixed(1) + ' kg</b>') +
+    ps.map(([n, d]) => fila(
+      `${n} <span class="n">×${d.cantidad || 1}</span>`,
+      `${d.metricas.masa_pla_g.toFixed(0)} g`)).join('');
+})();
+</script>
+</html>
+"""
+
+
+def main() -> None:
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+    proj = project_dir(sys.argv[1])
+    P = json.loads((proj / "input" / "params.json").read_text(encoding="utf-8"))
+    C = G.calculos(P)
+    web = proj / "out" / "web"
+    data = web / "data"
+    data.mkdir(parents=True, exist_ok=True)
+
+    faltan = []
+    for origen, destino in (
+            ("out/cad/conjunto_alimento.glb", "conjunto_alimento.glb"),
+            ("out/cad/conjunto_agua.glb", "conjunto_agua.glb"),
+            ("out/cad/referencia_bidon.glb", "referencia_bidon.glb"),
+            ("out/CALCULOS.json", "calculos.json"),
+            ("out/VERIFICACION.json", "verificacion.json"),
+            ("out/piezas/INDICE.json", "indice.json"),
+            ("out/vistas/ciclo/ciclo_dosificacion.gif", "ciclo_dosificacion.gif")):
+        src = proj / origen
+        if src.exists():
+            shutil.copy2(src, data / destino)
+        else:
+            faltan.append(origen)
+
+    # three.js local: el paquete tiene que abrirse sin internet
+    vend = web / "vendor"
+    vend.mkdir(exist_ok=True)
+    for f in ("three.module.min.js", "three.core.min.js", "GLTFLoader.js", "OrbitControls.js"):
+        shutil.copy2(REPO_ROOT / "cad" / "vendor" / f, vend / f)
+
+    (web / "index.html").write_text(
+        HTML.replace("__TITULO__", f"Dispensador canino {proj.name}"), encoding="utf-8")
+    (data / "manifest.json").write_text(json.dumps({
+        "proyecto": proj.name, "generado": now_iso(), "capa": "user",
+        "measured": False, "dosis_g": C["dosis_g"],
+        "nota": "Proyecto de diseño paramétrico: no contiene capa measured. "
+                "El botellón es una envolvente de referencia, no una pieza."},
+        indent=2, ensure_ascii=False), encoding="utf-8")
+
+    audit(proj, "WEB", "paquete web del dispensador", "OK" if not faltan else "INCOMPLETO",
+          faltan=faltan, hash_index=sha256_file(web / "index.html"))
+    print(f"Paquete web → {web.relative_to(proj)}")
+    print(f"servir: cd {web} && python -m http.server 8080")
+    if faltan:
+        print("FALTAN (genera antes las etapas que los producen):")
+        for f in faltan:
+            print(f"  - {f}")
+
+
+if __name__ == "__main__":
+    main()

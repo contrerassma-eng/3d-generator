@@ -1,0 +1,558 @@
+{
+  "proyecto": "YT0101-dispensador-canino",
+  "generado": "2026-07-26T17:24:05+00:00",
+  "capa": "user",
+  "piezas": {
+    "est_anillo_segmento": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 62.75,
+        "area_cm2": 232.85,
+        "bbox_mm": [
+          200.92,
+          82.49,
+          46.0
+        ],
+        "triangulos": 2772,
+        "cabe_en_cama": true,
+        "masa_pla_g": 50.0
+      },
+      "cantidad": 6,
+      "nota": "3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento con el envase real: el cono admite Ø160-200.",
+      "_id": "est_anillo_segmento",
+      "archivos": {
+        "glb": "out/piezas/est_anillo_segmento.glb",
+        "stl": "out/piezas/est_anillo_segmento.stl"
+      }
+    },
+    "est_barra": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 51.4,
+        "area_cm2": 254.77,
+        "bbox_mm": [
+          20.0,
+          20.0,
+          200.0
+        ],
+        "triangulos": 16664,
+        "cabe_en_cama": true,
+        "masa_pla_g": 40.9
+      },
+      "cantidad": 0,
+      "nota": "OPCIONAL. Solo si no se consigue perfil 20x20: 2 barras solapadas por columna en la unidad de agua. Para la unidad de alimento usar perfil comercial.",
+      "_id": "est_barra",
+      "archivos": {
+        "glb": "out/piezas/est_barra.glb",
+        "stl": "out/piezas/est_barra.stl"
+      }
+    },
+    "est_pie": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 79.73,
+        "area_cm2": 288.77,
+        "bbox_mm": [
+          78.0,
+          77.0,
+          101.0
+        ],
+        "triangulos": 1672,
+        "cabe_en_cama": true,
+        "masa_pla_g": 63.5
+      },
+      "cantidad": 3,
+      "nota": "Pegar fieltro o goma EVA de 2 mm en el rebaje inferior.",
+      "_id": "est_pie",
+      "archivos": {
+        "glb": "out/piezas/est_pie.glb",
+        "stl": "out/piezas/est_pie.stl"
+      }
+    },
+    "est_collar_cuello": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 28.28,
+        "area_cm2": 100.99,
+        "bbox_mm": [
+          95.0,
+          39.5,
+          22.0
+        ],
+        "triangulos": 1464,
+        "cabe_en_cama": true,
+        "masa_pla_g": 22.5
+      },
+      "cantidad": 2,
+      "nota": "Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí.",
+      "_id": "est_collar_cuello",
+      "archivos": {
+        "glb": "out/piezas/est_collar_cuello.glb",
+        "stl": "out/piezas/est_collar_cuello.stl"
+      }
+    },
+    "est_soporte_cabezal": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 50.78,
+        "area_cm2": 191.64,
+        "bbox_mm": [
+          50.3,
+          104.6,
+          99.0
+        ],
+        "triangulos": 2020,
+        "cabe_en_cama": true,
+        "masa_pla_g": 40.5
+      },
+      "cantidad": 3,
+      "nota": "Sujeta el canal a las columnas. Montar con nivel: el canal debe quedar horizontal o la dosis varía.",
+      "_id": "est_soporte_cabezal",
+      "archivos": {
+        "glb": "out/piezas/est_soporte_cabezal.glb",
+        "stl": "out/piezas/est_soporte_cabezal.stl"
+      }
+    },
+    "est_eclisa": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 4.95,
+        "area_cm2": 29.03,
+        "bbox_mm": [
+          33.18,
+          38.2,
+          5.0
+        ],
+        "triangulos": 1740,
+        "cabe_en_cama": true,
+        "masa_pla_g": 3.9
+      },
+      "cantidad": 6,
+      "nota": "Va por DEBAJO del anillo, a caballo de la junta. 3 por aparato (6 si se monta el anillo de arriostre).",
+      "_id": "est_eclisa",
+      "archivos": {
+        "glb": "out/piezas/est_eclisa.glb",
+        "stl": "out/piezas/est_eclisa.stl"
+      }
+    },
+    "est_escuadra_muro": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 87.46,
+        "area_cm2": 273.25,
+        "bbox_mm": [
+          60.0,
+          145.0,
+          74.0
+        ],
+        "triangulos": 1594,
+        "cabe_en_cama": true,
+        "masa_pla_g": 69.7
+      },
+      "cantidad": 2,
+      "nota": "Tarugo Ø6 + tornillo Ø5 al muro. Obligatoria en la unidad de alimento.",
+      "_id": "est_escuadra_muro",
+      "archivos": {
+        "glb": "out/piezas/est_escuadra_muro.glb",
+        "stl": "out/piezas/est_escuadra_muro.stl"
+      }
+    },
+    "agua_bebedero": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 257.19,
+        "area_cm2": 1410.43,
+        "bbox_mm": [
+          190.0,
+          190.0,
+          72.0
+        ],
+        "triangulos": 1968,
+        "cabe_en_cama": true,
+        "masa_pla_g": 204.9
+      },
+      "cantidad": 1,
+      "nota": "Nivel de equilibrio 38.0 mm ≈ 969 ml en el plato.",
+      "_id": "agua_bebedero",
+      "archivos": {
+        "glb": "out/piezas/agua_bebedero.glb",
+        "stl": "out/piezas/agua_bebedero.stl"
+      }
+    },
+    "agua_boquilla": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 52.8,
+        "area_cm2": 171.46,
+        "bbox_mm": [
+          62.0,
+          62.0,
+          54.0
+        ],
+        "triangulos": 4032,
+        "cabe_en_cama": true,
+        "masa_pla_g": 42.1
+      },
+      "cantidad": 1,
+      "nota": "Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón. La espiga entra en el tramo fijo.",
+      "_id": "agua_boquilla",
+      "archivos": {
+        "glb": "out/piezas/agua_boquilla.glb",
+        "stl": "out/piezas/agua_boquilla.stl"
+      }
+    },
+    "agua_bajante": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 25.16,
+        "area_cm2": 200.36,
+        "bbox_mm": [
+          34.1,
+          34.1,
+          86.0
+        ],
+        "triangulos": 1536,
+        "cabe_en_cama": true,
+        "masa_pla_g": 20.0
+      },
+      "cantidad": 1,
+      "nota": "Tramo fijo de 86 mm. El nivel fino se ajusta con el tramo deslizante que lo abraza por fuera.",
+      "_id": "agua_bajante",
+      "archivos": {
+        "glb": "out/piezas/agua_bajante.glb",
+        "stl": "out/piezas/agua_bajante.stl"
+      }
+    },
+    "agua_tubo_nivel": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 48.05,
+        "area_cm2": 299.79,
+        "bbox_mm": [
+          55.7,
+          37.7,
+          120.0
+        ],
+        "triangulos": 1596,
+        "cabe_en_cama": true,
+        "masa_pla_g": 38.3
+      },
+      "cantidad": 1,
+      "nota": "Cada marca = 10 mm de nivel de agua. Apretar el collar M4 cuando el nivel quede donde se quiere.",
+      "_id": "agua_tubo_nivel",
+      "archivos": {
+        "glb": "out/piezas/agua_tubo_nivel.glb",
+        "stl": "out/piezas/agua_tubo_nivel.stl"
+      }
+    },
+    "agua_difusor": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 20.07,
+        "area_cm2": 130.31,
+        "bbox_mm": [
+          54.4,
+          54.4,
+          40.0
+        ],
+        "triangulos": 1872,
+        "cabe_en_cama": true,
+        "masa_pla_g": 16.0
+      },
+      "cantidad": 1,
+      "nota": "El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua. Sus tres pies impiden que se apoye en el fondo.",
+      "_id": "agua_difusor",
+      "archivos": {
+        "glb": "out/piezas/agua_difusor.glb",
+        "stl": "out/piezas/agua_difusor.stl"
+      }
+    },
+    "ali_canal_base": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 423.09,
+        "area_cm2": 1007.08,
+        "bbox_mm": [
+          236.27,
+          203.0,
+          91.25
+        ],
+        "triangulos": 6454,
+        "cabe_en_cama": true,
+        "masa_pla_g": 337.1
+      },
+      "cantidad": 1,
+      "nota": "Imprimir apoyada en el piso: carriles, torre y topes salen sin soportes.",
+      "_id": "ali_canal_base",
+      "archivos": {
+        "glb": "out/piezas/ali_canal_base.glb",
+        "stl": "out/piezas/ali_canal_base.stl"
+      }
+    },
+    "ali_canal_tapa": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 96.65,
+        "area_cm2": 380.84,
+        "bbox_mm": [
+          154.7,
+          134.0,
+          6.0
+        ],
+        "triangulos": 3136,
+        "cabe_en_cama": true,
+        "masa_pla_g": 77.0
+      },
+      "cantidad": 1,
+      "nota": "Imprimir con la brida hacia arriba; sin soportes.",
+      "_id": "ali_canal_tapa",
+      "archivos": {
+        "glb": "out/piezas/ali_canal_tapa.glb",
+        "stl": "out/piezas/ali_canal_tapa.stl"
+      }
+    },
+    "ali_corredera": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 248.38,
+        "area_cm2": 986.42,
+        "bbox_mm": [
+          160.0,
+          173.0,
+          44.9
+        ],
+        "triangulos": 816,
+        "cabe_en_cama": true,
+        "masa_pla_g": 197.9
+      },
+      "cantidad": 1,
+      "nota": "Cavidad 100x45x30.9 mm = 139 ml -> 50 g por golpe. Imprimir boca abajo (piel contra la cama).",
+      "_id": "ali_corredera",
+      "archivos": {
+        "glb": "out/piezas/ali_corredera.glb",
+        "stl": "out/piezas/ali_corredera.stl"
+      }
+    },
+    "ali_inserto_dosis": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 20.9,
+        "area_cm2": 173.56,
+        "bbox_mm": [
+          99.6,
+          22.1,
+          31.0
+        ],
+        "triangulos": 704,
+        "cabe_en_cama": true,
+        "masa_pla_g": 16.7
+      },
+      "cantidad": 1,
+      "nota": "Media dosis: 25 g por golpe.",
+      "_id": "ali_inserto_dosis",
+      "archivos": {
+        "glb": "out/piezas/ali_inserto_dosis.glb",
+        "stl": "out/piezas/ali_inserto_dosis.stl"
+      }
+    },
+    "ali_pinon": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 35.53,
+        "area_cm2": 113.53,
+        "bbox_mm": [
+          60.0,
+          59.58,
+          23.0
+        ],
+        "triangulos": 3664,
+        "cabe_en_cama": true,
+        "masa_pla_g": 28.3
+      },
+      "cantidad": 1,
+      "nota": "O primitivo 55.0 mm, 20 grados, backlash 0.3 mm. Imprimir plano: 5 perimetros, 40% relleno.",
+      "_id": "ali_pinon",
+      "archivos": {
+        "glb": "out/piezas/ali_pinon.glb",
+        "stl": "out/piezas/ali_pinon.stl"
+      }
+    },
+    "ali_eje_pinon": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 12.49,
+        "area_cm2": 45.48,
+        "bbox_mm": [
+          13.86,
+          12.0,
+          100.9
+        ],
+        "triangulos": 408,
+        "cabe_en_cama": true,
+        "masa_pla_g": 9.9
+      },
+      "cantidad": 1,
+      "nota": "Pasador O3 abajo: retiene el eje en la torre.",
+      "_id": "ali_eje_pinon",
+      "archivos": {
+        "glb": "out/piezas/ali_eje_pinon.glb",
+        "stl": "out/piezas/ali_eje_pinon.stl"
+      }
+    },
+    "ali_palanca": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 56.08,
+        "area_cm2": 158.6,
+        "bbox_mm": [
+          34.0,
+          190.0,
+          16.0
+        ],
+        "triangulos": 796,
+        "cabe_en_cama": true,
+        "masa_pla_g": 44.7
+      },
+      "cantidad": 1,
+      "nota": "Barrido util 123 grados = 1 dosis. Ventaja mecanica 6.5:1.",
+      "_id": "ali_palanca",
+      "archivos": {
+        "glb": "out/piezas/ali_palanca.glb",
+        "stl": "out/piezas/ali_palanca.stl"
+      }
+    },
+    "ali_adaptador_cuello": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 152.08,
+        "area_cm2": 554.33,
+        "bbox_mm": [
+          110.0,
+          66.96,
+          100.0
+        ],
+        "triangulos": 5748,
+        "cabe_en_cama": true,
+        "masa_pla_g": 121.2
+      },
+      "cantidad": 1,
+      "nota": "Pared a 65° (flujo másico). Imprimir invertida (brida arriba): sin soportes.",
+      "_id": "ali_adaptador_cuello",
+      "archivos": {
+        "glb": "out/piezas/ali_adaptador_cuello.glb",
+        "stl": "out/piezas/ali_adaptador_cuello.stl"
+      }
+    },
+    "ali_adaptador_hombro": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 182.28,
+        "area_cm2": 918.75,
+        "bbox_mm": [
+          166.0,
+          166.0,
+          94.0
+        ],
+        "triangulos": 3256,
+        "cabe_en_cama": true,
+        "masa_pla_g": 145.2
+      },
+      "cantidad": 1,
+      "nota": "Alternativa: cortar el envase donde mide Ø152 y apoyarlo aquí. Mejor flujo, pero el corte queda a la vista y hay que desbarbarlo.",
+      "_id": "ali_adaptador_hombro",
+      "archivos": {
+        "glb": "out/piezas/ali_adaptador_hombro.glb",
+        "stl": "out/piezas/ali_adaptador_hombro.stl"
+      }
+    },
+    "ali_agitador": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 14.33,
+        "area_cm2": 83.26,
+        "bbox_mm": [
+          46.0,
+          46.0,
+          176.0
+        ],
+        "triangulos": 1206,
+        "cabe_en_cama": true,
+        "masa_pla_g": 11.4
+      },
+      "cantidad": 1,
+      "nota": "Gira ~130° por golpe: rompe el puente de croquetas en el cuello.",
+      "_id": "ali_agitador",
+      "archivos": {
+        "glb": "out/piezas/ali_agitador.glb",
+        "stl": "out/piezas/ali_agitador.stl"
+      }
+    },
+    "ali_manivela": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 5.02,
+        "area_cm2": 25.76,
+        "bbox_mm": [
+          20.0,
+          45.88,
+          8.0
+        ],
+        "triangulos": 1212,
+        "cabe_en_cama": true,
+        "masa_pla_g": 4.0
+      },
+      "cantidad": 1,
+      "nota": "Radio 23.9 mm (calculado): con la biela de 99 mm da una vuelta completa por golpe.",
+      "_id": "ali_manivela",
+      "archivos": {
+        "glb": "out/piezas/ali_manivela.glb",
+        "stl": "out/piezas/ali_manivela.stl"
+      }
+    },
+    "ali_biela": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 8.8,
+        "area_cm2": 46.41,
+        "bbox_mm": [
+          18.0,
+          116.81,
+          6.0
+        ],
+        "triangulos": 1556,
+        "cabe_en_cama": true,
+        "masa_pla_g": 7.0
+      },
+      "cantidad": 1,
+      "nota": "Entre ejes 98.8 mm. Unir con M4 y tuerca FLOJA: es una articulación, no un apriete.",
+      "_id": "ali_biela",
+      "archivos": {
+        "glb": "out/piezas/ali_biela.glb",
+        "stl": "out/piezas/ali_biela.stl"
+      }
+    },
+    "ali_chute": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 146.86,
+        "area_cm2": 891.91,
+        "bbox_mm": [
+          134.0,
+          146.5,
+          95.0
+        ],
+        "triangulos": 1642,
+        "cabe_en_cama": true,
+        "masa_pla_g": 117.0
+      },
+      "cantidad": 1,
+      "nota": "Se atornilla bajo la boca de descarga; entrega a ~95 mm por debajo y 55 mm por delante. Imprimir con la boca ancha sobre la cama.",
+      "_id": "ali_chute",
+      "archivos": {
+        "glb": "out/piezas/ali_chute.glb",
+        "stl": "out/piezas/ali_chute.stl"
+      }
+    }
+  },
+  "masa_pla_total_g": 2258.5
+}

@@ -1,0 +1,26 @@
+pieza,cantidad,archivo_stl,bbox_mm,masa_pla_g,soportes,notas
+est_anillo_segmento,6,piezas/est_anillo_segmento.stl,201×82×46,50,no,3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento con el envase real: el cono admite Ø160-200.
+est_barra,0,piezas/est_barra.stl,20×20×200,41,no,OPCIONAL. Solo si no se consigue perfil 20x20: 2 barras solapadas por columna en la unidad de agua. Para la unidad de alimento usar perfil comercial.
+est_pie,3,piezas/est_pie.stl,78×77×101,64,sí (parcial),Pegar fieltro o goma EVA de 2 mm en el rebaje inferior.
+est_collar_cuello,2,piezas/est_collar_cuello.stl,95×40×22,22,no,Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí.
+est_soporte_cabezal,3,piezas/est_soporte_cabezal.stl,50×105×99,40,no,Sujeta el canal a las columnas. Montar con nivel: el canal debe quedar horizontal o la dosis varía.
+est_eclisa,6,piezas/est_eclisa.stl,33×38×5,4,no,"Va por DEBAJO del anillo, a caballo de la junta. 3 por aparato (6 si se monta el anillo de arriostre)."
+est_escuadra_muro,2,piezas/est_escuadra_muro.stl,60×145×74,70,sí (parcial),Tarugo Ø6 + tornillo Ø5 al muro. Obligatoria en la unidad de alimento.
+agua_bebedero,1,piezas/agua_bebedero.stl,190×190×72,205,no,Nivel de equilibrio 38.0 mm ≈ 969 ml en el plato.
+agua_boquilla,1,piezas/agua_boquilla.stl,62×62×54,42,sí (parcial),Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón. La espiga entra en el tramo fijo.
+agua_bajante,1,piezas/agua_bajante.stl,34×34×86,20,no,Tramo fijo de 86 mm. El nivel fino se ajusta con el tramo deslizante que lo abraza por fuera.
+agua_tubo_nivel,1,piezas/agua_tubo_nivel.stl,56×38×120,38,no,Cada marca = 10 mm de nivel de agua. Apretar el collar M4 cuando el nivel quede donde se quiere.
+agua_difusor,1,piezas/agua_difusor.stl,54×54×40,16,sí (parcial),El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua. Sus tres pies impiden que se apoye en el fondo.
+ali_canal_base,1,piezas/ali_canal_base.stl,236×203×91,337,no,"Imprimir apoyada en el piso: carriles, torre y topes salen sin soportes."
+ali_canal_tapa,1,piezas/ali_canal_tapa.stl,155×134×6,77,no,Imprimir con la brida hacia arriba; sin soportes.
+ali_corredera,1,piezas/ali_corredera.stl,160×173×45,198,sí (parcial),Cavidad 100x45x30.9 mm = 139 ml -> 50 g por golpe. Imprimir boca abajo (piel contra la cama).
+ali_inserto_dosis,1,piezas/ali_inserto_dosis.stl,100×22×31,17,no,Media dosis: 25 g por golpe.
+ali_pinon,1,piezas/ali_pinon.stl,60×60×23,28,no,"O primitivo 55.0 mm, 20 grados, backlash 0.3 mm. Imprimir plano: 5 perimetros, 40% relleno."
+ali_eje_pinon,1,piezas/ali_eje_pinon.stl,14×12×101,10,no,Pasador O3 abajo: retiene el eje en la torre.
+ali_palanca,1,piezas/ali_palanca.stl,34×190×16,45,no,Barrido util 123 grados = 1 dosis. Ventaja mecanica 6.5:1.
+ali_adaptador_cuello,1,piezas/ali_adaptador_cuello.stl,110×67×100,121,no,Pared a 65° (flujo másico). Imprimir invertida (brida arriba): sin soportes.
+ali_adaptador_hombro,1,piezas/ali_adaptador_hombro.stl,166×166×94,145,no,"Alternativa: cortar el envase donde mide Ø152 y apoyarlo aquí. Mejor flujo, pero el corte queda a la vista y hay que desbarbarlo."
+ali_agitador,1,piezas/ali_agitador.stl,46×46×176,11,sí (parcial),Gira ~130° por golpe: rompe el puente de croquetas en el cuello.
+ali_manivela,1,piezas/ali_manivela.stl,20×46×8,4,no,Radio 23.9 mm (calculado): con la biela de 99 mm da una vuelta completa por golpe.
+ali_biela,1,piezas/ali_biela.stl,18×117×6,7,no,"Entre ejes 98.8 mm. Unir con M4 y tuerca FLOJA: es una articulación, no un apriete."
+ali_chute,1,piezas/ali_chute.stl,134×146×95,117,sí (parcial),Se atornilla bajo la boca de descarga; entrega a ~95 mm por debajo y 55 mm por delante. Imprimir con la boca ancha sobre la cama.

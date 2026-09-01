@@ -1,0 +1,59 @@
+{
+  "project": "YT0101-dispensador-canino",
+  "stage": "DISENO_VERIFICADO",
+  "gates": {
+    "G_DIS": {
+      "verdict": "SIN_CONTRASTE",
+      "metrics": {
+        "pruebas": 22,
+        "fallas": [],
+        "advertencias": [
+          "V7b",
+          "V8"
+        ],
+        "dosis_g": 50.1,
+        "masa_pla_total_g": 2258.5
+      },
+      "reasons": [],
+      "ts": "2026-07-26T17:27:51+00:00"
+    },
+    "G6": {
+      "verdict": "PASA",
+      "metrics": {
+        "laminas": 1,
+        "vistas": [
+          "alzado",
+          "planta",
+          "perfil",
+          "isometrica"
+        ],
+        "escala_certificada": true,
+        "factor_escala": 1.0,
+        "dxf": "out/drawings/ali_chute.dxf",
+        "pdf": "out/drawings/ali_chute.pdf",
+        "hash_dxf": "sha256:1ad8e078f8baf33da134f7ff3892ab766e0aeb47b049a51db7fae28227fcfb7e",
+        "hash_pdf": "sha256:e204746319956efc393d86ec4d5a9079825d03fc7bfb37e8853b14a86867f83d"
+      },
+      "reasons": [],
+      "ts": "2026-07-26T07:26:57+00:00"
+    },
+    "G-SIM": {
+      "verdict": "FALLA",
+      "metrics": {
+        "pruebas": 8,
+        "fallas": 1,
+        "advertencias": 4,
+        "dosis_media_g": 29.96
+      },
+      "reasons": [
+        "S1: La corrida es numéricamente limpia",
+        "S3: La densidad aparente del modelo contra la citada",
+        "S6: La dosis simulada cae en el rango de diseño",
+        "S7: El agitador cambia el comportamiento del cuello",
+        "S8: La fuerza de contacto no llega a romper la croqueta"
+      ],
+      "ts": "2026-07-26T18:00:13+00:00"
+    }
+  },
+  "updated": "2026-07-26T18:00:13+00:00"
+}
