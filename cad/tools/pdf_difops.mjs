@@ -13,8 +13,18 @@
 // rellena, un relleno puro (f) no traza — comparar ahí lo que no se dibuja
 // produce falsos positivos.
 //
-// Uso: node tools/pdf_difops.mjs <a.pdf> <b.pdf>
-//   → sale 0 si el dibujo es idéntico, 1 si difiere.
+// DOS MODOS, porque hay dos clases de cambio:
+//   (por omisión) OPERADORES — para cambios que conservan la descomposición
+//     del dibujo (estado gráfico, formato de números). Exige identidad exacta.
+//   --tinta      COBERTURA — para optimizaciones que FUNDEN primitivas a
+//     propósito (polilíneas, descarte de bordes duplicados, fusión de
+//     colineales). Ahí el modo operadores marca diferencia siempre y no sirve:
+//     hay que preguntar por la TINTA. Muestrea cada trazo y compara qué celdas
+//     de 0,5 pt quedan pintadas — «apareció línea donde no había» es el defecto
+//     grave; «desapareció» suele ser el duplicado que se quitó.
+//
+// Uso: node tools/pdf_difops.mjs [--tinta] <a.pdf> <b.pdf>
+//   → sale 0 si el dibujo es equivalente, 1 si no.
 import { readFileSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
 
@@ -69,13 +79,88 @@ function ops(texto) {
   return res;
 }
 
-const [A, B] = process.argv.slice(2);
-if (!A || !B) { console.error('uso: pdf_difops <a.pdf> <b.pdf>'); process.exit(2); }
+const args = process.argv.slice(2);
+const MODO_TINTA = args.includes('--tinta');
+const [A, B] = args.filter((a) => a !== '--tinta');
+if (!A || !B) { console.error('uso: pdf_difops [--tinta] <a.pdf> <b.pdf>'); process.exit(2); }
 const ca = contenidos(A), cb = contenidos(B);
 if (ca.length !== cb.length) {
   console.log(`DIFIEREN: ${ca.length} páginas de contenido contra ${cb.length}`);
   process.exit(1);
 }
+// ── modo TINTA ──────────────────────────────────────────────────────────────
+// polilíneas de los operadores de trazo, muestreadas a celdas de 0,5 pt
+function trazos(txt) {
+  const out = []; let pts = [], pila = [];
+  for (const t of txt.split(/\s+/)) {
+    if (!t) continue;
+    const n = Number(t);
+    if (Number.isFinite(n) && /^-?[\d.]+$/.test(t)) { pila.push(n); continue; }
+    if ((t === 'm' || t === 'l') && pila.length >= 2) pts.push([r2(pila.at(-2)), r2(pila.at(-1))]);
+    else if (t === 'S') { if (pts.length) out.push(pts); pts = []; }
+    else if (['f', 'B', 'B*', 'b', 'f*'].includes(t)) pts = [];
+    pila = [];
+  }
+  return out;
+}
+function celdas(pl) {
+  const g = new Set();
+  for (const p of pl) for (let i = 0; i + 1 < p.length; i++) {
+    const [a, b] = [p[i], p[i + 1]];
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const N = Math.max(1, Math.ceil(L / 0.25));
+    for (let k = 0; k <= N; k++) {
+      const t = k / N;
+      g.add(`${Math.round((a[0] + (b[0] - a[0]) * t) * 2)},${Math.round((a[1] + (b[1] - a[1]) * t) * 2)}`);
+    }
+  }
+  return g;
+}
+// grupos 8-conectados: 1-3 celdas = ruido de muestreo; un grupo grande = tramo real
+function grupos(set) {
+  const vis = new Set(), gs = [];
+  for (const c of set) {
+    if (vis.has(c)) continue;
+    const pila = [c], g = [];
+    while (pila.length) {
+      const q = pila.pop(); if (vis.has(q)) continue;
+      vis.add(q); g.push(q);
+      const [x, y] = q.split(',').map(Number);
+      for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
+        const k = `${x + dx},${y + dy}`;
+        if (set.has(k) && !vis.has(k)) pila.push(k);
+      }
+    }
+    gs.push(g);
+  }
+  return gs.sort((p, q) => q.length - p.length);
+}
+// puente tolerado: la fusión de colineales cierra micro-huecos entre tramos
+// que ya se veían continuos. Sobre 1 mm de papel ya es una línea que el plano
+// no tenía y hay que mirarla.
+const UMBRAL_MM = Number(process.env.UMBRAL_MM || 1.0);
+if (MODO_TINTA) {
+  let grave = 0;
+  for (let i = 0; i < ca.length; i++) {
+    const ta = celdas(trazos(ca[i])), tb = celdas(trazos(cb[i]));
+    const falta = new Set([...ta].filter((c) => !tb.has(c)));
+    const sobra = new Set([...tb].filter((c) => !ta.has(c)));
+    const comun = ta.size - falta.size;
+    const gf = grupos(falta), gs = grupos(sobra);
+    // el veredicto va en MILÍMETROS DE PAPEL, no en celdas: una celda es 0,5 pt
+    const mm = (g) => g.length * 0.5 * 25.4 / 72;
+    const puente = gs.length ? mm(gs[0]) : 0;
+    if (puente > UMBRAL_MM) grave++;
+    console.log(`  hoja ${i + 1}: ${comun} celdas comunes · falta ${falta.size} (${(100 * falta.size / (comun + falta.size)).toFixed(2)} %) · sobra ${sobra.size}`);
+    if (gf.length) console.log(`     desapareció: ${gf.length} grupos, ${gf.filter((g) => g.length <= 3).length} de 1-3 celdas (ruido de muestreo) · mayor ${mm(gf[0]).toFixed(2)} mm`);
+    if (gs.length) console.log(`     apareció: ${gs.length} grupos · mayor ${puente.toFixed(2)} mm${puente > UMBRAL_MM ? '  ← SOBRE EL UMBRAL' : ' (bajo umbral)'}`);
+  }
+  console.log(grave
+    ? `TINTA INVENTADA en ${grave} de ${ca.length} hojas — hay línea nueva sobre ${UMBRAL_MM} mm: la fusión une tramos NO contiguos`
+    : `TINTA EQUIVALENTE en ${ca.length} hojas — ninguna línea nueva supera ${UMBRAL_MM} mm de papel`);
+  process.exit(grave ? 1 : 0);
+}
+
 let total = 0, malas = 0;
 for (let i = 0; i < ca.length; i++) {
   const a = ops(ca[i]), b = ops(cb[i]);

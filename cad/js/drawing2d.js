@@ -861,7 +861,7 @@ function sheetContent(sheet, k) {
       // ALAMBRE: tirada contigua de tramos del MISMO color → polilíneas. Se
       // respeta el orden (sólo se funde lo que ya iba seguido) y se excluyen
       // las capas con guion, donde la fase del punteado sí cambiaría.
-      if (p.k === 'l' && !DASH[ly]) {
+      if (p.k === 'l' && !DASH[ly] && !process.env.SIN_POLI) {   // SIN_POLI=1 → tramo a tramo (auditoría)
         const col = p.rgb ? p.rgb.map(f).join(' ') : lyCol;
         const run = [];
         let j = ip;
