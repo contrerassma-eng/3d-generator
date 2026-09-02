@@ -30,7 +30,7 @@ from math import cos as _cos, sin as _sin
 CB = _cos(radians(BETA))
 SB = _sin(radians(BETA))
 ZOFF = 0.0    # P1/P2 del boceto = los dos planos de tetones (z ±14.9)
-W2 = 17.3
+W2 = 18.3   # +1 por lado (v7.2): robustez de pestanas y tapas
 BORE_D = 9.0   # (solo referencia; el hex 14 va PASANTE)
 HEX_AF = 14.5        # PASANTE; vertices en 0/60/... (caras planas a 30+60k)
 PIN_D = 3.2
@@ -233,15 +233,6 @@ def placa(side):
     # holgura de rodillos
     for k in range(6):
         s = s.cut(rodillo_en_sitio(k, extra_r=CLR, extra_l=0.7))
-    # anti-lasca (v7.1): dentro de la BANDA DE LA CARA la abertura se amplia
-    # +0.9, de modo que el borde de la ventana nazca donde el material ya es
-    # grueso; sin esto el cono de holgura sale por la cara dejando filos <1 mm
-    # que no imprimen. No toca la holgura funcional del rodillo.
-    zb_cara = -W2 - 0.2 if side < 0 else W2 - 6.4
-    banda = cq.Workplane("XY").circle(40).extrude(6.6).translate((0, 0, zb_cara))
-    for k in range(6):
-        s = s.cut(rodillo_en_sitio(k, extra_r=CLR + 0.9, extra_l=1.6)
-                  .intersect(banda))
     # cunas de pasador Ø3.5 (eje 3.2 flotante, capturado al cerrar)
     for k in range(6):
         u = axis_dir(k)
