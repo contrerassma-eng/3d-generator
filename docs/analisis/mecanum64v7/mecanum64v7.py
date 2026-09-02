@@ -184,6 +184,33 @@ def esbeltez_solid():
     return (cq.Workplane("XZ").polyline(prof).close()
             .revolve(360, (0, 0, 0), (0, 1, 0)))
 
+def anillo_esquina(side):
+    """v7.3 (boceto verde/celeste de Sergio): perfil dibujado en el plano
+    axial que SIEMPRE cubre la esquina exterior de la cara, revolucionado
+    alrededor del eje. En (r,z) la envolvente barrida de los rodillos no
+    depende del azimut -> un anillo con radio interior renv(z)+1.1 jamas toca
+    un rodillo, en ninguna posicion. Se limita a r>=26 para no cerrar las
+    ventanas de la estrella (solo la esquina)."""
+    sarr = np.linspace(-SMAX, SMAX, 240)
+    aarr = np.linspace(0, 2 * np.pi, 200)
+    S, A = np.meshgrid(sarr, aarr, indexing='ij')
+    RHO = np.vectorize(rho)(S)
+    P = np.stack([D0 + RHO * np.cos(A), S * CB + RHO * np.sin(A) * SB,
+                  S * SB - RHO * np.sin(A) * CB], -1).reshape(-1, 3)
+    rr, zz = np.hypot(P[:, 0], P[:, 1]), P[:, 2]
+    zs = np.linspace(11.8, W2, 28)
+    prof = [(33.0, float(zs[0]))]
+    for z0 in zs:
+        m = np.abs(zz - z0) < 0.4
+        rin = (rr[m].max() + 1.1) if m.any() else 0.0
+        prof.append((float(min(max(rin, 26.0), 32.9)), float(z0)))
+    prof.append((33.0, float(W2)))
+    w = (cq.Workplane("XZ").polyline(prof).close()
+         .revolve(360, (0, 0, 0), (0, 1, 0)))
+    if side < 0:
+        w = w.mirror(mirrorPlane="XY")
+    return w
+
 def placa(side):
     """v3 — mecanismo de acople tipo juguete:
        A (side=-1): tubo exterior con bore Ø16.2; bolsillo hex 14x6 en cara +
@@ -200,6 +227,8 @@ def placa(side):
     centers = sorted((ROWS[k] + boss_ang) % 360 for k in range(6))
     s = estrella_v4(R - 0.8, 13.5, centers, hs=10.0, chord_off=5.0) \
         .extrude(6.0).translate((0, 0, z_face))
+    # anillo de esquina (revolucion: cubre la esquina en todo azimut)
+    s = s.union(anillo_esquina(side))
     # cubo de cara (aloja el bolsillo hex)
     zhub = -W2 if side < 0 else W2 - (HEX_DEPTH + FLOOR_T)
     s = s.union(cq.Workplane("XY").circle(12.0).extrude(HEX_DEPTH + FLOOR_T)
@@ -227,6 +256,16 @@ def placa(side):
             s = s.cut(wedge(g0, g1, -0.05, TEETH_H).intersect(
                 cq.Workplane("XY").circle(DRUM_OUT + 1).extrude(TEETH_H + 0.05)
                 .translate((0, 0, -0.05))))
+    # relleno de tetones (v7.4, boceto rojo): cilindro Ø14 alrededor de cada
+    # eje en la zona del teton; los cortes de holgura de rodillo (despues)
+    # lo recortan EXACTAMENTE en el plano limite contra la cara del rodillo,
+    # y bombeo/esbeltez lo contienen por fuera. Sujeta mejor el pasador.
+    sgn_b = -1 if side < 0 else 1
+    for k in range(6):
+        u = axis_dir(k)
+        p0 = axis_pt(k, sgn_b * (S_BOSS + 5.0))
+        s = s.union(cq.Workplane(obj=cq.Solid.makeCylinder(
+            7.0, 13.0, cq.Vector(*p0), cq.Vector(*(-sgn_b * u)))))
     # abombado lateral + perfil de esbeltez de las caras
     s = s.intersect(bombeo_solid())
     s = s.intersect(esbeltez_solid())
