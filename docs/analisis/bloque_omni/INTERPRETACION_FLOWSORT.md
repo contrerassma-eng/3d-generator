@@ -1,4 +1,27 @@
-# Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2/v3
+# Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2/v3/v4
+
+> **v4 (02-09, tarde — módulo angosto)**: cambios de Sergio aplicados:
+> **F6801ZZ** (12×21×5, brida Ø23.2) **embutido desde fuera** por ajuste en
+> **rieles perforados de 4 mm** (agujero Ø21, la brida apoya en la cara
+> exterior). El **eje es HEXAGONAL 1/2" e/c** (vértices Ø14.66) con
+> **rebaje redondo torneado a Ø12 × 10** en cada extremo (el 6801 es
+> agujero 12.0 exacto). Las ruedas montan con **buje adaptador hex→hex**
+> (exterior 14.4 e/c para el hex 14.5 de la rueda, interior 12.85 e/c
+> sobre el eje): arrastre directo, **sin prisioneros de torque**; las
+> poleas también van con **agujero hexagonal 12.85**. Los separadores de
+> PVC siguen (ID 20.9 sobre vértices 14.66). El **módulo es
+> angosto**: solo las 4 filas + transmisión (y −160…+220), la **zona muerta
+> queda libre** (−266.8…−160 = 106.8 mm despejados). Se **apoya en 2
+> travesaños** (pletina 50×6, x=±180) montados en las **pestañas inferiores
+> de los largueros** (z=−82.6 medido del LT_G), con colisas 9×25 en la base.
+> **Transmisión**: cada motor → **sus 2 ejes centrales** (garganta 1 de
+> poleas dobles PJ Ø40×20) y **esos 2 → los extremos** (garganta 2);
+> bandas apiladas en el lado muerto: der −69/−79, izq −95/−105; motores
+> escalonados en x=∓90 (cuerpos separados, verificado). **Soporte de motor
+> a la base: placa de 8 mm tipo Flowsort** con colisas de tensado 6.5×18.
+> Gates: lomo de motor 50.4 < riel 52 y < envolvente 51.1; banda↔rueda 6.7.
+> Archivos: `bloque_omni_v4.py`, `bo4z_scene.py`, `bloque_omni_zp_v4.glb`,
+> `bloque_omni_v4_fab.step`, lámina `BO4Z_lamina.png`.
 
 > **v3.2 (02-09, "ocupa tal cual el transportador cero presión")**: la escena
 > `bo3z_scene.py` decodifica el **ZP2026 completo** (todos los nodos del GLB,
