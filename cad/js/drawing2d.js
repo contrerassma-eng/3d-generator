@@ -1030,6 +1030,60 @@ function dxfToBytes(s) {
 
 export { GRUPO_RGB };
 
+// ¿Es este contorno una ranura en ARCO? Una banda en arco son DOS arcos
+// concéntricos y DOS tapas. Ajustar un círculo a TODOS los vértices está mal
+// planteado y da un centro falso (probado 23-08: daba R31 donde el arco real es
+// R52). Se parte el lazo por sus ESQUINAS —los vértices con giro brusco— y se
+// ajusta sobre la cadena más larga, que es un arco de verdad; el otro radio sale
+// midiendo la segunda cadena contra ese mismo centro.
+function ajustaArco(pol) {
+  const P = pol[0][0] === pol[pol.length - 1][0] && pol[0][1] === pol[pol.length - 1][1]
+    ? pol.slice(0, -1) : pol.slice();
+  const n = P.length;
+  if (n < 12) return null;
+  const ang = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]);
+  const esquinas = [];
+  for (let i = 0; i < n; i++) {
+    const a = P[(i - 1 + n) % n], b = P[i], c = P[(i + 1) % n];
+    let d = ang(b, c) - ang(a, b);
+    while (d > Math.PI) d -= 2 * Math.PI;
+    while (d < -Math.PI) d += 2 * Math.PI;
+    if (Math.abs(d) > 40 * Math.PI / 180) esquinas.push(i);
+  }
+  if (esquinas.length < 2) return null;
+  // cadenas entre esquinas consecutivas
+  const cadenas = [];
+  for (let k = 0; k < esquinas.length; k++) {
+    const i0 = esquinas[k], i1 = esquinas[(k + 1) % esquinas.length];
+    const ch = [];
+    for (let i = i0; ; i = (i + 1) % n) { ch.push(P[i]); if (i === i1) break; }
+    if (ch.length >= 4) cadenas.push(ch);
+  }
+  if (!cadenas.length) return null;
+  cadenas.sort((a, b) => b.length - a.length);
+  const ch = cadenas[0];
+  // circuncentro por tres puntos bien separados de la cadena
+  const [A, Bp, C] = [ch[0], ch[Math.floor(ch.length / 2)], ch[ch.length - 1]];
+  const d = 2 * (A[0] * (Bp[1] - C[1]) + Bp[0] * (C[1] - A[1]) + C[0] * (A[1] - Bp[1]));
+  if (Math.abs(d) < 1e-9) return null;                       // colineales: recta
+  const ax = A[0] * A[0] + A[1] * A[1], bx = Bp[0] * Bp[0] + Bp[1] * Bp[1], cx2 = C[0] * C[0] + C[1] * C[1];
+  const cx = (ax * (Bp[1] - C[1]) + bx * (C[1] - A[1]) + cx2 * (A[1] - Bp[1])) / d;
+  const cy = (ax * (C[0] - Bp[0]) + bx * (A[0] - C[0]) + cx2 * (Bp[0] - A[0])) / d;
+  const rs = ch.map(([x, y]) => Math.hypot(x - cx, y - cy));
+  const R = rs.reduce((a, b) => a + b, 0) / rs.length;
+  // la cadena tiene que SER un arco: dispersión bajo el 2 % del radio
+  if (R < 5 || (Math.max(...rs) - Math.min(...rs)) > R * 0.02) return null;
+  const angs = ch.map(([x, y]) => Math.atan2(y - cy, x - cx)).sort((a, b) => a - b);
+  const vano = (angs[angs.length - 1] - angs[0]) * 180 / Math.PI;
+  // el ancho: la otra cadena larga, medida contra ESTE centro
+  let ancho = 0;
+  if (cadenas[1]) {
+    const r2 = cadenas[1].map(([x, y]) => Math.hypot(x - cx, y - cy));
+    ancho = Math.abs(R - r2.reduce((a, b) => a + b, 0) / r2.length);
+  }
+  return { cx, cy, r: R, ancho, vano };
+}
+
 export function buildFlatSheet(flat, meta, K) {
   const xs = flat.contorno.map(p => p[0]), ys = flat.contorno.map(p => p[1]);
   const lo = [Math.min(...xs), Math.min(...ys)], hi = [Math.max(...xs), Math.max(...ys)];
@@ -1114,6 +1168,52 @@ export function buildFlatSheet(flat, meta, K) {
     for (const p of flat.cortes.polys) {
       for (let i = 0; i < p.length - 1; i++) sheet.line(T(p[i]), T(p[i + 1]), 'VISIBLE');
     }
+    // CONTORNOS INTERIORES (ranuras, arcos, ventanas): hasta hoy se dibujaban y
+    // no se acotaban — el plano no decía ni cuánto miden ni dónde van. Se
+    // agrupan los IGUALES (misma envolvente) y cada familia va a la LEYENDA al
+    // pie con una directriz desde su primera instancia: metido en el campo de
+    // dibujo el rótulo chocaba con el texto de plegado o se salía de la hoja.
+    if (flat.cortes.polys?.length) {
+      const cero2 = [lo[0], lo[1]];
+      const fam = new Map();
+      for (const p of flat.cortes.polys) {
+        const xs2 = p.map(q => q[0]), ys2 = p.map(q => q[1]);
+        const a = [Math.min(...xs2), Math.min(...ys2)], b = [Math.max(...xs2), Math.max(...ys2)];
+        const dw = +(b[0] - a[0]).toFixed(1), dh = +(b[1] - a[1]).toFixed(1);
+        const k = `${dw}x${dh}`;
+        if (!fam.has(k)) fam.set(k, { dw, dh, cent: [], pol: p });
+        fam.get(k).cent.push([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]);
+      }
+      let iF = 0;
+      const yLeg0 = T([lo[0], lo[1]])[1] - 21;
+      for (const [, f] of fam) {
+        const arc = ajustaArco(f.pol);
+        let txt;
+        if (arc) {
+          // radio de LÍNEA MEDIA (el de diseño) y centro: es con lo que se traza
+          const rMed = arc.r - arc.ancho / 2;
+          txt = `${f.cent.length}× ranura en ARCO R${rMed.toFixed(1)} (línea media) · ancho ${arc.ancho.toFixed(1)}` +
+            ` · vano ${arc.vano.toFixed(0)}° · centro ${(arc.cx - cero2[0]).toFixed(1)},${(arc.cy - cero2[1]).toFixed(1)}`;
+        } else {
+          txt = `${f.cent.length}× contorno ${f.dw}×${f.dh}`;
+        }
+        // MARCA por familia (R1, R2…) junto a cada instancia y al frente del
+        // renglón: una directriz desde la leyenda hasta el contorno cruzaba la
+        // pieza entera, que es mala práctica de dibujo.
+        const marca = `R${iF + 1}`;
+        const yl = yLeg0 - iF * 4;
+        sheet.text(`${marca} — ${txt}`, T([lo[0], lo[1]])[0] + 4, yl, 2.8, 'L');
+        for (const c of f.cent) {
+          const Q = T(c);
+          sheet.marcaCentro(Q, 1.4);
+          // la marca va al COSTADO: debajo chocaba con el texto de plegado
+          sheet.text(marca, Q[0] + (f.dw * s) / 2 + 1.4, Q[1] - 0.9, 2.4, 'L', 'COTAS');
+          sheet.text(`${(+(c[0] - cero2[0])).toFixed(1)},${(+(c[1] - cero2[1])).toFixed(1)}`,
+            Q[0], Q[1] + (f.dh * s) / 2 + 1.6, 2.2, 'C', 'COTAS');
+        }
+        iF++;
+      }
+    }
     if (orden.length) {
       // leyenda con cada familia en SU color, en segmentos consecutivos
       let lx = T([lo[0], lo[1]])[0];
@@ -1126,8 +1226,64 @@ export function buildFlatSheet(flat, meta, K) {
         sheet.text(seg, lx, lyy, 3.2, 'L', 'TEXTO', g.rgb || undefined);
         lx += textWidth(seg, 3.2);
       });
-      sheet.text(`POSICIONES: DXF ${meta?.dxfRef || 'de corte'} a escala REAL 1:1 + _agujeros.csv (X·Y·Ø de cada barreno) — contornos interiores ídem`,
-        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 17.5, 2.8, 'L');
+      // POSICIONES ACOTADAS EN LA LÁMINA (23-08). Antes esta línea decía «ver el
+      // DXF y el _agujeros.csv»: un plano que manda al calderero a un CSV no es
+      // un plano, y es lo que obliga a abrir Inventor. Ahora la lámina lleva el
+      // CERO declarado, las ordenadas y la tabla de coordenadas — el CSV queda
+      // como comodidad para el láser, no como requisito para leer el plano.
+      const cero = [lo[0], lo[1]];
+      const P0 = T(cero);
+      sheet.text(`CERO DE COTAS: esquina inferior izquierda del desarrollo · perfil exacto de cada contorno en el DXF ${meta?.dxfRef || 'de corte'} 1:1`,
+        P0[0], P0[1] - 21 - 4 * 4 - 5, 2.8, 'L');
+      sheet.circle(P0, 1.6, 'COTAS');
+      sheet.text('0,0', P0[0] - 2.6, P0[1] - 4.6, 2.6, 'R', 'COTAS');
+
+      const cs = flat.cortes.circles;
+      const uniq = (a) => [...new Set(a.map(v => Math.round(v * 10)))].length;
+      const xr = cs.map(c => c.c[0] - cero[0]), yr = cs.map(c => c.c[1] - cero[1]);
+      // con demasiadas coordenadas distintas las ordenadas se pisan entre sí:
+      // ahí manda la tabla, que es la otra forma normalizada de decir lo mismo
+      if (uniq(xr) <= 16) {
+        sheet.ordenadasH(P0[0], cs.map(c => ({
+          v: +(c.c[0] - cero[0]).toFixed(1), x: T(c.c)[0], yFeat: T(c.c)[1] - c.r * s,
+        })), P0[1] - 3, 9);
+      }
+      if (uniq(yr) <= 12) {
+        sheet.ordenadasV(P0[1], cs.map(c => ({
+          v: +(c.c[1] - cero[1]).toFixed(1), y: T(c.c)[1], xFeat: T(c.c)[0] - c.r * s,
+        })), P0[0] - 3, 9);
+      }
+
+      // TABLA DE COORDENADAS en la banda derecha: una fila por barreno, con su
+      // marca. Se reparte en columnas para caber; si aun así no cabe, se dice
+      // CUÁNTAS quedaron fuera — nunca se calla.
+      const filas = cs.map(c => {
+        const g = grupoDe(c);
+        const base = ['Ø' + (+(c.r * 2).toFixed(1)),
+          (+(c.c[0] - cero[0])).toFixed(1), (+(c.c[1] - cero[1])).toFixed(1)];
+        return orden.length > 1 ? [g?.letra ?? '', ...base] : base;
+      }).sort((a, b) => String(a[0]).localeCompare(String(b[0])) || (+a[a.length - 2]) - (+b[b.length - 2]));
+      const bandX = ox + w * s + 18;
+      const libreW = W - MARGIN - bandX;
+      const unaFam = orden.length <= 1;
+      const anchosT = unaFam ? [14, 16, 16] : [10, 14, 16, 16];
+      const anchoT = anchosT.reduce((a, b) => a + b, 0);
+      if (libreW > anchoT + 2) {
+        const topeY = oy + h * s;
+        const baseY = MARGIN + TITLE_H + 12;
+        const porCol = Math.max(1, Math.floor((topeY - baseY) / 5.2) - 1);
+        const nCols = Math.max(1, Math.floor(libreW / (anchoT + 4)));
+        let puestas = 0;
+        for (let ci = 0; ci < nCols && puestas < filas.length; ci++) {
+          const trozo = filas.slice(puestas, puestas + porCol);
+          sheet.tablaBarrenos(bandX + ci * (anchoT + 4), topeY - 5.2, trozo,
+            unaFam ? ['Ø', 'X', 'Y'] : ['MARCA', 'Ø', 'X', 'Y'], anchosT);
+          puestas += trozo.length;
+        }
+        sheet.text(`COORDENADAS DESDE EL CERO (${puestas}/${filas.length})` +
+          (puestas < filas.length ? ` · resto en _agujeros.csv` : ''),
+          bandX, topeY + 2.5, 2.6, 'L');
+      }
     }
     // llamado de ROSCAS junto a cada barreno roscado
     for (const c of flat.cortes.circles.filter(q => q.rosca)) {
