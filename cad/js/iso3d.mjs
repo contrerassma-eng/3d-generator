@@ -672,16 +672,58 @@ export class IsoScene {
                 return;
               }
               const cd = (t0[2] + t1[2] + t2[2]) / 3;
-              if (!visDe((t0[0] + t1[0] + t2[0]) / 3, (t0[1] + t1[1] + t2[1]) / 3, cd)) return;
+              const vis0 = visDe((t0[0] + t1[0] + t2[0]) / 3, (t0[1] + t1[1] + t2[1]) / 3, cd);
               const l2 = [t0, t1, t2].map(([x, y]) => [(x - minX) * sMM, (y - minY) * sMM]);
               // sólo se descarta POLVO real: las astillas largas y delgadas
               // del CSG tapizan la cara — filtrarlas por área pintaba vetas
               // blancas «salpicadura» (visto en las mechas del manual GT)
               const a2 = Math.abs((l2[1][0] - l2[0][0]) * (l2[2][1] - l2[0][1]) - (l2[2][0] - l2[0][0]) * (l2[1][1] - l2[0][1]));
               if (a2 < 0.05) return;
-              visTris.push({ l2, cd });
+              visTris.push({ l2, cd, vis: vis0 });
             };
             for (const t of projTris) emit(t.p3[0], t.p3[1], t.p3[2], 0);
+            // CIERRE DE HUECOS AISLADOS (D-13, 02-09). El muestreo de
+            // visibilidad falla donde dos superficies quedan casi coincidentes
+            // —dos chapas apernadas cara a cara, una golilla contra su placa—:
+            // el sub-triángulo de adelante PIERDE contra el z-buffer por
+            // milésimas y queda sin pintar, dejando el moteado blanco.
+            // Un triángulo descartado RODEADO de visibles es un falso negativo
+            // por definición: si de verdad estuviera tapado, sus vecinos
+            // también lo estarían. Se recupera por vecindad de arista — no se
+            // sube el sesgo, que taparía caras genuinamente ocultas.
+            {
+              const key = (a, b) => {
+                const ka = `${Math.round(a[0] * 1e3)},${Math.round(a[1] * 1e3)}`;
+                const kb = `${Math.round(b[0] * 1e3)},${Math.round(b[1] * 1e3)}`;
+                return ka < kb ? ka + '|' + kb : kb + '|' + ka;
+              };
+              const porArista = new Map();
+              visTris.forEach((t, i) => {
+                for (let e = 0; e < 3; e++) {
+                  const k = key(t.l2[e], t.l2[(e + 1) % 3]);
+                  if (!porArista.has(k)) porArista.set(k, []);
+                  porArista.get(k).push(i);
+                }
+              });
+              // dos pasadas: un hueco de dos triángulos también se cierra
+              for (let paso = 0; paso < 2; paso++) {
+                const flip = [];
+                visTris.forEach((t, i) => {
+                  if (t.vis) return;
+                  let vecinos = 0, visibles = 0;
+                  for (let e = 0; e < 3; e++) {
+                    for (const j of porArista.get(key(t.l2[e], t.l2[(e + 1) % 3])) || []) {
+                      if (j === i) continue;
+                      vecinos++; if (visTris[j].vis) visibles++;
+                    }
+                  }
+                  if (vecinos >= 2 && visibles >= vecinos - 1) flip.push(i);
+                });
+                if (!flip.length) break;
+                for (const i of flip) visTris[i].vis = true;
+              }
+              for (let i = visTris.length - 1; i >= 0; i--) if (!visTris[i].vis) visTris.splice(i, 1);
+            }
             // FUSIÓN DEL PARCHE (23-08): los sub-triángulos visibles de un
             // parche son COPLANARES, del MISMO tono y todos pasaron la prueba
             // de visibilidad (nada los tapa). Emitirlos uno a uno escribía sus
