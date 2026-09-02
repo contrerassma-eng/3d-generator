@@ -171,6 +171,19 @@ def bombeo_solid():
     return (cq.Workplane("XZ").polyline(prof).close()
             .revolve(360, (0, 0, 0), (0, 1, 0)))
 
+def esbeltez_solid():
+    """curvatura lateral leve: cara plana hasta r24, luego cae cuadratico
+    1.6 mm por cara en el filo -> silueta lateral esbelta (marca amarilla)"""
+    import numpy as np
+    prof = [(0.02, -W2), (24.0, -W2)]
+    for t in np.linspace(0, 1, 9)[1:]:
+        prof.append((24.0 + (R - 24.0) * t, -(W2 - 1.6 * t * t)))
+    for t in np.linspace(1, 0, 9):
+        prof.append((24.0 + (R - 24.0) * t, W2 - 1.6 * t * t))
+    prof += [(0.02, W2)]
+    return (cq.Workplane("XZ").polyline(prof).close()
+            .revolve(360, (0, 0, 0), (0, 1, 0)))
+
 def placa(side):
     """v3 — mecanismo de acople tipo juguete:
        A (side=-1): tubo exterior con bore Ø16.2; bolsillo hex 14x6 en cara +
@@ -180,13 +193,13 @@ def placa(side):
        6 pasadores en cunas cerradas enfrentadas (caras sin taladros).
        Estrellas desfasadas 30 (patron del boceto). Patron de 6 angulos en el
        fondo del bolsillo (3 cabezas + 3 rebajes)."""
-    z_face = -W2 if side < 0 else W2 - 4.6
+    z_face = -W2 if side < 0 else W2 - 6.0   # cara 6.0 (antes 4.6): robustez
     boss_ang = degrees(atan2(side * S_BOSS * CB, D0))
     # brazos: cada uno abarca un PAR de tetones propios (como la rueda real)
     # 6 brazos armonicos: cada brazo porta UN teton (mini-arco centrado en el)
     centers = sorted((ROWS[k] + boss_ang) % 360 for k in range(6))
     s = estrella_v4(R - 0.8, 13.5, centers, hs=10.0, chord_off=5.0) \
-        .extrude(4.6).translate((0, 0, z_face))
+        .extrude(6.0).translate((0, 0, z_face))
     # cubo de cara (aloja el bolsillo hex)
     zhub = -W2 if side < 0 else W2 - (HEX_DEPTH + FLOOR_T)
     s = s.union(cq.Workplane("XY").circle(12.0).extrude(HEX_DEPTH + FLOOR_T)
@@ -214,11 +227,21 @@ def placa(side):
             s = s.cut(wedge(g0, g1, -0.05, TEETH_H).intersect(
                 cq.Workplane("XY").circle(DRUM_OUT + 1).extrude(TEETH_H + 0.05)
                 .translate((0, 0, -0.05))))
-    # abombado lateral
+    # abombado lateral + perfil de esbeltez de las caras
     s = s.intersect(bombeo_solid())
+    s = s.intersect(esbeltez_solid())
     # holgura de rodillos
     for k in range(6):
         s = s.cut(rodillo_en_sitio(k, extra_r=CLR, extra_l=0.7))
+    # anti-lasca (v7.1): dentro de la BANDA DE LA CARA la abertura se amplia
+    # +0.9, de modo que el borde de la ventana nazca donde el material ya es
+    # grueso; sin esto el cono de holgura sale por la cara dejando filos <1 mm
+    # que no imprimen. No toca la holgura funcional del rodillo.
+    zb_cara = -W2 - 0.2 if side < 0 else W2 - 6.4
+    banda = cq.Workplane("XY").circle(40).extrude(6.6).translate((0, 0, zb_cara))
+    for k in range(6):
+        s = s.cut(rodillo_en_sitio(k, extra_r=CLR + 0.9, extra_l=1.6)
+                  .intersect(banda))
     # cunas de pasador Ø3.5 (eje 3.2 flotante, capturado al cerrar)
     for k in range(6):
         u = axis_dir(k)
