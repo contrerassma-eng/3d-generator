@@ -1,4 +1,25 @@
-# Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2
+# Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2/v3
+
+> **v3 (02-09, correcciones de Sergio)**: transmisión por **correas Poly-V
+> PJ en serpentín** (lo que usa el Flowsort real: PJ 4 nervios) en lugar de
+> o-rings; los separadores **solo desaparecen donde pasa la correa**
+> (aclaración de Sergio): quedan **6 varillas M8** en puntos verificados
+> fuera del serpentín y de los motores — el central de z44.5 se reparte en
+> x=±150 porque en x=0 cruzaba el cuerpo de los motores (que llegan a
+> z 50.4), y los cruces de la correa por z44.5 caen en x ±211.6 y ±26 —
+> además de la **PLACA BASE** con arreglos de ranuras (la baseplate del
+> despiece p.23 del manual); **laterales de extremo con
+> columnas de ranuras verticales 9×20 + escuadras = ajuste en profundidad**
+> del módulo; ranuras estilo Flowsort también en las placas principales;
+> **solo 4 ruedas por eje, equidistantes (paso 78), grupo cargado a la
+> IZQUIERDA** (mirando el flujo +X, izquierda = +Y: y = −39/39/117/195);
+> los **2 UniDrive** (uno por cara) visibles. Cada cara lleva su serpentín:
+> correa bajo las 4 poleas Ø40 de sus ejes, sobre 3 tensores Ø24 entre ejes
+> (fondo de polea 63.1 / tope de tensor 64.0 → la correa abraza), motor
+> real abajo. Gates: polea 214–228 vs borde de rueda 213.3 (0.7), placa
+> base −73/−69 vs fondo de motor −67.7 (1.3), resto sin cambios.
+> Archivos: `bloque_omni_v3.py`, `bo3_scene.py`, `bloque_omni_v3.glb`,
+> `bloque_omni_v3_fab.step`, lámina `BO3_lamina.png`.
 
 Pedido de Sergio (02-09): dejar de iterar impresión y rehacer el bloque BIEN:
 con la **rueda mecanum v7 real**, las **mallas GLB reales del transportador**
