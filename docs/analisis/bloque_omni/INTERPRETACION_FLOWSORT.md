@@ -1,5 +1,20 @@
 # Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2/v3
 
+> **v3.2 (02-09, "ocupa tal cual el transportador cero presión")**: la escena
+> `bo3z_scene.py` decodifica el **ZP2026 completo** (todos los nodos del GLB,
+> meshopt + quantization) y el bloque ocupa la **zona central** en su lugar:
+> se retiran solo los 38 nodos de accionamiento de esa zona (8 rodillos
+> `pos`, casetes `=>`, correas, o-rings, UniDrive + carrete y tornillería);
+> quedan 199 (largueros, travesaños, guardas, patas, riostras, sensores de
+> zonas vecinas, 32 rodillos — verificados 0 torcidos). La **escalerilla se
+> corta en |x|<310** (reencaminar por fuera de la caja), el **controlador
+> `c` se corre a x+330** y la **fuente 24V a x−450** sobre el mismo
+> larguero. El bloque se adapta al bastidor real: **rebaje de placas
+> |x|>274 bajo z18** para librar los travesaños TR_S (x 280.2, tope z 14.1
+> → holguras 6.2 / 3.9), laterales desde z18 (pasan sobre el travesaño),
+> escuadras a z35, placa base y tapa inferior a ±272. Entregables:
+> `bloque_omni_zp.glb` (máquina completa) + lámina `BO3Z_lamina.png`.
+
 > **v3 (02-09, correcciones de Sergio)**: transmisión por **correas Poly-V
 > PJ en serpentín** (lo que usa el Flowsort real: PJ 4 nervios) en lugar de
 > o-rings; los separadores **solo desaparecen donde pasa la correa**

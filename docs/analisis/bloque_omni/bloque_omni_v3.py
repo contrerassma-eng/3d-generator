@@ -116,16 +116,23 @@ def placa_principal(sy):
         s = s.cut(cq.Workplane("XZ").circle(4.25).extrude(40)
                   .translate((x, sy * 280, z)))
     for sx in (-1, 1):
-        for z in (-50, 20, 90):
+        for z in (30, 60, 90):
             s = s.cut(cq.Workplane("XZ").circle(2.6).extrude(40)
                       .translate((sx * (L_PLACA / 2 - 10), sy * 280, z)))
+    # v3.2 (ZP real): rebaje bajo z=18 en |x|>274 para librar los travesanos
+    # TR_S del bastidor (x 280.2..367.9, tope z=14.1 -> 6.2 / 3.9 de holgura)
+    for sx in (-1, 1):
+        s = s.cut(cq.Workplane("XY").box(40, 60, 100)
+                  .translate((sx * (274 + 20), sy * (PLACA_Y + PLACA_T / 2),
+                              18.0 - 50)))
     return s
 
 
 def placa_base():
     """baseplate Flowsort (despiece p.23): placa horizontal con arreglos de
-    ranuras, atornillada M5 al borde inferior de ambas placas laterales."""
-    s = (cq.Workplane("XY").rect(L_PLACA - 12, 2 * PLACA_Y - 2)
+    ranuras, atornillada M5 al borde inferior de ambas placas laterales.
+    v3.2: recortada a +-272 (dentro del rebaje de travesanos)."""
+    s = (cq.Workplane("XY").rect(544, 2 * PLACA_Y - 2)
          .extrude(Z_BASE1 - Z_BASE0).translate((0, 0, Z_BASE0)))
     for i in range(8):
         for sy, n in ((-1, 3), (1, 3)):
@@ -254,7 +261,8 @@ def tapa_superior():
 
 
 def tapa_inferior():
-    s = (cq.Workplane("XY").rect(L_ZONA - 2.0, 2 * (CARA_INT - 0.8))
+    """v3.2: recortada a +-272 para el rebaje de travesanos."""
+    s = (cq.Workplane("XY").rect(544, 2 * (CARA_INT - 0.8))
          .extrude(TAPA_T).translate((0, 0, Z_LO - TAPA_T)))
     for sy in (-1, 1):
         for i in range(7):
@@ -265,30 +273,33 @@ def tapa_inferior():
 
 def lateral_ajuste(sx):
     """extremo del modulo: placa con COLUMNAS DE RANURAS VERTICALES 9x20
-    (ajuste en profundidad) + louvres; se fija con 4 escuadras a las placas."""
-    s = (cq.Workplane("YZ").rect(2 * (CARA_INT - 0.8), Z_TAPA_BOT - (Z_LO - TAPA_T))
+    (ajuste en profundidad) + louvres; se fija con 4 escuadras a las placas.
+    v3.2: arranca en z=18 para pasar SOBRE el travesano TR_S (tope 14.1)."""
+    z_lat0 = 18.0
+    s = (cq.Workplane("YZ").rect(2 * (CARA_INT - 0.8), Z_TAPA_BOT - z_lat0)
          .extrude(sx * PLACA_T)
-         .translate((sx * (L_ZONA / 2 - 1), 0, (Z_TAPA_BOT + Z_LO - TAPA_T) / 2)))
+         .translate((sx * (L_ZONA / 2 - 1), 0, (Z_TAPA_BOT + z_lat0) / 2)))
     for sy in (-1, 1):                       # ranuras de ajuste (profundidad)
-        for z in (-50, 20, 90):
+        for z in (30, 60, 90):
             s = s.cut(cq.Workplane("YZ").slot2D(20, 9, 90).extrude(sx * (PLACA_T + 2))
                       .translate((sx * (L_ZONA / 2 - 2), sy * (PLACA_Y - 10), z)))
-    for j in range(5):                        # louvres
+    for j in range(3):                        # louvres
         for sy in (-1, 1):
             s = s.cut(cq.Workplane("YZ").slot2D(50, 5, 0).extrude(sx * (PLACA_T + 2))
-                      .translate((sx * (L_ZONA / 2 - 2), sy * 150, -55 + j * 22)))
+                      .translate((sx * (L_ZONA / 2 - 2), sy * 150, 28 + j * 22)))
     if sx > 0:
         s = s.cut(cq.Workplane("YZ").circle(8.0).extrude(sx * (PLACA_T + 2))
-                  .translate((sx * (L_ZONA / 2 - 2), 0, -20)))
+                  .translate((sx * (L_ZONA / 2 - 2), 0, 40)))
     return s
 
 
 def escuadra(sx, sy):
-    """angulo placa<->lateral: su perno corre por la ranura vertical 9x20."""
+    """angulo placa<->lateral: su perno corre por la ranura vertical 9x20.
+    v3.2: a z 20..50, sobre el travesano."""
     a = (cq.Workplane("YZ").rect(30, 30).extrude(-sx * 4)
-         .translate((sx * (L_ZONA / 2 - 1 - PLACA_T), sy * (PLACA_Y - 10), 20)))
+         .translate((sx * (L_ZONA / 2 - 1 - PLACA_T), sy * (PLACA_Y - 10), 35)))
     b = (cq.Workplane("XZ").rect(30, 30).extrude(-sy * 4)
-         .translate((sx * (L_ZONA / 2 - 16 - PLACA_T), sy * (PLACA_Y - 0.5), 20)))
+         .translate((sx * (L_ZONA / 2 - 16 - PLACA_T), sy * (PLACA_Y - 0.5), 35)))
     return a.union(b)
 
 
@@ -311,6 +322,10 @@ def verificar(vx, vy):
     print(f'separadores (v3.1, solo fuera del paso de correa): {SEP_PUNTOS}; '
           f'cruces correa z44.5 en x=+-211.6/+-26, motores x -113.7..113.7 '
           f'hasta z50.4 -> todos libres')
+    print('v3.2 (ZP real): rebaje placas |x|>274 bajo z18 vs TR_S x280.2 '
+          'tope z14.1 -> 6.2/3.9; laterales z>=18; base/tapa inf +-272; '
+          'escuadras a z35; escalerilla se corta |x|<310 (reencaminar); '
+          'controlador c -> x+330, fuente -> x-450 (reubicados)')
 
 
 if __name__ == '__main__':
