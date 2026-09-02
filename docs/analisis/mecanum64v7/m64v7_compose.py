@@ -34,9 +34,9 @@ ax.imshow(mpimg.imread(p('M64V7_cama.png'))); ax.axis('off')
 
 ax = fig.add_subplot(gs[1, 1]); ax.axis('off')
 tabla = (
-    "GEOMETRÍA v7\n"
+    "GEOMETRÍA v7.6\n"
     "─────────────────────────────\n"
-    "Rueda    Ø64 × 34.6 (como v5)\n"
+    "Rueda    Ø64 × 36.6 (v7.2)\n"
     "Rodillo  33.5 · Ø18 · Ø13 ·\n"
     "  perf. 3.5 · eje Ø3.2 · β=46°\n"
     "Centro   HEX 14.5 e/c PASANTE\n"
@@ -46,17 +46,19 @@ tabla = (
     "  alrededor del hex + 3 pernos\n"
     "  2.9×25 en r10.9, frente a\n"
     "  las caras PLANAS del hex\n"
-    "Estrella flancos rectos + filetes\n"
-    "  leves r3 / r1.5\n"
+    "Tetones a espesor lleno (v7.5):\n"
+    "  mediana 4.5–5.0, nada <2 mm\n"
+    "Vaciados de estrella ABIERTOS\n"
+    "  (v7.6): anillo solo en brazos\n"
     "─────────────────────────────\n"
     "VERIFICADO (malla)\n"
-    "rodillo-rodillo   0.728\n"
+    "rodillo-rodillo   0.74\n"
     "rodillo-placa     0.70\n"
-    "corona A↔B        0.013\n"
+    "corona A↔B        0.020\n"
     "envolvente     Ø63.8–64.0\n"
     "hex: caras 7.25 · vért. 8.37 ✓\n"
     "pared perno→hex   2.1\n"
-    "placas   9.6 / 9.9 cm³"
+    "placas   11.8 / 12.6 cm³"
 )
 ax.text(0.0, 1.0, tabla, transform=ax.transAxes, fontsize=10.5,
         family='monospace', va='top',

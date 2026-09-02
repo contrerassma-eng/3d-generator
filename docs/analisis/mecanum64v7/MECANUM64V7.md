@@ -48,6 +48,20 @@ a Ø64 (envolvente verificada Ø63.8–64.0).
    que TODAS las pestañas y tapas ganan 1 mm de material real. Medido por
    columnas de material sobre la corona r23–31: lascas <0.5 mm **7.1 % → 0.0 %**,
    <1.0 mm 14.7 % → 3.4 %, espesor medio de pestaña 2.55 → 3.51 mm (+38 %).
+8. **v7.5 — tetones y anillo a espesor lleno** (medición de Sergio en el
+   slicer: 0.654 mm sobre un tetón; pidió ≥4): el perfil de esbeltez estaba
+   recortando el anillo de esquina y los rellenos de tetón hasta dejar la
+   tapa exterior en ~0.65. Ahora anillo y rellenos se unen DESPUÉS de la
+   esbeltez: solo los limitan el bombeo lateral y la holgura del rodillo
+   (+1.0 radial / +0.7 axial, así que el plano límite contra la cara del
+   rodillo se respeta y el plano inclinado continúa hasta morir en punta).
+   Columnas de material sobre los 6 tetones: **mediana 4.5–5.0 mm**, mínimo
+   2.16 en la rampa que termina en punta, nada bajo 2 mm.
+9. **v7.6 — vaciados de la estrella abiertos**: la revolución del anillo
+   (y los rellenos) cubría también las ventanas de la estrella. Ahora ambos
+   se intersectan con el prisma de la estrella: **las ventanas quedan
+   abiertas** y el anillo solo existe donde hay brazo — la esquina exterior
+   sigue cubierta en todo el brazo, incluida su llegada al borde.
 
 Sin cambios de la v5: cunas de pasador Ø3.5 (ciegas en A, captura en B),
 holgura placa-rodillo 1.0 radial / 0.7 axial, bombeo lateral, dientes de
@@ -55,9 +69,9 @@ corona con 0.8° de holgura total por flanco.
 
 ## Verificación (mallas)
 
-rodillo-placa 0.700 · interferencia 0.00 · rodillo-rodillo 0.728 ·
-corona A↔B 0.013 · envolvente Ø63.8–64.0 · hex 14.5/Ø16.74 exacto ·
-placas 11.21 / 11.75 cm³ · ancho 36.6.
+rodillo-placa 0.700 · interferencia 0.00 · rodillo-rodillo 0.740 ·
+corona A↔B 0.020 · envolvente Ø63.8–64.0 · hex 14.5/Ø16.74 exacto ·
+placas 11.77 / 12.61 cm³ · ancho 36.6.
 
 ## Montaje
 
@@ -71,7 +85,7 @@ placas 11.21 / 11.75 cm³ · ancho 36.6.
 
 Mismo perfil reconstruido del gcode de Sergio (PA-CF, 0.4/0.2, 280/100) con
 relleno 100 %, soporte árbol y brim 5. `M64V7_cama_PACF_100.gcode` trae **un
-par de ruedas por cama** (4 placas: izq A/B + der A/B): ~46 g, ~3 h.
+par de ruedas por cama** (4 placas: izq A/B + der A/B): 53.0 g, 3 h 40 m.
 Comprar por rueda: 6 varillas 1/8" × 43 y 3 tornillos 2.9×25.
 
 ## Estado de las otras líneas

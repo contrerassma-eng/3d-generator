@@ -227,8 +227,6 @@ def placa(side):
     centers = sorted((ROWS[k] + boss_ang) % 360 for k in range(6))
     s = estrella_v4(R - 0.8, 13.5, centers, hs=10.0, chord_off=5.0) \
         .extrude(6.0).translate((0, 0, z_face))
-    # anillo de esquina (revolucion: cubre la esquina en todo azimut)
-    s = s.union(anillo_esquina(side))
     # cubo de cara (aloja el bolsillo hex)
     zhub = -W2 if side < 0 else W2 - (HEX_DEPTH + FLOOR_T)
     s = s.union(cq.Workplane("XY").circle(12.0).extrude(HEX_DEPTH + FLOOR_T)
@@ -256,19 +254,27 @@ def placa(side):
             s = s.cut(wedge(g0, g1, -0.05, TEETH_H).intersect(
                 cq.Workplane("XY").circle(DRUM_OUT + 1).extrude(TEETH_H + 0.05)
                 .translate((0, 0, -0.05))))
-    # relleno de tetones (v7.4, boceto rojo): cilindro Ø14 alrededor de cada
-    # eje en la zona del teton; los cortes de holgura de rodillo (despues)
-    # lo recortan EXACTAMENTE en el plano limite contra la cara del rodillo,
-    # y bombeo/esbeltez lo contienen por fuera. Sujeta mejor el pasador.
+    # abombado lateral + perfil de esbeltez de las caras
+    s = s.intersect(bombeo_solid())
+    s = s.intersect(esbeltez_solid())
+    # v7.5 (medicion 0.65 de Sergio; minimo 4): anillo de esquina y rellenos
+    # de teton se unen DESPUES de la esbeltez -> cara exterior llena hasta el
+    # plano de cara; su tope interior lo pone el corte de rodillo (+1.0/+0.7):
+    # el plano inclinado continua y termina en punta, sin tocar rodillos.
+    # v7.6: la revolucion NO cubre los vaciados de la estrella — anillo y
+    # rellenos se intersectan con el prisma de la estrella: las ventanas
+    # quedan abiertas y el anillo solo existe donde hay brazo.
+    bom = bombeo_solid()
+    star_prisma = estrella_v4(R - 0.8, 13.5, centers, hs=10.0, chord_off=5.0) \
+        .extrude(2 * W2 + 10).translate((0, 0, -W2 - 5))
+    s = s.union(anillo_esquina(side).intersect(bom).intersect(star_prisma))
     sgn_b = -1 if side < 0 else 1
     for k in range(6):
         u = axis_dir(k)
         p0 = axis_pt(k, sgn_b * (S_BOSS + 5.0))
         s = s.union(cq.Workplane(obj=cq.Solid.makeCylinder(
-            7.0, 13.0, cq.Vector(*p0), cq.Vector(*(-sgn_b * u)))))
-    # abombado lateral + perfil de esbeltez de las caras
-    s = s.intersect(bombeo_solid())
-    s = s.intersect(esbeltez_solid())
+            7.0, 13.0, cq.Vector(*p0), cq.Vector(*(-sgn_b * u))))
+            .intersect(bom).intersect(star_prisma))
     # holgura de rodillos
     for k in range(6):
         s = s.cut(rodillo_en_sitio(k, extra_r=CLR, extra_l=0.7))
