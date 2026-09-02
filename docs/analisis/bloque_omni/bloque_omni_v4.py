@@ -51,7 +51,7 @@ MZ = SPOOL_Z - MOT_DROP
 X_MOTOR = {'der': -90.0, 'izq': +90.0}
 PLACA_MOTOR_T = 8.0
 Y_PLACA_MOTOR = {'der': (-49.0, -41.0), 'izq': (-131.0, -123.0)}
-Z_BASE0, Z_BASE1 = -76.6, -72.6            # base sobre travesanos (tope -76.6)
+Z_BASE0, Z_BASE1 = -72.6, -68.6   # base sobre travesanos (pestana tope -78.6)
 X_TRAV = (-180.0, 180.0)
 BUJE_OD, BUJE_ID = 26.7, 20.9              # PVC 3/4" separador (sobre O12.7)
 
@@ -187,9 +187,9 @@ def placa_base():
 
 def travesano(xt):
     """pletina 50x6 apoyada en las pestanas inferiores de los largueros
-    (z=-82.6 medido del LT_G); taladros M8 a la pestana y al modulo."""
+    (la pestana termina en z=-78.6; el larguero baja a -82.6); taladros M8 a la pestana y al modulo."""
     s = (cq.Workplane("XY").rect(50, 2 * CARA_INT + 60).extrude(6.0)
-         .translate((xt, 0, -82.6)))
+         .translate((xt, 0, -78.6)))
     for sy in (-1, 1):
         s = s.cut(cq.Workplane("XY").circle(4.25).extrude(10)
                   .translate((xt, sy * (CARA_INT + 15), -83.6)))
@@ -226,6 +226,36 @@ def collarin(k, sy):
             .translate((X_EJES[k], 0, Z_EJE)))
 
 
+def rodamiento_f6801(k, sy):
+    """F6801ZZ MODELADO (12x21x5, brida O23.2x1): aro exterior + brida en la
+    cara EXTERIOR del riel (va embutido desde fuera), aro interior y tapas ZZ."""
+    if sy < 0:
+        y_ext = Y_RAIL_N - RAIL_T / 2          # cara exterior del riel -Y
+        d = +1
+    else:
+        y_ext = Y_RAIL_P + RAIL_T / 2
+        d = -1
+    s = (cq.Workplane("XZ").circle(21.0 / 2).circle(17.4 / 2)
+         .extrude(-d * ROD_B).translate((0, y_ext, 0)))          # aro ext
+    s = s.union(cq.Workplane("XZ").circle(ROD_BRIDA / 2).circle(17.4 / 2)
+                .extrude(d * 1.0).translate((0, y_ext, 0)))       # brida fuera
+    s = s.union(cq.Workplane("XZ").circle(15.0 / 2).circle(MUNON_D / 2)
+                .extrude(-d * ROD_B).translate((0, y_ext, 0)))    # aro int
+    for dy in (0.3, ROD_B - 0.8):
+        s = s.union(cq.Workplane("XZ").circle(17.3 / 2).circle(15.1 / 2)
+                    .extrude(-d * 0.5).translate((0, y_ext - d * dy, 0)))  # ZZ
+    return s.translate((X_EJES[k], 0, Z_EJE))
+
+
+def buje_adaptador(k, j):
+    """buje motriz hex->hex bajo cada rueda: exterior 14.4 e/c (hex 14.5 de
+    la rueda), interior 12.85 e/c (eje hex 1/2"), L 36."""
+    s = (cq.Workplane("XZ").polygon(6, 14.4 / cos(radians(30)))
+         .polygon(6, 12.85 / cos(radians(30)))
+         .extrude(-36.0).translate((0, Y_RUEDAS[j] - 18.0, 0)))
+    return s.translate((X_EJES[k], 0, Z_EJE))
+
+
 def verificar(vx, vy):
     print('--- GATES bloque omni v4 ---')
     print(f'nivel {Z_EJE + R_ENV:.1f} = ZP 115.1 · sobresale {Z_EJE + R_ENV - Z_TAPA_TOP:.1f}')
@@ -241,8 +271,8 @@ def verificar(vx, vy):
           f'izq x+90 cuerpo y[-123,-4] placa y{Y_PLACA_MOTOR["izq"]}; '
           f'cuerpos separados en x (der -166..-13.7 / izq 13.7..166)')
     print(f'lomo motor z{MZ + 59.05:.1f} < riel z0 {RAIL_Z0} y < envolvente 51.1')
-    print(f'travesanos 50x6 en x{X_TRAV} sobre pestana inferior z=-82.6; '
-          f'base apoya en z{Z_BASE0}; TR_S en x+-280.2 -> libres')
+    print(f'travesanos 50x6 en x{X_TRAV} sobre pestana inferior (tope -78.6); '
+          f'base apoya en z{Z_BASE0} (fondo motor -67.7 -> holgura 0.95); TR_S en x+-280.2 -> libres')
     print(f'ventana tapa {vx:.1f}x{vy:.1f}')
 
 
@@ -263,6 +293,9 @@ if __name__ == '__main__':
         piezas += bujes(k)
         for sy in (-1, 1):
             piezas.append((f'collarin_{k}_{sy}', collarin(k, sy)))
+            piezas.append((f'rodamiento_{k}_{sy}', rodamiento_f6801(k, sy)))
+        for j in range(len(Y_RUEDAS)):
+            piezas.append((f'bujeadap_{k}_{j}', buje_adaptador(k, j)))
     verificar(vx, vy)
     asm = cq.Assembly(name='bloque_omni_v4_fab')
     for nm, p in piezas:

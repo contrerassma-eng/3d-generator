@@ -186,7 +186,7 @@ def add(name, mesh, color, T=None):
     m.visual = trimesh.visual.ColorVisuals(m, face_colors=color)
     esc.add_geometry(m, node_name=name, geom_name=name)
 
-tipo = lambda nm: ('base' if nm.startswith('placa_base') or nm.startswith('travesano') else
+tipo = lambda nm: ('eje' if nm.startswith('rodamiento') else 'polea' if nm.startswith('bujeadap') else 'base' if nm.startswith('placa_base') or nm.startswith('travesano') else
                    'placa' if nm.startswith('rail') or nm.startswith('placa_motor') else
                    'tapa' if nm.startswith('tapa') else
                    'eje' if nm.startswith('eje') or nm.startswith('collarin') else
