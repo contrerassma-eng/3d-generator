@@ -1,5 +1,17 @@
 # Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2/v3/v4
 
+> **v4.1 (02-09, noche — tapas)**: la **tapa superior se extiende por el
+> lado de rodamientos hasta y=266** (luz 0.8 a la cara interior del
+> larguero): **suple la luz y cubre riel + F6801**, con pestaña plegada de
+> 10 rigidizando el vuelo. En el lado muerto, **tapa CIEGA MODULAR de 2
+> paneles** (294 × 132 c/u, lisa) que cierra la franja libre: va 3 bajo la
+> tapa principal (solape atornillado), apoya y atornilla M5 sobre el canto
+> del riel −Y, pestaña plegada en el borde −Y y rigidizador omega
+> longitudinal — desmontable para acceder a motores y correas. De paso se
+> corrigió un error real que esto destapó: el riel subía a z=118 (sobre el
+> plano de rodadura 115.1 y atravesando la tapa) → **riel a z=104**, bajo
+> la tapa (107.1) con 3.1 de holgura; sus ranuras bajan a z=96.
+
 > **v4 (02-09, tarde — módulo angosto)**: cambios de Sergio aplicados:
 > **F6801ZZ** (12×21×5, brida Ø23.2) **embutido desde fuera** por ajuste en
 > **rieles perforados de 4 mm** (agujero Ø21, la brida apoya en la cara

@@ -34,6 +34,8 @@ for sy in (-1, 1):
 asm.add(B.placa_base(), name='placa_base', color=C['chapa'])
 ts, vx, vy = B.tapa_superior()
 asm.add(ts, name='tapa_superior', color=C['tapa'])
+for i in range(2):
+    asm.add(B.tapa_ciega(i), name=f'tapa_ciega_{i}', color=C['tapa'])
 for h in ('der', 'izq'):
     asm.add(B.placa_motor(h), name=f'placa_motor_{h}', color=C['chapa'])
 for xt in B.X_TRAV:

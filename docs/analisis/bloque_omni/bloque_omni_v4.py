@@ -40,7 +40,7 @@ EJE_D = 12.7                  # 1/2"
 MUNON_D, MUNON_L = 12.0, 6.0  # punta torneada para F6801 (bore 12.0)
 ROD_D, ROD_B, ROD_BRIDA = 21.0, 5.0, 23.2   # F6801ZZ
 RAIL_T = 4.0                  # placa perforada
-RAIL_Z0, RAIL_Z1 = 52.0, 118.0
+RAIL_Z0, RAIL_Z1 = 52.0, 104.0   # tope BAJO la tapa (v4.1: antes 118 asomaba sobre el plano de rodadura)
 Y_RAIL_N = -116.0             # centro del riel -Y (placa -118..-114)
 Y_RAIL_P = +218.0             # centro del riel +Y (placa +216..+220)
 POLEA_D, POLEA_W = 40.0, 20.0
@@ -80,7 +80,7 @@ def rail(sy):
                   .translate((x, y0 + 20, Z_EJE)))
     for i in range(8):
         s = s.cut(cq.Workplane("XZ").slot2D(40, 6, 0).extrude(40)
-                  .translate((-245 + i * 70, y0 + 20, 108.0)))
+                  .translate((-245 + i * 70, y0 + 20, 96.0)))
     # pies: 2 pletinas plegadas hacia abajo hasta la base (bajan por fuera)
     for x in (-220.0, 220.0):
         s = s.union(cq.Workplane("XZ").rect(40, RAIL_Z0 - Z_BASE1 + 8)
@@ -200,13 +200,18 @@ def travesano(xt):
 
 
 def tapa_superior():
-    """tapa avellanada M5 SOLO del ancho del modulo, 32 ventanas minimas."""
+    """tapa avellanada M5, 32 ventanas minimas. v4.1: extendida por el lado
+    de rodamientos hasta la cara interior del larguero (y=266, luz 0.8):
+    SUPLE LA LUZ y cubre riel + F6801; pestana plegada rigidiza el vuelo."""
     dz = Z_RODAD - Z_TAPA_BOT
     semix = sqrt(R_ENV ** 2 - (R_ENV - dz) ** 2)
     vx, vy = 2 * semix + 4.0, 2 * W2 + 4.0
-    yn, yp = -140.0, Y_RAIL_P + 6
+    yn, yp = -140.0, 266.0        # v4.1: extendida hasta la cara interior
     s = (cq.Workplane("XY").rect(L_ZONA - 2, yp - yn).extrude(TAPA_T)
          .translate((0, (yn + yp) / 2, Z_TAPA_BOT)))
+    # pestana rigidizadora plegada hacia abajo en el borde +Y (sobre la luz)
+    s = s.union(cq.Workplane("XY").rect(L_ZONA - 2, 3.0).extrude(-10.0)
+                .translate((0, 264.5, Z_TAPA_BOT)))
     for x in X_EJES:
         for y in Y_RUEDAS:
             s = s.cut(redondo2d(vx, vy, 8.0).extrude(TAPA_T + 2)
@@ -216,6 +221,25 @@ def tapa_superior():
             s = s.cut(cq.Workplane("XY").circle(2.6).extrude(TAPA_T + 2)
                       .translate((x, yy, Z_TAPA_BOT - 1)))
     return s, vx, vy
+
+
+def tapa_ciega(i):
+    """v4.1: tapa CIEGA MODULAR del lado muerto (2 paneles): cierra la franja
+    libre entre el modulo y la cara interior -Y. Va 3 bajo la tapa principal
+    (solape 6 atornillado), apoya y atornilla M5 sobre el canto del riel -Y,
+    pestana plegada en el borde -Y y rigidizador omega longitudinal."""
+    x0 = -296.0 + i * 298.0
+    z0 = Z_TAPA_BOT - TAPA_T          # 104.1
+    s = (cq.Workplane("XY").rect(294.0, 266.0 - 134.0).extrude(TAPA_T)
+         .translate((x0 + 147.0, -(266.0 + 134.0) / 2, z0)))
+    s = s.union(cq.Workplane("XY").rect(294.0, 3.0).extrude(-10.0)
+                .translate((x0 + 147.0, -264.5, z0)))
+    s = s.union(cq.Workplane("XY").rect(294.0, 10.0).extrude(-8.0)
+                .translate((x0 + 147.0, -200.0, z0)))
+    for dx in (40.0, 147.0, 254.0):
+        s = s.cut(cq.Workplane("XY").circle(2.6).extrude(TAPA_T + 2)
+                  .translate((x0 + dx, Y_RAIL_N, z0 - 1)))
+    return s
 
 
 def collarin(k, sy):
@@ -274,6 +298,9 @@ def verificar(vx, vy):
     print(f'travesanos 50x6 en x{X_TRAV} sobre pestana inferior (tope -78.6); '
           f'base apoya en z{Z_BASE0} (fondo motor -67.7 -> holgura 0.95); TR_S en x+-280.2 -> libres')
     print(f'ventana tapa {vx:.1f}x{vy:.1f}')
+    print('v4.1: tapa extendida a y=266 (luz 0.8 a la cara interior, cubre '
+          'riel+F6801; riel bajado a z104 < tapa 107.1); tapa CIEGA modular '
+          '2 paneles y -266..-134 a z104.1, atornillada al canto del riel -Y')
 
 
 if __name__ == '__main__':
@@ -283,6 +310,8 @@ if __name__ == '__main__':
     piezas.append(('placa_base', placa_base()))
     ts, vx, vy = tapa_superior()
     piezas.append(('tapa_superior', ts))
+    for i in range(2):
+        piezas.append((f'tapa_ciega_{i}', tapa_ciega(i)))
     for h in ('der', 'izq'):
         piezas.append((f'placa_motor_{h}', placa_motor(h)))
     for xt in X_TRAV:
