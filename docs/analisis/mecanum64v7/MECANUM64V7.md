@@ -29,7 +29,19 @@ a Ø64 (envolvente verificada Ø63.8–64.0).
    llevan un **perfil de esbeltez**: planas hasta r24 y cayendo en curva
    cuadrática hasta 1.6 mm por lado en el filo (marca amarilla). El arranque
    en r24 conserva 1.15 mm en las tapas que capturan los pasadores.
-5. **v7.2 — la corrección real de las marcas rojas**: el intento "anti-lasca"
+5. **v7.3 — anillo de esquina** (boceto verde/celeste): perfil dibujado en el
+   plano axial y REVOLUCIONADO alrededor del eje, con radio interior
+   renv(z)+1.1 (la envolvente barrida de los rodillos no depende del azimut,
+   así que el anillo jamás toca un rodillo en ninguna posición) y limitado a
+   r ≥ 26 para no cerrar las ventanas de la estrella. La esquina exterior de
+   cada cara queda cubierta EN TODO azimut.
+6. **v7.4 — tetones rellenos** (captura del slicer): un cilindro Ø14 alrededor
+   de cada eje en la zona del tetón, unido ANTES de los cortes: la holgura
+   del rodillo lo recorta exactamente en el plano límite contra su cara
+   (+1.0 radial / +0.7 axial garantizados por construcción) y bombeo +
+   esbeltez lo contienen por fuera. Mejor sujeción del pasador; los huecos
+   en V tras los tetones desaparecen.
+7. **v7.2 — la corrección real de las marcas rojas**: el intento "anti-lasca"
    (ampliar la ventana) quitaba material — al revés de lo pedido — y se
    REVIRTIÓ. La causa raíz era que las puntas de los rodillos pasan a ~0.7 mm
    de la cara: la rueda se ensancha **34.6 → 36.6 (+1 mm por lado)**, con lo
