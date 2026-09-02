@@ -1,5 +1,11 @@
 # Bloque OMNI tipo Flowsort para el ZP2026 — 8 ejes mecanum, caja de placas
 
+> **Superado por la v2** (02-09, pedido "hazlo bien"): rueda v7 real, motor
+> UniDrive y carrete reales del GLB, caja profunda con la interpretación
+> detallada del manual Flowsort SLD/DLD →
+> **[INTERPRETACION_FLOWSORT.md](INTERPRETACION_FLOWSORT.md)**. Este
+> documento queda como memoria del esquema v1.
+
 Pedido de Sergio (02-09): un bloque con la **lógica de caja Flowsort** (placas
 principales + separadores + tapas laterales, inferior y superior, mismo sistema
 de ajuste) que **reemplaza 8 rodillos del patrón estructural** del

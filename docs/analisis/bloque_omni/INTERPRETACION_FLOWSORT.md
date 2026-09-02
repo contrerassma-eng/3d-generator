@@ -1,0 +1,68 @@
+# Interpretación detallada de la caja Flowsort SLD/DLD → bloque OMNI v2
+
+Pedido de Sergio (02-09): dejar de iterar impresión y rehacer el bloque BIEN:
+con la **rueda mecanum v7 real**, las **mallas GLB reales del transportador**
+(motor UniDrive y soportes del ZP2026) y una **interpretación detallada del
+bloque Flowsort**. Este documento es esa interpretación, elemento por
+elemento, con su traducción a nuestro bloque.
+
+## Fuentes (capa `web`, accedidas 02-09-2026)
+
+1. **Instruction Manual SLD/DLD 24V, V5 REV1.2** — Flowsort BV, Geldrop NL,
+   14-12-2022. Copia pública:
+   `https://robotunits.com/wp-content/uploads/2023/02/Instruction-Manual-SLD-DLD-24V-V5-REV1.2-v5.2_e.pdf`
+   (40 páginas; §3.1 part names, §4.2–4.5 instalación, §6 mantenimiento,
+   §8.1 repuestos). Citas textuales abajo.
+2. **flow-sort.com** — páginas de producto ("DIVERTER", "Tools & Downloads"):
+   "The diverter has an adjustable width … each standard width has a 50mm
+   adjustment. The size in between the side profiles are 400-450mm,
+   600-650mm, 800-850mm, 1000-1050mm."
+3. **ZP2026** (capa `cad`, malla real del repo:
+   `cad/componentes/models/ZP2026.glb`): paso de rodillos 74.75, interior
+   533.6, plano de rodadura 115.1, motor UniDrive por cara interior con
+   carrete speed-up Ø68×56 (centro del carrete a 48.4 de la cara y 87.7 bajo
+   el plano de ejes; frente del motor a ~20 del larguero), o-rings
+   rodillo-rodillo.
+
+## La caja Flowsort, elemento por elemento
+
+| # | Elemento Flowsort (manual) | Qué hace | Traducción al bloque OMNI v2 |
+|---|---|---|---|
+| 1 | **Side plates** (2 placas laterales de la caja; "Always pick the diverters up by the two side plates or by the eye-bolts", §4.3) | Espina estructural; portan la interfaz al bastidor | **2 placas principales 594×181×4** (z −75…106): portan los 8 rodamientos 6001, los motores y la interfaz al bastidor |
+| 2 | **Base plate** interior (los wheel drives se atornillan a ella con 4× M5x14 + grower, §6.6.4; cáncamos sobre ella, §4.3) | Recibe los módulos y el mecanismo; correas HTD por arriba y Poly-V por abajo | En nuestro bloque el "plano mecánico" es el **plano de ejes z 83.1**: los 8 ejes son los módulos; la función estructural de la base la toman las placas + 5 varillas separadoras M8 con tubo Ø12 (3 arriba en z 44.5, 2 abajo en z −60) |
+| 3 | **Top cover** con una abertura por módulo, tornillos avellanados **M5x10 negros a 3 Nm** (§4.3) | Cierre superior; mantenimiento POR ARRIBA quitándola | **Tapa superior e3** en z 107.1 con **48 ventanas mínimas 46.3×40.6** (una por rueda, del envolvente barrido real + 2 de holgura); 10 avellanados M5x10 al borde de placas. La rueda **sobresale 5.0** (pedido); se desarma todo por arriba |
+| 4 | **Bottom cover plate** (§3.1) | Cierra la caja por abajo | **Tapa inferior e3** en z −78…−75 con louvres de ventilación; la caja v2 es PROFUNDA y los motores van DENTRO, como el diverter real |
+| 5 | **Covers laterales con louvres** + **cable grommet** (§3.1) | Cierre de extremos, ventilación, pasacables | **2 tapas laterales** con louvres 50×5; la de +X lleva **grommet Ø16** hacia el controlador/fuente del ZP2026 |
+| 6 | **Montaje al bastidor**: "Make sure that the framework has **Ø8.2 holes** … Mount the **M8x16 hexagon bolt**" (§4.4); pernos premontados en el side frame | Interfaz estándar y repetible al transportador anfitrión | **4 puntos M8 por placa** (x ±225/±75) con **colisa vertical 9×25** y **casquillo separador Ø16×12.8** placa→cara interior del larguero; el larguero se taladra **Ø8.2** como manda Flowsort |
+| 7 | **Ajuste de altura / TOR**: "We recommend you to use a **+2mm height** of the diverter wheels relative to the [conveyor]" (§4.4); ancho +50 ajustable | La rueda debe quedar apenas sobre el plano de rodadura | La colisa 9×25 da **+0…+2 (hasta +8)** sobre el nivel nominal. El bloque nace **a nivel exacto 115.1** = rodillos ZP (pedido de Sergio) y la colisa permite aplicar el +2 Flowsort en sitio |
+| 8 | **Wheel drive assembly** (rueda omni Ø180, rodillos Ø58 PU, 608-2RS; swivel por HTD 5M) | El módulo que empuja el producto | **8 ejes hexagonales 14 e/c** con **6 mecanum v7 reales** cada uno (Ø64×36.6, hex 14.5 pasante, rodillos moldeados de Sergio), alternando **derechos (pares) / izquierdos (impares)**; sin swivel: el desvío sale del diferencial entre manos |
+| 9 | **Motores PGD024** + **Poly-V / HTD** + **4 tensores en colisa** (§8.1) | Giro de rueda y giro de torreta | **2 UniDrive 24V REALES del ZP2026** (malla GLB), uno por cara interior, DENTRO de la caja con el frente contra su placa (ventana de servicio 60×24 en cada placa para el cableado); **carrete speed-up real Ø68** + **o-rings** al **carrete Ø40 de 2 gargantas** de cada eje (plano y ±221, dentro de la caja) y **o-rings eje a eje** (salto 149.5). Sin tensor: pretensión elástica ~15 % como los o-rings del propio ZP2026 |
+| 10 | **Eye-bolts** en la base plate (§4.3: transporte SOLO por cáncamos o placas) | Izaje seguro del módulo | **4 cáncamos M8** en el borde superior de las placas |
+| 11 | **Controller Conveylinx-Ai2** al costado (§3.1, §8.1) | Control 24V de los 2 motores | Se usa la electrónica 24V del propio ZP2026 (fuente + controlador existentes); los 2 UniDrive del bloque se cablean como una zona más |
+| 12 | **Espaciadores / bujes** | Posicionar módulos en el ancho | **Bujes de PVC 3/4" SCH40** (OD 26.7 / ID 20.9, sobre vértices hex Ø16.17) cortados a medida: 5×40.4 entre ruedas + extremos; en el lado motriz el buje de extremo se parte en **rueda→carrete (2.2)** y **carrete→placa (23.5)** |
+
+## Geometría clave del v2 (todo verificado por gates en `bloque_omni_v2.py`)
+
+- Ruedas a **paso transversal 78** (y = ±39/±117/±195); borde de última rueda
+  213.3; carrete del eje 216–226; placa 250.
+- Motor real DENTRO de la caja: frente en y=249 contra la placa, carrete del
+  motor en el **plano de o-rings y=±221**, centro a **z −8.6** (87.7 bajo el
+  plano de ejes como en el ZP2026, −4 para librar el envolvente de rueda:
+  lomo del motor z 50.4 < envolvente mínimo 51.1).
+- O-rings: carrete motor → 2 ejes centrales del grupo; ejes extremos
+  encadenados eje a eje. 4 lazos por cara.
+- La caja completa vive dentro del hueco del larguero (z −82.6…101) y el
+  producto solo ve la tapa (110.1) y las ruedas (115.1).
+
+## Entregables
+
+- `bloque_omni_v2.py` → gates + `bloque_omni_v2_fab.step` (las ~100 piezas a
+  fabricar: placas, tapas, ejes, carretes, bujes, varillas, casquillos,
+  cáncamos) + STL por pieza.
+- `bo2_scene.py` → `bloque_omni_v2.glb`: escena completa con la **rueda v7
+  real instanciada 48×** (2 mallas compartidas), el **motor UniDrive y el
+  carrete speed-up reales** del ZP2026 y el contexto del transportador.
+- `bo2_render.py` → BO2_hero / planta / destapado / transmision / frente;
+  lámina `BO2_lamina.png`.
+
+![Lámina](BO2_lamina.png)
