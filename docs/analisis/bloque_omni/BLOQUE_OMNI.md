@@ -35,8 +35,8 @@ min/max desnormalizados):
 - **Tapa superior** a 110.1 (espesor 3): la rueda **sobresale 5.0**. Recortes
   mínimos: **una ventana redondeada por rueda** (48 ventanas), dimensionada por
   el **envolvente barrido real** de la mecanum v7 (revolución de renv(z), que
-  no depende del azimut) + 2 de holgura → ventana **46.5 × 40.6** aprox.;
-  entre ventanas queda siempre material (≥28 en X, ≥42 en Y).
+  no depende del azimut) + 2 de holgura → ventana **46.3 × 40.6**;
+  entre ventanas queda siempre material (28.4 en X, 42.7 en Y).
 - **8 ejes hexagonales 14 e/c** (la rueda v7 tiene hex 14.5 pasante, holgura
   0.5) con **puntas torneadas Ø12** en **rodamientos 6001 (12×28×8)**
   asentados en las placas principales — la misma filosofía de los ejes
@@ -68,8 +68,10 @@ min/max desnormalizados):
 nivel rodadura rueda=115.1 vs rodillos ZP=115.1 -> OK
 sobresale sobre tapa = 5.0 (pedido 5.0)
 envolvente min z=51.1; separador tope z=50.5 -> holgura 0.6
-ventana tapa 46.5 x 40.6; material entre ventanas: x=28.3, y=42.7 -> OK
+ventana tapa 46.3 x 40.6; material entre ventanas: x=28.4, y=42.7 -> OK
+ultima ventana al borde de tapa: 14.2
 carrete hasta y=265.5 vs cara interior 266.8 -> holgura 1.3
+placa: borde sobre asiento de rodamiento = 8.9
 bujes PVC: ID 20.9 vs vertices hex Ø16.17 -> holgura 4.73
 ```
 
