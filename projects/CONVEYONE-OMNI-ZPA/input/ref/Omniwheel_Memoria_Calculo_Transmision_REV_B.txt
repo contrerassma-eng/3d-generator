@@ -1,0 +1,253 @@
+
+
+===== PAGE 1 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 1
+MEMORIA DE CÁLCULO - TRANSMISIÓN
+OMNIWHEEL
+Revisión B - 4 OmniWheels por eje, ancho activo 400 mm, evaluación de polea
+exterior al rodamiento
+Objeto. Dimensionamiento preliminar mecánico y cinemático de un módulo de desviación con 8 ejes a pitch 3 in,
+familias alternadas de OmniWheels con rodillos a ±45°, dos accionamientos NEMA 23 y transmisión sincronizada
+HTD 5M.
+Alcance. Esta revisión reemplaza la hipótesis anterior de 6 OmniWheels/eje por 4 OmniWheels/eje y agrega los tres
+formatos de carga informados. El torque final del motor sigue sujeto a la curva torque-rpm del NEMA 23
+seleccionado, pero ya puede acotarse por cálculo.
+Parámetro
+Valor de diseño
+Ancho activo del cuerpo
+400 mm
+Ancho total posterior
+21 in = 533,4 mm (relleno lateral fuera del cuerpo activo)
+Nº ejes
+8
+Pitch entre ejes
+76,2 mm (3 in)
+Separación ejes de igual familia
+152,4 mm (6 in)
+OmniWheels por eje
+4
+Diámetro OmniWheel
+50 mm
+Velocidad tangencial objetivo
+1,5 m/s
+Eje
+Hexagonal 1/2 in AF = 12,7 mm, extremos torneados Ø12 mm
+Rodamiento
+6001-2RS, 12 x 28 x 8 mm
+
+
+===== PAGE 2 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 2
+1. Cargas y cajas consideradas
+Caso
+Huella aproximada
+Masa
+Ejes simultáneamente bajo la caja*
+A - caja grande
+500 x 300 mm
+5,0 kg
+6-7
+B - caja chica
+300 x 250 mm
+2,5 kg
+4-5
+C - caja vacía grande
+500 x 300 mm
+0,5 kg
+6-7
+D - caja vacía chica
+300 x 250 mm
+0,5 kg
+4-5
+*Valor geométrico cuando la caja está plenamente contenida en el módulo. Para entrada/salida se recomienda verificar transitorios con
+sólo 3-4 ejes en contacto.
+Con cuatro OmniWheels por eje, la carga estática por rueda sigue siendo baja. Como caso conservador local se usa
+la caja de 5 kg soportada sólo por 4 ejes:
+W = m g = 5 · 9,81 = 49,05 N
+Carga por eje = 49,05 / 4 = 12,26 N
+Carga por OmniWheel = 12,26 / 4 = 3,07 N ≈ 0,313 kgf
+Por capacidad vertical, ni el eje de 1/2 in ni un 6001-2RS quedan exigidos. El criterio dominante pasa a ser
+rigidez/alineación, aceleración, tensión de correa y calidad del contacto rueda-caja.
+Figura 1. Vista superior proporcional. Los centros de las cuatro ruedas se muestran a 50, 150, 250 y 350 mm como distribución base;
+puede ajustarse al dibujo definitivo de la OmniWheel.
+
+
+===== PAGE 3 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 3
+2. Cinemática y transmisión
+La velocidad angular necesaria para una rueda de 50 mm a 1,5 m/s es:
+n = 60·v /(π·D) = 60·1,5 /(π·0,05) = 572,96 rpm
+ω = v/r = 1,5/0,025 = 60 rad/s
+Se conserva transmisión 1:1 para evitar multiplicar innecesariamente velocidad o perder torque. La selección base
+continúa siendo HTD 5M, 28 dientes, ancho 9 mm.
+Elemento
+Selección
+Poleas motor y ejes
+HTD 5M - 28T
+Diámetro primitivo
+44,56 mm
+Diámetro máximo de brida de referencia
+≈48 mm (<50 mm)
+Motor -> primer par simétrico
+355-5M-09
+Eje -> eje mismo grupo
+445-5M-09
+Relación
+1:1
+Figura 2. Geometría lateral calculada: motor centrado entre dos ejes de igual familia, con caída vertical aproximada 75,83 mm.
+
+
+===== PAGE 4 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 4
+3. Estimación de fuerza y torque por grupo
+Para no inventar un único tiempo de aceleración, se presenta sensibilidad. Se adopta una resistencia equivalente
+conservadora μr = 0,03 y se considera que las dos familias ±45° comparten el esfuerzo longitudinal.
+Freq = m·a + μr·m·g
+Como cada familia aporta una componente longitudinal cos45°: Fgrupo = Freq /(2·cos45°) = Freq/√2
+Torque de contacto por motor/grupo: Tcaja = Fgrupo·r, con r = 0,025 m.
+Aceleración caja
+Tiempo ideal 0→1,5 m/s
+F requerida 5 kg
+Torque contacto / grupo
+0.5 m/s²
+3.00 s
+3.97 N
+0.070 N·m
+1.0 m/s²
+1.50 s
+6.47 N
+0.114 N·m
+2.0 m/s²
+0.75 s
+11.47 N
+0.203 N·m
+3.0 m/s²
+0.50 s
+16.47 N
+0.291 N·m
+A 2 m/s², el torque requerido para acelerar la caja es sólo ~0,203 N·m por motor. Deben agregarse inercia de 4 ejes,
+pérdidas y margen de control.
+Estimación de inercia con 4 ruedas/eje y 4 ejes por motor: usando 0,10 kg por OmniWheel como valor de
+sensibilidad, la contribución rotacional resulta del orden de 0,04-0,06 N·m para a = 2 m/s². Aun duplicando esa
+masa, sigue siendo secundaria frente al margen que debe reservarse por pérdidas y dinámica de contacto.
+Recomendación de selección: buscar que el NEMA 23 entregue al menos 0,6 N·m continuos a ~573 rpm,
+preferiblemente 0,8 N·m o más en ese punto de la curva. No seleccionar por holding torque. Si la curva real cae bajo
+ese valor, aumentar tensión de alimentación/driver compatible o migrar a servo/BLDC.
+
+
+===== PAGE 5 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 5
+4. Polea por fuera del rodamiento - evaluación
+Figura 3. Arquitectura axial recomendada: las cuatro ruedas quedan íntegramente dentro de los 400 mm activos y la transmisión se
+desplaza al exterior del soporte.
+Resultado: esta disposición es preferible para el prototipo. La polea no ocupa ancho útil, las correas quedan
+accesibles y es posible usar una guarda lateral desmontable. La condición es mantener el plano medio de la polea
+muy próximo al rodamiento.
+Con una carga radial de correa del orden de 100 N y un voladizo de 15 mm, el momento flector local sería M ≈ 1,5
+N·m. Para un extremo torneado Ø12 mm, la tensión de flexión nominal es:
+σ = 32M/(π d³) ≈ 8,8 MPa
+Incluso duplicando la carga radial a 200 N, el valor nominal ronda 17,7 MPa, muy por debajo de la capacidad típica
+de un acero trefilado. Esto no sustituye la verificación de fatiga y concentraciones de tensión del hombro, pero
+confirma que un voladizo corto es razonable.
+El 6001-2RS consultado en RS Chile tiene 12 mm de diámetro interior, 28 mm exterior y 8 mm de ancho; la versión
+C3 publicada declara 5,4 kN de carga dinámica básica, muy por encima de las cargas radiales esperables aquí.
+
+
+===== PAGE 6 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 6
+5. Arquitectura axial propuesta
+Zona
+Configuración propuesta
+Ancho activo 400 mm
+4 OmniWheels; centros iniciales 50 / 150 / 250 / 350 mm
+Soporte lateral
+Placa con alojamiento de 6001-2RS
+Extremo del eje
+Hexagonal 1/2 in en zona útil; transición torneada Ø12 mm para rodamiento
+Exterior rodamiento
+Separador 3-5 mm + polea HTD 5M 28T
+Fijación polea
+Preferir cubo de apriete o adaptación hexagonal dedicada; evitar depender sólo de prisionero
+Protección
+Guarda lateral desmontable sobre poleas/correas
+Relleno hasta 21 in
+Módulo pasivo posterior; no necesita formar parte de la transmisión activa
+La concentración de toda la transmisión en uno de los laterales del cuerpo de 400 mm es coherente con tu
+planteamiento. El espacio adicional hasta 21 in (133,4 mm restantes) puede resolverse como transición/mesa
+muerta o rodillos pasivos según el empalme con el transportador principal.
+Para una caja de 300 mm de ancho, cuatro OmniWheels sobre 400 mm permiten dejar margen lateral sin concentrar
+todos los apoyos bajo una sola franja. La separación de 100 mm entre centros es un buen punto inicial, pero debe
+revisarse contra la geometría real de la rueda china y la rigidez del fondo de cada caja.
+
+
+===== PAGE 7 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 7
+6. Componentes y enlaces de referencia
+Componente
+Especificación / enlace
+Rodamiento
+6001-2RS, 12x28x8 mm - RS Chile: https://cl.rsdelivers.com/product/rs-pro/6001-2rs/rodamiento-de-bolas-rodamiento-de
+Rodamiento alternativa
+NSK 6001-2RS - Rudolfbike Chile: https://www.rudolfbike.cl/rodamientos/3149-rodamiento-sellado-nsk-6001-2rs.html
+Correa HTD 5M
+Referencia de disponibilidad de perfil HTD-5M en MercadoLibre Chile: https://articulo.mercadolibre.cl/MLC-1927382825-c
+Polea HTD 5M
+Buscar/solicitar específicamente 28T, ancho 9 o 15 mm, bore Ø8 para motor y cubo especial para eje 1/2 in hex.
+Correa entre ejes
+445-5M-09; si no está local, pedir por longitud/paso a casa de transmisión industrial.
+Correa motor
+355-5M-09; montar motor en ranuras para ajuste fino de tensión.
+Nota de abastecimiento: las referencias web verifican dimensiones y disponibilidad de familias, pero antes de emitir compra debe
+confirmarse stock exacto de 28T y longitudes 355/445 en Chile. Evitar sustituir 28T por 30T si la brida supera el límite de Ø50 mm.
+
+
+===== PAGE 8 =====
+
+Sistema Omniwheel - Memoria de cálculo transmisión - REV B
+Página 8
+7. Condiciones de borde y puntos a congelar en CAD
+Ítem
+Condición
+Ejes
+8 ejes a 76,2 mm; familias alternadas A/B; 4 ejes por motor
+Ancho activo
+400 mm
+Ruedas
+4 por eje, Ø50 mm, rodillos ±45°
+Caja crítica
+5 kg, 500 x 300 mm
+Velocidad
+1,5 m/s; 572,96 rpm en eje
+Transmisión
+HTD 5M 28T/28T, 1:1
+Poleas de ejes
+Fuera del rodamiento, lado transmisión
+Rodamiento
+6001-2RS; asiento Ø12 mm
+Motor
+NEMA 23 eje Ø8 mm; validar ≥0,6 N·m a 573 rpm en curva real
+Tensión
+Ranuras de motor y/o tensor; no fijar centros sin capacidad de ajuste
+Seguridad
+Guarda completa lateral sobre correas y poleas
+Conclusión. Reducir de seis a cuatro OmniWheels por eje no genera un problema de carga para las cajas
+informadas. La arquitectura con poleas exteriores al rodamiento es mecánicamente más limpia y libera el ancho útil.
+El cuello de botella ya no es la capacidad vertical sino la selección del motor a alta rpm, la calidad de la aceleración
+y el diseño de la tensión/guarda de las correas.
+Para pasar de esta memoria a plano de fabricación, las únicas cotas de producto que deben incorporarse desde el
+proveedor son: ancho axial real de la OmniWheel, geometría exacta de su cubo hexagonal de 14 mm y masa/inercia
+real de cada rueda.
