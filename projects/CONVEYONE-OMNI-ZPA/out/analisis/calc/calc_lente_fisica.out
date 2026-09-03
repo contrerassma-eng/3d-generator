@@ -1,0 +1,316 @@
+==============================================================================
+A. CINEMÁTICA DE LA RUEDA MECANUM (rodillos a ±45°)
+==============================================================================
+Restricción por rueda: (v_caja + ω×r − u·x̂)·ê = 0  (sin deslizamiento a lo largo del eje del rodillo;
+libre perpendicular a él porque el rodillo rueda). Con ê_A=(1,1)/√2, ê_B=(1,−1)/√2, ω=0:
+  A: v_x + v_y = u_A ;  B: v_x − v_y = u_B  ⇒  v_x = (u_A+u_B)/2 ; v_y = (u_A−u_B)/2
+  HOLD           u_A=+0.0 u_B=+0.0 -> v=(+0.00,+0.00) |v|=0.00·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=0.00·u B=0.00·u
+  FORWARD        u_A=+1.0 u_B=+1.0 -> v=(+1.00,+0.00) |v|=1.00·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=0.00·u B=0.00·u
+  REVERSE        u_A=-1.0 u_B=-1.0 -> v=(-1.00,+0.00) |v|=1.00·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=0.00·u B=0.00·u
+  DIVERT lado 1  u_A=+1.0 u_B=-1.0 -> v=(+0.00,+1.00) |v|=1.00·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=1.41·u B=1.41·u
+  DIVERT lado 2  u_A=-1.0 u_B=+1.0 -> v=(+0.00,-1.00) |v|=1.00·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=1.41·u B=1.41·u
+  DIAGONAL_A     u_A=+1.0 u_B=+0.0 -> v=(+0.50,+0.50) |v|=0.71·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=0.71·u B=0.71·u
+  DIAGONAL_B     u_A=+0.0 u_B=+1.0 -> v=(+0.50,-0.50) |v|=0.71·u ; restricción A=+0e+00 B=+0e+00 ; rodillos ruedan a A=0.71·u B=0.71·u
+Fuerza por rueda SOLO a lo largo de ê (el rodillo no transmite perpendicular salvo resistencia a rodadura).
+FORWARD: F_A ê_A + F_B ê_B = (F_A+F_B)/√2 x̂ + (F_A−F_B)/√2 ŷ ⇒ recto exige F_A=F_B=F_req/√2 (= REV B).
+DIVERT : F_A = −F_B = F_req/√2 ⇒ fuerza lateral F_req, componentes x se cancelan.
+  DIVERT a v_lat=1.0: rodillo Ø18 gira a √2·v/(π·d) = 1501 rpm sobre su pasador
+  DIVERT a v_lat=1.5: rodillo Ø18 gira a √2·v/(π·d) = 2251 rpm sobre su pasador
+  DIVERT a v_lat=1.0: rodillo Ø20 gira a √2·v/(π·d) = 1350 rpm sobre su pasador
+  DIVERT a v_lat=1.5: rodillo Ø20 gira a √2·v/(π·d) = 2026 rpm sobre su pasador
+
+==============================================================================
+B. TRACCIÓN: a_max de un lecho mecanum vs rodillos planos
+==============================================================================
+Por rueda: |F_i| ≤ μ·N_i y F_i ∥ ê. FORWARD: F_req = √2·F_fam, F_fam ≤ μ·N_fam.
+Con N_A = N_B = m·g/2: F_req,max = √2·μ·m·g/2 = μ·m·g/√2  ⇒  a_max = μ·g/√2 − μr·g
+(FISICA_PRIMEROS_PRINCIPIOS usó (μ−μr)·g: le falta el factor 1/√2 del rodillo a 45°.)
+Frenado con ruedas bloqueadas: deslizamiento sólo a lo largo de ê ⇒ a_frenado = μ·g/√2 (mismo factor).
+  μ=0.3: a_max = 1.79 m/s² (plano: 2.65) ; parada v²/2a: 1.0 m/s → 280 mm ; 1.5 m/s → 630 mm
+  μ=0.4: a_max = 2.48 m/s² (plano: 3.63) ; parada v²/2a: 1.0 m/s → 202 mm ; 1.5 m/s → 454 mm
+  μ=0.5: a_max = 3.17 m/s² (plano: 4.61) ; parada v²/2a: 1.0 m/s → 158 mm ; 1.5 m/s → 354 mm
+  μ=0.6: a_max = 3.87 m/s² (plano: 5.59) ; parada v²/2a: 1.0 m/s → 129 mm ; 1.5 m/s → 291 mm
+Con N_A ≠ N_B (nº impar de ejes bajo la caja) la familia con menos carga satura primero:
+  4A+3B ejes (carga ∝ nº ejes): N_min/mg = 0.429 ⇒ a_max(μ=0.4) = √2·μ·(N_min/m) − μr·g = 2.08 m/s²
+  2A+1B ejes (carga ∝ nº ejes): N_min/mg = 0.333 ⇒ a_max(μ=0.4) = √2·μ·(N_min/m) − μr·g = 1.56 m/s²
+  3A+3B ejes (carga ∝ nº ejes): N_min/mg = 0.500 ⇒ a_max(μ=0.4) = √2·μ·(N_min/m) − μr·g = 2.48 m/s²
+  2A+2B ejes (carga ∝ nº ejes): N_min/mg = 0.500 ⇒ a_max(μ=0.4) = √2·μ·(N_min/m) − μr·g = 2.48 m/s²
+
+==============================================================================
+C. GUIÑADA: par libre vs. reacción del lecho (sistema sobre-restringido)
+==============================================================================
+Para 2 ruedas de la misma familia en r1, r2: (ω×(r1−r2))·ê_A = ω(Δx−Δy)/√2 = 0 ⇒ ω=0 salvo Δx=Δy.
+⇒ Mientras NO deslizan, ≥2 ruedas de una familia (o 1 de cada) imponen ω=0: el lecho es rígido en guiñada.
+El par de guiñada M = F_req·Δx/2 (FORWARD) no gira la caja: lo reaccionan fuerzas tangenciales extra en las ruedas,
+que consumen presupuesto de fricción. La caja gira sólo cuando ese presupuesto se agota (contactos saturados).
+
+--- Disposición transversal: REV B y=50/150/250/350 (paso 100) ---
+500x300 5kg centrada (6 ejes): 12 contactos (6A+6B), N/contacto=4.09 N, Δx=x_A−x_B=+76.2 mm, I=0.1417 kg·m²
+   a=1.0 FORWARD: M_yaw libre=+0.247 N·m (α=+1.74 rad/s², giro LIBRE en t=v/a=1.00s: +49.9°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.67
+   a=1.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=+0.437 N·m (α=+3.09 rad/s², giro LIBRE en t=v/a=0.50s: +22.1°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.18
+   a=2.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.65 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+500x300 5kg sobre eje 4 (7 ejes): 14 contactos (8A+6B), N/contacto=3.50 N, Δx=x_A−x_B=-0.0 mm, I=0.1417 kg·m²
+   a=1.0 FORWARD: M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.54, con guiñada=0 0.54
+   a=1.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.54, con guiñada=0 0.54
+   a=2.0 FORWARD: M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.96, con guiñada=0 0.96
+   a=2.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.96, con guiñada=0 0.96
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 2.08 m/s² ; sin exigir ω=0 = 2.08 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.08 m/s² ; sin exigir ω=0 = 2.08 m/s² (teórico ideal 2.48)
+300x250 2.5kg centrada (4 ejes): 8 contactos (4A+4B), N/contacto=3.07 N, Δx=x_A−x_B=-76.2 mm, I=0.0318 kg·m²
+   a=1.0 FORWARD: M_yaw libre=-0.123 N·m (α=-3.88 rad/s², giro LIBRE en t=v/a=1.00s: -111.2°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.74
+   a=1.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=-0.219 N·m (α=-6.88 rad/s², giro LIBRE en t=v/a=0.50s: -49.3°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.31
+   a=2.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.46 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+300x250 2.5kg sobre eje 4 (3 ejes): 6 contactos (4A+2B), N/contacto=4.09 N, Δx=x_A−x_B=+0.0 mm, I=0.0318 kg·m²
+   a=1.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.70, con guiñada=0 0.70
+   a=1.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.70, con guiñada=0 0.70
+   a=2.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 1.24, con guiñada=0 1.24
+   a=2.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 1.24, con guiñada=0 1.24
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.56 m/s² ; sin exigir ω=0 = 1.56 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 1.56 m/s² ; sin exigir ω=0 = 1.56 m/s² (teórico ideal 2.48)
+500x300 vacía 0.5kg (6 ejes): 12 contactos (6A+6B), N/contacto=0.41 N, Δx=x_A−x_B=+76.2 mm, I=0.0142 kg·m²
+   a=1.0 FORWARD: M_yaw libre=+0.025 N·m (α=+1.74 rad/s², giro LIBRE en t=v/a=1.00s: +49.9°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.67
+   a=1.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=+0.044 N·m (α=+3.09 rad/s², giro LIBRE en t=v/a=0.50s: +22.1°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.18
+   a=2.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.65 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+
+--- Disposición transversal: Bloque v4 paso 78 (y=-39/39/117/195)+78 ---
+500x300 5kg centrada (6 ejes): 24 contactos (12A+12B), N/contacto=2.04 N, Δx=x_A−x_B=+76.2 mm, I=0.1417 kg·m²
+   a=1.0 FORWARD: M_yaw libre=+0.247 N·m (α=+1.74 rad/s², giro LIBRE en t=v/a=1.00s: +49.9°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.67
+   a=1.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=+0.437 N·m (α=+3.09 rad/s², giro LIBRE en t=v/a=0.50s: +22.1°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.19
+   a=2.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.63 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+500x300 5kg sobre eje 4 (7 ejes): 28 contactos (16A+12B), N/contacto=1.75 N, Δx=x_A−x_B=+0.0 mm, I=0.1417 kg·m²
+   a=1.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.54, con guiñada=0 0.54
+   a=1.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.54, con guiñada=0 0.54
+   a=2.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.96, con guiñada=0 0.96
+   a=2.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.96, con guiñada=0 0.96
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 2.08 m/s² ; sin exigir ω=0 = 2.08 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.08 m/s² ; sin exigir ω=0 = 2.08 m/s² (teórico ideal 2.48)
+300x250 2.5kg centrada (4 ejes): 8 contactos (4A+4B), N/contacto=3.07 N, Δx=x_A−x_B=-76.2 mm, I=0.0318 kg·m²
+   a=1.0 FORWARD: M_yaw libre=-0.123 N·m (α=-3.88 rad/s², giro LIBRE en t=v/a=1.00s: -111.2°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.75
+   a=1.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=1.00s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=-0.219 N·m (α=-6.88 rad/s², giro LIBRE en t=v/a=0.50s: -49.3°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.32
+   a=2.0 DIVERT : M_yaw libre=+0.000 N·m (α=+0.00 rad/s², giro LIBRE en t=v/a=0.50s: +0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.44 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+300x250 2.5kg sobre eje 4 (3 ejes): 6 contactos (4A+2B), N/contacto=4.09 N, Δx=x_A−x_B=+0.0 mm, I=0.0318 kg·m²
+   a=1.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.70, con guiñada=0 0.70
+   a=1.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.70, con guiñada=0 0.70
+   a=2.0 FORWARD: M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 1.24, con guiñada=0 1.24
+   a=2.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 1.24, con guiñada=0 1.24
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.56 m/s² ; sin exigir ω=0 = 1.56 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 1.56 m/s² ; sin exigir ω=0 = 1.56 m/s² (teórico ideal 2.48)
+500x300 vacía 0.5kg (6 ejes): 24 contactos (12A+12B), N/contacto=0.20 N, Δx=x_A−x_B=+76.2 mm, I=0.0142 kg·m²
+   a=1.0 FORWARD: M_yaw libre=+0.025 N·m (α=+1.74 rad/s², giro LIBRE en t=v/a=1.00s: +49.9°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.67
+   a=1.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=1.00s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.47, con guiñada=0 0.47
+   a=2.0 FORWARD: M_yaw libre=+0.044 N·m (α=+3.09 rad/s², giro LIBRE en t=v/a=0.50s: +22.1°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 1.19
+   a=2.0 DIVERT : M_yaw libre=-0.000 N·m (α=-0.00 rad/s², giro LIBRE en t=v/a=0.50s: -0.0°) | utilización máx μN: sin sujetar guiñada 0.83, con guiñada=0 0.83
+   a_max(μ=0.4) FORWARD: con guiñada sujeta = 1.63 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+   a_max(μ=0.4) DIVERT : con guiñada sujeta = 2.48 m/s² ; sin exigir ω=0 = 2.48 m/s² (teórico ideal 2.48)
+
+--- Fondo no plano: 300x250 sobre 3 ejes con apoyo en 3 puntos (2A + 1B), carga 2.5 kg ---
+   B carga 33% del peso, FORWARD: a_max(μ=0.4) = 1.54 m/s²
+   B carga 33% del peso, DIVERT : a_max(μ=0.4) = 0.98 m/s²
+   B carga 15% del peso, FORWARD: a_max(μ=0.4) = 0.54 m/s²
+   B carga 15% del peso, DIVERT : a_max(μ=0.4) = 0.54 m/s²
+   B carga 5% del peso, FORWARD: a_max(μ=0.4) = -0.02 m/s²
+   B carga 5% del peso, DIVERT : a_max(μ=0.4) = -0.02 m/s²
+   (con B al 0 % la caja queda gobernada sólo por A ⇒ se desplaza a 45°: modo DIAGONAL involuntario)
+
+==============================================================================
+D. ENTRADA/SALIDA: una sola familia bajo el frente durante 1 paso
+==============================================================================
+ v=1.0: 1 paso (76.2 mm) = 76 ms con sólo el eje 1 (A) bajo el frente
+ v=1.5: 1 paso (76.2 mm) = 51 ms con sólo el eje 1 (A) bajo el frente
+ desajuste de velocidad Omni/upstream ⇒ deslizamiento a 45° en eje 1: N1≈11.2 N, F_lat=μN1/√2=3.2 N, M≈0.55 N·m ⇒ giro libre en 76 ms = 0.65° (los rodillos planos upstream lo resisten además)
+ desajuste de velocidad Omni/upstream ⇒ deslizamiento a 45° en eje 1: N1≈11.2 N, F_lat=μN1/√2=3.2 N, M≈0.55 N·m ⇒ giro libre en 51 ms = 0.29° (los rodillos planos upstream lo resisten además)
+ Si u_A = v_línea exactamente: fuerza lateral nula (v_y = u_A − v_x = 0). El efecto es proporcional al desajuste de velocidades.
+
+==============================================================================
+E. CONTENCIÓN EN LA ZONA
+==============================================================================
+ zona 598.0 caja 500: ventana = 98.0 mm
+ zona 598.0 caja 300: ventana = 298.0 mm
+ zona 598.0 caja 250: ventana = 348.0 mm
+ zona 609.6 caja 500: ventana = 109.6 mm
+ zona 609.6 caja 300: ventana = 309.6 mm
+ zona 609.6 caja 250: ventana = 359.6 mm
+ Cadena de latencia [web/lente lógica]: sensor 0.5 ms (Keyence PZ-G) + lógica ≈2 ms + STEP/DIR ≈0.2 ms ≈ 3 ms; driver MDR ≤15 ms (Itoh)
+   v=1.0: recorrido por latencia 3 ms = 3.0 mm
+   v=1.0: recorrido por latencia 18 ms = 18.0 mm
+   v=1.5: recorrido por latencia 3 ms = 4.5 mm
+   v=1.5: recorrido por latencia 18 ms = 27.0 mm
+
+ E1. Velocidad máxima si el frenado sólo puede empezar con la caja ENTERA dentro (upstream sigue empujando hasta entonces):
+     v_adm = √(2·a·(ventana − v·t_lat))  con a = a_max(μ) del lecho mecanum
+   μ=0.3 (a=1.79): ventana 98 mm ⇒ v_adm = 0.59 m/s
+   μ=0.3 (a=1.79): ventana 110 mm ⇒ v_adm = 0.62 m/s
+   μ=0.3 (a=1.79): ventana 298 mm ⇒ v_adm = 1.03 m/s
+   μ=0.4 (a=2.48): ventana 98 mm ⇒ v_adm = 0.69 m/s
+   μ=0.4 (a=2.48): ventana 110 mm ⇒ v_adm = 0.73 m/s
+   μ=0.4 (a=2.48): ventana 298 mm ⇒ v_adm = 1.21 m/s
+   μ=0.5 (a=3.17): ventana 98 mm ⇒ v_adm = 0.78 m/s
+   μ=0.5 (a=3.17): ventana 110 mm ⇒ v_adm = 0.83 m/s
+   μ=0.5 (a=3.17): ventana 298 mm ⇒ v_adm = 1.37 m/s
+
+ E2. Frenado que empieza con la caja PARCIALMENTE dentro (fracción f = x/L del peso sobre la Omni).
+     Caso (i) upstream sigue accionando a v_línea: a_neta = f·μ·g/√2 − (1−f)·μ_up·g  (rodillos planos empujan la caja que frena)
+     μ=0.4, μ_up=0.4: a_neta>0 sólo si f > μ_up/(μ_up+μ/√2) = 0.59 ⇒ la Omni no puede frenar hasta tener el 59% de la caja
+     Caso (ii) upstream en rueda libre (motor parado, rodillos giran libres): a_neta = f·μ·g/√2 − μr·g. Integración numérica:
+     μ=0.4 v0=1.0 caja 500, frenado desde frente x=0 mm (upstream libre): frente se detiene en 478 mm (DENTRO de la zona 598)
+     μ=0.4 v0=1.0 caja 500, frenado desde frente x=150 mm (upstream libre): frente se detiene en 488 mm (DENTRO de la zona 598)
+     μ=0.4 v0=1.0 caja 500, frenado desde frente x=300 mm (upstream libre): frente se detiene en 546 mm (DENTRO de la zona 598)
+     μ=0.4 v0=1.5 caja 500, frenado desde frente x=0 mm (upstream libre): frente se detiene en 730 mm (FUERA: +132 mm de la zona 598)
+     μ=0.4 v0=1.5 caja 500, frenado desde frente x=150 mm (upstream libre): frente se detiene en 741 mm (FUERA: +143 mm de la zona 598)
+     μ=0.4 v0=1.5 caja 500, frenado desde frente x=300 mm (upstream libre): frente se detiene en 798 mm (FUERA: +200 mm de la zona 598)
+     μ=0.5 v0=1.0 caja 500, frenado desde frente x=0 mm (upstream libre): frente se detiene en 422 mm (DENTRO de la zona 598)
+     μ=0.5 v0=1.0 caja 500, frenado desde frente x=150 mm (upstream libre): frente se detiene en 437 mm (DENTRO de la zona 598)
+     μ=0.5 v0=1.0 caja 500, frenado desde frente x=300 mm (upstream libre): frente se detiene en 501 mm (DENTRO de la zona 598)
+     μ=0.5 v0=1.5 caja 500, frenado desde frente x=0 mm (upstream libre): frente se detiene en 626 mm (FUERA: +28 mm de la zona 598)
+     μ=0.5 v0=1.5 caja 500, frenado desde frente x=150 mm (upstream libre): frente se detiene en 638 mm (FUERA: +40 mm de la zona 598)
+     μ=0.5 v0=1.5 caja 500, frenado desde frente x=300 mm (upstream libre): frente se detiene en 698 mm (FUERA: +100 mm de la zona 598)
+
+ E3. Aterrizaje coordinado (upstream = CZC que frena con el mismo perfil): d = v²/(2a) sobre ambas zonas; a = a_max mecanum sólo en la parte Omni,
+     pero la parte sobre rodillos planos frena con μ_up (mayor). Distancias de parada a a=2.0 m/s² (comandada):
+     v=1.0: 250 mm ⇒ frenado debe empezar -299 mm respecto al objetivo 549 (negativo = antes de entrar a la Omni)
+     v=1.5: 562 mm ⇒ frenado debe empezar 14 mm respecto al objetivo 549 (negativo = antes de entrar a la Omni)
+
+==============================================================================
+F. CARGA POR RUEDA, CAJAS VACÍAS, REGLA 2/3, VUELCO
+==============================================================================
+ m=5.0 kg, 6 ejes × 2 ruedas = 12 contactos: N=4.09 N/rueda ; fricción disp. μ=0.4: 1.64 N ; con regla 2/3 (Rulmeca) N_ef=6.13 N sobre 8 ruedas
+ m=5.0 kg, 6 ejes × 3 ruedas = 18 contactos: N=2.73 N/rueda ; fricción disp. μ=0.4: 1.09 N ; con regla 2/3 (Rulmeca) N_ef=4.09 N sobre 12 ruedas
+ m=5.0 kg, 4 ejes × 2 ruedas = 8 contactos: N=6.13 N/rueda ; fricción disp. μ=0.4: 2.45 N ; con regla 2/3 (Rulmeca) N_ef=9.20 N sobre 5 ruedas
+ m=2.5 kg, 4 ejes × 2 ruedas = 8 contactos: N=3.07 N/rueda ; fricción disp. μ=0.4: 1.23 N ; con regla 2/3 (Rulmeca) N_ef=4.60 N sobre 5 ruedas
+ m=2.5 kg, 3 ejes × 2 ruedas = 6 contactos: N=4.09 N/rueda ; fricción disp. μ=0.4: 1.64 N ; con regla 2/3 (Rulmeca) N_ef=6.13 N sobre 4 ruedas
+ m=0.5 kg, 6 ejes × 2 ruedas = 12 contactos: N=0.41 N/rueda ; fricción disp. μ=0.4: 0.16 N ; con regla 2/3 (Rulmeca) N_ef=0.61 N sobre 8 ruedas
+ m=0.5 kg, 3 ejes × 2 ruedas = 6 contactos: N=0.82 N/rueda ; fricción disp. μ=0.4: 0.33 N ; con regla 2/3 (Rulmeca) N_ef=1.23 N sobre 4 ruedas
+ a_max no depende de la masa (F_req ∝ m, μN ∝ m): la caja vacía sólo es peor por fondo no plano y por N < umbral de indentación del rodillo.
+ Cargas de catálogo [web]: Rotacaster Ø50 95A 25 kg/rueda; mecanum hobby Ø60 10–15 kg/set ⇒ 3–6 N/rueda es <5 % de la capacidad.
+ vuelco lateral b=300 h=300: a_tip = g·b/h = 9.8 m/s² (>> a_max 1.8–3.9 ⇒ manda el deslizamiento) [h A VERIFICAR]
+ vuelco lateral b=300 h=400: a_tip = g·b/h = 7.4 m/s² (>> a_max 1.8–3.9 ⇒ manda el deslizamiento) [h A VERIFICAR]
+ vuelco lateral b=300 h=600: a_tip = g·b/h = 4.9 m/s² (>> a_max 1.8–3.9 ⇒ manda el deslizamiento) [h A VERIFICAR]
+ vuelco lateral b=250 h=400: a_tip = g·b/h = 6.1 m/s² (>> a_max 1.8–3.9 ⇒ manda el deslizamiento) [h A VERIFICAR]
+
+==============================================================================
+G. TIEMPO DE DESVÍO Y RITMO
+==============================================================================
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=0.7 a=1.5: t=0.97 s (v pico 0.70)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=0.7 a=2.0: t=0.85 s (v pico 0.70)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=0.7 a=2.5: t=0.78 s (v pico 0.70)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.0 a=1.5: t=0.97 s (v pico 0.72)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.0 a=2.0: t=0.84 s (v pico 0.84)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.0 a=2.5: t=0.75 s (v pico 0.94)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.5 a=1.5: t=0.97 s (v pico 0.72)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.5 a=2.0: t=0.84 s (v pico 0.84)
+ W=300 hasta borde del cuerpo 400 s=350 mm v_lat=1.5 a=2.5: t=0.75 s (v pico 0.94)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=0.7 a=1.5: t=1.16 s (v pico 0.70)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=0.7 a=2.0: t=1.04 s (v pico 0.70)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=0.7 a=2.5: t=0.97 s (v pico 0.70)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.0 a=1.5: t=1.14 s (v pico 0.85)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.0 a=2.0: t=0.98 s (v pico 0.98)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.0 a=2.5: t=0.88 s (v pico 1.00)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.5 a=1.5: t=1.14 s (v pico 0.85)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.5 a=2.0: t=0.98 s (v pico 0.98)
+ W=300 cruzando franja muerta 133 s=483 mm v_lat=1.5 a=2.5: t=0.88 s (v pico 1.10)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=0.7 a=1.5: t=0.93 s (v pico 0.70)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=0.7 a=2.0: t=0.81 s (v pico 0.70)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=0.7 a=2.5: t=0.74 s (v pico 0.70)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.0 a=1.5: t=0.93 s (v pico 0.70)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.0 a=2.0: t=0.81 s (v pico 0.81)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.0 a=2.5: t=0.72 s (v pico 0.90)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.5 a=1.5: t=0.93 s (v pico 0.70)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.5 a=2.0: t=0.81 s (v pico 0.81)
+ W=250 hasta borde del cuerpo 400 s=325 mm v_lat=1.5 a=2.5: t=0.72 s (v pico 0.90)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=0.7 a=1.5: t=1.12 s (v pico 0.70)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=0.7 a=2.0: t=1.00 s (v pico 0.70)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=0.7 a=2.5: t=0.93 s (v pico 0.70)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.0 a=1.5: t=1.11 s (v pico 0.83)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.0 a=2.0: t=0.96 s (v pico 0.96)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.0 a=2.5: t=0.86 s (v pico 1.00)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.5 a=1.5: t=1.11 s (v pico 0.83)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.5 a=2.0: t=0.96 s (v pico 0.96)
+ W=250 cruzando franja muerta 133 s=458 mm v_lat=1.5 a=2.5: t=0.86 s (v pico 1.07)
+ coast sobre franja muerta (rodillos pasivos transversales, la caja desliza): d = v²/(2·μ_up·g):
+   μ_up=0.2: v=0.7→125 mm ; v=1.0→255 mm (franja 133 mm)
+   μ_up=0.3: v=0.7→83 mm ; v=1.0→170 mm (franja 133 mm)
+   μ_up=0.4: v=0.7→62 mm ; v=1.0→127 mm (franja 133 mm)
+ Ciclo Omni con desvío: recepción+aterrizaje ≈0.7–0.8 s [lente lógica] + decisión + desvío 0.6–0.7 s + liberación ≈ 1.6–1.8 s ⇒ 2000–2250/h
+ Paso recto sin parar: caja 500 + gap 100 a 1.0 m/s = 0.6 s ⇒ 6000/h ; a 1.5 ⇒ 9000/h (referencia F-RAT 2250 c/h, Flowsort 6000 pph [web])
+
+==============================================================================
+H. COMPARACIÓN FÍSICA DE ARQUITECTURAS (a_max = μ·g·k − μr·g ; k = factor geométrico)
+==============================================================================
+ mecanum ±45° ejes fijos: k_fwd = k_lat = 1/√2 = 0.707 (todas las ruedas activas en ambos modos; ambas familias deben cargar igual)
+   fuerza de fricción movilizada / fuerza útil = √2 = 1.41 (componente parásita a 45° que la otra familia cancela)
+ ejes perpendiculares (CV-OMW: 16 contactos avance 4x4, 9 eyección 3x3, tresbolillo): k_fwd = N_fwd/mg, k_lat = N_lat/mg
+   CV-OMW 4x4/3x3: k_fwd = 0.64 ; k_lat = 0.36 ; parásita = 1.0 (fuerza colineal con el movimiento)
+   TRANSFER-BF21 22/14: k_fwd = 0.61 ; k_lat = 0.39 ; parásita = 1.0 (fuerza colineal con el movimiento)
+   reparto 50/50: k_fwd = 0.50 ; k_lat = 0.50 ; parásita = 1.0 (fuerza colineal con el movimiento)
+ rueda pivotante (Flowsort/HPD): k = 1.0 en la dirección de giro; giro 0.3 s/90° [web]; homing periódico [web]; 2 motores
+ F-RAT: superficies conmutadas, k = 1.0, ciclo 1.10 s [web]; 3 MDR
+   μ=0.4 mecanum         : a_max = 2.48 m/s²
+   μ=0.4 CV-OMW avance   : a_max = 2.22 m/s²
+   μ=0.4 CV-OMW eyección : a_max = 1.12 m/s²
+   μ=0.4 pivotante/F-RAT : a_max = 3.63 m/s²
+
+==============================================================================
+I. RESISTENCIA A RODADURA EN DIVERT (rodillos Ø18 girando a √2·v)
+==============================================================================
+ Rulmeca [web]: coef. rodadura paquete/rodillo Ø50: cartón rígido 0.06, blando 0.08. Un rodillo Ø18 tiene ~2.8× menos radio;
+ para la misma indentación la resistencia a rodadura crece ~∝ 1/r ⇒ μr_lat del orden de 0.1–0.2 [sup, A MEDIR]. Efecto en a_max lateral:
+   μr_lat=0.03: a_max_lat(μ=0.4) = 2.48 m/s²
+   μr_lat=0.1: a_max_lat(μ=0.4) = 1.79 m/s²
+   μr_lat=0.2: a_max_lat(μ=0.4) = 0.81 m/s²
+=== E4. Upstream FRENA sus rodillos (ZMH/freno dinámico) en el mismo instante: la cola desliza sobre rodillos parados ===
+    a_neta = f·μ·g/√2 + (1−f)·μ_up·g − μr·g  (f = fracción de la caja sobre la Omni)
+   μ=0.4 μ_up=0.4 v0=1.0 inicio x=0: frente para en 144 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.0 inicio x=100: frente para en 255 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.0 inicio x=200: frente para en 368 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.0 inicio x=300: frente para en 483 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.5 inicio x=0: frente para en 348 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.5 inicio x=100: frente para en 480 mm -> DENTRO (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.5 inicio x=200: frente para en 612 mm -> FUERA +14 (objetivo 549±49)
+   μ=0.4 μ_up=0.4 v0=1.5 inicio x=300: frente para en 735 mm -> FUERA +137 (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.0 inicio x=0: frente para en 202 mm -> DENTRO (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.0 inicio x=100: frente para en 318 mm -> DENTRO (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.0 inicio x=200: frente para en 438 mm -> DENTRO (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.0 inicio x=300: frente para en 560 mm -> DENTRO (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.5 inicio x=0: frente para en 509 mm -> DENTRO (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.5 inicio x=100: frente para en 652 mm -> FUERA +54 (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.5 inicio x=200: frente para en 786 mm -> FUERA +188 (objetivo 549±49)
+   μ=0.3 μ_up=0.3 v0=1.5 inicio x=300: frente para en 910 mm -> FUERA +312 (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.0 inicio x=0: frente para en 140 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.0 inicio x=100: frente para en 244 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.0 inicio x=200: frente para en 348 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.0 inicio x=300: frente para en 452 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.5 inicio x=0: frente para en 323 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.5 inicio x=100: frente para en 432 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.5 inicio x=200: frente para en 541 mm -> DENTRO (objetivo 549±49)
+   μ=0.5 μ_up=0.4 v0=1.5 inicio x=300: frente para en 649 mm -> FUERA +51 (objetivo 549±49)
+
+=== Tabla a_max (m/s²) por primer deslizamiento (elástico, guiñada sujeta) vs μ — caso 500x300 6 ejes y 300x250 4 ejes ===
+  μ=0.3: ideal 1.79 | 500/6ej: F 1.16 / D 1.79 | 500/7ej: F 1.49 / D 1.49 | 300/4ej: F 1.02 / D 1.79 | 300/3ej: F 1.09 / D 1.09
+  μ=0.4: ideal 2.48 | 500/6ej: F 1.65 / D 2.48 | 500/7ej: F 2.08 / D 2.08 | 300/4ej: F 1.46 / D 2.48 | 300/3ej: F 1.56 / D 1.56
+  μ=0.5: ideal 3.17 | 500/6ej: F 2.13 / D 3.17 | 500/7ej: F 2.68 / D 2.68 | 300/4ej: F 1.90 / D 3.17 | 300/3ej: F 2.02 / D 2.02
+  μ=0.6: ideal 3.87 | 500/6ej: F 2.62 / D 3.87 | 500/7ej: F 3.27 / D 3.27 | 300/4ej: F 2.34 / D 3.87 | 300/3ej: F 2.48 / D 2.48
+
+=== Velocidad admisible de línea si el aterrizaje es coordinado (caso iii) y el objetivo es frente en 549 ±49 mm ===
+   μ=0.3 v0=0.8: inicio de frenado más temprano que aterriza en ventana: x=340 mm
+   μ=0.3 v0=1.0: inicio de frenado más temprano que aterriza en ventana: x=260 mm
+   μ=0.3 v0=1.2: inicio de frenado más temprano que aterriza en ventana: x=160 mm
+   μ=0.3 v0=1.5: inicio de frenado más temprano que aterriza en ventana: x=0 mm
+   μ=0.4 v0=0.8: inicio de frenado más temprano que aterriza en ventana: x=380 mm
+   μ=0.4 v0=1.0: inicio de frenado más temprano que aterriza en ventana: x=320 mm
+   μ=0.4 v0=1.2: inicio de frenado más temprano que aterriza en ventana: x=250 mm
+   μ=0.4 v0=1.5: inicio de frenado más temprano que aterriza en ventana: x=120 mm

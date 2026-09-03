@@ -1,0 +1,12 @@
+{
+  "project": "CONVEYONE-OMNI-ZPA",
+  "stage": "S0_PENDIENTE",
+  "gates": {},
+  "nota": "Proyecto de INGENIERÍA CONCEPTUAL (capa user): sin fotos, S0-S5 no aplican. Entrada: input/HANDOFF_2026-09-03.md (documento rector del usuario) + input/ref/ memoria mecánica REV B. Entrega de esta etapa: out/ANALISIS_CONCEPTUAL.md (replanteamiento desde primeros principios: física del lecho mecanum, accionamiento, control ZPA/Omni, comunicaciones UPSTREAM/DOWNSTREAM, potencia, seguridad; comparación Rutas A/B/C). Hechos web con cita en input/web_facts.json.",
+  "entregas": {
+    "ANALISIS_CONCEPTUAL_rev": 0,
+    "fecha": "2026-09-03",
+    "archivo": "out/ANALISIS_CONCEPTUAL.md",
+    "verificacion_adversarial": "pendiente"
+  }
+}
