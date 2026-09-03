@@ -1,0 +1,165 @@
+{
+  "formato": "foto3d-rueda-omni-piezas",
+  "version": 1,
+  "generado": "2026-07-29T13:53:01+00:00",
+  "capa": "user",
+  "origen_medicion": "sha256:5c26a8c197efe69d904b14bf8e6c10df575c2eedba79efcba6f74308ee5fc9ec",
+  "heredado_de_la_foto": {
+    "diametro_exterior": 58.0,
+    "radio_eje_rodillo": 22.96,
+    "longitud_rodillo": 19.66,
+    "rodillos_por_hilera": 5,
+    "hileras": 2,
+    "desfase_deg": 36.0,
+    "incertidumbre_pct": 5.1
+  },
+  "decidido_por_el_usuario": {
+    "hexagono_entrecaras": 12.85,
+    "diametro_eje_rodillo": 3.0,
+    "espesor_placa": 3.0,
+    "tornillo": "M3"
+  },
+  "derivado": {
+    "diametro_max_rodillo": 12.08,
+    "barreno_rodillo": 3.2,
+    "largo_eje_rodillo": 25.66,
+    "asiento_eje_por_lado": 2.6,
+    "separacion_planos_eje": 12.0,
+    "separacion_minima_exigida": 10.93,
+    "placas_intermedias": 2,
+    "placas_totales": 6,
+    "diametro_placa": 55.0,
+    "circunferencia_tornillos": 28.84,
+    "radio_libre_de_rodillos": 16.52,
+    "taladro_paso": 3.2,
+    "cabeza_avellanada": 5.6,
+    "taladro_para_roscar": 2.5,
+    "espesor_paquete_placas": 18.0,
+    "ancho_total_rueda": 24.08,
+    "z_plano_eje_A": 3.0,
+    "z_plano_eje_B": 15.0
+  },
+  "justificacion": {
+    "separacion_planos_eje": "en la bisectriz del solape (18°) los dos barriles están al mismo radio y sólo los separa la altura: exigen 10.93 mm; con placas de 3 se toma 12.00 (2 placas intermedias)",
+    "circunferencia_tornillos": "el radio interior de los rodillos es 2a-R = 16.92; el tornillo M3 pasa por el cubo a Ø28.84, libre de las dos hileras. La Ø43.04 de la foto NO sirve aquí: chocaría con los rodillos de la hilera opuesta",
+    "diametro_placa": "envuelve el asiento del eje (3 mm por lado, de los que 2.6 son ranura útil) y se queda 1.5 mm por debajo de la banda de rodadura",
+    "hexagono": "entrecaras (llaves), no entre vértices; sin holgura añadida: el valor dado se toma como cota final",
+    "eje": "Ø3 liso, sin cabeza: lo retiene el sándwich. El barreno del rodillo lleva 0.2 de juego"
+  },
+  "islas_descartadas": [
+    {
+      "placa": "placa_intermedia_1",
+      "islas": 5,
+      "area_mm2": [
+        29.9,
+        29.9,
+        29.9,
+        29.9,
+        29.9
+      ]
+    },
+    {
+      "placa": "placa_intermedia_2",
+      "islas": 5,
+      "area_mm2": [
+        29.9,
+        29.9,
+        29.9,
+        29.9,
+        29.9
+      ]
+    }
+  ],
+  "lista_de_piezas": [
+    {
+      "pieza": "placa_ext_avellanada",
+      "cant": 1,
+      "nota": "cara exterior frontal"
+    },
+    {
+      "pieza": "placa_ranurada_A",
+      "cant": 1,
+      "nota": "aloja los ejes de la hilera A"
+    },
+    {
+      "pieza": "placa_intermedia_1",
+      "cant": 1,
+      "nota": "separador"
+    },
+    {
+      "pieza": "placa_intermedia_2",
+      "cant": 1,
+      "nota": "separador (espejo)"
+    },
+    {
+      "pieza": "placa_ranurada_B",
+      "cant": 1,
+      "nota": "aloja los ejes de la hilera B"
+    },
+    {
+      "pieza": "placa_ext_roscada",
+      "cant": 1,
+      "nota": "cara exterior trasera, a roscar"
+    },
+    {
+      "pieza": "rodillo",
+      "cant": 10,
+      "nota": "barril de rodadura"
+    },
+    {
+      "pieza": "eje_rodillo",
+      "cant": 10,
+      "nota": "varilla Ø3 x 25.66, lisa"
+    },
+    {
+      "pieza": "tornillo M3 avellanado",
+      "cant": 5,
+      "comprado": true,
+      "nota": "largo 18-22 mm (agarre 18)"
+    }
+  ],
+  "montaje": [
+    "1. Meter cada eje en su rodillo y apoyarlo en la ranura de su placa.",
+    "2. Cerrar cada hilera con la placa contigua: el eje queda cazado, sin cabeza ni tuerca; gira el rodillo, no el eje.",
+    "3. Apilar en el orden de la lista y apretar los 5 tornillos.",
+    "AVISO: la rosca útil en la placa trasera es sólo el espesor de placa (3 mm ~ 1 diámetro). En plástico o aluminio blando, use tuerca, inserto roscado o aumente el espesor de esa placa."
+  ],
+  "verificacion_interferencias": {
+    "pares_con_choque": [],
+    "resultado": "SIN INTERFERENCIAS"
+  },
+  "estanqueidad_stl": {
+    "placa_ext_avellanada": {
+      "estanco": true,
+      "volumen_mm3": 3549.42
+    },
+    "placa_ranurada_A": {
+      "estanco": true,
+      "volumen_mm3": 3496.82
+    },
+    "placa_intermedia_1": {
+      "estanco": true,
+      "volumen_mm3": 2919.04
+    },
+    "placa_intermedia_2": {
+      "estanco": true,
+      "volumen_mm3": 2919.04
+    },
+    "placa_ranurada_B": {
+      "estanco": true,
+      "volumen_mm3": 3496.82
+    },
+    "placa_ext_roscada": {
+      "estanco": true,
+      "volumen_mm3": 3641.4
+    },
+    "rodillo": {
+      "estanco": true,
+      "volumen_mm3": 1706.2
+    },
+    "eje_rodillo": {
+      "estanco": true,
+      "volumen_mm3": 180.22
+    }
+  }
+}

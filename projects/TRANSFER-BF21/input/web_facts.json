@@ -1,0 +1,102 @@
+[
+  {
+    "id": "wf01",
+    "claim": "fr8zz_hex_bearing_bore_hex",
+    "value": 12.7,
+    "unit": "mm",
+    "url": "https://andymark.com/products/1-2-in-hex-id-1-125-in-od-shielded-flanged-bearing-fr8zz-hexhd",
+    "accessed": "2026-07-29",
+    "quote": "Bore: 0.500 in. [12.7 mm] (1/2) Hex",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf02",
+    "claim": "fr8zz_hex_bearing_od",
+    "value": 28.575,
+    "unit": "mm",
+    "url": "https://andymark.com/products/1-2-in-hex-id-1-125-in-od-shielded-flanged-bearing-fr8zz-hexhd",
+    "accessed": "2026-07-29",
+    "quote": "1/2 in. Hex ID 1.125 in. OD Shielded Flanged Bearing (FR8ZZ-HexHD) — Outside Diameter: 1.125 in.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf03",
+    "claim": "fr8zz_hex_bearing_overall_thickness",
+    "value": 7.92,
+    "unit": "mm",
+    "url": "https://andymark.com/products/1-2-in-hex-id-1-125-in-od-shielded-flanged-bearing-fr8zz-hexhd",
+    "accessed": "2026-07-29",
+    "quote": "Overall Thickness: 0.312 in.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf04",
+    "claim": "fr8zz_bearing_flange_od",
+    "value": 31.12,
+    "unit": "mm",
+    "url": "https://www.smbbearings.com/firebrick/ckeditor/plugins/upload/Uploads/Documents/bearingpdfs/FR8ZZ-flanged-miniature-bearing-0.5x1.125x0.3125-inch.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Part Number: FR8ZZ — cotas del plano del datasheet: 0.5\" / 1.125\" / 1.2252\" / 0.3125\" / 0.062",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf05",
+    "claim": "fr8zz_bearing_flange_thickness",
+    "value": 1.57,
+    "unit": "mm",
+    "url": "https://andymark.com/products/1-2-in-hex-id-1-125-in-od-shielded-flanged-bearing-fr8zz-hexhd",
+    "accessed": "2026-07-29",
+    "quote": "Flange Thickness: 0.062 in.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf06",
+    "claim": "pu_round_belt_lineshaft_cord_diameter",
+    "value": 4.7625,
+    "unit": "mm",
+    "url": "https://conveyorconceptsinc.com/blog/the-power-of-o-rings-and-drive-belts/",
+    "accessed": "2026-07-29",
+    "quote": "the standard O-ring for line shaft conveyor is 3/16\" x 13.50\" O-ring 83A",
+    "confidence": "media"
+  },
+  {
+    "id": "wf07",
+    "claim": "pu_round_belt_install_stretch_83a_85a_min",
+    "value": 10,
+    "unit": "%",
+    "url": "https://www.durabelt.com/tensioncalculator.php",
+    "accessed": "2026-07-29",
+    "quote": "Usually 83A/85A durometer round belts are stretched 10-12%, and 92A/95A durometer belts are stretched 7-9%.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf08",
+    "claim": "pu_round_belt_install_stretch_83a_85a_max",
+    "value": 12,
+    "unit": "%",
+    "url": "https://www.durabelt.com/tensioncalculator.php",
+    "accessed": "2026-07-29",
+    "quote": "Usually 83A/85A durometer round belts are stretched 10-12%, and 92A/95A durometer belts are stretched 7-9%.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf09",
+    "claim": "conveyor_bf_definition_between_frames",
+    "value": 1,
+    "unit": "bool",
+    "url": "https://www.ashlandconveyor.com/pages/rollers",
+    "accessed": "2026-07-29",
+    "quote": "The length of our rollers is described in terms of the BF; the dimension between the frame, or rails, of the conveyor. [...] To get this dimension, you will need to measure the distance from the inside of one rail, to the inside of the other rail on your conveyor.",
+    "confidence": "alta"
+  },
+  {
+    "id": "wf10",
+    "claim": "conveyor_roller_bf21_order_length",
+    "value": 533.4,
+    "unit": "mm",
+    "url": "https://www.ultimationinc.com/replacement-parts/buy-rollers/replacement-roller-for-gravity-conveyor-1-9-dia-21/",
+    "accessed": "2026-07-29",
+    "quote": "21\" between frames to suit 24\" overall width gravity conveyors",
+    "confidence": "alta"
+  }
+]

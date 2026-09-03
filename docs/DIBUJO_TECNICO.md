@@ -1,12 +1,15 @@
 # S6 — Dibujo técnico y CAD
 
-Dos herramientas complementarias sobre el modelo medido:
+Tres herramientas complementarias:
 
-- `pipeline/s6_drawings.py` — láminas normalizadas (DXF a escala real + PDF).
+- `pipeline/s6_drawings.py` — láminas normalizadas (DXF a escala real + PDF)
+  sobre el modelo medido.
 - `pipeline/cad_cli.py` — planos de referencia, bocetos con referencias
   geométricas y sólidos (extrusión, revolución, barrido).
+- `pipeline/rueda_omni.py` — vista de frente de una rueda omnidireccional a
+  partir de una sola foto frontal (ver más abajo).
 
-Ambas respetan las reglas de oro: nada se inventa (todo deriva de la malla
+Las tres respetan las reglas de oro: nada se inventa (todo deriva de la malla
 medida o de entidades declaradas por el usuario), toda acción queda en
 `audit.log.jsonl`, y la certificación de escala nunca se oculta.
 
@@ -148,6 +151,139 @@ medición; aristas sin líneas ocultas).
    **pide** al usuario la geometría en función de ellas.
 3. Claude escribe el JSON de entidades citando `@rN`, ejecuta `boceto` y
    ofrece extruir / revolucionar / barrer / exportar DXF.
+
+## Vista de frente desde UNA foto (`rueda_omni.py`)
+
+Caso acotado: una rueda omnidireccional de doble hilera fotografiada de
+frente, de la que el usuario sólo conoce el diámetro exterior. Con una única
+vista no hay triangulación posible — no existe capa `measured` — así que la
+herramienta vive fuera de la máquina S0–S5 y todo lo que produce es capa
+`user` con la procedencia anotada valor por valor.
+
+```powershell
+python pipeline/rueda_omni.py medir projects/<X> [--foto <rel>] [--diametro 58]
+python pipeline/rueda_omni.py vista projects/<X> [--formato A3] [--escala 2:1]
+```
+
+`medir` escribe `work/00_medicion/parametros.json`. El diámetro exterior
+DECLARADO es el único ancla de escala (mm/px); de ahí salen, por proporción,
+el radio del eje de los rodillos, su diámetro y longitud, la circunferencia
+de tornillos y el cubo. Cada cota lleva `fuente`: `declarado`, `medido_foto`,
+`derivado` o `no_determinable` — el barreno del eje y el ancho de la rueda
+caen en el último grupo y se quedan **sin cota**, no se rellenan a ojo.
+
+`vista` compone la lámina (marco ISO 5457, cajetín ISO 7200, cotas ISO 129):
+DXF a escala real, PDF de papel y PNG de previsualización.
+
+El perfil del rodillo no se dibuja a mano. El eje del rodillo es la cuerda
+`x = a`; la sección del barril en la estación axial `t` se proyecta como un
+segmento radial de `a - rho(t)` a `a + rho(t)`, y rodar a radio constante
+impone `sqrt((a + rho)² + t²) = R`, o sea
+
+    rho(t) = sqrt(R² - t²) - a
+
+De ahí sale el contorno exacto: la corona ES el arco de radio R y la cara
+interior es su reflejo `2a - sqrt(R² - t²)`. Y, de paso, un contraste de
+coherencia de la medición: `a + rho(0)` debe dar `R`.
+El residuo se imprime y se estampa en la lámina; si se dispara, la foto o el
+diámetro declarado no son lo que se creía.
+
+Lo que la foto no resuelve queda declarado en las NOTAS de la lámina: escorzo
+medido, incertidumbre asociada, contorno festoneado de la placa (se acota sólo
+su disco continuo mínimo, entre paréntesis, como cota de referencia) y las
+cotas ausentes. La verificación de escala del cajetín dice NO CERTIFICADA.
+
+### Piezas del sándwich (`rueda_omni_piezas.py`)
+
+Convierte esa medición en piezas fabricables. Es **diseño (capa `user`)**, no
+medición: hereda de la foto el Ø exterior, el radio del eje de rodillos, su
+longitud y el número de rodillos, y añade las decisiones del usuario.
+
+```powershell
+python pipeline/rueda_omni_piezas.py projects/<X> `
+    [--hex 12.85] [--eje 3] [--espesor 3] [--tornillo M3] [--asiento 3] [--holgura 0.2]
+```
+
+Construcción: un eje de rodillos por INTERFAZ de placas. La placa ranurada
+lleva media caña y la contigua la cierra, así que **el eje queda cazado por el
+sándwich**: sin cabeza, sin tuerca, gira el rodillo y no el eje. El paquete lo
+aprietan 5 tornillos avellanados que atraviesan el cubo.
+
+Lo que el script resuelve solo, con su justificación en `piezas.json`:
+
+- **Separación entre planos de eje.** En la bisectriz del solape angular de las
+  dos hileras los dos barriles están al MISMO radio y sólo los separa la altura:
+  exigen `2·rho(a·tan(desfase/2))` más holgura. De ahí sale el número de placas
+  intermedias — no se elige a ojo.
+- **Circunferencia de tornillos.** Ha de caber dentro del radio libre de las dos
+  hileras (`2a - R`). La circunferencia que se mide en la foto del original
+  normalmente NO sirve: chocaría con los rodillos de la hilera opuesta.
+- **Huecos de rodillo por placa.** Cada placa se recorta con la sección del
+  barril a SU altura (`sqrt(rho² - dw²)`), no con la sección máxima. Cuando el
+  recorte desprende la punta de un brazo (pasa en las intermedias), la isla se
+  descarta y queda anotada en `islas_descartadas`: nunca se entrega una pieza
+  con material suelto sin decirlo.
+
+Salidas en `out/piezas/`: un STL por pieza, `conjunto.glb` + `conjunto.png` con
+todo montado, `placas.dxf` con los contornos a escala real (capa `CORTE` para lo
+pasante; `RANURA` y `AVELLANADO` son mecanizados posteriores, en trazo
+discontinuo), `catalogo_piezas.pdf`, la lámina **`corte_AA`** (DXF/PDF/PNG:
+sección real de la rueda montada por el plano del eje — pasa por un rodillo de
+cada hilera y un tornillo; placas rayadas a 45°/135° alternado, ejes y
+tornillería sin rayar según ISO 128-50, apilado acotado) y `piezas.json` con
+cotas, justificaciones, lista de piezas y montaje.
+
+`catalogo_piezas.pdf` es el cuadernillo de taller: portada con el conjunto
+renderizado, la lista de piezas y el montaje, y después **una página por pieza**
+con tres vistas (isométrica, planta y canto, las tres a la misma escala), sus
+cotas y qué hay que mecanizar en ella. Los renders salen del mismo pintor que
+`conjunto.png`, con descarte de caras traseras — sin él, los triángulos largos
+de la tapa extruida se ordenan mal y la placa se ve translúcida.
+
+Dos verificaciones que se ejecutan siempre y se imprimen:
+
+- **Interferencias**: volumen de intersección de cada par de sólidos montados
+  (rodillo–rodillo y rodillo–placa). Cualquier valor > 0 sale como `REVISAR`.
+- **Estanqueidad**: cada STL se relee del disco y se comprueba que cierra. Una
+  malla estanca en memoria puede abrirse al exportarla, y eso rompe el laminado.
+
+### Módulo de transferencia omni bidireccional (`modulo_transfer.py`)
+
+Diseño paramétrico completo (capa `user`) de un módulo insertable en un
+roller conveyor con la PLANTA COMPLETA cubierta por omnis: avance por
+hileras de omnis Ø58 en ejes hex 1/2" extendidas hasta ambas almas, y
+desvío por las MISMAS omnis giradas 90° sobre ejes hex cortos en los huecos
+(en las columnas del tresbolillo de la hilera superior), soportadas en
+bloques de doble FR8ZZ sobre travesaños y movidas por o-rings desde el eje
+común inferior (spool de 2 gargantas por hueco → 2 risers a los stubs
+adyacentes + cadenas hacia afuera con gargantas alternadas). Al ser omnis
+cruzadas, ambos sentidos comparten la tangente sin arrastres. Los dos
+UniDrive cuelgan BAJO el fondo del canal en placas verticales sobre
+bancadas ("compacta hacia abajo": sin bahía, L = ejes × paso); el tren del
+avance corre DENTRO del campo con collares estrechos Ø36×9 en planos junto
+a las almas. Reglas heredadas del repo y citadas en las justificaciones:
+envolvente ≥ 120° en toda polea (gate NBT90), o-rings tensados por
+estiramiento 10–12 %. Hechos externos (rodamiento FR8ZZ hex, o-ring PU, BF)
+en `input/web_facts.json` con URL y cita.
+
+```powershell
+python pipeline/modulo_transfer.py projects/<X> [--bf 533.4] [--paso 110] …
+```
+
+Salidas en `out/modulo/`: STL por pieza fabricada (estanqueidad releída),
+`conjunto.glb`, 4 vistas PNG, `placas_corte.dxf` (contornos a escala real +
+desarrollo del canal con líneas de pliegue y BA declarado), `catalogo_modulo.pdf`
+(portada + una página por pieza), `LEEME.txt`, `modulo.json` (cada cota con su
+justificación y la verificación) y zip de entrega. La verificación es parte
+del generador: encaje en BF, coplanaridad de tangentes de ambas familias,
+envolvente de los 19 anillos (links de avance, motores y desvío), apoyo de
+la caja mínima 250×250 barrido por posiciones (avance Y desvío), holguras
+críticas analíticas (incluidas las de lazos coplanares con tangentes
+exactas) e interferencias AABB de todas las parejas con lista blanca
+justificada. El trazado de lazos usa un constructor de tangentes por
+PISTAS: el diseño declara el lado de contacto de cada tramo y el arco de
+cada polea — sin convenciones de signo que adivinar. Lecturas del pedido y
+alternativas descartadas: `projects/<X>/DECISIONES.md`.
 
 ## Dependencias
 

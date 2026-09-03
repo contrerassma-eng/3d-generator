@@ -1,0 +1,71 @@
+RUEDA OMNIDIRECCIONAL DOBLE Ø58 — piezas
+proyecto RUEDA-OMNI-58 · generado 2026-07-29T13:53:01Z
+
+QUÉ ES ESTO
+  Diseño (capa `user`), no medición. Las cotas de partida salen de UNA foto
+  frontal escalada por el Ø58 exterior que declaró el usuario: arrastran
+  ±5.1% de incertidumbre. VERIFIQUE CON CALIBRE antes de fabricar nada que
+  tenga que acoplar con una rueda existente.
+  Foto de origen: sha256:5c26a8c197efe69d904b14bf8e6c10df575c2eedba79efcba6f74308ee5fc9ec
+
+DECIDIDO POR EL USUARIO
+  hexágono central   12.85 mm ENTRECARAS (no entre vértices)
+  eje de rodillos    Ø3 mm
+  espesor de placa   3 mm
+  tornillos          M3 avellanados
+
+CALCULADO
+  placas             6 (2 intermedias)
+  separación de ejes 12 mm (la geometría exige 10.93)
+  paquete de placas  18 mm · ancho total 24.08 mm
+  Ø de placa         55 mm
+  tornillos a        Ø28.84 (paso Ø3.2, cabeza Ø5.6, roscar Ø2.5)
+  rodillo            Ø12.08 x 19.66, barreno Ø3.2
+  eje                Ø3 x 25.66, asiento 2.6 por lado
+
+LISTA DE PIEZAS
+   1 x placa_ext_avellanada       cara exterior frontal
+   1 x placa_ranurada_A           aloja los ejes de la hilera A
+   1 x placa_intermedia_1         separador
+   1 x placa_intermedia_2         separador (espejo)
+   1 x placa_ranurada_B           aloja los ejes de la hilera B
+   1 x placa_ext_roscada          cara exterior trasera, a roscar
+  10 x rodillo                    barril de rodadura
+  10 x eje_rodillo                varilla Ø3 x 25.66, lisa
+   5 x tornillo M3 avellanado     (comprado) largo 18-22 mm (agarre 18)
+
+MONTAJE
+  1. Meter cada eje en su rodillo y apoyarlo en la ranura de su placa.
+  2. Cerrar cada hilera con la placa contigua: el eje queda cazado, sin cabeza ni tuerca; gira el rodillo, no el eje.
+  3. Apilar en el orden de la lista y apretar los 5 tornillos.
+  AVISO: la rosca útil en la placa trasera es sólo el espesor de placa (3 mm ~ 1 diámetro). En plástico o aluminio blando, use tuerca, inserto roscado o aumente el espesor de esa placa.
+
+VERIFICADO
+  interferencias entre sólidos montados: sin interferencias
+  estanqueidad de los STL (releídos del disco): 8/8
+  en las placas intermedias, el hueco del rodillo de la hilera opuesta desprende
+    placa_intermedia_1: 5 islas de 29.9 mm² — descartadas, no van en la pieza
+    placa_intermedia_2: 5 islas de 29.9 mm² — descartadas, no van en la pieza
+
+ARCHIVOS
+  placa_ext_avellanada.stl     sólido para imprimir/mecanizar (mm)
+  placa_ranurada_A.stl         sólido para imprimir/mecanizar (mm)
+  placa_intermedia_1.stl       sólido para imprimir/mecanizar (mm)
+  placa_intermedia_2.stl       sólido para imprimir/mecanizar (mm)
+  placa_ranurada_B.stl         sólido para imprimir/mecanizar (mm)
+  placa_ext_roscada.stl        sólido para imprimir/mecanizar (mm)
+  rodillo.stl                  sólido para imprimir/mecanizar (mm)
+  eje_rodillo.stl              sólido para imprimir/mecanizar (mm)
+  conjunto.glb                 conjunto montado, para visor 3D
+  conjunto.png                 render del conjunto
+  placas.dxf                   contornos de placa a escala real; capa CORTE = pasante, RANURA y AVELLANADO = mecanizado posterior
+  catalogo_piezas.pdf          catálogo: una página por pieza con vistas, cotas y mecanizado
+  corte_AA.dxf                 contornos de placa a escala real; capa CORTE = pasante, RANURA y AVELLANADO = mecanizado posterior
+  corte_AA.pdf                 catálogo: una página por pieza con vistas, cotas y mecanizado
+  corte_AA.png                 render del conjunto
+  piezas.json                  todas las cotas con su procedencia y justificación
+
+NO DETERMINADO POR LA FOTO
+  El barreno del eje del original y el ancho real de la rueda no se pueden
+  sacar de una vista frontal única: aquí no se han copiado, se han diseñado
+  a partir de lo que pidió el usuario.
