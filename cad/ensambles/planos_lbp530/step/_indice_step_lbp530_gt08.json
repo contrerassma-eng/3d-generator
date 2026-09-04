@@ -1,0 +1,156 @@
+{
+ "tipo": "CV-LBP18",
+ "doc": "lbp530_gt08",
+ "piezas": [
+  {
+   "codigo": "CV-LBP18-F30-050",
+   "familia": "F30",
+   "item": 50,
+   "pieza": "Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",
+   "kb": 3532
+  },
+  {
+   "codigo": "CV-LBP18-F50-006",
+   "familia": "F50",
+   "item": 6,
+   "pieza": "Guarda motriz — costado libre e2 (193×330)",
+   "kb": 1648
+  },
+  {
+   "codigo": "CV-LBP18-F50-007",
+   "familia": "F50",
+   "item": 7,
+   "pieza": "Guarda motriz — costado motor e2 (193×330)",
+   "kb": 2564
+  },
+  {
+   "codigo": "CV-LBP18-F50-008",
+   "familia": "F50",
+   "item": 8,
+   "pieza": "Guarda motriz — fondo con tapa e2 (191×612)",
+   "kb": 1005
+  },
+  {
+   "codigo": "CV-LBP18-F10-052",
+   "familia": "F10",
+   "item": 52,
+   "pieza": "Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",
+   "kb": 2521
+  },
+  {
+   "codigo": "CV-LBP18-F30-012",
+   "familia": "F30",
+   "item": 12,
+   "pieza": "Portacarril 50×6 con clips (apernado M6 al alma)",
+   "kb": 1570
+  },
+  {
+   "codigo": "CV-LBP18-F30-003",
+   "familia": "F30",
+   "item": 3,
+   "pieza": "Cabezal porta-nosebar entrada PL6 470×55",
+   "kb": 4723
+  },
+  {
+   "codigo": "CV-LBP18-F30-002",
+   "familia": "F30",
+   "item": 2,
+   "pieza": "Cabezal porta-nosebar descarga PL6 470×55",
+   "kb": 5179
+  },
+  {
+   "codigo": "CV-LBP18-F40-013",
+   "familia": "F40",
+   "item": 13,
+   "pieza": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+   "kb": 165
+  },
+  {
+   "codigo": "CV-LBP18-F10-051",
+   "familia": "F10",
+   "item": 51,
+   "pieza": "EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
+   "kb": 937
+  },
+  {
+   "codigo": "CV-LBP18-F60-001",
+   "familia": "F60",
+   "item": 1,
+   "pieza": "Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
+   "kb": 813
+  },
+  {
+   "codigo": "CV-LBP18-F60-004",
+   "familia": "F60",
+   "item": 4,
+   "pieza": "Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
+   "kb": 1130
+  },
+  {
+   "codigo": "CV-LBP18-F60-054",
+   "familia": "F60",
+   "item": 54,
+   "pieza": "Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
+   "kb": 55
+  },
+  {
+   "codigo": "CV-LBP18-F60-053",
+   "familia": "F60",
+   "item": 53,
+   "pieza": "Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+   "kb": 18
+  },
+  {
+   "codigo": "CV-LBP18-F30-015",
+   "familia": "F30",
+   "item": 15,
+   "pieza": "Travesaño de patas B_002A canal 71×38×3 (L=470)",
+   "kb": 16
+  }
+ ],
+ "sin_step_propio": {
+  "nota": "STEP a cargo de quien fabrica la pieza: originales M-HASTE y artículos comprados (Movex, chumaceras, sprockets) los entrega su proveedor con el artículo",
+  "vendor": [],
+  "comprados": [
+   "Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+   "Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+   "Ojal ciego Ø25 EPDM (tapón de puerto de grasera)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
+   "Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "Rodamiento 6202-2RS (15×35×11) sellado",
+   "Rodamiento 6202-2RS (15×35×11) sellado",
+   "Rodamiento 6202-2RS (15×35×11) sellado",
+   "Rodamiento 6202-2RS (15×35×11) sellado",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "Collarín P21703Y (fija el sprocket central)",
+   "Collarín P21703Y (fija el sprocket central)",
+   "Chumacera UCF206 Ø30",
+   "Chumacera UCF206 Ø30",
+   "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
+   "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
+   "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
+   "Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m"
+  ],
+  "sin_item": [
+   "Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)"
+  ]
+ }
+}

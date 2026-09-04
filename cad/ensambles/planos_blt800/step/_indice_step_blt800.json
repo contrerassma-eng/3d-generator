@@ -1,0 +1,17 @@
+{
+ "tipo": "CV-BLT",
+ "doc": "blt800",
+ "piezas": [],
+ "sin_step_propio": {
+  "nota": "STEP a cargo de quien fabrica la pieza: originales M-HASTE y artículos comprados (Movex, chumaceras, sprockets) los entrega su proveedor con el artículo",
+  "vendor": [
+   "Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
+   "Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
+   "Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
+   "Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
+   "Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)"
+  ],
+  "comprados": [],
+  "sin_item": []
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "equipo": "CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)",
+ "lineas": 1,
+ "generado_de": "ensambles/blt800.json",
+ "totales": {
+  "masa_fabricada_kg": 0,
+  "area_pintar_m2": 0,
+  "plancha_m2": 0,
+  "nota": "masa y área EXACTAS del desarrollo (contorno − barrenos); plancha_m2 = bbox consumido del formato, para pedir material"
+ },
+ "filas": [
+  {
+   "item": 18,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
+   "cant_equipo": 1,
+   "cant_proyecto": 1,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_kg": ""
+  },
+  {
+   "item": 19,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
+   "cant_equipo": 1,
+   "cant_proyecto": 1,
+   "origen": "Motovario (distribuidor local)",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_kg": ""
+  },
+  {
+   "item": 20,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
+   "cant_equipo": 1,
+   "cant_proyecto": 1,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_kg": ""
+  },
+  {
+   "item": 21,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
+   "cant_equipo": 1,
+   "cant_proyecto": 1,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_kg": ""
+  },
+  {
+   "item": 22,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",
+   "cant_equipo": 1,
+   "cant_proyecto": 1,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_kg": ""
+  }
+ ]
+}

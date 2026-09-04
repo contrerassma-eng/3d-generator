@@ -1,0 +1,29 @@
+PAQUETE DE CORTE LÁSER — CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m
+Generado: 2026-09-01 · 16 desarrollos DXF (R12, unidades mm, escala 1:1)
+
+CONTENIDO
+  *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
+                 capa PLIEGUE = ejes de plegado (línea segmentada, NO cortar)
+  _corte.csv     resumen por pieza para cotizar: cantidades, material,
+                 espesor, tamaño de desarrollo, nº de barrenos y pliegues
+  _agujeros.csv  coordenadas de TODOS los barrenos por pieza (verificación)
+
+MATERIALES DEL PAQUETE
+  Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08) · e6 — 1 piezas distintas, 2 unidades
+  Acero S275JR e2.0 — terminación PINTADO RAL 7035 · e2 — 5 piezas distintas, 6 unidades
+  Acero S275JR PL8 — PINTADO RAL 7035 · e8 — 2 piezas distintas, 4 unidades
+  Acero S275JR e6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 5 unidades
+  Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo · e3 — 1 piezas distintas, 5 unidades
+  Acero S275JR PL6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 2 unidades
+  Acero S275JR e3 — PINTADO RAL 7035 · e3 — 4 piezas distintas, 21 unidades
+  Acero S275JR e4 — PINTADO RAL 7035 · e4 — 1 piezas distintas, 6 unidades
+
+NOTAS
+  · Los pares espejo comparten desarrollo: cortar la cantidad indicada y
+    plegar la mitad por la cara opuesta (indicado en el cajetín del DXF).
+  · Tolerancia general ISO 2768-mK. K-factor de plegado indicado por pieza.
+  · ROSCAS: la columna rosca de _agujeros.csv marca los barrenos que van
+    ROSCADOS tras el corte (el Ø listado es la broca). También rotulado en el DXF.
+  · ATENCIÓN: hay desarrollos de más de 3 m — verificar formato de cama
+    (1500×6000) antes de cotizar; NO se autoriza empalme sin consultar.
+  · Cotización y dudas: Conveyone SpA — indicar nº de plano (cajetín).

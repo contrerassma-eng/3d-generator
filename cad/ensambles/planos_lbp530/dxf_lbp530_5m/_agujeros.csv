@@ -1,86 +1,163 @@
-plano,pieza,x_mm,y_mm,diametro_mm
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,55.20,9.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",40.00,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",40.00,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",277.18,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",277.18,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",537.18,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",537.18,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",719.16,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",719.16,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",901.13,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",901.13,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",90.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",540.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",990.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1440.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1450.00,246.89,48.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1450.00,998.68,48.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,1048.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,1048.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",90.00,512.79,8.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",540.00,512.79,8.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",300.00,136.89,48.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",300.00,888.68,48.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,96.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,928.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,196.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,828.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,96.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,928.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,196.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,828.68,7.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",205.00,110.00,40.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,68.70,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,151.30,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,68.70,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,151.30,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",55.00,260.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",55.00,160.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",265.00,260.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",265.00,160.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",115.00,110.00,40.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",73.70,68.70,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",73.70,151.30,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",156.30,68.70,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",156.30,151.30,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",55.00,150.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",55.00,50.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",265.00,150.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",265.00,50.00,5.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4580.00,67.57,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3470.00,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3707.18,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3967.18,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4149.16,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4331.13,11.00,7.00
+plano,pieza,x_mm,y_mm,diametro_mm,rosca
+LBD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",101.50,12.30,11.00,
+LBD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",146.62,38.35,11.00,
+LBD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",56.38,38.35,11.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",22.30,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",22.30,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",82.30,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",82.30,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",142.30,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",142.30,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",174.70,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",174.70,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",234.70,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",234.70,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",294.70,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",294.70,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",327.10,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",327.10,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",387.10,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",387.10,20.20,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",447.10,39.25,9.00,
+LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",447.10,20.20,9.00,
+LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",513.30,71.29,11.00,
+LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",565.40,71.29,11.00,
+LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",149.00,71.29,11.00,
+LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",179.00,71.29,11.00,
+LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",204.00,71.29,11.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",80.00,368.52,10.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",80.00,268.52,10.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",300.00,368.52,10.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",300.00,268.52,10.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",235.00,222.52,25.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",60.00,12.50,7.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",179.00,12.50,7.00,
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",298.00,12.50,7.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",80.00,368.52,10.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",80.00,268.52,10.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",300.00,368.52,10.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",300.00,268.52,10.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",235.00,103.52,8.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",235.00,183.52,70.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",60.00,12.50,7.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",179.00,12.50,7.00,
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",298.00,12.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",60.00,11.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",179.00,11.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",298.00,11.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",60.00,600.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",179.00,600.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",298.00,600.50,7.00,
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",80.00,313.00,8.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",238.00,273.52,10.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",238.00,173.52,10.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",458.00,273.52,10.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",458.00,173.52,10.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",303.00,187.52,25.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",60.00,12.50,7.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",308.50,12.50,7.00,
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",557.00,12.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",557.00,11.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",308.50,11.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",60.00,11.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",557.00,614.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",308.50,614.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",60.00,614.50,7.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",537.00,313.00,8.00,
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",237.00,313.00,8.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",205.00,110.00,40.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,68.70,12.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,151.30,12.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,68.70,12.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,151.30,12.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",50.00,295.00,5.00,M6
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",50.00,195.00,5.00,M6
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",270.00,295.00,5.00,M6
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",270.00,195.00,5.00,M6
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",40.00,397.00,11.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",40.00,327.00,11.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",40.00,257.00,11.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",280.00,397.00,11.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",280.00,327.00,11.00,
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",280.00,257.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",115.00,110.00,40.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",73.70,68.70,12.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",73.70,151.30,12.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",156.30,68.70,12.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",156.30,151.30,12.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",50.00,235.00,5.00,M6
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",50.00,135.00,5.00,M6
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",270.00,235.00,5.00,M6
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",270.00,135.00,5.00,M6
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",40.00,337.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",40.00,267.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",40.00,197.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",280.00,337.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",280.00,267.00,11.00,
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",280.00,197.00,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4580.00,180.57,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3720.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3220.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2720.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2220.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1720.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1220.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",720.00,153.82,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",800.00,145.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",800.00,85.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1500.00,145.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1500.00,85.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2500.00,145.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2500.00,85.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3500.00,145.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3500.00,85.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4200.00,145.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4200.00,85.57,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",488.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",512.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1488.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",1512.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2488.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2512.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3488.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",3512.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4488.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4512.00,247.07,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4715.00,207.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4715.00,137.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4715.00,67.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4955.00,207.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4955.00,137.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4955.00,67.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",225.00,207.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",225.00,137.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",225.00,67.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",465.00,207.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",465.00,137.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",465.00,67.57,11.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",54.20,264.12,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",54.20,288.12,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4945.80,264.12,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4945.80,288.12,7.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",627.97,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",680.07,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",723.27,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",775.37,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2426.30,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2478.40,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2521.60,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",2573.70,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4226.30,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4278.40,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4321.60,14.50,9.00,
+LBD-12,"FAB · Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",4373.70,14.50,9.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",43.26,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",84.98,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",126.70,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",168.42,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",210.14,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",251.86,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",293.58,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",335.30,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",377.02,25.00,7.00,
+LBD-13,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",418.74,25.00,7.00,

@@ -1,0 +1,344 @@
+{
+ "meta": {
+  "nombre": "CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)",
+  "revision": "B",
+  "revision_reemplaza": "Rev. A (retirada: imitaba al vendor con cajas)",
+  "revision_causa": "orden de Sergio 19-08: no representar — usar los originales. Cabeza, cola, cuerpo (rieles de aluminio + banda + rodillos) y soportes a piso son CORTES del GLB original de fábrica; el ancho lo fija el original (W400)",
+  "capa": "user-vendor — geometría REAL M-HASTE (CADENAS PARTsolutions AP203), cortada a largo, sin deformar",
+  "origen": "gen_blt800.mjs sobre MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+  "original": {
+   "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+   "codigo": "MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1",
+   "dims_mm": [
+    564.83,
+    435.7,
+    6185.74
+   ],
+   "triangulos": 723374
+  },
+  "largo_nose_a_nose": 800,
+  "ga": {
+   "codigo": "CV-BLT-800",
+   "proyecto": "CV-BLT · Conveyone",
+   "boletin": "03",
+   "fuente": "original M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — cortes sin deformar",
+   "numPlano": "BLT800-GA-01",
+   "notaBanda": "banda, rieles de aluminio y rodillos de apoyo: geometría ORIGINAL del fabricante",
+   "notaLargo": "",
+   "notaTerminacion": "Acabado y altura: los del fabricante (perfil anodizado, pies niveladores M-HASTE).",
+   "notas": [
+    "SUMINISTRO DE CATÁLOGO (no se fabrica): el equipo se compra armado o por conjuntos M-HASTE.",
+    "· Geometría de estas vistas = GLB ORIGINAL del fabricante, cortado a largo y SIN deformar (lib_glb.corta).",
+    "· El ANCHO es el del original (W400): no se estira para llegar a una cifra inventada.",
+    "· El LARGO 800 sale de cortar el perfil a medida — el rango de catálogo es L650…12000.",
+    "· Material, masa y precios: POR CONFIRMAR contra lista M-HASTE (el GLB no los declara)."
+   ],
+   "rotula": [
+    [
+     "Cabezal MOTRIZ",
+     "cabeza motriz ORIGINAL: tambor, motorreductor y cabezales de fábrica"
+    ],
+    [
+     "Cuerpo M-HASTE",
+     "cuerpo ORIGINAL cortado a largo: rieles de aluminio, banda y rodillos de apoyo"
+    ],
+    [
+     "Cabezal de COLA",
+     "cola ORIGINAL: tambor de cola y tensado por tornillo"
+    ],
+    [
+     "Soporte a piso",
+     "soporte a piso ORIGINAL (patas, pies niveladores y placas)"
+    ]
+   ],
+   "grupos": [
+    [
+     "Cabezal MOTRIZ",
+     "cabeza"
+    ],
+    [
+     "Cuerpo M-HASTE",
+     "cuerpo"
+    ],
+    [
+     "Cabezal de COLA",
+     "cola"
+    ],
+    [
+     "Soporte a piso",
+     "soportes"
+    ]
+   ]
+  },
+  "manual": {
+   "boletin": "03",
+   "codigo": "CV-BLT-800",
+   "accionamiento": "motorreductor M-HASTE del original (acople directo DL)",
+   "seguridad": [
+    "Bloqueo y consignación (LOTO): corte y candadeo de la alimentación del motorreductor.",
+    "Verificar detención TOTAL de la banda antes de intervenir cabeza o cola.",
+    "Manual del FABRICANTE M-HASTE: prevalece sobre este boletín en operación y garantía."
+   ],
+   "atrapamiento": [
+    "Entrada de banda al tambor MOTRIZ (cabeza) y al tambor de COLA — nip points sin guarda en el suministro estándar.",
+    "Rodillos de apoyo bajo la banda: no operar con las manos en el canal.",
+    "Tornillo tensor de la cola: alejar las manos al tensar."
+   ],
+   "operacion": [
+    "Velocidad: 0-80 m/min según catálogo M-HASTE (variador del equipo) — POR CONFIRMAR la de esta unidad.",
+    "Carga: 80-500 kg según catálogo M-HASTE, función del largo y del apoyo — POR CONFIRMAR.",
+    "Banda PVC del original: no usar productos abrasivos ni disolventes en la limpieza."
+   ],
+   "mantencion": [
+    "Semanal: tensado y centrado de banda (tornillo de cola); limpieza del canal.",
+    "Mensual: apriete de uniones del perfil serie 80 y de los pies niveladores.",
+    "Según fabricante: rodamientos de tambores y reductor — ver manual M-HASTE."
+   ]
+  },
+  "compuertas": {
+   "lib": "1.0.0",
+   "reglas_ejecutadas": [
+    "margen-agujero-borde",
+    "agujero-en-pliegue",
+    "pieza-sin-fijacion",
+    "masa-exacta",
+    "flat-vs-solido",
+    "peligro-expuesto",
+    "chapa-vs-componente",
+    "esquina-viva",
+    "barreno-redondo",
+    "desarrollo-valido"
+   ],
+   "reglas_disponibles_sin_cablear": [
+    "zona-prohibida",
+    "rango-fisico",
+    "cantidad-derivada",
+    "rotulo-coherente",
+    "corte-de-barras",
+    "espejo-preferido",
+    "junta-ajustable",
+    "abertura-vs-alcance"
+   ],
+   "hallazgos": 0,
+   "info": {
+    "blt800": {
+     "peorMargen": null,
+     "masa_chapa_kg": 0,
+     "cobertura": {
+      "piezas": 5,
+      "con_desarrollo": 0,
+      "pct": 0
+     },
+     "aviso": "NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada"
+    }
+   },
+   "exenciones": [],
+   "deuda": [],
+   "compuertas_especificas": 0,
+   "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
+  }
+ },
+ "parts": [
+  {
+   "id": "p1_vendor_cabezal_de_cola_m_haste_tambor_tensor_y_cabezales_original",
+   "nombre": "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
+   "name": "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
+   "color": "#8f979e",
+   "pos": [
+    180,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "features": [],
+   "glb": {
+    "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+    "corte": [
+     {
+      "eje": "z",
+      "min": -6132.26513671875,
+      "max": -5772.26513671875
+     }
+    ],
+    "mapa": [
+     2,
+     0,
+     1
+    ],
+    "offset": [
+     6132.26513671875,
+     -199.99999618530273,
+     395.3703308105469
+    ]
+   }
+  },
+  {
+   "id": "p2_vendor_cuerpo_m_haste_cortado_a_270_rieles_de_aluminio_banda_rodillos_de_apoyo_original",
+   "nombre": "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
+   "name": "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
+   "color": "#c8c8c6",
+   "pos": [
+    495,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [],
+   "glb": {
+    "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+    "corte": [
+     {
+      "eje": "z",
+      "min": -5332.26513671875,
+      "max": -5062.26513671875
+     }
+    ],
+    "mapa": [
+     2,
+     0,
+     1
+    ],
+    "offset": [
+     5692.26513671875,
+     -199.99999618530273,
+     395.3703308105469
+    ]
+   }
+  },
+  {
+   "id": "p3_vendor_cabezal_motriz_m_haste_tambor_motorreductor_y_cabezales_original",
+   "nombre": "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
+   "name": "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
+   "color": "#8f979e",
+   "pos": [
+    715,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [],
+   "glb": {
+    "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+    "corte": [
+     {
+      "eje": "z",
+      "min": -116.5246696472168,
+      "max": 53.4753303527832
+     }
+    ],
+    "mapa": [
+     2,
+     0,
+     1
+    ],
+    "offset": [
+     746.5246696472168,
+     -199.99999618530273,
+     395.3703308105469
+    ]
+   }
+  },
+  {
+   "id": "p4_vendor_soporte_a_piso_m_haste_estaci_n_1_patas_pies_y_placas_original",
+   "nombre": "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
+   "name": "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
+   "color": "#b7bdc2",
+   "pos": [
+    182.5,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [],
+   "glb": {
+    "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+    "corte": [
+     {
+      "eje": "z",
+      "min": -5757.26513671875,
+      "max": -5692.26513671875
+     }
+    ],
+    "mapa": [
+     2,
+     0,
+     1
+    ],
+    "offset": [
+     5907.26513671875,
+     -199.99999618530273,
+     395.3703308105469
+    ]
+   }
+  },
+  {
+   "id": "p5_vendor_soporte_a_piso_m_haste_estaci_n_2_patas_pies_y_placas_original",
+   "nombre": "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",
+   "name": "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",
+   "color": "#b7bdc2",
+   "pos": [
+    622.5,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [],
+   "glb": {
+    "archivo": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb",
+    "corte": [
+     {
+      "eje": "z",
+      "min": -5757.26513671875,
+      "max": -5692.26513671875
+     }
+    ],
+    "mapa": [
+     2,
+     0,
+     1
+    ],
+    "offset": [
+     6347.26513671875,
+     -199.99999618530273,
+     395.3703308105469
+    ]
+   }
+  }
+ ],
+ "constraints": []
+}

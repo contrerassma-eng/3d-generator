@@ -1,0 +1,65 @@
+{
+  "proyecto": "CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)",
+  "archivo": "blt800.json",
+  "fecha": "2026-08-23",
+  "total_piezas": 5,
+  "items_distintos": 5,
+  "planos_fabricacion": 0,
+  "despiece": [
+    {
+      "item": 18,
+      "designacion": "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",
+      "nombres": [
+        "VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
+      "plano": "—"
+    },
+    {
+      "item": 19,
+      "designacion": "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",
+      "nombres": [
+        "VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
+      "plano": "—"
+    },
+    {
+      "item": 20,
+      "designacion": "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)",
+      "nombres": [
+        "VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
+      "plano": "—"
+    },
+    {
+      "item": 21,
+      "designacion": "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",
+      "nombres": [
+        "VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "—"
+    },
+    {
+      "item": 22,
+      "designacion": "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",
+      "nombres": [
+        "VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "—"
+    }
+  ]
+}
