@@ -61,38 +61,53 @@ EJE_AF, MUNON_D = 12.7, 12.0
 Y_MUNON_FIN = G['izq'] - POL_W / 2 - 6.0        # -152.5
 
 
+def tubo(ro, ri, ya, yb):
+    """cilindro (o tubo) de y=ya a y=yb. OJO: en el plano XZ, extrude(+L) va
+    hacia -Y, asi que hay que trasladar a yb. Este era EL BUG de la v6."""
+    w = cq.Workplane("XZ").circle(ro)
+    if ri:
+        w = w.circle(ri)
+    return w.extrude(yb - ya).translate((0, yb, 0))
+
+
 def diente_htd_negativo(y0, y1):
     """los 20 valles del perfil HTD 5M, como solido a restar"""
     r_c = (POL_OD / 2 - HTD_H) + HTD_R
     tool = None
     for i in range(POL_Z):
         a = radians(360.0 * i / POL_Z)
-        c = cq.Workplane("XZ").circle(HTD_R).extrude(-(y1 - y0)) \
-            .translate((r_c * cos(a), y1, r_c * sin(a)))
+        c = cq.Workplane("XZ").circle(HTD_R).extrude(y1 - y0 + 2) \
+            .translate((r_c * cos(a), y1 + 1, r_c * sin(a)))
         tool = c if tool is None else tool.union(c)
     return tool
 
 
-def polea_htd(y_centro, barreno='hex'):
-    """polea HTD 5M 20T con dientes reales, pestana y prisionero M4"""
+def polea_htd(y_centro, barreno='hex', cubo='fuera'):
+    """polea HTD 5M 20T con dientes reales, pestana y prisionero M4.
+    cubo='fuera': el cubo sale hacia -Y (poleas de eje, en voladizo).
+    cubo='dentro': sale hacia +Y, hacia el motor (poleas de motor)."""
     y0, y1 = y_centro - POL_W / 2, y_centro + POL_W / 2
-    s = cq.Workplane("XZ").circle(POL_OD / 2).extrude(-(y1 - y0)).translate((0, y1, 0))
+    s = tubo(POL_OD / 2, 0, y0, y1)
     s = s.cut(diente_htd_negativo(y0, y1))
-    # pestana guia en la cara interior
-    s = s.union(cq.Workplane("XZ").circle(POL_OD / 2 + 2.0)
-                .extrude(-POL_PEST).translate((0, y1, 0)))
-    # cubo
-    s = s.union(cq.Workplane("XZ").circle(11.0).extrude(-(POL_W + 6.0))
-                .translate((0, y1, 0)))
+    # pestana guia + cubo, los dos del mismo lado (asi el lado que mira al
+    # riel queda LISO y se puede acercar sin tocar la chapa)
+    if cubo == 'fuera':
+        s = s.union(tubo(POL_OD / 2 + 2.0, 0, y0 - POL_PEST, y0))
+        s = s.union(tubo(11.0, 0, y0 - POL_PEST - 6.0, y0 - POL_PEST))
+        y_pris = y0 - POL_PEST - 3.0
+    else:
+        s = s.union(tubo(POL_OD / 2 + 2.0, 0, y1, y1 + POL_PEST))
+        s = s.union(tubo(11.0, 0, y1 + POL_PEST, y1 + POL_PEST + 6.0))
+        y_pris = y1 + POL_PEST + 3.0
     if barreno == 'hex':
         s = s.cut(cq.Workplane("XZ").polygon(6, HEX_POL / cos(radians(30)))
-                  .extrude(-40).translate((0, y1 + 5, 0)))
+                  .extrude(80).translate((0, y1 + 20, 0)))
     else:                # barreno O10 h7: el eje real es LISO -> aprieta el
         s = s.cut(cq.Workplane("XZ").circle(M_EJE_D / 2 + 0.02)   # prisionero
-                  .extrude(-40).translate((0, y1 + 5, 0)))
+                  .extrude(80).translate((0, y1 + 20, 0)))
     # prisionero M4 radial en el cubo
     s = s.cut(cq.Workplane("XY").circle(1.7).extrude(20)
-              .translate((0, y_centro - POL_W / 2 - 3.0, 0)))
+              .translate((0, y_pris, 0)))
     return s
 
 
@@ -101,13 +116,11 @@ def eje_hex(y_int_pos=215.75):
     sobresale para la polea en voladizo corto."""
     y0 = Y_RAIL_INT - 0.25
     s = (cq.Workplane("XZ").polygon(6, EJE_AF / cos(radians(30)))
-         .extrude(-(y_int_pos - y0)).translate((0, y_int_pos, 0)))
+         .extrude(y_int_pos - y0).translate((0, y_int_pos, 0)))
     # muñon motriz (largo, hacia -Y)
-    s = s.union(cq.Workplane("XZ").circle(MUNON_D / 2)
-                .extrude(-(y0 - Y_MUNON_FIN)).translate((0, y0, 0)))
+    s = s.union(tubo(MUNON_D / 2, 0, Y_MUNON_FIN, y0))
     # muñon libre (corto, hacia +Y)
-    s = s.union(cq.Workplane("XZ").circle(MUNON_D / 2).extrude(10.0)
-                .translate((0, y_int_pos, 0)))
+    s = s.union(tubo(MUNON_D / 2, 0, y_int_pos, y_int_pos + 10.0))
     # chaflanes de entrada
     for yy, d in ((Y_MUNON_FIN, 1), (y_int_pos + 10, -1)):
         cono = cq.Solid.makeCone(MUNON_D / 2 - 0.8, MUNON_D / 2 + 0.1, 0.8,
