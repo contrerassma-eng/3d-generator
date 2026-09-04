@@ -1,4 +1,30 @@
-# Bloque OMNI v5 — depuración contra el análisis conceptual + NEMA 24
+# Bloque OMNI v5/v6 — depuración + NEMA 24
+
+> ## ⚠ Corrección con el STEP oficial del motor (04-09)
+> Sergio subió el **STEP oficial de StepperOnline** (`motor_oficial/`). Al
+> medirlo apareció un **error real** en las cotas que yo había supuesto:
+>
+> | Cota | Yo había puesto | **STEP oficial** | |
+> |---|---|---|---|
+> | **Patrón de tornillos** | 47.14 | **50.0 × 50.0** | ❌ error |
+> | Eje | Ø10 × 21 con D-cut 15 | Ø10 × **22.6 LISO** | corregido |
+> | Cuerpo | 107 | **110.8** | corregido |
+> | Largo total | 135 | **133.6** | corregido |
+> | Conector sobresale | 12 | **10** | corregido |
+> | Brida / piloto | 60 / Ø38.1 | 60 / Ø38.1 | ✓ |
+>
+> **47.14 es el patrón del NEMA 23**, no del 24; el motor de 60 mm usa
+> **50 × 50**. Con mi valor los cuatro M5 quedaban descolocados 1.4 mm cada
+> uno y el motor no montaba. Además los agujeros son **ciegos** (rosca útil
+> solo de z 7.8 a 11.8 = 4 mm): tornillería corta, no pasante.
+>
+> **Consecuencia de diseño**: el eje real es **liso, sin D-cut**, así que la
+> polea del motor pasa a barreno Ø10 h7 con **prisionero** contra el eje
+> liso (o se rebaja un plano al montar). El pedestal del motor izquierdo se
+> recalculó de 7.5 a **9.1 mm**.
+>
+> Lección: las cotas "estándar" de un tamaño NEMA no son fiables para
+> motores de 60 mm; hay que medirlas del modelo del fabricante.
 
 Sergio compartió el análisis conceptual **CONVEYONE-OMNI-ZPA** (artifact
 `04b40a14`, PR #113) y fijó el accionamiento: **NEMA 24 de 3 N·m en lazo

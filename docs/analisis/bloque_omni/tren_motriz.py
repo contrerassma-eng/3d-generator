@@ -11,8 +11,10 @@
 # Motor real: StepperOnline 24E1K-30 (P Series NEMA 24 lazo cerrado)
 #   brida 60x60 · cuerpo 107 · eje O10 x 21 con D-cut de 15 · 3 N.m ·
 #   2 fases 1.8 deg · 5.0 A/fase · encoder 1000 PPR (4000 CPR)
-#   patron NEMA 24: tornillos en cuadrado de 47.14, piloto O38.1, M5
-#   (fuente: omc-stepperonline.com, ficha 24E1K-30, 2026-09-03)
+#   COTAS MEDIDAS DEL STEP OFICIAL que subio Sergio (04-09):
+#   brida 60x60 esquinas r5 · PATRON 50x50 M5 (NO 47.14: ese es NEMA 23) ·
+#   piloto O38.1 · eje O10 x 22.6 SIN D-cut · cuerpo 110.8 · total 133.6 ·
+#   conector del encoder sobresale 10 en Y
 #
 # Poleas: HTD 5M 20T con DIENTES REALES (paso 5, PLD 0.5715, profundidad
 #   2.06, radio de valle 1.49) y barreno hexagonal 12.85 en las de eje.
@@ -25,11 +27,11 @@ import os
 OUT = os.path.dirname(os.path.abspath(__file__))
 
 # ---- motor 24E1K-30 (cotas de ficha) ----
-M_BRIDA, M_CUERPO = 60.0, 107.0
-M_PAT, M_PILOTO, M_PILOTO_H = 47.14, 38.1, 1.6
-M_EJE_D, M_EJE_L, M_DCUT_L = 10.0, 21.0, 15.0
+M_BRIDA, M_CUERPO = 60.0, 110.8    # medido del STEP real
+M_PAT, M_PILOTO, M_PILOTO_H = 50.0, 38.1, 2.0   # PATRON REAL 50 (no 47.14)
+M_EJE_D, M_EJE_L, M_DCUT_L = 10.0, 22.6, 0.0    # eje real: sin D-cut
 M_DCUT_T = 9.0                      # cota sobre el plano del D-cut
-M_ENC_D, M_ENC_L = 50.0, 28.0
+M_ENC_D, M_ENC_L = 52.4, 22.8   # tapa trasera medida
 M_CHAF = 4.0                        # chaflan de las esquinas de la brida
 
 # ---- polea HTD 5M ----
@@ -85,11 +87,9 @@ def polea_htd(y_centro, barreno='hex'):
     if barreno == 'hex':
         s = s.cut(cq.Workplane("XZ").polygon(6, HEX_POL / cos(radians(30)))
                   .extrude(-40).translate((0, y1 + 5, 0)))
-    else:                                   # barreno O10 con plano (D-cut)
-        s = s.cut(cq.Workplane("XZ").circle(M_EJE_D / 2 + 0.05)
+    else:                # barreno O10 h7: el eje real es LISO -> aprieta el
+        s = s.cut(cq.Workplane("XZ").circle(M_EJE_D / 2 + 0.02)   # prisionero
                   .extrude(-40).translate((0, y1 + 5, 0)))
-        s = s.cut(cq.Workplane("XY").box(20, 40, 20)
-                  .translate((M_DCUT_T - 0.05 + 10, y_centro, 0)))
     # prisionero M4 radial en el cubo
     s = s.cut(cq.Workplane("XY").circle(1.7).extrude(20)
               .translate((0, y_centro - POL_W / 2 - 3.0, 0)))
@@ -117,10 +117,20 @@ def eje_hex(y_int_pos=215.75):
     return s
 
 
+def nema24_real(pedestal=0.0):
+    """MOTOR REAL: importa el STEP oficial de StepperOnline que subio Sergio
+    y lo coloca en el modulo (eje hacia -Y, cuerpo hacia +Y por dentro).
+    En el STEP el eje apunta a +Z y la cara de la brida esta en z=11.95."""
+    p = os.path.join(OUT, 'NEMA24_UP', 'NEMA-24_stepperOnline.STEP')
+    s = cq.importers.importStep(p)
+    # centrar la brida (60x60 en 0..60) y llevar su cara a y = Y_RAIL_EXT-pedestal
+    s = s.translate((-30.0, -30.0, -11.95))       # origen en el centro de la cara
+    s = s.rotate((0, 0, 0), (1, 0, 0), 90)        # eje +Z -> -Y
+    return s.translate((0, Y_RAIL_EXT - pedestal, 0))
+
+
 def nema24_24e1k30(pedestal=0.0):
-    """StepperOnline 24E1K-30 detallado: brida con esquinas achaflanadas y
-    piloto, cuerpo apilado, tapas, eje O10 con D-cut, encoder y conector.
-    Orientado con el EJE hacia -Y y el CUERPO hacia +Y (entra por dentro)."""
+    """(modelo aproximado anterior; se conserva por si hace falta comparar)"""
     y_b = Y_RAIL_EXT - pedestal   # cara de la brida (con pedestal si lo lleva)
     from shapely.geometry import box as sbox
     poly = sbox(-M_BRIDA / 2, -M_BRIDA / 2, M_BRIDA / 2, M_BRIDA / 2)
@@ -188,8 +198,8 @@ def rodamiento_f6801(y_ext):
 
 def verificar():
     print('--- TREN MOTRIZ v6 (poleas en voladizo, motor de adentro afuera) ---')
-    print(f'motor 24E1K-30: brida {M_BRIDA} · cuerpo {M_CUERPO} · encoder {M_ENC_L} '
-          f'· eje O{M_EJE_D}x{M_EJE_L} D-cut {M_DCUT_L} · patron {M_PAT} · piloto O{M_PILOTO}')
+    print(f'motor REAL (STEP oficial): brida {M_BRIDA} · cuerpo {M_CUERPO} · '
+          f'eje O{M_EJE_D}x{M_EJE_L} LISO · PATRON {M_PAT} (no 47.14) · piloto O{M_PILOTO}')
     print(f'polea HTD 5M {POL_Z}T: Dp {POL_DP:.2f} · OD {POL_OD:.2f} · '
           f'valle O{2*HTD_R:.2f} a r{POL_OD/2-HTD_H+HTD_R:.2f} · ancho {POL_W}')
     for h in ('der', 'izq'):
@@ -228,8 +238,8 @@ if __name__ == '__main__':
     verificar()
     asm = cq.Assembly(name='tren_motriz_v6')
     piezas = [
-        ('motor_24E1K30_der', nema24_24e1k30(PEDESTAL['der'])),
-        ('motor_24E1K30_izq_con_pedestal', nema24_24e1k30(PEDESTAL['izq'])),
+        ('motor_REAL_der', nema24_real(PEDESTAL['der'])),
+        ('motor_REAL_izq_con_pedestal', nema24_real(PEDESTAL['izq'])),
         ('pedestal_motor_izq', pedestal_motor()),
         ('eje_hex_1_2', eje_hex()),
         ('polea_HTD5M_20T_hex', polea_htd(G['der'])),
