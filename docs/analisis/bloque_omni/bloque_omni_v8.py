@@ -152,9 +152,40 @@ def loc(p, u):
 
 CUENTA = {}
 
+# ESQUEMA DE MATERIALES que fijo Sergio (05-09):
+#   polimero NEGRO MATE  -> ruedas (placas y rodillos) y poleas
+#   NEGRO                -> tapa superior (y la tapa ciega, si se monta)
+#   ACERO INOXIDABLE     -> toda la estructura (base, travesanos, rieles,
+#                           escuadras, cunas) y TODA la tornilleria
+# El color va escrito en el propio STEP, no solo en el render.
+NEGRO_MATE = cq.Color(0.045, 0.045, 0.050)     # polimero impreso
+NEGRO_TAPA = cq.Color(0.055, 0.055, 0.060)     # chapa negra
+INOX = cq.Color(0.72, 0.73, 0.75)              # acero inoxidable
+
+COLOR = {
+    'RUEDA_MECANUM64_v9_der': NEGRO_MATE,
+    'RUEDA_MECANUM64_v9_izq': NEGRO_MATE,
+    'POLEA_HTD5M_20T_hex': NEGRO_MATE,
+    'POLEA_HTD5M_20T_motor': NEGRO_MATE,
+    'POLEA_HTD5M_20T_motor_cubo_largo': NEGRO_MATE,
+    'TENSOR_rodillo': NEGRO_MATE,
+    'CORREA_HTD5M_09_der': cq.Color(0.09, 0.09, 0.10),
+    'CORREA_HTD5M_09_izq': cq.Color(0.09, 0.09, 0.10),
+    'CHAPA_TAPA_SUPERIOR_3mm': NEGRO_TAPA,
+    'CHAPA_TAPA_CIEGA_3mm': NEGRO_TAPA,
+    'MOTOR_NEMA24_stepperOnline': cq.Color(0.30, 0.32, 0.35),
+    'RODAMIENTO_F6801ZZ': cq.Color(0.78, 0.79, 0.81),
+    'SEPARADORES_HEX_eje': INOX,
+    'EJE_HEX_1_2_pulgada': INOX,
+}
+
+
+def color_de(nombre):
+    return COLOR.get(nombre, INOX)      # estructura y tornilleria: inoxidable
+
 
 def _add(a, nombre_step, etiqueta, L):
-    a.add(comp(nombre_step), name=etiqueta, loc=L)
+    a.add(comp(nombre_step), name=etiqueta, loc=L, color=color_de(nombre_step))
     CUENTA[nombre_step] = CUENTA.get(nombre_step, 0) + 1
 
 
@@ -176,7 +207,7 @@ def union_atornillada(a, tag, p, u, espesor, tornillo, d, tuerca=True):
              loc(q - np.array(u) * (ta + C.NORMA[d][7] * 1.1), -np.array(u)))
 
 
-def ensamble(con_ruedas=True):
+def ensamble(con_ruedas=True, con_tapa_ciega=False):
     a = cq.Assembly(name='bloque_omni_v8')
     yN, yP = pf.Y_RAIL_N, pf.Y_RAIL_P
 
@@ -293,14 +324,20 @@ def ensamble(con_ruedas=True):
         for sy in (-1, 1):
             _add(a, 'TORNILLO_ISO10642_M5x10', f'M5tapa_{sy}_{x:.0f}',
                  cq.Location(cq.Vector(x, ya[sy], pf.Z_TAPA_BOT + pf.TAPA_T)))
-    for i in range(2):
-        xc = -149.0 + i * 298.0
-        _add(a, 'CHAPA_TAPA_CIEGA_3mm', f'tapa_ciega_{i}',
-             cq.Location(cq.Vector(xc, 0, 0)))
-        for dx in (-110.0, 0.0, 110.0):
-            for y in (-146.0, -260.0):
-                _add(a, 'TORNILLO_ISO10642_M5x10', f'M5ciega_{i}_{dx:.0f}_{y:.0f}',
-                     cq.Location(cq.Vector(xc + dx, y, pf.Z_TAPA_BOT + pf.TAPA_T)))
+    # La tapa ciega de la zona sin ruedas queda FUERA del ensamble principal
+    # (Sergio, 05-09: "please remove for the main window, I don't want to see
+    # that part"). La pieza sigue en la biblioteca por si se quiere montar.
+    if con_tapa_ciega:
+        for i in range(2):
+            xc = -149.0 + i * 298.0
+            _add(a, 'CHAPA_TAPA_CIEGA_3mm', f'tapa_ciega_{i}',
+                 cq.Location(cq.Vector(xc, 0, 0)))
+            for dx in (-110.0, 0.0, 110.0):
+                for y in (-146.0, -260.0):
+                    _add(a, 'TORNILLO_ISO10642_M5x10',
+                         f'M5ciega_{i}_{dx:.0f}_{y:.0f}',
+                         cq.Location(cq.Vector(xc + dx, y,
+                                               pf.Z_TAPA_BOT + pf.TAPA_T)))
     return a
 
 

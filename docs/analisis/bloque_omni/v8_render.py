@@ -16,27 +16,28 @@ def MAT(n, M):
     if n.startswith('correa'):
         return M['TPU']
     if n.startswith(('polea', 'tensor')):
-        return M['POLEA']
+        return M['NEGRO_POL']      # poleas y tensores: polimero negro
     if n.startswith('motor'):
         return M['STEEL']
     if n.startswith('rueda'):
-        return M['PLACA2']
+        return M['NEGRO']          # rueda impresa: negro mate (placas y rodillos)
     if n.startswith(('M5', 'M6', 'M8', 'prisionero')):
-        return M['TORN']
-    if n.startswith(('F6801', 'eje', 'separ')):
+        return M['INOX']           # tornilleria inoxidable
+    if n.startswith('F6801'):
         return M['BRG']
+    if n.startswith(('eje', 'separ')):
+        return M['INOX']
     if n.startswith('tapa'):
-        return M['TAPA']
-    if n.startswith('cuna'):
-        return M['CUNA']
-    return M['PLACA']
+        return M['NEGRO_TAPA']     # tapa superior negra
+    return M['INOX']               # estructura: acero inoxidable
 
 
 def escena(sel, cam_loc, target, lens, out, w=1800, h=1150, s=44, m=(0.05, 0.95)):
     clear(); M = mats()
-    M['TAPA'] = principled('TAPA', (0.30, 0.31, 0.34), 0.38)
-    M['CUNA'] = principled('CUNA', (0.46, 0.48, 0.52), 0.40)
-    M['TORN'] = principled('TORN', (0.86, 0.72, 0.30), 0.28, 1.0)
+    M['INOX'] = principled('INOX', (0.60, 0.61, 0.64), 0.26, 1.0)
+    M['NEGRO'] = principled('NEGRO', (0.013, 0.013, 0.015), 0.90)
+    M['NEGRO_POL'] = principled('NEGRO_POL', (0.016, 0.016, 0.019), 0.72)
+    M['NEGRO_TAPA'] = principled('NEGRO_TAPA', (0.018, 0.018, 0.021), 0.70)
     pts = []
     for n, mesh in B.items():
         if not sel(n):
@@ -45,6 +46,12 @@ def escena(sel, cam_loc, target, lens, out, w=1800, h=1150, s=44, m=(0.05, 0.95)
         add_mesh(n, v, mesh.faces, MAT(n, M))
         pts += [v.min(0), v.max(0)]
     lights()
+    # menos luz: con el esquema negro/inoxidable la escena se lavaba
+    bpy.context.scene.world.node_tree.nodes['Background'] \
+        .inputs['Color'].default_value = (0.055, 0.058, 0.065, 1)
+    for ob in bpy.data.objects:
+        if ob.type == 'LIGHT':
+            ob.data.energy *= 0.55
     cam = camera(cam_loc, target, lens)
     for _ in range(40):
         bpy.context.view_layer.update()
@@ -59,7 +66,7 @@ def escena(sel, cam_loc, target, lens, out, w=1800, h=1150, s=44, m=(0.05, 0.95)
 
 CEN = (0.0, 0.03, 0.01)
 escena(lambda n: True, (0.55, -0.70, 0.50), CEN, 42, 'bo8_modulo.png', 1900, 1200)
-escena(lambda n: not n.startswith(('tapa', 'rueda', 'M5tapa', 'M5ciega')),
+escena(lambda n: not n.startswith(('tapa', 'rueda', 'M5tapa')),
        (0.45, -0.62, 0.62), CEN, 42, 'bo8_bastidor.png', 1900, 1200)
 # detalle de una escuadra atornillada (aqui se ven rosca, arandela y grower)
 escena(lambda n: ('escuadra_N2' in n or 'M6ra_N2' in n or 'M6eb_N2' in n

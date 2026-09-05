@@ -17,7 +17,27 @@ sola vez, con el detalle completo.
 su sitio. Lo que se ve en el ensamble es exactamente el archivo de la pieza.
 
 Eso funciona porque el exportador STEP guarda **un producto por pieza única y N
-instancias**: 454 piezas salen de 33 referencias, en 60.1 MB.
+instancias**: 440 piezas salen de 32 referencias, en 59.1 MB.
+
+## Esquema de materiales (05-09)
+
+Va escrito en el propio STEP, no solo en el render, así que se abre ya coloreado
+en cualquier visor:
+
+| Material | Piezas |
+|---|---|
+| **Polímero negro mate** | las 32 ruedas completas (placas **y** rodillos), las 10 poleas y los 4 tensores |
+| **Negro** | tapa superior (y la tapa ciega, si se monta) |
+| **Acero inoxidable** | toda la estructura — placa base, travesaños, rieles, escuadras, cuñas — **y toda la tornillería** (tornillos, tuercas y arandelas) |
+
+La **tapa ciega** de la zona sin ruedas queda **fuera del ensamble principal**;
+la pieza sigue en la biblioteca y se monta con `ensamble(con_tapa_ciega=True)`.
+
+> **Una nota sobre las poleas en polímero**: a 0.75 N·m por eje y 188 N de
+> tensión de correa, una HTD 5M 20T impresa en PA-CF aguanta, pero el dentado
+> es la pieza que más se desgasta de la transmisión. Si el módulo va a trabajar
+> turnos largos, las 2 poleas de motor conviene tenerlas en aluminio aunque las
+> 8 de eje sigan impresas. Lo dejo dicho, no cambiado.
 
 ## Las 33 referencias
 
