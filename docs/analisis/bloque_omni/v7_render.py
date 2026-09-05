@@ -2,7 +2,7 @@ exec(open('/tmp/claude-0/-home-user/ced961d2-f149-567f-b191-1b894914d584/scratch
 import cascadio, trimesh, numpy as np, math
 
 cascadio.step_to_glb(p('bloque_omni_v7.step'), p('bo7.glb'),
-                     tol_linear=0.25, tol_angular=0.4)
+                     tol_linear=0.3, tol_angular=0.45)
 B = load('bo7.glb')
 print('nodos', len(B))
 
@@ -15,6 +15,10 @@ def MAT(n, M):
     if n.startswith('motor'):
         return M['STEEL']
     if n.startswith('rueda'):
+        if 'rodillo' in n:
+            return M['TPU']
+        if 'pasador' in n:
+            return M['BRG']
         return M['PLACA2']
     if n.startswith('F6801') or n.startswith('eje') or n.startswith('separ'):
         return M['BRG']
@@ -75,4 +79,9 @@ escena(lambda n: n.startswith(('motor', 'cuna', 'polea_motor_der', 'placa_base',
 escena(lambda n: n.startswith(('correa', 'polea', 'tensor', 'motor', 'eje',
                                'F6801')),
        (0.30, -0.85, 0.30), (0, -0.06, 0.03), 48, 'bo7_tren.png', 1900, 1100)
+# 7 — detalle: una rueda real asomando 5 mm por su ventana de la tapa
+escena(lambda n: n.startswith(('rueda30', 'rueda31', 'rueda40', 'rueda41',
+                               'tapa_superior', 'eje_3', 'eje_4', 'separadores_3',
+                               'separadores_4')),
+       (0.10, -0.14, 0.20), (0.0, 0.045, 0.10), 55, 'bo7_rueda.png', 1700, 1200, 52)
 print('ALL DONE')

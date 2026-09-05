@@ -115,13 +115,38 @@ contra su posición teórica.
 
 Con los dos bugs corregidos hay dos ensambles de verdad:
 
-- `bloque_omni_v7.step` — **103 piezas** en su posición real.
+- `bloque_omni_v7.step` — **519 piezas** en su posición real (las 32 ruedas incluidas).
 - `tren_motriz_ENSAMBLADO.step` — **45 piezas**: 2 motores, 8 ejes, 10 poleas,
   16 rodamientos, 6 tensores y las 2 correas.
 
-Las 32 ruedas van como **envolvente barrida** en el ensamble (32 mecanum
-completas hacen un STEP que no abre ningún visor); la rueda real, con sus 6
-rodillos, es `docs/analisis/mecanum64v9/`.
+### Las 32 ruedas van REALES (corregido)
+
+En la primera versión de la v7 puse envolventes barridas en vez de las ruedas,
+suponiendo que 32 mecanum completas darían un STEP inabrible. **Sergio preguntó
+por qué, y el supuesto era falso.** Lo medí: al añadir la misma pieza 32 veces
+con distinta posición, el exportador STEP guarda **un producto por pieza única
+y 32 instancias**, no 32 copias de la geometría.
+
+```
+32 mecanum64 v9 completas (4 placas unicas + rodillo + pasador,
+128 placas + 192 rodillos + 192 pasadores instanciados) = 26.8 MB
+```
+
+Así que van las **ruedas reales**, con sus 6 rodillos y 6 pasadores cada una.
+Verificado sobre la malla del ensamble:
+
+```
+corona del rodillo z 114.92 · tapa superior 96.6..110.1
+-> la rueda asoma 4.8 mm sobre la tapa (nominal 5.0; el resto es teselado)
+plano de rodadura del ZP2026 115.10
+```
+
+Se exportan **dos** ensambles, para que elijas según lo que vayas a hacer:
+
+| Archivo | Piezas | Tamaño | Para qué |
+|---|---|---|---|
+| `bloque_omni_v7.step` | 519 | 59.9 MB | el módulo completo, con las 32 ruedas |
+| `bloque_omni_v7_bastidor.step` | 71 | 32.7 MB | solo chapa y transmisión: abre rápido para trabajar las placas |
 
 ## Reproducir
 
@@ -148,8 +173,13 @@ python docs/analisis/bloque_omni/v7_render.py        # 6 láminas
 | ![Motor](BO7_MOTOR.png) | ![Tren](BO7_TREN.png) |
 | Estación del motor con su cuña de 8 mm | Tren motriz completo, cada pieza en su sitio |
 
+![Rueda](BO7_RUEDA.png)
+*Las mecanum v9 reales asomando por sus ventanas de la tapa.*
+
 ## Entregable
 
-`BLOQUE_OMNI_v7_flowsort.zip` — STEP + STL de cada pieza suelta, más
-`bloque_omni_v7.step` (módulo completo, 103 piezas) y
-`tren_motriz_ENSAMBLADO.step` (45 piezas).
+- `BLOQUE_OMNI_v7_flowsort.zip` — STEP + STL de cada pieza suelta, más
+  `bloque_omni_v7_bastidor.step` (71 piezas) y `tren_motriz_ENSAMBLADO.step`
+  (45 piezas).
+- `BLOQUE_OMNI_v7_COMPLETO_32ruedas.zip` — `bloque_omni_v7.step`: el módulo
+  entero con las 32 mecanum v9 reales (519 piezas).

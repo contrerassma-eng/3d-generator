@@ -23,6 +23,7 @@ from shapely.ops import unary_union
 
 import tren_motriz as tm
 import placas_flowsort as pf
+import mecanum64v9 as m9
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 P = lambda n: os.path.join(OUT, n)
@@ -101,16 +102,46 @@ def correa(h):
     return s
 
 
-def rueda_envolvente(k, y):
-    """Envolvente barrida de la mecanum v9 (el solido real va aparte: el STEP
-    de 32 ruedas completas no lo abre ningun visor)."""
-    r = tm.cq.Workplane("XZ")
-    s = (cq.Workplane("XZ").circle(pf.R_ENV).extrude(2 * pf.W2)
-         .translate((0, y + pf.W2, 0)))
-    s = s.cut(cq.Workplane("XZ").circle(pf.R_ENV - 4.0).extrude(2 * pf.W2 - 12)
-              .translate((0, y + pf.W2 - 6, 0)))
-    s = s.union(tubo(15.0, 6.5, y - pf.W2, y + pf.W2))
-    return s.translate((pf.X_EJES[k], 0, pf.Z_EJE))
+# ---------------- las 32 mecanum v9, REALES ----------------
+# Las meto como INSTANCIAS de las 4 piezas unicas (placa A/B de cada mano) +
+# rodillo + pasador: el STEP guarda un producto por pieza y 32 posiciones, asi
+# que las 32 ruedas completas pesan 26.8 MB, no 32x13.
+_RUEDA = {}
+
+
+def piezas_rueda(hand):
+    if hand not in _RUEDA:
+        pa, pb, rod, _ = m9.build(hand)
+        _RUEDA[hand] = (pa, pb, rod, m9.pasador())
+    return _RUEDA[hand]
+
+
+RX90 = cq.Location(cq.Vector(0, 0, 0), cq.Vector(1, 0, 0), -90)   # eje local Z -> Y
+
+
+def loc_rueda(k, y):
+    """la rueda esta centrada en su z local (-18.3..18.3), asi que basta con
+    llevarla al eje y girarla 90 grados."""
+    return cq.Location(cq.Vector(pf.X_EJES[k], y, pf.Z_EJE)) * RX90
+
+
+def añadir_rueda(a, k, i, y):
+    h = pf.mano(k)
+    pa, pb, rod, pas = piezas_rueda(h)
+    L = loc_rueda(k, y)
+    a.add(pa, name=f'rueda{k}{i}_placaA', loc=L, color=cq.Color(0.72, 0.72, 0.75))
+    a.add(pb, name=f'rueda{k}{i}_placaB', loc=L, color=cq.Color(0.72, 0.72, 0.75))
+    for j in range(6):
+        ang = m9.ROWS[j] if h == 'izq' else -m9.ROWS[j]
+        tilt = -(90 - m9.BETA) if h == 'izq' else (90 - m9.BETA)
+        lr = (L * cq.Location(cq.Vector(0, 0, m9.zc_of(j)))
+              * cq.Location(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), ang)
+              * cq.Location(cq.Vector(m9.D0, 0, 0))
+              * cq.Location(cq.Vector(0, 0, 0), cq.Vector(1, 0, 0), tilt))
+        a.add(rod, name=f'rueda{k}{i}_rodillo{j}', loc=lr,
+              color=cq.Color(0.10, 0.10, 0.11))
+        a.add(pas, name=f'rueda{k}{i}_pasador{j}', loc=lr,
+              color=cq.Color(0.45, 0.45, 0.48))
 
 
 # ---------------- gates ----------------
@@ -175,8 +206,7 @@ def ensamble(con_ruedas=True):
                   color=col(0.80, 0.81, 0.83))
         if con_ruedas:
             for i, y in enumerate(pf.Y_RUEDAS):
-                a.add(rueda_envolvente(k, y), name=f'rueda_env_{k}{i}',
-                      color=col(0.78, 0.52, 0.22))
+                añadir_rueda(a, k, i, y)
     tap, vx, vy = pf.tapa_superior()
     a.add(tap, name='tapa_superior', color=col(0.35, 0.36, 0.38))
     for i in range(2):
@@ -226,7 +256,12 @@ if __name__ == '__main__':
         print(f'  pieza {nm}: STEP + STL')
     tren_ensamblado().save(P('tren_motriz_ENSAMBLADO.step'))
     print('tren_motriz_ENSAMBLADO.step OK')
-    a, vx, vy = ensamble()
+    b, vx, vy = ensamble(con_ruedas=False)
+    b.save(P('bloque_omni_v7_bastidor.step'))
+    print(f'bloque_omni_v7_bastidor.step OK · {len(list(b.traverse()))} nodos · '
+          f'{os.path.getsize(P("bloque_omni_v7_bastidor.step"))/1e6:.1f} MB')
+    a, vx, vy = ensamble(con_ruedas=True)
     a.save(P('bloque_omni_v7.step'))
-    print(f'bloque_omni_v7.step OK · ventana de rueda {vx:.1f}x{vy:.1f} · '
-          f'{len(list(a.traverse()))} nodos')
+    print(f'bloque_omni_v7.step OK (32 mecanum v9 REALES) · ventana de rueda '
+          f'{vx:.1f}x{vy:.1f} · {len(list(a.traverse()))} nodos · '
+          f'{os.path.getsize(P("bloque_omni_v7.step"))/1e6:.1f} MB')
