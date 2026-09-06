@@ -19,7 +19,7 @@ R = chapa.R_PLEG
 rrect, colisa = pf.rrect, pf.colisa
 X_EJES, X_MED, X_ESC = pf.X_EJES, pf.X_MED, pf.X_ESC
 Z_EJE, ZM, X_MOTOR = pf.Z_EJE, pf.ZM, pf.X_MOTOR
-TENSORES = pf.TENSORES
+X_TENSOR, Z_TENSOR = pf.X_TENSOR, pf.Z_TENSOR
 
 # posiciones de tornilleria, que el ensamble reutiliza para poner los tornillos
 X_TAPA = [-258 + i * 86 for i in range(7)]
@@ -61,13 +61,17 @@ def riel(sy):
                   .translate((x, y0 + 20, 45.0)))
     for x in X_EJES:
         if min(abs(x - X_MOTOR['der']), abs(x - X_MOTOR['izq'])) < 46:
-            continue
+            continue                     # ahi esta la estacion de motor
+        if min(abs(x - q) for q in X_ESC) < 30:
+            continue                     # ahi esta la columna de la escuadra
         s = s.cut(colisa("XZ", 16.0, 40.0, 0).extrude(40)
                   .translate((x, y0 + 20, -34.0)))
-    for h in ('der', 'izq'):
-        for xt, zt in TENSORES[h]:
+    # colisas de los TENSORES de las correas eje-eje (van en el riel lejano;
+    # en el cercano quedan como aligeramiento, el riel es la misma pieza)
+    for xt in X_TENSOR:
+        for sx in (-1, 1):
             s = s.cut(colisa("XZ", 8.5, 32.0, 90).extrude(40)
-                      .translate((xt, y0 + 20, zt)))
+                      .translate((sx * xt, y0 + 20, Z_TENSOR)))
     ya = yc + fuera * (pf.ALA - 4.0)      # centro del tramo plano del ala
     for x in X_TAPA:
         s = s.cut(cq.Workplane("XY").circle(2.6).extrude(20)
@@ -128,38 +132,41 @@ def placa_base():
         for y in (-10.0, 70.0, 150.0):
             s = s.cut(colisa("XY", pf.VENT_W, pf.VENT_L, 90).extrude(20)
                       .translate((x, y, pf.Z_BASE0 - 1)))
-    for x in (X_MOTOR['der'] - 62, X_MOTOR['izq'] + 62):
+    for x in (-160.0, 160.0):
         s = s.cut(cq.Workplane("XY").circle(pf.GROMMET_D / 2).extrude(20)
                   .translate((x, -140.0, pf.Z_BASE0 - 1)))
     for x in (-278.0, 278.0):
         for y in (-140.0, 208.0):
             s = s.cut(cq.Workplane("XY").circle(5.5).extrude(20)
                       .translate((x, y, pf.Z_BASE0 - 1)))
-    for h in ('der', 'izq'):
-        for dx in (-46.0, 0.0, 46.0):
-            s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)
-                      .translate((X_MOTOR[h] + dx, pf.Y_CUNA + 22.0,
-                                  pf.Z_BASE0 - 1)))
+    for dx in pf.X_CUNA_PIE:
+        s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)
+                  .translate((dx, pf.Y_CUNA + 22.0, pf.Z_BASE0 - 1)))
     return s, chapa.desarrollo(pts, t)
 
 
-def cuna_motor():
-    """Cuna del motor: 8 mm, PLEGADA (radio interior 8 en chapa de 8)."""
+def cuna_motores():
+    """UNA sola cuna de 8 mm para LOS DOS motores: con el motor entre los dos
+    ejes centrales de su familia, los dos quedan juntos en el centro del
+    modulo, asi que una unica placa con dos sillas 61x61 los toma a ambos.
+    Va plegada (radio interior 8 en chapa de 8)."""
     tc = pf.MOT_PLACA_T
     y_v = pf.Y_CUNA + tc / 2
     z_h = pf.Z_BASE1 + tc / 2
+    ancho = 200.0
     pts = [(y_v, 47.0), (y_v, z_h), (y_v + 44.0, z_h)]
-    s = chapa.plegada(pts, tc, 120.0, "YZ", R=8.0).translate((-60.0, 0, 0))
-    s = s.intersect(cq.Workplane("XY").rect(120.0, 400.0).extrude(300)
+    s = chapa.plegada(pts, tc, ancho, "YZ", R=8.0).translate((-ancho / 2, 0, 0))
+    s = s.intersect(cq.Workplane("XY").rect(ancho, 400.0).extrude(300)
                     .translate((0, 0, -150)))
-    s = s.cut(rrect("XZ", 61.0, 61.0, 6.0).extrude(30)
-              .translate((0, y_v + 15, ZM)))
-    s = s.cut(colisa("XZ", 26.0, 40.0, 90).extrude(30)
-              .translate((0, y_v + 15, ZM - 34.0)))
-    for dx in (-44.0, 44.0):
-        s = s.cut(colisa("XZ", 16.0, 44.0, 90).extrude(30)
+    for xm in (X_MOTOR['der'], X_MOTOR['izq']):
+        s = s.cut(rrect("XZ", 61.0, 61.0, 6.0).extrude(30)
+                  .translate((xm, y_v + 15, ZM)))
+        s = s.cut(colisa("XZ", 26.0, 40.0, 90).extrude(30)
+                  .translate((xm, y_v + 15, ZM - 34.0)))
+    for dx in (-88.0, 88.0):
+        s = s.cut(colisa("XZ", 14.0, 40.0, 90).extrude(30)
                   .translate((dx, y_v + 15, ZM + 4.0)))
-    for dx in (-46.0, 0.0, 46.0):
+    for dx in pf.X_CUNA_PIE:
         s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)
                   .translate((dx, pf.Y_CUNA + 22.0, pf.Z_BASE1 - 1)))
     return s, chapa.desarrollo(pts, tc, R=8.0)

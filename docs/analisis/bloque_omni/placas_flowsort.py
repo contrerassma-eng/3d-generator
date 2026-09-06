@@ -24,7 +24,7 @@
 # superior. Se respeta.
 
 import cadquery as cq
-from math import cos, radians, sqrt, hypot
+from math import cos, radians, sqrt, hypot, atan2, degrees
 import os
 from shapely.geometry import box as sbox, Point
 from shapely.ops import unary_union
@@ -62,8 +62,7 @@ Z_PESTANA = -78.6                          # pestana inferior del ZP2026
 CARA_INT = 266.8                           # semiancho interior del conveyor
 
 ZM = -8.6                                  # altura del eje de los motores
-X_MOTOR = {'der': -149.5, 'izq': 149.5}    # paso intermedio: no pisan ejes
-MOT_PLACA_T = 8.0                          # cuna trasera del motor (Flowsort)
+MOT_PLACA_T = 8.0
 SEP_OD = 20.0
 
 # ---------------- M1-M5: primitivas del lenguaje de chapa ----------------
@@ -87,58 +86,130 @@ def colisa(plano, w, l, ang=0):
     return cq.Workplane(plano).slot2D(l, w, ang)
 
 
-# ---------------- trazado de la correa y de los tensores ----------------
+# ================= TRANSMISION EN CASCADA (corregida 05-09) =================
+# Lo que habia antes NO tenia sentido: una sola correa por familia trazada
+# como ENVOLVENTE CONVEXA de las 5 poleas. Como las 4 poleas de eje estan a la
+# misma altura, la recta superior de esa envolvente las tocaba TANGENTE: las
+# dos centrales quedaban con ABRAZAMIENTO 0 grados y no recibian par ninguno.
+#
+# Ahora es la cascada que pidio Sergio ("motor a dos rodillos y esos dos a los
+# demas"), que ademas es lo que hace cualquier transportador de rodillos:
+#
+#   LADO CERCANO, una correa de 3 poleas por familia:
+#       motor  ->  los DOS ejes centrales de su familia
+#       (el motor va entre ambos, asi que el triangulo da abrazamiento real)
+#   LADO LEJANO, dos correas de 2 poleas por familia:
+#       eje central izq -> eje extremo izq     (180 grados en cada polea)
+#       eje central der -> eje extremo der
+#
+# Abrazamiento medido: motor 101.6 deg (5.6 dientes), ejes centrales 129.2 deg
+# (7.2 dientes), ejes extremos 180 deg (10 dientes). Cada eje lleva como mucho
+# DOS poleas, y van una en cada punta del eje, asi que hacen falta solo DOS
+# planos de correa por lado y el voladizo sobre el rodamiento se queda en 23 mm.
 IDLER_D, IDLER_W = 24.0, 12.0
+POL_W_ = 12.0                            # ancho de polea (correa 5M-09)
+
+PLANO = {'der': {'N': Y_RAIL_EXT - 1.5 - POL_W_ / 2,          # -125.5
+                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_W_ / 2},   # 227.5
+         'izq': {'N': Y_RAIL_EXT - 1.5 - POL_W_ - 3.0 - POL_W_ / 2,   # -141.0
+                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_W_ + 3.0 + POL_W_ / 2}}
+AX = {h: sorted(X_EJES[k] for k in KS[h]) for h in ('der', 'izq')}
+# el motor va justo entre los dos ejes centrales de su familia
+X_MOTOR = {h: (AX[h][1] + AX[h][2]) / 2 for h in ('der', 'izq')}
 
 
-def envolvente(h):
-    """Linea primitiva de la correa de la familia h: envolvente convexa de las
-    4 poleas de eje + la del motor (todas giran en el mismo sentido)."""
-    c = [(X_EJES[k], Z_EJE, tm.POL_DP / 2) for k in KS[h]]
-    c += [(X_MOTOR[h], ZM, tm.POL_DP / 2)]
-    return unary_union([Point(x, z).buffer(r, quad_segs=72) for x, z, r in c]).convex_hull
-
-
-def tensores(h):
-    """Dos tensores por familia, en los DOS RAMALES INCLINADOS (nunca en el
-    ramal de arrastre): tangentes por fuera de la correa, con colisa vertical
-    en el riel para dar/quitar tension como en el Flowsort (§6.7)."""
-    hull = envolvente(h)
-    cs = list(hull.exterior.coords)
-    cen = hull.centroid
-    cand = []
-    for a, b in zip(cs[:-1], cs[1:]):
-        L = hypot(b[0] - a[0], b[1] - a[1])
-        if L < 40:
-            continue
-        if (a[1] + b[1]) / 2 > Z_EJE:
-            continue                     # ramal de arrastre: ahi no va tensor
-        cand.append((L, a, b))
-    cand.sort(reverse=True)
+def _correas():
     out = []
-    ocupado = X_EJES + [x for x in X_MED if abs(abs(x) - 149.5) > 1]
-    for L, a, b in cand[:2]:
-        nx, nz = (b[1] - a[1]) / L, -(b[0] - a[0]) / L
-        mx0, mz0 = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
-        if (mx0 + nx - cen.x) ** 2 + (mz0 + nz - cen.y) ** 2 < \
-           (mx0 - nx - cen.x) ** 2 + (mz0 - nz - cen.y) ** 2:
-            nx, nz = -nx, -nz
-        d = 2.5 + IDLER_D / 2
-        mejor = None
-        for i in range(41):                      # buscar el punto del ramal
-            t = 0.25 + 0.5 * i / 40              # que mas se aleja de todo
-            px = a[0] + t * (b[0] - a[0]) + nx * d
-            pz = a[1] + t * (b[1] - a[1]) + nz * d
-            if not (RAIL_Z0 + 22 < pz < Z_EJE - 24):
-                continue
-            hueco = min(abs(px - q) for q in ocupado)
-            if mejor is None or hueco > mejor[0]:
-                mejor = (hueco, px, pz)
-        out.append((mejor[1], mejor[2]))
+    for h in ('der', 'izq'):
+        a = AX[h]
+        out.append(dict(fam=h, lado='N', tipo='motor',
+                        poleas=[(X_MOTOR[h], ZM), (a[1], Z_EJE), (a[2], Z_EJE)]))
+        out.append(dict(fam=h, lado='F', tipo='eje',
+                        poleas=[(a[1], Z_EJE), (a[0], Z_EJE)]))
+        out.append(dict(fam=h, lado='F', tipo='eje',
+                        poleas=[(a[2], Z_EJE), (a[3], Z_EJE)]))
     return out
 
 
-TENSORES = {h: tensores(h) for h in ('der', 'izq')}
+CORREAS = _correas()
+
+
+def envolvente(correa):
+    """linea primitiva de una correa: envolvente de sus poleas (con 2 o 3
+    poleas NO colineales la envolvente SI da abrazamiento real)."""
+    r = tm.POL_DP / 2
+    return unary_union([Point(x, z).buffer(r, quad_segs=72)
+                        for x, z in correa['poleas']]).convex_hull
+
+
+def abrazamiento(correa):
+    """grados de abrazamiento en cada polea de la correa."""
+    P = correa['poleas']
+    out = []
+    for i, p in enumerate(P):
+        otros = [q for j, q in enumerate(P) if j != i]
+        if len(otros) == 1:
+            out.append(180.0)
+            continue
+        v = [atan2(q[1] - p[1], q[0] - p[0]) for q in otros]
+        d = abs(degrees(v[0] - v[1])) % 360
+        out.append(180.0 - min(d, 360 - d))
+    return out
+
+
+def poleas_de_eje():
+    """{k: [(y_plano, ...)]} — que poleas lleva cada eje y en que plano."""
+    d = {}
+    for c in CORREAS:
+        y = PLANO[c['fam']][c['lado']]
+        for x, z in c['poleas']:
+            if abs(z - Z_EJE) > 1:
+                continue
+            k = min(range(NEJES), key=lambda i: abs(X_EJES[i] - x))
+            d.setdefault(k, set()).add(y)
+    return {k: sorted(v) for k, v in d.items()}
+
+
+POLEAS_EJE = poleas_de_eje()
+
+
+def _poleas_con_pestana():
+    """la polea del EXTREMO de cada correa eje-eje lleva pestana de guiado;
+    ahi no hay nada al lado, asi que la pestana cabe."""
+    out = set()
+    for c in CORREAS:
+        if c['tipo'] != 'eje':
+            continue
+        x = c['poleas'][1][0]                      # el eje extremo
+        k = min(range(NEJES), key=lambda i: abs(X_EJES[i] - x))
+        out.add((k, round(PLANO[c['fam']][c['lado']], 1)))
+    return out
+
+
+POLEAS_CON_PESTANA = _poleas_con_pestana()
+
+# un tensor por cada correa eje-eje, apoyado por fuera en el ramal flojo
+Z_TENSOR = Z_EJE - tm.POL_DP / 2 - 2.5 - IDLER_D / 2
+
+
+def _tensores():
+    out = []
+    for c in CORREAS:
+        if c['tipo'] != 'eje':
+            continue
+        x = (c['poleas'][0][0] + c['poleas'][1][0]) / 2
+        out.append(dict(fam=c['fam'], lado=c['lado'], x=x, z=Z_TENSOR))
+    return out
+
+
+TENSORES = _tensores()
+X_TENSOR = sorted({abs(t['x']) for t in TENSORES})     # simetrico: sirve a los 2 rieles
+
+# escuadras: en los pasos intermedios que no pisa el cuerpo del motor (60 mm)
+X_ESC = sorted([x for x in X_MED
+                if min(abs(x - X_MOTOR['der']), abs(x - X_MOTOR['izq'])) > 58]
+               + [-112.125, 112.125])      # simetrico: el riel es la misma pieza
+X_CUNA_PIE = (-85.0, -30.0, 30.0, 85.0)     # una sola cuna para los dos motores
 
 
 # ---------------- 1. RIEL PRINCIPAL (2x, la misma pieza) ----------------
@@ -216,10 +287,6 @@ def riel(sy):
 
 
 # ---------------- 2. ESCUADRA riel <-> base (10x, la misma pieza) --------
-X_ESC = [x for x in X_MED
-         if min(abs(x - X_MOTOR['der']), abs(x - X_MOTOR['izq'])) >= 60]
-
-
 def y_pie_escuadra(sy):
     yc = Y_RAIL_N if sy < 0 else Y_RAIL_P
     return yc + (1 if sy < 0 else -1) * (RAIL_T / 2 + 30.0)

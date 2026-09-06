@@ -17,7 +17,47 @@ sola vez, con el detalle completo.
 su sitio. Lo que se ve en el ensamble es exactamente el archivo de la pieza.
 
 Eso funciona porque el exportador STEP guarda **un producto por pieza única y N
-instancias**: 440 piezas salen de 32 referencias, en 59.1 MB.
+instancias**: 489 piezas salen de 33 referencias, en 57.7 MB.
+
+## ⚠ La transmisión estaba MAL y se rehizo (06-09)
+
+> Sergio: *"las correas no siguen trayectoria lógica, no tienen sentido.
+> Repara, revisando antes de enviar."*
+
+Tenía razón, y el error era de fondo. Yo trazaba **una sola correa por familia
+como ENVOLVENTE CONVEXA de sus 5 poleas**. Como las 4 poleas de eje están todas
+a la misma altura (z = 83.1), la recta superior de esa envolvente las tocaba
+**tangencialmente**: las dos poleas centrales quedaban con **abrazamiento 0°**.
+Una correa dentada con 0° de abrazamiento no transmite absolutamente nada. Era
+un dibujo, no una transmisión.
+
+Ahora es la **cascada** que pediste desde el principio (*"poleas transmite de
+motor a dos rodillos y esos 2 a los demás"*), que además es lo que hace
+cualquier transportador de rodillos:
+
+| Lado | Correa | Poleas | Abrazamiento |
+|---|---|---|---|
+| **Cercano** | 1 por familia | motor + los **dos ejes centrales** de su familia (el motor va justo entre ambos, así que forman triángulo) | motor **101.6°**, ejes **129.2°** |
+| **Lejano** | 2 por familia | eje central → eje extremo | **180° / 180°** |
+
+**6 correas, 2 referencias**: la de motor (97 dientes → **HTD 5M-485-09**) y la
+de eje-eje (79 dientes → **5M-400-09**), las dos de catálogo.
+
+Cada eje lleva como mucho **dos poleas, una en cada punta**, así que bastan
+**dos planos de correa por lado** y el voladizo sobre el rodamiento se queda en
+**23 mm** (antes eran 10–25 con una sola correa que no funcionaba).
+
+### Lo que apareció al verificar, y se corrigió
+
+| Hallazgo | Corrección |
+|---|---|
+| El **cubo** de las poleas de eje invadía el plano de correa contiguo (3 mm de interferencia real, medido) | Las poleas de eje pasan a **sin cubo**: llevan barreno hexagonal, el hexágono ya toma el par y los separadores las sitúan |
+| La **pestaña de guiado** miraba hacia el riel y lo tocaba | Solo las **4 poleas extremas** de las correas eje-eje llevan pestaña, y mira **hacia fuera**, donde no hay nada |
+| El eje no llegaba a los planos lejanos | Muñón lejano de 10 → **36 mm** (el eje va de y −151.7 a +251.0) |
+
+**Holgura ajustada que hay que vigilar**: la correa llega a z = 102.0 y la cara
+inferior del ala plegada del riel está en z = 103.1 → **1.06 mm**. Cabe, pero es
+lo más justo de todo el módulo.
 
 ## Esquema de materiales (05-09)
 

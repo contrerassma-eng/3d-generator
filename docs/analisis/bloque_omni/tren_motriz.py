@@ -91,7 +91,15 @@ def polea_htd(y_centro, barreno='hex', cubo='fuera'):
     s = s.cut(diente_htd_negativo(y0, y1))
     # pestana guia + cubo, los dos del mismo lado (asi el lado que mira al
     # riel queda LISO y se puede acercar sin tocar la chapa)
-    if cubo == 'fuera':
+    if cubo == 'no':
+        # polea de EJE: barreno hexagonal, sin cubo ni pestana. El hexagono ya
+        # toma el par y los separadores la situan; asi no invade el plano de
+        # correa contiguo (era la interferencia que aparecio al verificar).
+        y_pris = y_centro
+    elif cubo == 'pestana':
+        s = s.union(tubo(POL_OD / 2 + 2.0, 0, y1, y1 + POL_PEST))
+        y_pris = y_centro
+    elif cubo == 'fuera':
         s = s.union(tubo(POL_OD / 2 + 2.0, 0, y0 - POL_PEST, y0))
         s = s.union(tubo(11.0, 0, y0 - POL_PEST - 6.0, y0 - POL_PEST))
         y_pris = y0 - POL_PEST - 3.0
@@ -111,7 +119,7 @@ def polea_htd(y_centro, barreno='hex', cubo='fuera'):
     return s
 
 
-def eje_hex(y_int_pos=215.75):
+def eje_hex(y_int_pos=215.75, munon_lejano=36.0):
     """eje hex 1/2" con muñon LARGO al lado motriz: atraviesa el F6801 y
     sobresale para la polea en voladizo corto."""
     y0 = Y_RAIL_INT - 0.25
@@ -120,9 +128,9 @@ def eje_hex(y_int_pos=215.75):
     # muñon motriz (largo, hacia -Y)
     s = s.union(tubo(MUNON_D / 2, 0, Y_MUNON_FIN, y0))
     # muñon libre (corto, hacia +Y)
-    s = s.union(tubo(MUNON_D / 2, 0, y_int_pos, y_int_pos + 10.0))
+    s = s.union(tubo(MUNON_D / 2, 0, y_int_pos, y_int_pos + munon_lejano))
     # chaflanes de entrada
-    for yy, d in ((Y_MUNON_FIN, 1), (y_int_pos + 10, -1)):
+    for yy, d in ((Y_MUNON_FIN, 1), (y_int_pos + munon_lejano, -1)):
         cono = cq.Solid.makeCone(MUNON_D / 2 - 0.8, MUNON_D / 2 + 0.1, 0.8,
                                  cq.Vector(0, yy, 0), cq.Vector(0, -d, 0))
         big = cq.Solid.makeBox(30, 0.8, 30, cq.Vector(-15, yy if d > 0 else yy - 0.8, -15))
