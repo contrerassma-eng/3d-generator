@@ -30,7 +30,7 @@ Traducción a requisitos de diseño (capa `user`, decisiones registradas, no ver
 |---|---|---|
 | R1 | Base: medio tambor de aceite | Tambor estándar de 200 L cortado longitudinalmente por su plano diametral. **Las dos mitades se usan**: la inferior es la cuba, la superior es la tapa abisagrada. Cero descarte. |
 | R2 | Perfilería metálica | Bastidor de tubo cuadrado 40×40×2 (12 tubos, 3 largos distintos). |
-| R3 | Algunas piezas CNC (corte láser + plegado) | 15 piezas de chapa, **2 espesores únicos** (e2 y e3). Cada una nace de su desarrollo plano (DXF a escala real, con líneas de plegado y BA real). |
+| R3 | Algunas piezas CNC (corte láser + plegado) | 13 piezas de chapa, **2 espesores únicos** (e2 y e3). Cada una nace de su desarrollo plano (DXF a escala real, con líneas de plegado y BA real). |
 | R4 | **Todo sin soldadura** | Ninguna unión soldada en todo el producto: uniones por tornillería pasante M5/M6/M8 con tuerca de brida serrada. La rigidez del tambor cortado se restituye con perfiles de canto atornillados, no con soldadura. |
 | R5 | Motor tipo speedo | Motor de spiedo (asador giratorio) comercial 220 V / 40 W / 2,5 rpm, eje Ø8, sobre soporte de chapa plegada atornillado a la testa de la cuba. Espetón de barra cuadrada 12×12 mm inoxidable. |
 | R6 | Madera roble | Roble macizo e25: mesa lateral, barra frontal, estante inferior (2 tablas) y asa de la tapa. Toda la madera se atornilla **desde abajo**, sin tornillos a la vista en la cara superior. |

@@ -1,7 +1,7 @@
 # YT0100 "Medio Tambor" — memoria de diseño
 
 Parrilla / ahumador sobre medio tambor de 200 L, **100 % atornillada**, con
-perfilería tubular, 14 piezas de chapa CNC, motor de spiedo y roble macizo.
+perfilería tubular, 13 piezas de chapa CNC, motor de spiedo y roble macizo.
 
 Generado por `design/gen_parrilla.py` desde `design/parametros.json`.
 Toda la geometría es **capa `user`** (diseño). Los datos de terceros están en
@@ -18,7 +18,7 @@ Toda la geometría es **capa `user`** (diseño). Los datos de terceros están en
 | Superficie de parrilla | **0,416 m²** (2 módulos de 400 × 520) |
 | Niveles de parrilla | 3 — varillas a **132 / 168 / 202 mm** sobre el fondo del brasero |
 | Masa total | **87,3 kg** |
-| Piezas distintas | **37** (14 de chapa CNC, 4 largos de tubo, 4 de madera) |
+| Piezas distintas | **37** (13 de chapa CNC, 4 largos de tubo, 4 de madera) |
 | Piezas totales | **296** (de las cuales 200 son tornillería) |
 | Uniones soldadas | **0** |
 
@@ -152,7 +152,8 @@ pared es **0,7 mm**.
    taladrar las **dos testas** con `PLA-TESTA` y la virola con `PLA-VIROLA`
    **con el tambor todavía entero**; recién entonces cortar por el plano
    diametral. Las dos mitades salen listas.
-2. **Láser** — 2 láminas (e3 y e2) con los 14 desarrollos de `out/drawings/`.
+2. **Láser** — 2 láminas (e3 y e2) con los 13 desarrollos del producto que hay en
+   `out/drawings/` (el 14.º DXF es el utillaje `PLA-VIROLA`, se corta una vez).
    Los DXF están a escala real: capa `CORTE` = trayectoria; `PLIEGUE` y
    `TANGENTE` son referencia y **no se cortan**.
 3. **Plegadora** — 22 pliegues. Cada DXF lleva rotulado el sentido, el ángulo,

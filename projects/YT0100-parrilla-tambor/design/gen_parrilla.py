@@ -933,7 +933,8 @@ def main(argv):
     for nom, m in NODOS:
         escena.add_geometry(m, node_name=nom, geom_name=nom)
     glb = out / "cad" / "parrilla_tambor.glb"
-    glb.write_bytes(trimesh.exchange.gltf.export_glb(escena))
+    # include_normals: sin normales el GLB se ve plano/negro en cualquier visor
+    glb.write_bytes(trimesh.exchange.gltf.export_glb(escena, include_normals=True))
     total = trimesh.util.concatenate([m for _, m in NODOS])
     total.export(out / "cad" / "parrilla_tambor.stl")
     bb = total.bounds
@@ -946,7 +947,7 @@ def main(argv):
         sol = ch.solido()
         sol.export(out / "cad" / "piezas" / f"{cod}.stl")
         (out / "cad" / "piezas" / f"{cod}.glb").write_bytes(
-            trimesh.exchange.gltf.export_glb(trimesh.Scene(sol)))
+            trimesh.exchange.gltf.export_glb(trimesh.Scene(sol), include_normals=True))
         print(f"  {cod:<12} desarrollo {info['bounds'][0]:>7.1f} x {info['bounds'][1]:>6.1f} mm")
 
     print("Utillaje de taladrado…")

@@ -4,7 +4,7 @@ Proyecto de **diseño** (capa `user`): no hay etapa fotogramétrica. La geometr�
 nace acotada en milímetros desde un generador paramétrico, no de fotos.
 
 Parrilla / ahumador sobre medio tambor de 200 L, **100 % atornillada** (cero
-soldadura), con perfilería tubular 40×40, 14 piezas de chapa de corte láser +
+soldadura), con perfilería tubular 40×40, 13 piezas de chapa de corte láser +
 plegado, motor de spiedo y roble macizo.
 
 ## Qué hay acá
