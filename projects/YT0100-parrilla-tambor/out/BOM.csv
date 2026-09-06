@@ -1,0 +1,38 @@
+﻿codigo;nombre;familia;cantidad;material;proceso;largo_mm;desarrollo_mm;espesor_mm;pliegues;agujeros;largo_corte_mm;masa_kg;masa_total_kg;nota
+TUB-PATA;Pata — tubo 40x40x2;bastidor;4;acero A36 tubo 40x40x2;corte a medida + Ø11 para remache-tuerca M8;520.0;;;;;;1.241;4.964;
+TUB-LARGUERO;Larguero — tubo 40x40x2 (llega hasta el poste de la mesa);bastidor;4;acero A36 tubo 40x40x2;corte a medida + Ø9 de paso;1105.0;;;;;;2.637;10.548;
+TUB-TRAVESANO;Travesaño — tubo 40x40x2;bastidor;4;acero A36 tubo 40x40x2;corte a medida + Ø9 de paso;620.0;;;;;;1.48;5.918;
+TUB-POSTE;Poste de la mesa de roble — tubo 40x40x2;bastidor;2;acero A36 tubo 40x40x2;corte a medida + Ø11 remache-tuerca M8;855.0;;;;;;2.04;4.081;
+TOR-M8x60;Perno M8x60 cabeza hexagonal + golilla (unión solapada de tubos);tornillería;40;acero zincado 8.8;comprado;;;;;;;0.038;1.52;
+REM-M8;Remache-tuerca M8 (tubo, sin acceso interior);tornillería;40;acero zincado;comprado — se instala en el taller de tubos;;;;;;;0.006;0.24;Sustituye a la tuerca soldada: es LA pieza que hace posible el bastidor sin soldadura
+TAM-CUBA;Cuba — mitad inferior del tambor de 200 L;tambor;1;acero e1,10 (tambor recuperado);corte longitudinal por el plano diametral + taladrado con plantilla;;;;;;;9.177;9.177;[web] Ø572 x 851, e1,10. Las DOS mitades del mismo tambor se usan: cero descarte
+TAM-TAPA;Tapa — mitad superior del mismo tambor;tambor;1;acero e1,10 (tambor recuperado);misma operación de corte;;;;;;;9.177;9.177;
+CUN-CUNA;Cuna del tambor (soporta y amarra);chapa CNC;2;chapa de acero e3;corte láser + plegado;;660 x 352;;4;11;3308.0;1.965;3.93;Misma pieza para los dos apoyos: la 2.ª se monta volteada (espejo)
+PER-CANTO;Perfil de canto del tambor (rigidiza el corte y asienta la tapa);chapa CNC;4;chapa de acero e2;corte láser + plegado;;851 x 46.3;;1;6;1898.0;0.617;2.468;2 en la cuba y 2 en la tapa: al cerrar, las alas se enfrentan y forman el sello
+BIS-HOJA;Hoja de bisagra (pasador M8);chapa CNC;4;chapa de acero e3;corte láser + plegado;;122.5 x 50;;1;3;425.0;0.095;0.38;"Las 4 hojas son la misma pieza; las de la tapa se montan volteadas"
+TOR-PASADOR;Pasador de bisagra M8x70 + tuerca autoblocante;tornillería;2;acero zincado;comprado;;;;;;;0.045;0.09;
+CRE-RACK;Cremallera de altura de la parrilla (3 niveles);chapa CNC;4;chapa de acero e3;corte láser + plegado;;78.5 x 113;;1;2;453.0;0.14;0.56;Va atornillada a la testa PLANA del tambor: contacto perfecto, sin curvatura
+PAR-BARRA;Barra de apoyo de la parrilla — tubo 25x25x2;parrilla;2;acero tubo 25x25x2;corte a medida;844.8;;;;;;1.22;2.44;
+PAR-RIEL;Riel de la parrilla (aloja las varillas);chapa CNC;4;chapa de acero e3;corte láser + plegado;;520 x 25;;0;14;1411.0;0.291;1.164;4 rieles = 2 módulos de parrilla
+PAR-PLETINA;Pletina de retención de varillas;chapa CNC;4;chapa de acero e2;corte láser + plegado;;520 x 20;;0;3;1132.0;0.162;0.648;Cierra los alojamientos: la parrilla se arma sin soldar
+PAR-VARILLA;Varilla de parrilla Ø8 x 408;parrilla;22;acero inoxidable AISI 304 Ø8;corte a medida;;;;;;;0.162;3.564;
+BRA-CUERPO;Brasero perforado (cama de carbón);chapa CNC;1;chapa de acero e2;corte láser + plegado;;942.7 x 432.7;;4;52;6633.0;5.952;5.952;Los 4 costados plegados lo convierten en viga: 2 mm bastan para 810 mm de luz
+BRA-SOP;Apoyo del brasero (riel tangente a la virola);chapa CNC;2;chapa de acero e3;corte láser + plegado;;250 x 83.3;;1;2;708.0;0.489;0.978;Ancho 40 mm en el sentido curvo: el hueco contra la virola es 0,7 mm
+SOP-CHUM;Soporte de chumacera del espetón;chapa CNC;2;chapa de acero e3;corte láser + plegado;;130 x 99;;2;3;550.0;0.297;0.594;"Aloja buje de bronce Ø12/Ø16; va a la testa PLANA"
+SOP-MOTOR;Soporte del motor de spiedo;chapa CNC;1;chapa de acero e3;corte láser + plegado;;389 x 110;;2;5;1188.0;0.983;0.983;SUPUESTO S2: patrón de montaje del motor 2 x Ø6,6 a 50 mm — verificar con el motor
+MOT-SPIEDO;Motor de spiedo 220 V / 40 W / 2,5 rpm, eje Ø8;comprados;1;comprado;comprado;;;;;;;2.2;2.2;"[web] asadoresnewen.cl — 80 kg de capacidad; el diseño pide 15 kg"
+ESP-ESPETON;Espetón — barra cuadrada 12x12 inox, 1020 mm;comprados;1;acero inoxidable AISI 304 12x12;corte a medida + acople;;;;;;;1.16;1.16;
+ESP-HORQUILLA;Horquilla del espetón (3 puntas, prisionero M6);comprados;2;acero inoxidable;comprado;;;;;;;0.25;0.5;
+ESP-BUJE;Buje de bronce Ø12/Ø16 x 10 (chumacera del espetón);comprados;2;bronce SAE 64;comprado;;;;;;;0.02;0.04;
+TIR-DISCO;Disco de tiro regulable;chapa CNC;4;chapa de acero e2;corte láser + plegado;;100 x 100;;0;4;653.0;0.091;0.364;Gira sobre su perno central y descubre las 3 lumbreras de la testa
+MAD-MESA;Mesa de la testa — roble macizo 620x260x25;madera;1;roble macizo e25;corte + canteado + aceite;;;;;;;3.043;3.043;Va en la TESTA, fuera del alcance del cocinero (no estorba el frente)
+MAD-ESTANTE;Estante inferior — roble 500x300x25;madera;2;roble macizo e25;corte + canteado + aceite;;;;;;;2.831;5.662;
+SOP-MESA;Cabezal del poste (recibe la mesa de roble);chapa CNC;2;chapa de acero e3;corte láser + plegado;;220 x 80;;0;5;696.0;0.411;0.822;
+ASA-SOP;Soporte de asa de roble;chapa CNC;4;chapa de acero e3;corte láser + plegado;;179.5 x 34;;1;3;489.0;0.141;0.564;2 para el asa de roble de la tapa y 2 para la barra de empuje frontal
+MAD-ASA;Asa de la tapa — roble 45x45x380;madera;1;roble macizo;corte + redondeo + aceite;;;;;;;0.581;0.581;
+MAD-BARRA;Barra frontal (maniobra / utensilios) — roble 45x45x850;madera;1;roble macizo;corte + redondeo + aceite;;;;;;;1.3;1.3;"Para maniobrar la parrilla y colgar utensilios; rigidiza el frente"
+NIV-PATA;Nivelador M10 con base Ø50 (regulable);tornillería;6;acero + nylon;comprado;;;;;;;0.09;0.54;
+TOR-M6;Perno M6 + golilla ancha + tuerca de brida serrada (chapa/tambor);tornillería;62;acero zincado 8.8;comprado;;;;;;;0.012;0.744;Golilla ancha del lado del tambor: reparte sobre la chapa de 1,1 mm
+TOR-M5;Perno M5 x 16 + tuerca de brida (parrilla y canto);tornillería;36;acero zincado;comprado;;;;;;;0.007;0.252;
+TIR-MADERA;Tirafondo 5x40 cabeza plana (madera desde abajo);tornillería;20;acero zincado;comprado;;;;;;;0.008;0.16;Toda la madera se fija DESDE ABAJO: cara superior sin tornillos a la vista
+PLA-VIROLA;Plantilla de taladrado de la virola (utillaje);utillaje;1;chapa de acero e3;corte láser + plegado (utillaje, no va con el producto);;851 x 79.5;;1;10;2112.0;1.582;1.582;El labio plegado se apoya en el canto cortado: referencia sin medir

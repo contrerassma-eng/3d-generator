@@ -1,0 +1,126 @@
+[
+  {
+    "id": "tambor200_diametro",
+    "claim": "Tambor de acero 200 L / 55 gal — diámetro exterior del cuerpo",
+    "value": 572,
+    "unit": "mm",
+    "url": "https://www.repackify.com/blog/55-gallon-drum-dimensions",
+    "accessed": "2026-09-06",
+    "quote": "22.5\" in diameter (572 mm)",
+    "confidence": "alta"
+  },
+  {
+    "id": "tambor200_altura",
+    "claim": "Tambor de acero 200 L / 55 gal — altura total (= largo de la parrilla al cortarlo longitudinalmente)",
+    "value": 851,
+    "unit": "mm",
+    "url": "https://www.repackify.com/blog/55-gallon-drum-dimensions",
+    "accessed": "2026-09-06",
+    "quote": "33.5\" tall",
+    "confidence": "alta"
+  },
+  {
+    "id": "tambor200_capacidad",
+    "claim": "Tambor de acero 55 gal — capacidad nominal",
+    "value": 208,
+    "unit": "L",
+    "url": "https://www.repackify.com/blog/55-gallon-drum-dimensions",
+    "accessed": "2026-09-06",
+    "quote": "55 U.S. gal / 208 L",
+    "confidence": "alta"
+  },
+  {
+    "id": "tambor200_espesor",
+    "claim": "Tambor de acero 55 gal (Greif, tapa fija) — espesor de chapa del cuerpo, tapa y fondo",
+    "value": 1.1,
+    "unit": "mm",
+    "url": "https://containerauthority.com/steel-drums/greif-55-gallon-tight-head-unlined-steel-drum-un-rated-1a2-y1-5-150-sealed-top-with-2-npt-plug-and-3-4-plug-tops-do-not-remove-on-tight-head-drums-black-drum-body-bottom-white-tops-with-epdm-gaskets/",
+    "accessed": "2026-09-06",
+    "quote": "Steel Thickness Body: 1.10 mm ... Steel Thickness Top: 1.10 mm ... Steel Thickness Bottom: 1.10 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "tambor200_peso_vacio",
+    "claim": "Tambor de acero 55 gal (Greif, tapa fija) — peso vacío",
+    "value": 19.5,
+    "unit": "kg",
+    "url": "https://containerauthority.com/steel-drums/greif-55-gallon-tight-head-unlined-steel-drum-un-rated-1a2-y1-5-150-sealed-top-with-2-npt-plug-and-3-4-plug-tops-do-not-remove-on-tight-head-drums-black-drum-body-bottom-white-tops-with-epdm-gaskets/",
+    "accessed": "2026-09-06",
+    "quote": "Empty Weight: 43 lbs.",
+    "confidence": "alta",
+    "nota": "43 lb = 19.5 kg. Cada mitad del tambor pesa aprox. la mitad."
+  },
+  {
+    "id": "tambor200_nervios",
+    "claim": "El tambor de 200 L lleva nervios de rodadura en el cuerpo para rigidizarlo",
+    "value": null,
+    "unit": null,
+    "url": "https://www.embtec.com.br/br/noticias/interna/o-que-e-tambor-200-litros-216",
+    "accessed": "2026-09-06",
+    "quote": "normalmente é fabricado em aço com uma parede externa nervurada para melhorar a rigidez e para o rolamento",
+    "confidence": "media",
+    "nota": "Nº y posición de los nervios no publicados: se modelan 2 nervios a ±22 % del largo (capa user, verificar contra el tambor real)."
+  },
+  {
+    "id": "motor_spiedo_rpm",
+    "claim": "Motor de spiedo (\"tipo speedo\") comercial — velocidad de giro",
+    "value": 2.5,
+    "unit": "rpm",
+    "url": "https://www.asadoresnewen.cl/motor-spiedo-80-kilos-25-rpm",
+    "accessed": "2026-09-06",
+    "quote": "Velocidad: Fija de 2,5 RPM",
+    "confidence": "alta"
+  },
+  {
+    "id": "motor_spiedo_electrico",
+    "claim": "Motor de spiedo comercial — tensión y potencia",
+    "value": 40,
+    "unit": "W",
+    "url": "https://www.asadoresnewen.cl/motor-spiedo-80-kilos-25-rpm",
+    "accessed": "2026-09-06",
+    "quote": "Voltaje: 220 v ... Potencia: 40 W",
+    "confidence": "alta"
+  },
+  {
+    "id": "motor_spiedo_carga",
+    "claim": "Motor de spiedo comercial — capacidad de carga en el espetón",
+    "value": 80,
+    "unit": "kg",
+    "url": "https://www.asadoresnewen.cl/motor-spiedo-80-kilos-25-rpm",
+    "accessed": "2026-09-06",
+    "quote": "soporta una capacidad de 80 kilos",
+    "confidence": "alta",
+    "nota": "Muy por encima de lo que exige esta parrilla (carga útil de diseño 15 kg): el motor no es el eslabón crítico."
+  },
+  {
+    "id": "motor_spiedo_eje",
+    "claim": "Motor de spiedo comercial — diámetro del eje de salida",
+    "value": 8,
+    "unit": "mm",
+    "url": "https://www.asadoresnewen.cl/motor-spiedo-80-kilos-25-rpm",
+    "accessed": "2026-09-06",
+    "quote": "Eje central: 8mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "roble_densidad",
+    "claim": "Roble blanco americano (Quercus alba) — densidad seca al 12 % de humedad",
+    "value": 755,
+    "unit": "kg/m3",
+    "url": "https://www.wood-database.com/white-oak/",
+    "accessed": "2026-09-06",
+    "quote": "Average Dried Weight: 47.0 lbs/ft3 (755 kg/m3)",
+    "confidence": "alta"
+  },
+  {
+    "id": "roble_durabilidad",
+    "claim": "Roble blanco — durabilidad frente a la pudrición (relevante para uso a la intemperie)",
+    "value": null,
+    "unit": null,
+    "url": "https://www.wood-database.com/white-oak/",
+    "accessed": "2026-09-06",
+    "quote": "Rot Resistance: Rated as very durable; frequently used in boatbuilding and tight cooperage applications.",
+    "confidence": "alta",
+    "nota": "Justifica el roble a la intemperie con aceite; no lo exime de mantención anual."
+  }
+]

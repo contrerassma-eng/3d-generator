@@ -1,0 +1,27 @@
+{
+  "project": "YT0100-parrilla-tambor",
+  "stage": "S0_PENDIENTE",
+  "gates": {
+    "G6": {
+      "verdict": "PASA",
+      "metrics": {
+        "laminas": 1,
+        "vistas": [
+          "alzado",
+          "planta",
+          "perfil",
+          "isometrica"
+        ],
+        "escala_certificada": true,
+        "factor_escala": 1.0,
+        "dxf": "out/drawings/parrilla_tambor.dxf",
+        "pdf": "out/drawings/parrilla_tambor.pdf",
+        "hash_dxf": "sha256:0624411d235b57a196e4a692b4416c093ca58e93d331a82336a4927007097c5d",
+        "hash_pdf": "sha256:787003e0a5b67fbb9da7e4af7ee45b44a1886099d8a70a92ce6ab72d13b3d4d5"
+      },
+      "reasons": [],
+      "ts": "2026-09-06T20:51:25+00:00"
+    }
+  },
+  "updated": "2026-09-06T20:51:25+00:00"
+}
