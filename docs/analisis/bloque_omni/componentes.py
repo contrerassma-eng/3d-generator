@@ -215,3 +215,94 @@ if __name__ == '__main__':
             cq.exporters.export(s, os.path.join(DIR, f'{pre}_M{m}.step'))
         print(f'  tuerca + arandelas M{m}')
     print('componentes de tornilleria listos en', DIR)
+
+
+# ================= POLY-V (perfil J) — pedido de Sergio 06-09 =================
+# "Usa Poly-V, y ojo: de motor a polea debe tener mas envolvente. Correa solo
+#  de DOS poleas, no 3; para polea-polea usar otra correa."
+#
+# Con dos poleas IGUALES el abrazamiento es 180 grados en las dos, que es el
+# maximo posible: no hay forma de tener mas envolvente que esa.
+#
+# Perfil J (ISO 9982): paso entre nervios 2.34, angulo 40 grados, garganta de
+# polea 2.4 de profundidad. La correa lleva los nervios por dentro y el dorso
+# liso por fuera (por ahi la aprieta el tensor).
+PJ_E, PJ_ANG, PJ_H = 2.34, 40.0, 2.4        # paso · angulo incluido · garganta
+PJ_NERV, PJ_DORSO = 2.2, 1.8                 # alto del nervio · dorso de correa
+PJ_LAND = PJ_E - 2 * PJ_H * tan(radians(PJ_ANG / 2))     # meseta entre gargantas
+
+
+def _meridiano_polea(R, ribs, ancho, r_int):
+    """seccion meridiana de una polea Poly-V (r, y), con sus gargantas en V"""
+    y0 = -(ribs - 1) * PJ_E / 2
+    pts = [(r_int, -ancho / 2), (R, -ancho / 2)]
+    for i in range(ribs):
+        yc = y0 + i * PJ_E
+        half = PJ_H * tan(radians(PJ_ANG / 2))
+        pts += [(R, yc - half), (R - PJ_H, yc), (R, yc + half)]
+    pts += [(R, ancho / 2), (r_int, ancho / 2)]
+    return pts
+
+
+def polea_polyv(dp=34.0, ribs=6, ancho=16.0, barreno='hex', cubo='no'):
+    """Polea Poly-V PJ con sus gargantas reales, eje segun +Y."""
+    R = dp / 2
+    r_int = 8.0
+    s = (cq.Workplane("XY").polyline(_meridiano_polea(R, ribs, ancho, r_int))
+         .close().revolve(360, (0, 0, 0), (0, 1, 0)))
+    if cubo == 'largo':          # alcanza el eje corto del motor del 2o plano
+        s = s.union(cq.Workplane("XY")
+                    .polyline([(r_int, ancho / 2), (11.0, ancho / 2),
+                               (11.0, ancho / 2 + 20.0), (r_int, ancho / 2 + 20.0)])
+                    .close().revolve(360, (0, 0, 0), (0, 1, 0)))
+    if barreno == 'hex':
+        s = s.cut(cq.Workplane("XZ").polygon(6, 12.85 / cos(radians(30)))
+                  .extrude(120).translate((0, 60, 0)))
+    else:
+        s = s.cut(cq.Workplane("XZ").circle(10.0 / 2 + 0.02).extrude(120)
+                  .translate((0, 60, 0)))
+    # prisionero M4 radial
+    s = s.cut(cq.Workplane("XY").circle(1.7).extrude(20)
+              .translate((0, -ancho / 2 + 3.0 if cubo == 'no' else ancho / 2 + 8.0, 0)))
+    return s
+
+
+def _seccion_correa(Re, ribs, W):
+    """seccion de la correa (r, y): dorso liso fuera, nervios en V dentro"""
+    y0 = -(ribs - 1) * PJ_E / 2
+    half = PJ_NERV * tan(radians(PJ_ANG / 2))
+    pts = [(Re + PJ_DORSO, -W / 2), (Re + PJ_DORSO, W / 2), (Re, W / 2)]
+    for i in range(ribs - 1, -1, -1):
+        yc = y0 + i * PJ_E
+        pts += [(Re, yc + half), (Re - PJ_NERV, yc), (Re, yc - half)]
+    pts += [(Re, -W / 2)]
+    return pts
+
+
+def correa_polyv(C, dp=34.0, ribs=6):
+    """Correa Poly-V de DOS poleas iguales, en el plano XZ con los centros en
+    (0,0) y (C,0): dos tramos rectos + dos medias vueltas de 180 grados.
+    Devuelve (solido, longitud primitiva)."""
+    Re = dp / 2
+    W = ribs * PJ_E
+    sec = _seccion_correa(Re, ribs, W)
+    # medias vueltas: revolucion completa recortada a la mitad exterior
+    def media(xc, signo):
+        t = (cq.Workplane("XY").polyline(sec).close()
+             .revolve(360, (0, 0, 0), (0, 1, 0)).translate((xc, 0, 0)))
+        caja = cq.Workplane("XY").box(200, 200, 200, centered=(False, True, True))
+        caja = caja.rotate((0, 0, 0), (0, 0, 1), 0)
+        if signo > 0:
+            caja = caja.translate((xc, 0, 0))
+        else:
+            caja = caja.translate((xc - 200, 0, 0))
+        return t.intersect(caja)
+    s = media(0.0, -1).union(media(C, +1))
+    # tramos rectos arriba y abajo
+    for sg in (+1, -1):
+        pts = [(y, sg * r) for r, y in sec]          # (y, z) de la seccion
+        recto = (cq.Workplane("YZ").polyline(pts).close().extrude(C)
+                 .translate((0, 0, 0)))
+        s = s.union(recto)
+    L = 2 * C + pi * dp
+    return s, L

@@ -58,7 +58,7 @@ G = {'der': Y_RAIL_EXT - 1.5 - POL_W / 2,               # -125.5
 PEDESTAL = {'der': 0.0,
             'izq': (G['izq'] + POL_W / 2) - (Y_RAIL_EXT - M_EJE_L) + 3.0}
 EJE_AF, MUNON_D = 12.7, 12.0
-Y_MUNON_FIN = G['izq'] - POL_W / 2 - 6.0        # -152.5
+Y_MUNON_FIN = -158.0        # alcanza el 2o plano Poly-V del lado cercano
 
 
 def tubo(ro, ri, ya, yb):
@@ -119,7 +119,7 @@ def polea_htd(y_centro, barreno='hex', cubo='fuera'):
     return s
 
 
-def eje_hex(y_int_pos=215.75, munon_lejano=36.0):
+def eje_hex(y_int_pos=215.75, munon_lejano=46.0):
     """eje hex 1/2" con muñon LARGO al lado motriz: atraviesa el F6801 y
     sobresale para la polea en voladizo corto."""
     y0 = Y_RAIL_INT - 0.25

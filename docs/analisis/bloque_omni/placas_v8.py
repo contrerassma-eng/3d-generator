@@ -43,7 +43,7 @@ def riel(sy):
                     .extrude(60).translate((0, y0 + 40,
                                             (pf.RAIL_Z0 + pf.RAIL_Z1 + 40) / 2)))
     for x in X_EJES:
-        s = s.cut(cq.Workplane("XZ").circle(21.0 / 2).extrude(40)
+        s = s.cut(cq.Workplane("XZ").circle(pf.ROD_OD / 2).extrude(40)
                   .translate((x, y0 + 20, Z_EJE)))
     for xm in (X_MOTOR['der'], X_MOTOR['izq']):
         s = s.cut(cq.Workplane("XZ").circle(39.2 / 2).extrude(40)
@@ -70,7 +70,7 @@ def riel(sy):
     # en el cercano quedan como aligeramiento, el riel es la misma pieza)
     for xt in X_TENSOR:
         for sx in (-1, 1):
-            s = s.cut(colisa("XZ", 8.5, 32.0, 90).extrude(40)
+            s = s.cut(colisa("XZ", 8.5, 26.0, 90).extrude(40)
                       .translate((sx * xt, y0 + 20, Z_TENSOR)))
     ya = yc + fuera * (pf.ALA - 4.0)      # centro del tramo plano del ala
     for x in X_TAPA:
@@ -132,39 +132,38 @@ def placa_base():
         for y in (-10.0, 70.0, 150.0):
             s = s.cut(colisa("XY", pf.VENT_W, pf.VENT_L, 90).extrude(20)
                       .translate((x, y, pf.Z_BASE0 - 1)))
-    for x in (-160.0, 160.0):
+    for x in (-120.0, 120.0):
         s = s.cut(cq.Workplane("XY").circle(pf.GROMMET_D / 2).extrude(20)
                   .translate((x, -140.0, pf.Z_BASE0 - 1)))
     for x in (-278.0, 278.0):
         for y in (-140.0, 208.0):
             s = s.cut(cq.Workplane("XY").circle(5.5).extrude(20)
                       .translate((x, y, pf.Z_BASE0 - 1)))
-    for dx in pf.X_CUNA_PIE:
-        s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)
-                  .translate((dx, pf.Y_CUNA + 22.0, pf.Z_BASE0 - 1)))
+    for xm in (X_MOTOR['der'], X_MOTOR['izq']):
+        for dx in pf.X_CUNA_PIE:
+            s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)
+                      .translate((xm + dx, pf.Y_CUNA + 22.0, pf.Z_BASE0 - 1)))
     return s, chapa.desarrollo(pts, t)
 
 
 def cuna_motores():
-    """UNA sola cuna de 8 mm para LOS DOS motores: con el motor entre los dos
-    ejes centrales de su familia, los dos quedan juntos en el centro del
-    modulo, asi que una unica placa con dos sillas 61x61 los toma a ambos.
-    Va plegada (radio interior 8 en chapa de 8)."""
+    """Cuna del motor: 8 mm, plegada (radio interior 8). Con el motor entrando
+    por un extremo de la cadena, los dos motores quedan lejos uno de otro, asi
+    que vuelve a ser UNA pieza por motor (la misma, dos instancias)."""
     tc = pf.MOT_PLACA_T
     y_v = pf.Y_CUNA + tc / 2
     z_h = pf.Z_BASE1 + tc / 2
-    ancho = 200.0
+    ancho = 120.0
     pts = [(y_v, 47.0), (y_v, z_h), (y_v + 44.0, z_h)]
     s = chapa.plegada(pts, tc, ancho, "YZ", R=8.0).translate((-ancho / 2, 0, 0))
     s = s.intersect(cq.Workplane("XY").rect(ancho, 400.0).extrude(300)
                     .translate((0, 0, -150)))
-    for xm in (X_MOTOR['der'], X_MOTOR['izq']):
-        s = s.cut(rrect("XZ", 61.0, 61.0, 6.0).extrude(30)
-                  .translate((xm, y_v + 15, ZM)))
-        s = s.cut(colisa("XZ", 26.0, 40.0, 90).extrude(30)
-                  .translate((xm, y_v + 15, ZM - 34.0)))
-    for dx in (-88.0, 88.0):
-        s = s.cut(colisa("XZ", 14.0, 40.0, 90).extrude(30)
+    s = s.cut(rrect("XZ", 61.0, 61.0, 6.0).extrude(30)
+              .translate((0, y_v + 15, ZM)))
+    s = s.cut(colisa("XZ", 26.0, 40.0, 90).extrude(30)
+              .translate((0, y_v + 15, ZM - 34.0)))
+    for dx in (-44.0, 44.0):
+        s = s.cut(colisa("XZ", 16.0, 44.0, 90).extrude(30)
                   .translate((dx, y_v + 15, ZM + 4.0)))
     for dx in pf.X_CUNA_PIE:
         s = s.cut(colisa("XY", pf.COL_W, 26.0, 90).extrude(20)

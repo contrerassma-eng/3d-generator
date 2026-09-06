@@ -17,47 +17,59 @@ sola vez, con el detalle completo.
 su sitio. Lo que se ve en el ensamble es exactamente el archivo de la pieza.
 
 Eso funciona porque el exportador STEP guarda **un producto por pieza única y N
-instancias**: 489 piezas salen de 33 referencias, en 57.7 MB.
+instancias**: 470 piezas salen de 32 referencias, en 49.1 MB.
 
-## ⚠ La transmisión estaba MAL y se rehizo (06-09)
+## ⚠ La transmisión: dos correcciones seguidas (06-09)
 
-> Sergio: *"las correas no siguen trayectoria lógica, no tienen sentido.
-> Repara, revisando antes de enviar."*
+**Primera** — Sergio: *"las correas no siguen trayectoria lógica, no tienen
+sentido"*. Yo trazaba una correa por familia como **envolvente convexa de sus
+5 poleas**; como las 4 poleas de eje están a la misma altura, la recta superior
+las tocaba tangencialmente y las dos centrales quedaban con **abrazamiento 0°**.
+Una correa con 0° no transmite nada.
 
-Tenía razón, y el error era de fondo. Yo trazaba **una sola correa por familia
-como ENVOLVENTE CONVEXA de sus 5 poleas**. Como las 4 poleas de eje están todas
-a la misma altura (z = 83.1), la recta superior de esa envolvente las tocaba
-**tangencialmente**: las dos poleas centrales quedaban con **abrazamiento 0°**.
-Una correa dentada con 0° de abrazamiento no transmite absolutamente nada. Era
-un dibujo, no una transmisión.
+**Segunda** — Sergio: *"usa Poly-V, y ojo: de motor a polea debe tener más
+envolvente. Correa solo de DOS poleas, no 3; para polea-polea usar otra
+correa"*. Ahora **todas las correas son de dos poleas iguales**, lo que da
+**180° de abrazamiento en las dos** — el máximo posible, no hay más envolvente
+que esa.
 
-Ahora es la **cascada** que pediste desde el principio (*"poleas transmite de
-motor a dos rodillos y esos 2 a los demás"*), que además es lo que hace
-cualquier transportador de rodillos:
+### Cómo queda encadenada
 
-| Lado | Correa | Poleas | Abrazamiento |
-|---|---|---|---|
-| **Cercano** | 1 por familia | motor + los **dos ejes centrales** de su familia (el motor va justo entre ambos, así que forman triángulo) | motor **101.6°**, ejes **129.2°** |
-| **Lejano** | 2 por familia | eje central → eje extremo | **180° / 180°** |
+La familia arranca por el eje del **extremo** y los lados van **alternando**,
+así que cada eje lleva como mucho dos poleas, **una en cada punta**, y basta
+**un plano de correa por lado y familia**:
 
-**6 correas, 2 referencias**: la de motor (97 dientes → **HTD 5M-485-09**) y la
-de eje-eje (79 dientes → **5M-400-09**), las dos de catálogo.
+| # | Correa | Lado | Entre-ejes | Abrazamiento |
+|---|---|---|---|---|
+| 1 | motor → eje 1 | cercano | 99.02 mm | 180° / 180° |
+| 2 | eje 1 → eje 2 | lejano | 149.5 mm | 180° / 180° |
+| 3 | eje 2 → eje 3 | cercano | 149.5 mm | 180° / 180° |
+| 4 | eje 3 → eje 4 | lejano | 149.5 mm | 180° / 180° |
 
-Cada eje lleva como mucho **dos poleas, una en cada punta**, así que bastan
-**dos planos de correa por lado** y el voladizo sobre el rodamiento se queda en
-**23 mm** (antes eran 10–25 con una sola correa que no funcionaba).
+**8 correas de solo 2 referencias**: `6PJ 305` (motor) y `6PJ 406` (eje-eje),
+las dos de catálogo. Tensado: las de motor deslizando el motor en sus colisas;
+las de eje con un tensor que aprieta el **dorso** del ramal flojo.
 
-### Lo que apareció al verificar, y se corrigió
+### Poly-V PJ, con su perfil real
 
-| Hallazgo | Corrección |
+Paso entre nervios **2.34**, ángulo **40°**, garganta de polea **2.4** de
+profundidad, **6 nervios** (14.04 mm de ancho de nervios, polea de 16).
+Poleas **Ø34**: es el diámetro más grande que cabe — con Ø36 la corona de la
+correa toca el ala plegada del riel. Luz real medida: **1.20 mm**.
+
+### El rodamiento queda decidido por el propio Poly-V
+
+El Poly-V transmite por fricción, así que necesita pretensión (≈1.8× la fuerza
+efectiva). La carga en el rodamiento próximo sube a **345 N**:
+
+| Rodamiento | L10 |
 |---|---|
-| El **cubo** de las poleas de eje invadía el plano de correa contiguo (3 mm de interferencia real, medido) | Las poleas de eje pasan a **sin cubo**: llevan barreno hexagonal, el hexágono ya toma el par y los separadores las sitúan |
-| La **pestaña de guiado** miraba hacia el riel y lo tocaba | Solo las **4 poleas extremas** de las correas eje-eje llevan pestaña, y mira **hacia fuera**, donde no hay nada |
-| El eje no llegaba a los planos lejanos | Muñón lejano de 10 → **36 mm** (el eje va de y −151.7 a +251.0) |
+| F6801ZZ 12×21×5 | **3 200 h** ✗ |
+| **6001-2RS 12×28×8** | **180 500 h** ✓ |
 
-**Holgura ajustada que hay que vigilar**: la correa llega a z = 102.0 y la cara
-inferior del ala plegada del riel está en z = 103.1 → **1.06 mm**. Cabe, pero es
-lo más justo de todo el módulo.
+Con Poly-V el F6801 ya no es una opción, así que **el módulo pasa al
+6001-2RS**. Lo único que cuesta es agrandar el alojamiento del riel de Ø21 a
+Ø28; el eje sigue siendo Ø12 y el riel sigue siendo una sola pieza.
 
 ## Esquema de materiales (05-09)
 

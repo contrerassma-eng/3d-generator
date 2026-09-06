@@ -22,7 +22,7 @@
 
 import cadquery as cq
 import numpy as np
-from math import degrees, acos, cos, radians
+from math import degrees, acos, cos, radians, atan2
 import os, sys, time, shutil
 
 import tren_motriz as tm
@@ -40,11 +40,17 @@ Y_BRIDA = pf.Y_RAIL_INT
 HUB_LARGO = 13.0
 DESARROLLOS = {}
 
-# correas canonicas (en el origen): una de motor y una de eje-eje
-DX = pf.PASO                                    # 74.75 entre eje y motor
-DZ = pf.Z_EJE - pf.ZM
-CANON = {'motor': dict(poleas=[(0.0, 0.0), (-DX, DZ), (DX, DZ)]),
-         'eje': dict(poleas=[(-DX, 0.0), (DX, 0.0)])}
+# los dos entre-ejes que hay: motor->1er eje y eje->eje
+C_MOTOR = pf.centro([c for c in pf.CORREAS if c['tipo'] == 'motor'][0])
+C_EJE = pf.centro([c for c in pf.CORREAS if c['tipo'] == 'eje'][0])
+
+
+def loc_correa(c, y):
+    """coloca la correa canonica (centros en (0,0) y (C,0)) sobre sus poleas"""
+    (x0, z0), (x1, z1) = c['poleas']
+    ang = degrees(atan2(z1 - z0, x1 - x0))
+    return (cq.Location(cq.Vector(x0, y, z0)) *
+            cq.Location(cq.Vector(0, 0, 0), cq.Vector(0, 1, 0), -ang))
 
 
 # ======================= PASO 1: componentes =======================
@@ -55,13 +61,15 @@ def tubo(ro, ri, ya, yb):
     return w.extrude(yb - ya).translate((0, yb, 0))
 
 
-def rodamiento_f6801():
-    """F6801ZZ 12x21x5 modelado a cota (aros, tapas ZZ y chaflanes)."""
-    s = tubo(21.0 / 2, 17.4 / 2, 0, 5.0)
-    s = s.union(tubo(23.2 / 2, 17.4 / 2, -1.0, 0))
-    s = s.union(tubo(15.0 / 2, 12.0 / 2, 0, 5.0))
-    for f in (0.3, 4.2):
-        s = s.union(tubo(17.3 / 2, 15.1 / 2, f, f + 0.5))
+def rodamiento_6001():
+    """6001-2RS 12x28x8. Con Poly-V la pretension sube y el F6801 se queda en
+    3.2 mil horas; el 6001 da 180 mil. Cuesta agrandar el alojamiento del riel
+    de O21 a O28 y nada mas: el eje sigue siendo O12."""
+    B, OD, ID = 8.0, 28.0, 12.0
+    s = tubo(OD / 2, OD / 2 - 3.4, 0, B)              # aro exterior
+    s = s.union(tubo(ID / 2 + 3.2, ID / 2, 0, B))     # aro interior
+    for f in (0.6, B - 1.4):                          # tapas 2RS
+        s = s.union(tubo(OD / 2 - 3.5, ID / 2 + 3.3, f, f + 0.8))
     return s
 
 
@@ -98,28 +106,20 @@ def exportar_componentes():
     cq.exporters.export(tm.eje_hex(), S('EJE_HEX_1_2_pulgada'))
     cq.exporters.export(pf.separadores(0).translate((-pf.X_EJES[0], 0, -pf.Z_EJE)),
                         S('SEPARADORES_HEX_eje'))
-    cq.exporters.export(tm.polea_htd(0.0, cubo='no'), S('POLEA_HTD5M_20T_hex'))
-    cq.exporters.export(tm.polea_htd(0.0, cubo='pestana'),
-                        S('POLEA_HTD5M_20T_hex_pestana'))
-    cq.exporters.export(tm.polea_htd(0.0, 'D', 'fuera'),
-                        S('POLEA_HTD5M_20T_motor'))
-    cq.exporters.export(tm.polea_htd(0.0, 'D', 'dentro')
-                        .union(tubo(11.0, tm.M_EJE_D / 2 + 0.02,
-                                    tm.POL_W / 2 + tm.POL_PEST,
-                                    tm.POL_W / 2 + tm.POL_PEST + HUB_LARGO)),
-                        S('POLEA_HTD5M_20T_motor_cubo_largo'))
-    cq.exporters.export(rodamiento_f6801(), S('RODAMIENTO_F6801ZZ'))
+    cq.exporters.export(C.polea_polyv(barreno='hex'), S('POLEA_POLYV_6PJ_hex'))
+    cq.exporters.export(C.polea_polyv(barreno='D'), S('POLEA_POLYV_6PJ_motor'))
+    cq.exporters.export(C.polea_polyv(barreno='D', cubo='largo'),
+                        S('POLEA_POLYV_6PJ_motor_cubo_largo'))
+    cq.exporters.export(rodamiento_6001(), S('RODAMIENTO_6001_2RS'))
     cq.exporters.export(tensor(), S('TENSOR_rodillo'))
     print('  transmision: eje, separadores, 2 poleas, rodamiento, tensor')
 
-    # correas con dientes reales: solo DOS referencias, porque las 4 correas
-    # eje-eje son iguales (C=149.5) y las 2 de motor tambien (mismo triangulo)
-    for nm, cor in (('CORREA_HTD5M_09_MOTOR', CANON['motor']),
-                    ('CORREA_HTD5M_09_EJE', CANON['eje'])):
-        s, n, L = C.correa_htd(pf.envolvente(cor))
+    # correas Poly-V: DOS referencias, todas de dos poleas iguales -> 180 deg
+    for nm, Cd in (('CORREA_POLYV_6PJ_MOTOR', C_MOTOR), ('CORREA_POLYV_6PJ_EJE', C_EJE)):
+        s, L = C.correa_polyv(Cd, pf.POL_DP, pf.POL_RIBS)
         cq.exporters.export(s, S(nm))
-        ab = ' / '.join(f'{a:.0f}' for a in pf.abrazamiento(cor))
-        print(f'  {nm}: {n} dientes · L {L:.1f} mm · abrazamiento {ab} grados')
+        print(f'  {nm}: entre-ejes {Cd:.2f} · L primitiva {L:.1f} mm '
+              f'({L/2.34:.0f} pasos PJ) · abrazamiento 180/180 grados')
 
     # motor oficial y ruedas: se COPIAN tal cual sus STEP
     shutil.copy(os.path.join(OUT, 'NEMA24_UP', 'NEMA-24_stepperOnline.STEP'),
@@ -176,17 +176,16 @@ INOX = cq.Color(0.72, 0.73, 0.75)              # acero inoxidable
 COLOR = {
     'RUEDA_MECANUM64_v9_der': NEGRO_MATE,
     'RUEDA_MECANUM64_v9_izq': NEGRO_MATE,
-    'POLEA_HTD5M_20T_hex': NEGRO_MATE,
-    'POLEA_HTD5M_20T_hex_pestana': NEGRO_MATE,
-    'POLEA_HTD5M_20T_motor': NEGRO_MATE,
-    'POLEA_HTD5M_20T_motor_cubo_largo': NEGRO_MATE,
+    'POLEA_POLYV_6PJ_hex': NEGRO_MATE,
+    'POLEA_POLYV_6PJ_motor': NEGRO_MATE,
+    'POLEA_POLYV_6PJ_motor_cubo_largo': NEGRO_MATE,
     'TENSOR_rodillo': NEGRO_MATE,
-    'CORREA_HTD5M_09_MOTOR': cq.Color(0.09, 0.09, 0.10),
-    'CORREA_HTD5M_09_EJE': cq.Color(0.09, 0.09, 0.10),
+    'CORREA_POLYV_6PJ_MOTOR': cq.Color(0.09, 0.09, 0.10),
+    'CORREA_POLYV_6PJ_EJE': cq.Color(0.09, 0.09, 0.10),
     'CHAPA_TAPA_SUPERIOR_3mm': NEGRO_TAPA,
     'CHAPA_TAPA_CIEGA_3mm': NEGRO_TAPA,
     'MOTOR_NEMA24_stepperOnline': cq.Color(0.30, 0.32, 0.35),
-    'RODAMIENTO_F6801ZZ': cq.Color(0.78, 0.79, 0.81),
+    'RODAMIENTO_6001_2RS': cq.Color(0.78, 0.79, 0.81),
     'SEPARADORES_HEX_eje': INOX,
     'EJE_HEX_1_2_pulgada': INOX,
 }
@@ -272,15 +271,17 @@ def ensamble(con_ruedas=True, con_tapa_ciega=False):
                               (xt, sy * (pf.CARA_INT + 2.0), pf.Z_PESTANA + 2.0),
                               (0, 0, 1), 12.0, 'TORNILLO_DIN912_M8x35', 8.0)
 
-    # motores, cuna comun y TRANSMISION EN CASCADA
-    _add(a, 'CHAPA_CUNA_MOTORES_8mm', 'cuna_motores', cq.Location())
-    for dx in pf.X_CUNA_PIE:
-        union_atornillada(a, f'M6cb_{dx:.0f}',
-                          (dx, pf.Y_CUNA + 22.0, pf.Z_BASE1 + pf.MOT_PLACA_T),
-                          (0, 0, 1), pf.MOT_PLACA_T + pf.RAIL_T,
-                          'TORNILLO_DIN912_M6x20', 6.0, tuerca=False)
+    # motores, sus cunas y la TRANSMISION POLY-V EN CADENA
     for h in ('der', 'izq'):
         xm = pf.X_MOTOR[h]
+        _add(a, 'CHAPA_CUNA_MOTORES_8mm', f'cuna_motor_{h}',
+             cq.Location(cq.Vector(xm, 0, 0)))
+        for dx in pf.X_CUNA_PIE:
+            union_atornillada(a, f'M6cb_{h}_{dx:.0f}',
+                              (xm + dx, pf.Y_CUNA + 22.0,
+                               pf.Z_BASE1 + pf.MOT_PLACA_T), (0, 0, 1),
+                              pf.MOT_PLACA_T + pf.RAIL_T,
+                              'TORNILLO_DIN912_M6x20', 6.0, tuerca=False)
         _add(a, 'MOTOR_NEMA24_stepperOnline', f'motor_NEMA24_{h}',
              cq.Location(cq.Vector(xm, Y_BRIDA + 11.95, pf.ZM)) *
              cq.Location(cq.Vector(0, 0, 0), cq.Vector(1, 0, 0), 90) *
@@ -291,30 +292,27 @@ def ensamble(con_ruedas=True, con_tapa_ciega=False):
                                   (xm + dx, pf.Y_RAIL_EXT, pf.ZM + dz),
                                   (0, -1, 0), 0, 'TORNILLO_DIN912_M5x8', 5.0,
                                   tuerca=False)
-        # la polea del plano lejano necesita cubo largo para alcanzar el eje
         yN = pf.PLANO[h]['N']
-        pol = ('POLEA_HTD5M_20T_motor_cubo_largo'
-               if abs(yN) > abs(pf.PLANO['der']['N']) else 'POLEA_HTD5M_20T_motor')
+        pol = ('POLEA_POLYV_6PJ_motor_cubo_largo'
+               if abs(yN) > abs(pf.PLANO['der']['N']) else 'POLEA_POLYV_6PJ_motor')
         _add(a, pol, f'polea_motor_{h}', cq.Location(cq.Vector(xm, yN, pf.ZM)))
 
-    # las 6 correas, cada una instanciada de su referencia
+    # las 8 correas, todas de DOS poleas iguales -> 180 grados de abrazamiento
     for i, c in enumerate(pf.CORREAS):
         y = pf.PLANO[c['fam']][c['lado']]
-        if c['tipo'] == 'motor':
-            _add(a, 'CORREA_HTD5M_09_MOTOR', f"correa_motor_{c['fam']}",
-                 cq.Location(cq.Vector(pf.X_MOTOR[c['fam']], y, pf.ZM)))
-        else:
-            xc = (c['poleas'][0][0] + c['poleas'][1][0]) / 2
-            _add(a, 'CORREA_HTD5M_09_EJE', f"correa_eje_{c['fam']}{i}",
-                 cq.Location(cq.Vector(xc, y, pf.Z_EJE)))
-    # tensores de las correas eje-eje, sobre colisa vertical del riel lejano
+        nm = ('CORREA_POLYV_6PJ_MOTOR' if c['tipo'] == 'motor'
+              else 'CORREA_POLYV_6PJ_EJE')
+        _add(a, nm, f"correa_{c['tipo']}_{c['fam']}{i}", loc_correa(c, y))
+    # tensores: aprietan el DORSO del ramal flojo de cada correa eje-eje
     for j, t in enumerate(pf.TENSORES):
         y = pf.PLANO[t['fam']][t['lado']]
         _add(a, 'TENSOR_rodillo', f"tensor_{t['fam']}{j}",
              cq.Location(cq.Vector(t['x'], y, t['z'])))
-        union_atornillada(a, f"M8ten_{j}",
-                          (t['x'], pf.Y_RAIL_P + pf.RAIL_T / 2, t['z']),
-                          (0, 1, 0), pf.RAIL_T, 'TORNILLO_DIN912_M8x35', 8.0)
+        y_riel = (pf.Y_RAIL_EXT if t['lado'] == 'N'
+                  else pf.Y_RAIL_P + pf.RAIL_T / 2)
+        u = (0, -1, 0) if t['lado'] == 'N' else (0, 1, 0)
+        union_atornillada(a, f"M8ten_{j}", (t['x'], y_riel, t['z']), u,
+                          pf.RAIL_T, 'TORNILLO_DIN912_M8x35', 8.0)
 
     # ejes, separadores, poleas de eje, rodamientos y las 32 ruedas
     for k in range(pf.NEJES):
@@ -324,22 +322,13 @@ def ensamble(con_ruedas=True, con_tapa_ciega=False):
         _add(a, 'SEPARADORES_HEX_eje', f'separadores_{k}',
              cq.Location(cq.Vector(x, 0, pf.Z_EJE)))
         for j, y in enumerate(pf.POLEAS_EJE[k]):
-            # solo las poleas EXTREMAS de cada correa eje-eje llevan pestana
-            # (una por correa basta para guiar); las demas van lisas para no
-            # invadir el plano de correa vecino
-            con_pest = (k, round(y, 1)) in pf.POLEAS_CON_PESTANA
-            nm = ('POLEA_HTD5M_20T_hex_pestana' if con_pest
-                  else 'POLEA_HTD5M_20T_hex')
-            gira = (y < 0) if con_pest else False   # la pestana mira SIEMPRE hacia fuera
-            _add(a, nm, f'polea_eje_{k}_{j}',
-                 cq.Location(cq.Vector(x, y, pf.Z_EJE)) *
-                 (cq.Location(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), 180)
-                  if gira else cq.Location()))
+            _add(a, 'POLEA_POLYV_6PJ_hex', f'polea_eje_{k}_{j}',
+                 cq.Location(cq.Vector(x, y, pf.Z_EJE)))
             _add(a, 'TORNILLO_DIN912_M4x10', f'prisionero_{k}_{j}',
-                 loc((x + 11.0, y, pf.Z_EJE), (1, 0, 0)))
-        _add(a, 'RODAMIENTO_F6801ZZ', f'F6801_{k}N',
+                 loc((x + 11.0, y - pf.POL_ANCHO / 2 + 3.0, pf.Z_EJE), (1, 0, 0)))
+        _add(a, 'RODAMIENTO_6001_2RS', f'rodam_{k}N',
              cq.Location(cq.Vector(x, pf.Y_RAIL_EXT, pf.Z_EJE)))
-        _add(a, 'RODAMIENTO_F6801ZZ', f'F6801_{k}P',
+        _add(a, 'RODAMIENTO_6001_2RS', f'rodam_{k}P',
              cq.Location(cq.Vector(x, pf.Y_RAIL_P + pf.RAIL_T / 2, pf.Z_EJE)) *
              cq.Location(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), 180))
         if con_ruedas:

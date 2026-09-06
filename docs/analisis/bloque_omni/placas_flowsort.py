@@ -55,7 +55,7 @@ RAIL_Z0, RAIL_Z1 = -46.0, Z_TAPA_BOT
 RAIL_LX = 604.0
 
 Z_BASE0, Z_BASE1 = -72.6, -68.6            # placa base de 4 mm
-BASE_YN, BASE_YP = -154.0, 224.0
+BASE_YN, BASE_YP = -164.0, 224.0
 BASE_LX = 604.0
 X_TRAV = (-180.0, 180.0)
 Z_PESTANA = -78.6                          # pestana inferior del ZP2026
@@ -86,79 +86,63 @@ def colisa(plano, w, l, ang=0):
     return cq.Workplane(plano).slot2D(l, w, ang)
 
 
-# ================= TRANSMISION EN CASCADA (corregida 05-09) =================
-# Lo que habia antes NO tenia sentido: una sola correa por familia trazada
-# como ENVOLVENTE CONVEXA de las 5 poleas. Como las 4 poleas de eje estan a la
-# misma altura, la recta superior de esa envolvente las tocaba TANGENTE: las
-# dos centrales quedaban con ABRAZAMIENTO 0 grados y no recibian par ninguno.
+# ============ TRANSMISION POLY-V EN CADENA (corregida 06-09) ============
+# Sergio: "usa Poly-V, y ojo: de motor a polea debe tener mas envolvente.
+#          Correa solo de DOS poleas, no 3; para polea-polea usar otra correa."
 #
-# Ahora es la cascada que pidio Sergio ("motor a dos rodillos y esos dos a los
-# demas"), que ademas es lo que hace cualquier transportador de rodillos:
+# Todas las correas son de DOS poleas iguales -> abrazamiento 180 grados en
+# las dos, que es el maximo posible. No hay forma de tener mas envolvente.
 #
-#   LADO CERCANO, una correa de 3 poleas por familia:
-#       motor  ->  los DOS ejes centrales de su familia
-#       (el motor va entre ambos, asi que el triangulo da abrazamiento real)
-#   LADO LEJANO, dos correas de 2 poleas por familia:
-#       eje central izq -> eje extremo izq     (180 grados en cada polea)
-#       eje central der -> eje extremo der
+# La familia se encadena empezando por el eje del EXTREMO, y los lados van
+# ALTERNANDO, asi que cada eje lleva como mucho dos poleas, UNA EN CADA PUNTA,
+# y basta UN plano de correa por lado y familia:
 #
-# Abrazamiento medido: motor 101.6 deg (5.6 dientes), ejes centrales 129.2 deg
-# (7.2 dientes), ejes extremos 180 deg (10 dientes). Cada eje lleva como mucho
-# DOS poleas, y van una en cada punta del eje, asi que hacen falta solo DOS
-# planos de correa por lado y el voladizo sobre el rodamiento se queda en 23 mm.
+#   motor -> eje1   (lado cercano)      eje1 -> eje2  (lado lejano)
+#   eje2  -> eje3   (lado cercano)      eje3 -> eje4  (lado lejano)
+#
+# 8 correas de solo DOS referencias (C = 99.0 la de motor, C = 149.5 las de
+# eje). El tensado: las de motor deslizando el motor en sus colisas; las de
+# eje con un tensor que aprieta el DORSO del ramal flojo.
+POL_DP, POL_ANCHO, POL_RIBS = 34.0, 16.0, 6      # Poly-V PJ, 6 nervios
+POL_RE = POL_DP / 2
 IDLER_D, IDLER_W = 24.0, 12.0
-POL_W_ = 12.0                            # ancho de polea (correa 5M-09)
+ROD_OD, ROD_B = 28.0, 8.0                        # 6001-2RS (ver nota abajo)
 
-PLANO = {'der': {'N': Y_RAIL_EXT - 1.5 - POL_W_ / 2,          # -125.5
-                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_W_ / 2},   # 227.5
-         'izq': {'N': Y_RAIL_EXT - 1.5 - POL_W_ - 3.0 - POL_W_ / 2,   # -141.0
-                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_W_ + 3.0 + POL_W_ / 2}}
+PLANO = {'der': {'N': Y_RAIL_EXT - 1.5 - POL_ANCHO / 2,               # -127.5
+                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_ANCHO / 2},   # 229.5
+         'izq': {'N': Y_RAIL_EXT - 1.5 - POL_ANCHO - 3.0 - POL_ANCHO / 2,
+                 'F': Y_RAIL_P + RAIL_T / 2 + 1.5 + POL_ANCHO + 3.0 + POL_ANCHO / 2}}
 AX = {h: sorted(X_EJES[k] for k in KS[h]) for h in ('der', 'izq')}
-# el motor va justo entre los dos ejes centrales de su familia
-X_MOTOR = {h: (AX[h][1] + AX[h][2]) / 2 for h in ('der', 'izq')}
+# el motor entra por un EXTREMO de la cadena, a medio paso de su primer eje
+X_MOTOR = {'der': AX['der'][0] + PASO / 2,      # -224.25, medio paso del 1er eje
+           'izq': AX['izq'][3] - PASO / 2}      # +224.25
 
 
 def _correas():
     out = []
     for h in ('der', 'izq'):
-        a = AX[h]
-        out.append(dict(fam=h, lado='N', tipo='motor',
-                        poleas=[(X_MOTOR[h], ZM), (a[1], Z_EJE), (a[2], Z_EJE)]))
-        out.append(dict(fam=h, lado='F', tipo='eje',
-                        poleas=[(a[1], Z_EJE), (a[0], Z_EJE)]))
-        out.append(dict(fam=h, lado='F', tipo='eje',
-                        poleas=[(a[2], Z_EJE), (a[3], Z_EJE)]))
+        a = AX[h] if h == 'der' else AX[h][::-1]     # der arranca por -x, izq por +x
+        cad = [(X_MOTOR[h], ZM)] + [(x, Z_EJE) for x in a]
+        for i in range(4):
+            out.append(dict(fam=h, lado='N' if i % 2 == 0 else 'F',
+                            tipo='motor' if i == 0 else 'eje',
+                            poleas=[cad[i], cad[i + 1]]))
     return out
 
 
 CORREAS = _correas()
 
 
-def envolvente(correa):
-    """linea primitiva de una correa: envolvente de sus poleas (con 2 o 3
-    poleas NO colineales la envolvente SI da abrazamiento real)."""
-    r = tm.POL_DP / 2
-    return unary_union([Point(x, z).buffer(r, quad_segs=72)
-                        for x, z in correa['poleas']]).convex_hull
+def centro(correa):
+    (x0, z0), (x1, z1) = correa['poleas']
+    return hypot(x1 - x0, z1 - z0)
 
 
 def abrazamiento(correa):
-    """grados de abrazamiento en cada polea de la correa."""
-    P = correa['poleas']
-    out = []
-    for i, p in enumerate(P):
-        otros = [q for j, q in enumerate(P) if j != i]
-        if len(otros) == 1:
-            out.append(180.0)
-            continue
-        v = [atan2(q[1] - p[1], q[0] - p[0]) for q in otros]
-        d = abs(degrees(v[0] - v[1])) % 360
-        out.append(180.0 - min(d, 360 - d))
-    return out
+    return [180.0, 180.0]          # dos poleas iguales: siempre 180 y 180
 
 
 def poleas_de_eje():
-    """{k: [(y_plano, ...)]} — que poleas lleva cada eje y en que plano."""
     d = {}
     for c in CORREAS:
         y = PLANO[c['fam']][c['lado']]
@@ -171,25 +155,7 @@ def poleas_de_eje():
 
 
 POLEAS_EJE = poleas_de_eje()
-
-
-def _poleas_con_pestana():
-    """la polea del EXTREMO de cada correa eje-eje lleva pestana de guiado;
-    ahi no hay nada al lado, asi que la pestana cabe."""
-    out = set()
-    for c in CORREAS:
-        if c['tipo'] != 'eje':
-            continue
-        x = c['poleas'][1][0]                      # el eje extremo
-        k = min(range(NEJES), key=lambda i: abs(X_EJES[i] - x))
-        out.add((k, round(PLANO[c['fam']][c['lado']], 1)))
-    return out
-
-
-POLEAS_CON_PESTANA = _poleas_con_pestana()
-
-# un tensor por cada correa eje-eje, apoyado por fuera en el ramal flojo
-Z_TENSOR = Z_EJE - tm.POL_DP / 2 - 2.5 - IDLER_D / 2
+Z_TENSOR = Z_EJE - POL_RE - 1.8 - IDLER_D / 2   # el dorso PJ es de 1.8: asi el tensor SI toca
 
 
 def _tensores():
@@ -203,13 +169,11 @@ def _tensores():
 
 
 TENSORES = _tensores()
-X_TENSOR = sorted({abs(t['x']) for t in TENSORES})     # simetrico: sirve a los 2 rieles
+X_TENSOR = sorted({round(abs(t['x']), 3) for t in TENSORES})
 
-# escuadras: en los pasos intermedios que no pisa el cuerpo del motor (60 mm)
-X_ESC = sorted([x for x in X_MED
-                if min(abs(x - X_MOTOR['der']), abs(x - X_MOTOR['izq'])) > 58]
-               + [-112.125, 112.125])      # simetrico: el riel es la misma pieza
-X_CUNA_PIE = (-85.0, -30.0, 30.0, 85.0)     # una sola cuna para los dos motores
+X_ESC = [x for x in X_MED
+         if min(abs(x - X_MOTOR['der']), abs(x - X_MOTOR['izq'])) > 58]
+X_CUNA_PIE = (-46.0, 0.0, 46.0)     # una cuna por motor, ahora van separados
 
 
 # ---------------- 1. RIEL PRINCIPAL (2x, la misma pieza) ----------------

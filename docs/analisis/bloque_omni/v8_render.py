@@ -23,7 +23,7 @@ def MAT(n, M):
         return M['NEGRO']          # rueda impresa: negro mate (placas y rodillos)
     if n.startswith(('M5', 'M6', 'M8', 'prisionero')):
         return M['INOX']           # tornilleria inoxidable
-    if n.startswith('F6801'):
+    if n.startswith('rodam'):
         return M['BRG']
     if n.startswith(('eje', 'separ')):
         return M['INOX']
@@ -74,11 +74,11 @@ escena(lambda n: ('escuadra_N2' in n or 'M6ra_N2' in n or 'M6eb_N2' in n
        (-0.06, -0.24, 0.06), (0.0, -0.10, -0.03), 60, 'bo8_union.png', 1700, 1200, 56)
 # transmision del lado CERCANO: las 2 correas de motor
 escena(lambda n: n.startswith(('motor', 'cuna', 'polea_motor', 'correa_motor',
-                               'polea_eje', 'eje_', 'F6801')),
+                               'polea_eje', 'eje_', 'rodam')),
        (0.0, -0.62, 0.12), (0, 0.02, 0.04), 46, 'bo8_tren_cerca.png', 1900, 1000)
 # transmision del lado LEJANO: las 4 correas eje-eje con sus tensores
 escena(lambda n: n.startswith(('correa_eje', 'polea_eje', 'tensor', 'eje_',
-                               'F6801', 'M8ten')),
+                               'rodam', 'M8ten')),
        (0.0, 0.72, 0.14), (0, 0.10, 0.05), 46, 'bo8_tren_lejos.png', 1900, 1000)
 # detalle del motor con su tornilleria y la correa dentada
 escena(lambda n: any(k in n for k in ('motor', 'cuna', 'polea_motor', 'correa_motor',
