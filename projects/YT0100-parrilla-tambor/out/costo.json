@@ -1,0 +1,139 @@
+{
+  "lote": 10,
+  "masa_kg": 78.4,
+  "corte_tubo": {
+    "40x40": {
+      "largo_util_m": 10.69,
+      "barras_1u": 2,
+      "descarte_1u_pct": 10.9,
+      "barras_lote": 19,
+      "barras_por_unidad_en_lote": 1.9,
+      "descarte_lote_pct": 6.2
+    },
+    "25x25": {
+      "largo_util_m": 1.69,
+      "barras_1u": 1,
+      "descarte_1u_pct": 71.8,
+      "barras_lote": 3,
+      "barras_por_unidad_en_lote": 0.3,
+      "descarte_lote_pct": 6.1
+    }
+  },
+  "chapa": {
+    "e3": {
+      "blancos": 21,
+      "laminas_1u": 1,
+      "aprovechamiento_1u_pct": 23.3,
+      "laminas_lote": 3,
+      "laminas_por_unidad_en_lote": 0.3,
+      "aprovechamiento_lote_pct": 77.8,
+      "unidades_por_lamina": 3.33
+    },
+    "e2": {
+      "blancos": 9,
+      "laminas_1u": 1,
+      "aprovechamiento_1u_pct": 18.4,
+      "laminas_lote": 3,
+      "laminas_por_unidad_en_lote": 0.3,
+      "aprovechamiento_lote_pct": 61.4,
+      "unidades_por_lamina": 3.33
+    }
+  },
+  "laser": {
+    "e3": {
+      "corte_m": 17.2,
+      "perforaciones": 100,
+      "minutos": 6.4
+    },
+    "e2": {
+      "corte_m": 16.1,
+      "perforaciones": 75,
+      "minutos": 4.1
+    },
+    "total_min": 10.5
+  },
+  "armado": {
+    "uniones": {
+      "M8": 62,
+      "M6": 40,
+      "M5": 20,
+      "tirafondo": 12
+    },
+    "total_uniones": 134,
+    "minutos_estimados": 74.0
+  },
+  "pintura": {
+    "alta_temperatura_kg": 35.8,
+    "estandar_kg": 21.2,
+    "pct_masa_que_evita_alta_temperatura": 37.0
+  },
+  "valorizado_CLP": {
+    "tubo_40x40 (precio del e2 citado, cota SUPERIOR del e1,5 real)": 23085,
+    "corte láser (minutos x tarifa citada)": 3675
+  },
+  "precios_pendientes": [
+    "materiales.tubo_40x40x1.5_barra6m",
+    "materiales.plancha_e3_1220x2440",
+    "materiales.plancha_e2_1220x2440",
+    "materiales.tambor_200L_recuperado",
+    "materiales.roble_m3",
+    "materiales.barra_25x25x2_barra6m",
+    "procesos.plegado_pliegue",
+    "procesos.pintura_polvo_m2",
+    "procesos.pintura_altatemp_m2",
+    "procesos.mano_obra_hora",
+    "comprados.motor_spiedo",
+    "comprados.parrilla_fierro_520x400",
+    "comprados.tornilleria_kit"
+  ],
+  "opciones": [
+    {
+      "opcion": "O1 · Sin mesa lateral de roble",
+      "quita": "MAD-MESA, SOP-MESA x2, TUB-POSTE x2; los largueros bajan de 1105 a 830 mm",
+      "tubo_m": "10.69 → 7.88 (-2.81)",
+      "barras_por_unidad": "1.90 → 1.40 (-0.50)",
+      "roble_kg": -2.312,
+      "chapa_e3_kg": -0.822,
+      "uniones": -18,
+      "minutos_armado": -9,
+      "piezas_cnc": -1,
+      "cuesta": "Se pierde la superficie de apoyo. Es la palanca MÁS GRANDE del producto."
+    },
+    {
+      "opcion": "O2 · Sin estante inferior de roble",
+      "quita": "MAD-ESTANTE",
+      "tubo_m": "sin cambio (los largueros inferiores son estructura)",
+      "barras_por_unidad": "sin cambio",
+      "roble_kg": -2.668,
+      "chapa_e3_kg": 0.0,
+      "uniones": 0,
+      "minutos_armado": 0,
+      "piezas_cnc": 0,
+      "cuesta": "Se pierde el estante; los largueros quedan igual y admiten una tabla después."
+    },
+    {
+      "opcion": "O3 · Sin motor de spiedo (parrilla pura)",
+      "quita": "MOT-SPIEDO, SOP-MOTOR, SOP-CHUM x2, ESP-ESPETON, ESP-HORQUILLA x2, ESP-BUJE x2",
+      "tubo_m": "sin cambio",
+      "barras_por_unidad": "sin cambio",
+      "roble_kg": 0.0,
+      "chapa_e3_kg": -1.577,
+      "uniones": -6,
+      "minutos_armado": -3,
+      "piezas_cnc": -2,
+      "cuesta": "Saca el ítem COMPRADO más caro, pero es una prestación pedida explícitamente."
+    },
+    {
+      "opcion": "O4 · Fabricar la parrilla en vez de comprarla",
+      "quita": "(agrega) PAR-RIEL x4, PAR-PLETINA x4, 52 varillas Ø8",
+      "tubo_m": "sin cambio",
+      "barras_por_unidad": "sin cambio",
+      "roble_kg": 0.0,
+      "chapa_e3_kg": 1.2,
+      "uniones": 24,
+      "minutos_armado": 24,
+      "piezas_cnc": 2,
+      "cuesta": "Es el camino CARO: +8 blancos, +104 agujeros y ~+25 min de armado. Sólo conviene si la parrilla comprada supera ese costo."
+    }
+  ]
+}

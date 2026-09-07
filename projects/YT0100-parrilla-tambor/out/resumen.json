@@ -1,0 +1,42 @@
+{
+  "generado": "2026-09-07T00:59:25+00:00",
+  "envolvente_mm": [
+    1463.5,
+    756.5,
+    1309.0
+  ],
+  "altura_trabajo_mm": 880.0,
+  "superficie_parrilla_m2": 0.416,
+  "masa_total_kg": 78.4,
+  "masas_por_familia_kg": {
+    "bastidor": 19.39,
+    "tornillería": 3.87,
+    "tambor": 18.36,
+    "chapa CNC": 16.75,
+    "parrilla": 2.44,
+    "comprados": 10.69,
+    "madera": 6.86,
+    "utillaje": 1.58
+  },
+  "piezas_unicas": 35,
+  "piezas_totales": 241,
+  "chapa": {
+    "e3": {
+      "piezas": 8,
+      "unidades": 21,
+      "area_neta_m2": 0.374,
+      "area_bruta_m2": 0.694,
+      "largo_corte_m": 17.2,
+      "masa_kg": 8.81
+    },
+    "e2": {
+      "piezas": 3,
+      "unidades": 9,
+      "area_neta_m2": 0.506,
+      "area_bruta_m2": 0.548,
+      "largo_corte_m": 16.1,
+      "masa_kg": 7.95
+    }
+  },
+  "triangulos": 44242
+}

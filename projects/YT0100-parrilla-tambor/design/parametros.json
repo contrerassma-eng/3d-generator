@@ -1,0 +1,112 @@
+{
+  "_comentario": "Parámetros del producto YT0100. Capa user (diseño). Cambiar un valor y re-ejecutar gen_parrilla.py regenera TODO: sólido, planos de corte láser, BOM y masas. Los valores marcados [web] vienen de input/web_facts.json con procedencia.",
+  "tambor": {
+    "_fuente": "[web] tambor200_diametro / tambor200_altura / tambor200_espesor",
+    "diametro_ext": 572.0,
+    "largo": 851.0,
+    "espesor": 1.1,
+    "nervio_alto": 5.0,
+    "nervio_ancho": 26.0,
+    "nervio_pos_rel": 0.24,
+    "holgura_cuna": 0.5
+  },
+  "alturas": {
+    "_comentario": "z=0 es el suelo. H_corte es el plano diametral de corte del tambor = borde de trabajo.",
+    "h_corte": 880.0,
+    "z_larguero_sup": 520.0,
+    "z_larguero_inf": 200.0,
+    "z_travesano_sup": 480.0,
+    "z_travesano_inf": 160.0,
+    "z_pata": 520.0,
+    "z_brasero": 660.0,
+    "z_espeton": 800.0,
+    "niveles_parrilla": [
+      755.0,
+      790.0,
+      825.0
+    ]
+  },
+  "bastidor": {
+    "tubo": 40.0,
+    "tubo_espesor": 1.5,
+    "pata_x": 355.0,
+    "pata_y": 250.0,
+    "cuna_x": 250.0,
+    "poste_x": 650.0,
+    "_nota_espesor": "e1,5 en vez de e2: -24% de acero en el bastidor. La unión solapada NO aplasta el tubo porque el perno pasa por UNA sola pared — la exterior lleva un agujero de acceso Ø16 para la llave (mismo corte, cero material extra, y ahorra 40 casquillos)."
+  },
+  "chapa": {
+    "e_estructural": 3.0,
+    "e_liviana": 2.0,
+    "factor_k": 0.38,
+    "radio_interior": "= espesor"
+  },
+  "madera": {
+    "_fuente": "[web] roble_densidad = 755 kg/m3",
+    "especie": "roble macizo",
+    "espesor_tabla": 19.0,
+    "escuadria_asa": 45.0,
+    "mesa": [
+      620.0,
+      260.0
+    ],
+    "estante": [
+      620.0,
+      300.0
+    ],
+    "asa_tapa": 380.0,
+    "barra": 850.0,
+    "_nota": "Tablas de 19 mm (no 25) y UN solo estante: el roble macizo es el material más caro por kg del producto y en el estante no se ve ni se toca."
+  },
+  "motor": {
+    "_fuente": "[web] motor_spiedo_* — 220 V / 40 W / 2,5 rpm / eje Ø8",
+    "cuerpo": [
+      120.0,
+      95.0,
+      95.0
+    ],
+    "eje_dia": 8.0,
+    "patron_montaje": 50.0,
+    "_supuesto": "S2: el patrón de agujeros del motor NO está publicado; 2 x Ø6,6 a 50 mm es SUPUESTO — verificar con el motor en mano"
+  },
+  "espeton": {
+    "seccion": 12.0,
+    "largo": 1150.0,
+    "buje_ext": 16.0,
+    "material": "acero al carbono (se cura; el inox es opción)"
+  },
+  "parrilla": {
+    "_comentario": "La parrilla se COMPRA. Fabricarla sin soldadura exige varillas pasantes a paso 20 mm (52 varillas, 104 agujeros, 104 inserciones de armado): sale más caro que comprarla. El diseño aporta las barras de apoyo y las cremalleras, que aceptan cualquier parrilla de la medida.",
+    "modo": "comprada",
+    "modulo": [
+      520.0,
+      400.0
+    ],
+    "modulos": 2,
+    "varilla_dia": 6.0,
+    "paso_varilla": 20.0,
+    "marco": [
+      25.0,
+      4.0
+    ]
+  },
+  "tornilleria": {
+    "M5": 5.5,
+    "M6": 6.6,
+    "M8": 8.5,
+    "_comentario": "holguras de paso; los tubos llevan REMACHE-TUERCA M8/M6 (sin acceso interior, sin soldadura)"
+  },
+  "brasero": {
+    "largo": 780.0,
+    "ancho": 280.0,
+    "alto": 60.0,
+    "perforacion_dia": 20.0,
+    "perforacion_paso": 70.0,
+    "_nota": "Ø20 a paso 70: menos metros de corte que 52 x Ø14 y MÁS área de paso de aire."
+  },
+  "canto": {
+    "tornillos": 5,
+    "web": 28.0,
+    "ala": 22.0
+  }
+}

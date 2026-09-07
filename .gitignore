@@ -42,3 +42,9 @@ cad/_tmp_*.mjs
 # STEP y GLB derivados: se regeneran con a_step.py / export_glb.mjs en menos de un minuto
 cad/ensambles/nbt90/step/
 cad/ensambles/stl/
+
+# Lámina S6 del conjunto YT0100 en DXF: 23 MB (63 piezas x 4 vistas de siluetas).
+# El entregable que se usa es el PDF, que sí se versiona; el DXF se regenera con
+#   python pipeline/s6_drawings.py projects/YT0100-parrilla-tambor --fuente out/cad/parrilla_tambor.glb
+# Los desarrollos de corte láser (desarrollo_*.dxf, < 210 KB) SÍ se versionan.
+projects/YT0100-parrilla-tambor/out/drawings/parrilla_tambor.dxf
