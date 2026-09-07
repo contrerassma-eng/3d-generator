@@ -34,6 +34,10 @@
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+// COMPUERTAS UNIVERSALES heredadas (CELULA_DISENO regla 11): este generador
+// no las tenía — hallazgo del panel adversarial 13-08. Sin el sello, los
+// emisores (dxf_flat, planos_fab, bom_equipo…) se niegan a producir.
+import { compuertasUniversales, sellarCompuertas } from './lib_compuertas.mjs';
 
 // ---------------------------------------------------------------------------
 // Parámetros de diseño
@@ -666,10 +670,44 @@ placas();
 rodillos();
 transmision();
 
+// ── compuertas universales sobre las piezas ya construidas ──────────────────
+const uni = compuertasUniversales({ TR90: { parts } }, {
+  // exenciones DECLARADAS: patrones dictados por el equipo base (riel T-slot
+  // del sorter STEP) y alojamientos de eje muerto que no llevan apriete
+  exentos: [/riel T-slot/i, /pie de anclaje/i],
+});
+// DEUDA DECLARADA, en el archivo y no en una variable de entorno: una deuda que
+// vive en `DEUDA_OK=1` no se ve en el repo ni en el sello, y eso es justo el
+// estado silencioso que la regla 10 prohíbe.
+const DEUDA_DECLARADA = [
+  { patron: /parte móvil sin cerramiento: «MÓVIL · Motorreductor/,
+    razon: 'D-06 · el TR90 no tiene NI UNA guarda: el motorreductor y la transmisión quedan al aire. DS 594 Art. 38. No se diseña ahora porque el TR90 está fuera del alcance prioritario declarado por Sergio (banda plana · LBP · FT · 24V · curvas); se emite para continuar el sorter, NO para fabricar' },
+];
+const nuevos = [], deuda = [];
+for (const msg of uni.errs) {
+  const d = DEUDA_DECLARADA.find(q => q.patron.test(msg));
+  (d ? deuda : nuevos).push(d ? { msg, razon: d.razon } : msg);
+}
+if (deuda.length) {
+  console.error('  DEUDA DECLARADA (visible en el sello):');
+  for (const r of new Set(deuda.map(d => d.razon))) console.error('    · ' + r);
+}
+if (nuevos.length) {
+  console.error('COMPUERTAS UNIVERSALES — hallazgos NUEVOS:');
+  for (const e of nuevos) console.error('  - ' + e);
+  console.error('Corrige, o declara la deuda en DEUDA_DECLARADA con su razón.');
+  process.exit(1);
+}
+for (const [nm, i] of Object.entries(uni.info)) {
+  console.log(`  ${nm}: chapa ${i.masa_chapa_kg} kg · margen más apretado ${i.peorMargen?.margen} (req ${i.peorMargen?.req})`);
+}
+
 const doc = {
   format: 'foto3d-cad',
   version: 1,
   meta: {
+    compuertas: sellarCompuertas(uni, { exenciones: ['riel T-slot', 'pie de anclaje'],
+      deuda: [...new Set(deuda.map(d => d.razon))], especificas: 0 }),
     nombre: 'Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)',
     capa: 'user',
     origen: 'gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; POP-UP POR BISAGRA en el lado -X (estructura lateral) + 2 cilindros verticales que suben el lado +X 6 mm (la cama bascula 0.41°); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados',

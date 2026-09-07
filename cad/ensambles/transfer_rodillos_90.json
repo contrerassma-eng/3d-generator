@@ -2,6 +2,64 @@
  "format": "foto3d-cad",
  "version": 1,
  "meta": {
+  "compuertas": {
+   "lib": "1.0.0",
+   "reglas_ejecutadas": [
+    "margen-agujero-borde",
+    "agujero-en-pliegue",
+    "pieza-sin-fijacion",
+    "masa-exacta",
+    "flat-vs-solido",
+    "peligro-expuesto",
+    "chapa-vs-componente",
+    "esquina-viva",
+    "barreno-redondo"
+   ],
+   "reglas_disponibles_sin_cablear": [
+    "zona-prohibida",
+    "rango-fisico",
+    "cantidad-derivada",
+    "rotulo-coherente",
+    "corte-de-barras",
+    "espejo-preferido",
+    "junta-ajustable",
+    "abertura-vs-alcance"
+   ],
+   "hallazgos": 1,
+   "info": {
+    "TR90": {
+     "peorMargen": null,
+     "masa_chapa_kg": 0,
+     "cobertura": {
+      "piezas": 106,
+      "con_desarrollo": 0,
+      "pct": 0
+     },
+     "aviso": "NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada",
+     "partes_moviles_fuera": [
+      {
+       "pieza": "MÓVIL · Motorreductor de eje hueco (i≈6.3, ~0.18 kW)",
+       "pct_fuera": 100,
+       "mirar_en": [
+        268,
+        41.5,
+        78
+       ],
+       "sin_cerramientos": true
+      }
+     ]
+    }
+   },
+   "exenciones": [
+    "riel T-slot",
+    "pie de anclaje"
+   ],
+   "deuda": [
+    "D-06 · el TR90 no tiene NI UNA guarda: el motorreductor y la transmisión quedan al aire. DS 594 Art. 38. No se diseña ahora porque el TR90 está fuera del alcance prioritario declarado por Sergio (banda plana · LBP · FT · 24V · curvas); se emite para continuar el sorter, NO para fabricar"
+   ],
+   "compuertas_especificas": 0,
+   "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
+  },
   "nombre": "Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)",
   "capa": "user",
   "origen": "gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; POP-UP POR BISAGRA en el lado -X (estructura lateral) + 2 cilindros verticales que suben el lado +X 6 mm (la cama bascula 0.41°); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados",

@@ -1,0 +1,6 @@
+item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_kg,area_m2_pintar,bbox_m2_plancha
+18,COMPRADA,"VENDOR · Cabezal de COLA M-HASTE (tambor, tensor y cabezales — original)",1,1,local,,,,,,,,
+19,COMPRADA,"VENDOR · Cabezal MOTRIZ M-HASTE (tambor, motorreductor y cabezales — original)",1,1,Motovario (distribuidor local),,,,,,,,
+20,COMPRADA,VENDOR · Cuerpo M-HASTE cortado a 270 (rieles de aluminio + banda + rodillos de apoyo — original),1,1,local,,,,,,,,
+21,COMPRADA,"VENDOR · Soporte a piso M-HASTE — estación 1 (patas, pies y placas — original)",1,1,local,,,,,,,,
+22,COMPRADA,"VENDOR · Soporte a piso M-HASTE — estación 2 (patas, pies y placas — original)",1,1,local,,,,,,,,

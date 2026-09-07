@@ -213,10 +213,18 @@ export class CSG {
 
 // ---- Conversión THREE.BufferGeometry <-> CSG ----
 
+// IDENTIDAD ANALÍTICA (23-08, PRD_MOTOR_BREP): el id de la cara de la que
+// nació cada triángulo viaja como atributo POR VÉRTICE (los tres del triángulo
+// llevan el mismo) y entra al BSP por `shared`, que los cortes booleanos ya
+// propagaban (Polygon.tryCreate en split y clone). Así, después de una unión o
+// un corte, cada triángulo sigue sabiendo si es parte de un PLANO o de la pared
+// de un barreno Ø10 — que es lo que el dibujo necesita para no adivinar.
+// Sin el atributo `cara`, shared queda null y todo se comporta como antes.
 export function geomToCSG(geometry) {
   const g = geometry.index ? geometry.toNonIndexed() : geometry;
   const pos = g.attributes.position.array;
   const nor = g.attributes.normal ? g.attributes.normal.array : null;
+  const car = g.attributes.cara ? g.attributes.cara.array : null;
   const polygons = [];
   for (let i = 0; i < pos.length; i += 9) {
     const verts = [];
@@ -226,25 +234,31 @@ export function geomToCSG(geometry) {
       const n = nor ? new V3(nor[o], nor[o + 1], nor[o + 2]) : new V3(0, 0, 1);
       verts.push(new Vertex(p, n));
     }
-    const poly = Polygon.tryCreate(verts, null);
+    const poly = Polygon.tryCreate(verts, car ? car[i / 3] : null);
     if (poly) polygons.push(poly);
   }
   return CSG.fromPolygons(polygons);
 }
 
 export function csgToGeom(csg) {
-  const positions = [], normals = [];
+  const positions = [], normals = [], caras = [];
+  let hayCara = false;
   for (const poly of csg.polygons) {
     const vs = poly.vertices;
+    const cara = poly.shared == null ? -1 : poly.shared;
+    if (cara >= 0) hayCara = true;
     for (let i = 2; i < vs.length; i++) {
       for (const v of [vs[0], vs[i - 1], vs[i]]) {
         positions.push(v.pos.x, v.pos.y, v.pos.z);
         normals.push(v.normal.x, v.normal.y, v.normal.z);
+        caras.push(cara);
       }
     }
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+  // sólo se agrega si alguien puso identidad: una malla sin fichas no paga nada
+  if (hayCara) geometry.setAttribute('cara', new THREE.Float32BufferAttribute(caras, 1));
   return geometry;
 }

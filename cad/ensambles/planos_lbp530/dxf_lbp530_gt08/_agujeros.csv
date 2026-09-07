@@ -1,49 +1,96 @@
-plano,pieza,x_mm,y_mm,diametro_mm
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,55.20,9.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",90.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",540.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",680.00,246.89,48.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",680.00,998.68,48.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",300.00,136.89,48.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",300.00,1108.68,48.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",240.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",240.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",240.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",240.00,1048.68,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",740.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",740.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",740.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",740.00,1048.68,7.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",115.00,220.00,40.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",73.70,178.70,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",73.70,261.30,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",156.30,178.70,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",156.30,261.30,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",495.00,110.00,40.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",453.70,68.70,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",453.70,151.30,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",536.30,68.70,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",536.30,151.30,12.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",55.00,260.00,5.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",55.00,160.00,5.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",555.00,260.00,5.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",555.00,160.00,5.00
-LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",195.00,350.00,9.00
-LBD-04,"FAB · Placa lateral libre (−Y) PL6 L=800",380.00,47.57,9.00
+plano,pieza,x_mm,y_mm,diametro_mm,rosca
+GTD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",101.50,12.30,11.00,
+GTD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",146.62,38.35,11.00,
+GTD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",56.38,38.35,11.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",22.30,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",22.30,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",82.30,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",82.30,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",142.30,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",142.30,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",174.70,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",174.70,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",234.70,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",234.70,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",294.70,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",294.70,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",327.10,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",327.10,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",387.10,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",387.10,20.20,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",447.10,39.25,9.00,
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",447.10,20.20,9.00,
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",513.30,71.29,11.00,
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",565.40,71.29,11.00,
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",149.00,71.29,11.00,
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",179.00,71.29,11.00,
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",204.00,71.29,11.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",50.00,333.52,10.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",50.00,253.52,10.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",125.00,333.52,10.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",125.00,253.52,10.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",70.00,222.52,25.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",60.00,12.50,7.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",96.50,12.50,7.00,
+GTD-04,"FAB · Guarda motriz — costado libre e2 (193×330)",133.00,12.50,7.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",50.00,333.52,10.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",50.00,253.52,10.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",125.00,333.52,10.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",125.00,253.52,10.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",70.00,103.52,8.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",70.00,183.52,70.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",60.00,12.50,7.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",96.50,12.50,7.00,
+GTD-05,"FAB · Guarda motriz — costado motor e2 (193×330)",133.00,12.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",60.00,11.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",96.50,11.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",133.00,11.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",60.00,600.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",96.50,600.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",133.00,600.50,7.00,
+GTD-06,"FAB · Guarda motriz — fondo con tapa e2 (191×612)",80.00,313.00,8.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",205.00,110.00,40.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",163.70,68.70,12.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",163.70,151.30,12.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",246.30,68.70,12.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",246.30,151.30,12.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",185.00,260.00,5.00,M6
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",185.00,180.00,5.00,M6
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",260.00,260.00,5.00,M6
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",260.00,180.00,5.00,M6
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",40.00,397.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",40.00,327.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",40.00,257.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",280.00,397.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",280.00,327.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",280.00,257.00,11.00,
+GTD-07,"FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",35.00,298.25,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",510.00,108.82,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",80.00,180.57,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",288.00,246.82,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",312.00,246.82,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",515.00,207.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",515.00,137.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",515.00,67.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",755.00,207.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",755.00,137.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",755.00,67.57,11.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",54.20,263.87,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",54.20,287.87,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",745.80,263.87,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",745.80,287.87,7.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",76.30,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",128.40,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",171.60,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",223.70,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",308.59,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",360.69,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",403.89,14.50,9.00,
+GTD-09,"FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",455.99,14.50,9.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",52.20,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",111.80,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",171.40,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",231.00,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",290.60,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",350.20,25.00,7.00,
+GTD-10,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",409.80,25.00,7.00,

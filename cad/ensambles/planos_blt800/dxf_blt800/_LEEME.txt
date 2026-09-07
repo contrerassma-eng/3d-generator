@@ -1,0 +1,19 @@
+PAQUETE DE CORTE LÁSER — CV-BLT-800 · banda plana M-HASTE MC400-FL-A-L6000-W400-25T1-S0-LA2-PVC400M10SSM-1 — ARMADA CON ORIGINALES (L800 × W400)
+Generado: 2026-09-01 · 0 desarrollos DXF (R12, unidades mm, escala 1:1)
+
+CONTENIDO
+  *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
+                 capa PLIEGUE = ejes de plegado (línea segmentada, NO cortar)
+  _corte.csv     resumen por pieza para cotizar: cantidades, material,
+                 espesor, tamaño de desarrollo, nº de barrenos y pliegues
+  _agujeros.csv  coordenadas de TODOS los barrenos por pieza (verificación)
+
+MATERIALES DEL PAQUETE
+
+NOTAS
+  · Los pares espejo comparten desarrollo: cortar la cantidad indicada y
+    plegar la mitad por la cara opuesta (indicado en el cajetín del DXF).
+  · Tolerancia general ISO 2768-mK. K-factor de plegado indicado por pieza.
+  · ROSCAS: la columna rosca de _agujeros.csv marca los barrenos que van
+    ROSCADOS tras el corte (el Ø listado es la broca). También rotulado en el DXF.
+  · Cotización y dudas: Conveyone SpA — indicar nº de plano (cajetín).

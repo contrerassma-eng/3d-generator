@@ -1,0 +1,351 @@
+{
+  "proyecto": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
+  "archivo": "lbp530_gt08.json",
+  "fecha": "2026-08-23",
+  "total_piezas": 68,
+  "items_distintos": 31,
+  "planos_fabricacion": 13,
+  "despiece": [
+    {
+      "item": 1,
+      "designacion": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
+      "nombres": [
+        "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "GT-02"
+    },
+    {
+      "item": 2,
+      "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×55",
+      "nombres": [
+        "FAB · Cabezal porta-nosebar descarga PL6 470×55"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL6",
+      "plano": "GT-03"
+    },
+    {
+      "item": 3,
+      "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×55",
+      "nombres": [
+        "FAB · Cabezal porta-nosebar entrada PL6 470×55"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL6 — mismo desarrollo que FAB · Cabezal porta-nosebar descarga PL6 470×55 (GT-03); 1 EN ESPEJO",
+      "plano": "GT-03"
+    },
+    {
+      "item": 4,
+      "designacion": "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
+      "nombres": [
+        "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "GT-04"
+    },
+    {
+      "item": 6,
+      "designacion": "FAB · Guarda motriz — costado libre e2",
+      "nombres": [
+        "FAB · Guarda motriz — costado libre e2 (193×330)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e2.0",
+      "plano": "GT-05"
+    },
+    {
+      "item": 7,
+      "designacion": "FAB · Guarda motriz — costado motor e2",
+      "nombres": [
+        "FAB · Guarda motriz — costado motor e2 (193×330)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e2.0",
+      "plano": "GT-06"
+    },
+    {
+      "item": 8,
+      "designacion": "FAB · Guarda motriz — fondo con tapa e2",
+      "nombres": [
+        "FAB · Guarda motriz — fondo con tapa e2 (191×612)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e2.0",
+      "plano": "GT-07"
+    },
+    {
+      "item": 12,
+      "designacion": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+      "nombres": [
+        "FAB · Portacarril 50×6 con clips (apernado M6 al alma)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e6",
+      "plano": "GT-10"
+    },
+    {
+      "item": 13,
+      "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+      "nombres": [
+        "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Tubo A513 Ø63,5×3,0 (espesor POR CONFIRMAR vs stock) + cabezales y eje SAE 1045",
+      "plano": "LBP530-EJ-04"
+    },
+    {
+      "item": 15,
+      "designacion": "FAB · Travesaño de patas B_002A canal 71×38×3",
+      "nombres": [
+        "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "GT-12"
+    },
+    {
+      "item": 17,
+      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m",
+      "nombres": [
+        "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m",
+      "plano": "—"
+    },
+    {
+      "item": 18,
+      "designacion": "NORM · Chumacera UCF206 Ø30",
+      "nombres": [
+        "NORM · Chumacera UCF206 Ø30"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Chumacera UCF206 Ø30",
+      "plano": "—"
+    },
+    {
+      "item": 19,
+      "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
+      "nombres": [
+        "NORM · Collarín P21703Y (fija el sprocket central)"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Collarín P21703Y (fija el sprocket central)",
+      "plano": "—"
+    },
+    {
+      "item": 21,
+      "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
+      "nombres": [
+        "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)"
+      ],
+      "cant": 7,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-",
+      "plano": "—"
+    },
+    {
+      "item": 22,
+      "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
+      "nombres": [
+        "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
+      "plano": "—"
+    },
+    {
+      "item": 23,
+      "designacion": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
+      "nombres": [
+        "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 ",
+      "plano": "—"
+    },
+    {
+      "item": 24,
+      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "nombres": [
+        "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamient",
+      "plano": "—"
+    },
+    {
+      "item": 25,
+      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "nombres": [
+        "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)"
+      ],
+      "cant": 3,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamiento",
+      "plano": "—"
+    },
+    {
+      "item": 26,
+      "designacion": "NORM · Ojal ciego Ø25 EPDM (tapón de puerto de grasera)",
+      "nombres": [
+        "NORM · Ojal ciego Ø25 EPDM (tapón de puerto de grasera)"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Ojal ciego Ø25 EPDM (tapón de puerto de grasera)",
+      "plano": "—"
+    },
+    {
+      "item": 27,
+      "designacion": "NORM · Rodamiento 6202-2RS sellado",
+      "nombres": [
+        "NORM · Rodamiento 6202-2RS (15×35×11) sellado"
+      ],
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Rodamiento 6202-2RS (15×35×11) sellado",
+      "plano": "—"
+    },
+    {
+      "item": 28,
+      "designacion": "NORM · Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+      "nombres": [
+        "NORM · Separador guarda Ø12×51 (pasada Ø6,4, torneado)"
+      ],
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Separador guarda Ø12×51 (pasada Ø6,4, torneado)",
+      "plano": "—"
+    },
+    {
+      "item": 29,
+      "designacion": "NORM · Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+      "nombres": [
+        "NORM · Separador guarda Ø12×65 (pasada Ø6,4, torneado)"
+      ],
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Separador guarda Ø12×65 (pasada Ø6,4, torneado)",
+      "plano": "—"
+    },
+    {
+      "item": 30,
+      "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+      "nombres": [
+        "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
+      ],
+      "cant": 6,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, gran",
+      "plano": "—"
+    },
+    {
+      "item": 48,
+      "designacion": "FAB · Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 30×30×3 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 49,
+      "designacion": "FAB · Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 50,
+      "designacion": "FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",
+      "nombres": [
+        "FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL6",
+      "plano": "GT-01"
+    },
+    {
+      "item": 51,
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
+      "nombres": [
+        "FAB · EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
+      "plano": "LBP530-EJ-01"
+    },
+    {
+      "item": 52,
+      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT",
+      "nombres": [
+        "FAB · Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL8",
+      "plano": "GT-08"
+    },
+    {
+      "item": 53,
+      "designacion": "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
+      "nombres": [
+        "FAB · Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e4",
+      "plano": "GT-09"
+    },
+    {
+      "item": 54,
+      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
+      "nombres": [
+        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)"
+      ],
+      "cant": 4,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e3",
+      "plano": "GT-11"
+    },
+    {
+      "item": "—",
+      "designacion": "VIS · Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)",
+      "nombres": [
+        "VIS · Goma Grip Top 75 ShA (disp. 50 ShA) — integral de la banda 530 GT (no comprable aparte)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero (grado en la lámina de la pieza)",
+      "plano": "GT-13"
+    }
+  ]
+}

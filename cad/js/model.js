@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { CSG, geomToCSG, csgToGeom } from './csg.js';
 import { chainLoops, regions, entityPoints } from './sketch2d.js';
 import { chapaFeatureGeometry } from './sheetmetal.js';
+import { nuevoRegistro, marcarPlanos, marcarEjeConocido, cobertura } from './brep.mjs';
 
 let _id = 0;
 export const uid = (p) => `${p}${(++_id).toString(36)}${Date.now().toString(36).slice(-4)}`;
@@ -634,19 +635,25 @@ export function holeToolGeometry(f, extent) {
   const p = f.params;
   const back = 0.5;
   const d = new THREE.Vector3(...f.dir).normalize();
-  const len = (p.through ? extent + 1 : p.depth) + back;
-  const start = new THREE.Vector3(...f.at).addScaledVector(d, -back);
+  // PASANTE: la herramienta se extiende en AMBOS sentidos desde el ancla —
+  // un agujero anclado al CENTRO del espesor dejaba una membrana sin cortar
+  // en la cara trasera (cazado en el pivote del bracket 24V, Rev.D)
+  const len = (p.through ? 2 * (extent + 1) : p.depth + back);
+  const start = new THREE.Vector3(...f.at).addScaledVector(d, p.through ? -(extent + 1) : -back);
   const main = cylinderAlong(start.toArray(), d.toArray(), p.dia / 2, len);
   const seat = p.seat || 'none';
   const sD = +p.seatDia, sH = +p.seatDepth;
   if ((seat === 'cbore' || seat === 'csink') && sD > p.dia && sH > 0) {
+    // el asiento SIEMPRE ancla en la cara de ENTRADA (f.at − back·dir),
+    // aunque el cilindro pasante ahora se extienda hacia atrás
+    const sStart = new THREE.Vector3(...f.at).addScaledVector(d, -back);
     let tool;
     if (seat === 'cbore') {
-      tool = cylinderAlong(start.toArray(), d.toArray(), sD / 2, sH + back);
+      tool = cylinderAlong(sStart.toArray(), d.toArray(), sD / 2, sH + back);
     } else { // avellanado: cono ancho en la cara (sD) que baja a 'dia' en sH
       const slope = (p.dia / 2 - sD / 2) / sH; // negativo
       const r1 = sD / 2 - back * slope;         // radio en 'start' (extendido sobre la cara)
-      tool = frustumAlong(start.toArray(), d.toArray(), r1, p.dia / 2, sH + back);
+      tool = frustumAlong(sStart.toArray(), d.toArray(), r1, p.dia / 2, sH + back);
     }
     try { return csgToGeom(geomToCSG(main).union(geomToCSG(tool))); }
     catch { return main; } // ante cualquier fallo CSG, agujero recto (nunca se rompe)
@@ -979,9 +986,34 @@ export function referencePoints(part, skipId) {
   return pts;
 }
 
+// IDENTIDAD ANALÍTICA (PRD_MOTOR_BREP): cada geometría que entra al CSG se
+// etiqueta ANTES, con lo que el feature ya sabe. Un barreno declara su eje, así
+// que su pared queda como UNA cara cilíndrica en vez de 48 facetas anónimas; el
+// resto se etiqueta por su plano real. `M` transporta el eje cuando la
+// geometría viene transformada (patrón, espejo) — sin eso la ficha describiría
+// la posición vieja, que es peor que no tener ficha.
+function marcarFeature(g, f, reg, M = null) {
+  if (!g || !reg || !g.attributes || !g.attributes.position) return g;
+  try {
+    const meta = { feat: f.id, shape: f.shape };
+    if (f.shape === 'hole' || f.shape === 'cyl') {
+      let at = f.at, dir = f.dir;
+      if (M) {
+        at = new THREE.Vector3(...f.at).applyMatrix4(M).toArray();
+        dir = new THREE.Vector3(...f.dir).transformDirection(M).toArray();
+      }
+      return marcarEjeConocido(g, reg, at, dir, meta);
+    }
+    return marcarPlanos(g, reg, meta);
+  } catch {
+    return g;            // ante cualquier fallo, sin ficha: la pieza nunca se rompe
+  }
+}
+
 // Regenera la geometría local de una pieza aplicando sus features en orden.
 export function buildPartGeometry(part) {
   let csg = null;
+  const reg = part._brep = nuevoRegistro();
   const bbox = new THREE.Box3();
   for (const f of part.features) {
     if (f.suppressed) continue; // función suprimida (⏸)
@@ -991,9 +1023,9 @@ export function buildPartGeometry(part) {
       if (!res) continue;
       res.add.computeBoundingBox();
       bbox.union(res.add.boundingBox);
-      let c = geomToCSG(res.add);
+      let c = geomToCSG(marcarFeature(res.add, f, reg));
       csg = csg === null ? c : csg.union(c);
-      for (const cut of res.cuts) csg = csg.subtract(geomToCSG(cut));
+      for (const cut of res.cuts) csg = csg.subtract(geomToCSG(marcarFeature(cut, f, reg)));
       continue;
     }
     if (f.shape === 'fillet' || f.shape === 'chamfer') {
@@ -1024,7 +1056,7 @@ export function buildPartGeometry(part) {
       const base = featureGeometry(src, extent, false);
       if (!base) continue;
       for (const M of patternMatrices(f)) {
-        const g = base.clone().applyMatrix4(M);
+        const g = marcarFeature(base.clone().applyMatrix4(M), src, reg, M);
         if (src.op === 'union') { g.computeBoundingBox(); bbox.union(g.boundingBox); }
         const c = geomToCSG(g);
         csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
@@ -1039,7 +1071,9 @@ export function buildPartGeometry(part) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
       const base = featureGeometry(src, extent, false);
       if (!base) continue;
-      const g = mirrorGeometry(base, f.params.plane);
+      const sp = f.params.plane === 'YZ' ? [-1, 1, 1] : f.params.plane === 'XZ' ? [1, -1, 1] : [1, 1, -1];
+      const Mesp = new THREE.Matrix4().makeScale(sp[0], sp[1], sp[2]);
+      const g = marcarFeature(mirrorGeometry(base, f.params.plane), src, reg, Mesp);
       if (src.op === 'union') { g.computeBoundingBox(); bbox.union(g.boundingBox); }
       const c = geomToCSG(g);
       csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
@@ -1047,8 +1081,9 @@ export function buildPartGeometry(part) {
     }
     if (f.op === 'union' || csg !== null) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
-      const g = featureGeometry(f, extent, csg === null);
-      if (!g) continue; // función sin geometría (p. ej. boceto sin contorno cerrado)
+      const g0 = featureGeometry(f, extent, csg === null);
+      if (!g0) continue; // función sin geometría (p. ej. boceto sin contorno cerrado)
+      const g = marcarFeature(g0, f, reg);
       if (f.op === 'union') {
         g.computeBoundingBox();
         bbox.union(g.boundingBox);
