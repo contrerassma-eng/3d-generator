@@ -1,0 +1,36 @@
+STL DE PIEZAS INDIVIDUALES — bloque OMNI v4.1 + rueda Mecanum64 v8
+==================================================================
+Verificado por hash de vertices: las piezas marcadas "misma pieza" son
+geometricamente identicas (un solo archivo, se fabrica N veces).
+
+1_RUEDA_v8/  (encaje a presion con clic, SIN pernos)
+  rueda_placaA_IZQ.stl ........ x8 por modulo (4 ejes izq x 2)   IMPRESA PA-CF
+  rueda_placaB_IZQ.stl ........ x8 por modulo
+  rueda_placaA_DER.stl ........ x8   ESPEJO de la izq (NO intercambiable)
+  rueda_placaB_DER.stl ........ x8   ESPEJO
+  rueda_rodillo_referencia.stl  referencia del rodillo moldeado (no imprimir)
+  -> por rueda: 1 placa A + 1 placa B + 6 rodillos + 6 varillas 1/8" x43
+  -> por modulo: 32 ruedas = 16 izq + 16 der
+
+2_MODULO_v4_chapa/  (corte laser / plegado)
+  riel_rodamientos_x2.stl ..... x2   MISMA PIEZA (los dos rieles son iguales)
+  placa_base_x1.stl ........... x1
+  tapa_superior_x1.stl ........ x1   (extendida sobre los rodamientos)
+  tapa_ciega_modular_x2.stl ... x2   MISMA PIEZA (los dos paneles son iguales)
+  placa_motor_8mm_x2.stl ...... x2   MISMA PIEZA
+  travesano_50x6_x2.stl ....... x2   MISMA PIEZA
+
+3_MODULO_v4_torneado/
+  eje_hex_medio_pulgada_x8.stl  x8   MISMA PIEZA (hex 1/2" con rebaje O12x10)
+  collarin_x16.stl ............ x16  MISMA PIEZA
+  F6801ZZ_referencia_x16.stl .. x16  COMERCIAL (no fabricar; solo referencia
+                                     de montaje: brida hacia afuera del riel)
+
+4_MODULO_v4_impreso/
+  polea_doble_PJ_x8.stl ....... x8   MISMA PIEZA (agujero hexagonal)
+  buje_adaptador_hex_x32.stl .. x32  MISMA PIEZA (hex 14.4 ext / 12.85 int)
+  separador_PVC_0..4.stl ...... tubo PVC 3/4" SCH40 cortado a medida;
+                                los largos por eje estan en estos 5 archivos
+
+PIEZAS UNICAS A FABRICAR: 6 de chapa + 2 torneadas + 2 impresas (modulo)
+                        + 4 impresas (rueda: A/B x izq/der)
