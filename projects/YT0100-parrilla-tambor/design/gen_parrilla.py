@@ -35,6 +35,7 @@ from lib_chapa import ACERO, INOX, Chapa                          # noqa: E402
 P = json.loads((DESIGN / "parametros.json").read_text(encoding="utf-8"))
 T, A, B, C = P["tambor"], P["alturas"], P["bastidor"], P["chapa"]
 MAD, MOT, ESP, PAR, TOR = P["madera"], P["motor"], P["espeton"], P["parrilla"], P["tornilleria"]
+BRA, CAN = P["brasero"], P["canto"]
 
 R = T["diametro_ext"] / 2                 # radio exterior del tambor
 RI = R - T["espesor"]                     # radio interior
@@ -236,7 +237,7 @@ def bastidor():
             ms.append(nodo(f"TUB-LARGUERO_{sy:+d}_{int(z)}",
                            tubo_cuadrado(L_LARG, pos=(X_LARG0, sy * LARG_Y, z), eje=(1, 0, 0))))
     registrar("TUB-LARGUERO", "Larguero — tubo 40x40x2 (llega hasta el poste de la mesa)", 4,
-              "acero A36 tubo 40x40x2", "corte a medida + Ø9 de paso", RHO_TUBO * L_LARG,
+              "acero A36 tubo 40x40x2", "corte a medida + Ø9 de paso + Ø16 de acceso en la cara opuesta", RHO_TUBO * L_LARG,
               familia="bastidor", extra={"largo_mm": round(L_LARG, 1)})
 
     for sx in (-1, 1):
@@ -328,8 +329,8 @@ def cuna_chapa():
 #    (sin soldadura) y a la vez elimina el filo y forma el asiento de la tapa.
 # ---------------------------------------------------------------------------
 
-CANTO_WEB, CANTO_ALA = 28.0, 22.0
-N_TORN_CANTO = 6
+CANTO_WEB, CANTO_ALA = CAN["web"], CAN["ala"]
+N_TORN_CANTO = CAN["tornillos"]
 
 
 def canto_chapa():
@@ -400,35 +401,39 @@ def rack_chapa():
 # 6. Parrilla: 2 módulos de varillas sobre 2 barras de apoyo
 # ---------------------------------------------------------------------------
 
-GRI_L = 520.0                       # largo de los rieles (en Y)
-GRI_X = 400.0                       # ancho del módulo (en X)
-N_VAR = int(GRI_L // PAR["paso_varilla"])
+GRI_L, GRI_X = PAR["modulo"]        # módulo de parrilla (Y, X)
 
 
-def rail_chapa():
-    ch = Chapa("PAR-RIEL", "Riel de la parrilla (aloja las varillas)", E3, cantidad=4,
-               color=COLOR["chapa"], nota="4 rieles = 2 módulos de parrilla")
-    ch.base(box(0, 0, GRI_L, PAR["rail"][0]))
-    paso = GRI_X / N_VAR
-    ch.agujeros(0, [(40 + i * (GRI_L - 80) / (N_VAR - 1), 12.5)
-                    for i in range(N_VAR)], PAR["varilla_dia"] + 0.3)
-    ch.agujeros(0, [(20, 12.5), (GRI_L / 2, 12.5), (GRI_L - 20, 12.5)], TOR["M5"])
-    return ch
+def parrilla_comprada():
+    """Malla de parrilla COMPRADA (2 módulos), modelada como marco + varillas.
 
-
-def tapa_rail_chapa():
-    ch = Chapa("PAR-PLETINA", "Pletina de retención de varillas", E2, cantidad=4,
-               color=COLOR["chapa"], nota="Cierra los alojamientos: la parrilla se arma sin soldar")
-    ch.base(box(0, 0, GRI_L, 20))
-    ch.agujeros(0, [(20, 10), (GRI_L / 2, 10), (GRI_L - 20, 10)], TOR["M5"])
-    return ch
+    Fabricarla en el taller sin soldadura obligaría a varillas pasantes a paso
+    20 mm —52 varillas, 104 agujeros y 104 inserciones de armado— para que el
+    hueco entre varillas sea usable: sale más caro que comprarla hecha. El
+    diseño aporta las barras de apoyo y las cremalleras, que aceptan cualquier
+    parrilla de la medida.
+    """
+    dia, paso = PAR["varilla_dia"], PAR["paso_varilla"]
+    ancho_m, esp_m = PAR["marco"]
+    n = int(GRI_L // paso) - 1
+    piezas = []
+    for lado in (-1, 1):
+        piezas.append(caja((GRI_X, esp_m, ancho_m),
+                           pos=(0, lado * (GRI_L - esp_m) / 2, 0), color=COLOR["fundicion"]))
+        piezas.append(caja((esp_m, GRI_L, ancho_m),
+                           pos=(lado * (GRI_X - esp_m) / 2, 0, 0), color=COLOR["fundicion"]))
+    for i in range(n):
+        y = -GRI_L / 2 + (i + 1) * (GRI_L / (n + 1))
+        piezas.append(cilindro(dia, GRI_X - 2 * esp_m, pos=(0, y, 0), eje=(1, 0, 0),
+                               color=COLOR["fundicion"], secs=8))
+    return trimesh.util.concatenate(piezas), n
 
 
 # ---------------------------------------------------------------------------
 # 7. Brasero (cama de carbón) y sus apoyos
 # ---------------------------------------------------------------------------
 
-BRA_L, BRA_W, BRA_H = 810.0, 300.0, 70.0
+BRA_L, BRA_W, BRA_H = BRA["largo"], BRA["ancho"], BRA["alto"]
 
 
 def brasero_chapa():
@@ -444,9 +449,11 @@ def brasero_chapa():
                nombre="testa")
     ch.pestana(b, ((0, BRA_W), (0, 0)), BRA_H, 90, sentido=+1, u0=6, u1=BRA_W - 6,
                nombre="testa")
-    nx, ny = 13, 4
-    ch.agujeros(b, [(BRA_L / 2 + (i - (nx - 1) / 2) * 58, BRA_W / 2 + (j - (ny - 1) / 2) * 58)
-                    for i in range(nx) for j in range(ny)], 14.0)
+    paso, dia = BRA["perforacion_paso"], BRA["perforacion_dia"]
+    nx = int((BRA_L - 90) // paso) + 1
+    ny = int((BRA_W - 90) // paso) + 1
+    ch.agujeros(b, [(BRA_L / 2 + (i - (nx - 1) / 2) * paso, BRA_W / 2 + (j - (ny - 1) / 2) * paso)
+                    for i in range(nx) for j in range(ny)], dia)
     return ch
 
 
@@ -520,7 +527,7 @@ def cabezal_mesa_chapa():
                color=COLOR["chapa"])
     b = ch.base(box(0, 0, 220, 80))
     ch.agujero(b, (110, 40), TOR["M8"])
-    ch.agujeros(b, [(25, 20), (25, 60), (195, 20), (195, 60)], 5.5)   # tirafondos a la madera
+    ch.agujeros(b, [(25, 20), (25, 60), (195, 20), (195, 60)], 5.2)   # tirafondos a la madera
     return ch
 
 
@@ -530,7 +537,7 @@ def asa_soporte_chapa():
     b = ch.base(box(0, 0, 90, 34))                         # pie contra el tambor
     ch.agujeros(b, [(20, 17), (70, 17)], TOR["M6"])
     ch.pestana(b, ((90, 0), (90, 34)), 95, 90, sentido=+1, nombre="montante")
-    ch.agujeros(1, [(17, 80)], 6.5)
+    ch.agujeros(1, [(17, 80)], 5.2)      # tirafondo a la madera
     return ch
 
 
@@ -647,6 +654,12 @@ def chapa_al_conjunto(ch, colocaciones):
                      "area_mm2": met["area_mm2"]},
               nota=met["nota"])
     CHAPAS[met["codigo"]] = ch
+    for panel in ch.paneles:            # la tornillería se CUENTA de las piezas
+        for h in panel.agujeros:
+            d = 2 * math.sqrt(h.area / math.pi)
+            for nom, dia in (("tirafondo", 5.2), ("M5", 5.5), ("M6", 6.6), ("M8", 8.5)):
+                if abs(d - dia) < 0.2:
+                    FIJACIONES[nom] = FIJACIONES.get(nom, 0) + met["cantidad"]
     out = []
     for i, (X, esp) in enumerate(colocaciones):
         out.append(nodo(f"{met['codigo']}_{i+1}", poner(sol, X, esp, ch.color)))
@@ -654,6 +667,7 @@ def chapa_al_conjunto(ch, colocaciones):
 
 
 CHAPAS: dict[str, Chapa] = {}
+FIJACIONES: dict[str, int] = {}   # tornillería contada de los agujeros reales
 
 
 def conjunto():
@@ -714,29 +728,18 @@ def conjunto():
               (25 * 25 - 21 * 21) * 7.85e-6 * (2 * xi - 4), familia="parrilla",
               extra={"largo_mm": round(2 * xi - 4, 1)})
 
-    z_riel = z_bar + 25
-    ch_riel, ch_plet = rail_chapa(), tapa_rail_chapa()
-    col_r, col_p, x_rieles = [], [], []
+    z_riel = z_bar + 25 + PAR["marco"][0] / 2
+    malla, n_var = parrilla_comprada()
     for sx in (-1, 1):
-        for xr in (sx * 15.0, sx * (15.0 + GRI_X)):
-            x_rieles.append(xr)
-            col_r.append((marco((0, 1, 0), (0, 0, 1), (xr - E3 / 2, -GRI_L / 2, z_riel)), None))
-            col_p.append((marco((0, 1, 0), (0, 0, 1),
-                                (xr - E3 / 2 - E2, -GRI_L / 2, z_riel)), None))
-    chapa_al_conjunto(ch_riel, col_r)
-    chapa_al_conjunto(ch_plet, col_p)
-    paso_v = (GRI_L - 80) / (N_VAR - 1)
-    nvar = 0
-    for sx in (-1, 1):
-        for i in range(N_VAR):
-            yv = -GRI_L / 2 + 40 + i * paso_v
-            ms.append(cilindro(PAR["varilla_dia"], GRI_X + 8, pos=(sx * (15 + GRI_X / 2), yv,
-                               z_riel + PAR["rail"][0] / 2), eje=(1, 0, 0),
-                               color=COLOR["inox"], secs=12))
-            nvar += 1
-    registrar("PAR-VARILLA", f"Varilla de parrilla Ø{PAR['varilla_dia']:g} x {GRI_X + 8:.0f}",
-              nvar, "acero inoxidable AISI 304 Ø8", "corte a medida",
-              math.pi * 16 * (GRI_X + 8) * RHO["inox"], familia="parrilla")
+        ms.append(nodo(f"PAR-MALLA_{sx:+d}",
+                       poner(malla, marco((1, 0, 0), (0, 1, 0),
+                                          (sx * (15 + GRI_X / 2), 0, z_riel)))))
+    registrar("PAR-MALLA", f"Parrilla de fierro {GRI_L:.0f} x {GRI_X:.0f} — {n_var} varillas "
+              f"Ø{PAR['varilla_dia']:g}, hueco {GRI_L/(n_var+1)-PAR['varilla_dia']:.0f} mm",
+              PAR["modulos"], "acero al carbono", "COMPRADA", masa_mesh(malla, RHO["acero"]),
+              familia="comprados",
+              nota="Fabricarla sin soldadura costaría 8 piezas CNC, 104 agujeros y 104 "
+                   "inserciones de armado: comprarla sale más barato y el hueco queda usable")
 
     # --- brasero ------------------------------------------------------------
     chapa_al_conjunto(brasero_chapa(), [
@@ -766,8 +769,8 @@ def conjunto():
     ms.append(nodo("ESP-ESPETON", barra_cuadrada(L_ESP, ESP["seccion"],
                    pos=((x_ala_motor - 6 - LT / 2 - 55) / 2, 0, A["z_espeton"]), eje=(1, 0, 0))))
     registrar("ESP-ESPETON", f"Espetón — barra cuadrada 12x12 inox, {L_ESP:.0f} mm", 1,
-              "acero inoxidable AISI 304 12x12", "corte a medida + acople",
-              144 * L_ESP * RHO["inox"], familia="comprados")
+              "acero al carbono 12x12 (se cura; inox es opción)", "corte a medida + acople",
+              144 * L_ESP * RHO["acero"], familia="comprados")
     for sx in (-1, 1):
         hub = caja((26, 30, 30), pos=(sx * 150, 0, A["z_espeton"]), color=COLOR["inox"])
         ms.append(hub)
@@ -776,7 +779,7 @@ def conjunto():
                                A["z_espeton"] + 12 * math.sin(a)), eje=(-sx, 0, 0),
                                color=COLOR["inox"], secs=8))
     registrar("ESP-HORQUILLA", "Horquilla del espetón (3 puntas, prisionero M6)", 2,
-              "acero inoxidable", "comprado", 0.25, familia="comprados")
+              "acero al carbono", "comprado", 0.25, familia="comprados")
     registrar("ESP-BUJE", "Buje de bronce Ø12/Ø16 x 10 (chumacera del espetón)", 2,
               "bronce SAE 64", "comprado", 0.02, familia="comprados")
 
@@ -795,15 +798,15 @@ def conjunto():
                 pos=(x_mesa, 0, L_POSTE + E3 + e_mad / 2), color=COLOR["roble"])
     ms.append(nodo("MAD-MESA", mesa))
     registrar("MAD-MESA", f"Mesa de la testa — roble macizo {MAD['mesa'][0]:.0f}x{MAD['mesa'][1]:.0f}x{e_mad:.0f}",
-              1, "roble macizo e25", "corte + canteado + aceite", masa_mesh(mesa, RHO["roble"]),
+              1, f"roble macizo e{e_mad:.0f}", "corte + canteado + aceite", masa_mesh(mesa, RHO["roble"]),
               familia="madera", nota="Va en la TESTA, fuera del alcance del cocinero (no estorba el frente)")
-    for sx in (-1, 1):
-        est = caja((MAD["estante"][1], MAD["estante"][0], e_mad),
-                   pos=(sx * 165, 0, A["z_larguero_inf"] + e_mad / 2), color=COLOR["roble"])
-        ms.append(nodo(f"MAD-ESTANTE_{sx:+d}", est))
+    est = caja((MAD["estante"][1], MAD["estante"][0], e_mad),
+               pos=(0, 0, A["z_larguero_inf"] + e_mad / 2), color=COLOR["roble"])
+    ms.append(nodo("MAD-ESTANTE", est))
     registrar("MAD-ESTANTE", f"Estante inferior — roble {MAD['estante'][0]:.0f}x{MAD['estante'][1]:.0f}x{e_mad:.0f}",
-              2, "roble macizo e25", "corte + canteado + aceite",
-              masa_mesh(est, RHO["roble"]), familia="madera")
+              1, f"roble macizo e{e_mad:.0f}", "corte + canteado + aceite",
+              masa_mesh(est, RHO["roble"]), familia="madera",
+              nota="Una sola tabla y 19 mm: el roble es el material más caro por kg del producto")
 
     chapa_al_conjunto(cabezal_mesa_chapa(), [       # cabezal ENTRE poste y madera
         (marco((1, 0, 0), (0, 1, 0), (-POSTE_X - 110, sy * PY - 40, L_POSTE)), None)
@@ -844,14 +847,21 @@ def conjunto():
         ms.append(cilindro(50, 12, pos=(-POSTE_X, sy * PY, 6), color=COLOR["tornillo"]))
     registrar("NIV-PATA", "Nivelador M10 con base Ø50 (regulable)", 6, "acero + nylon",
               "comprado", 0.09, familia="tornillería")
-    n_m6 = 4 * N_TORN_CANTO + 4 * 2 + 4 * 2 + 2 * 2 + 4 * 2 + 2 + 4 + 4
+    n_m8_bastidor = next(p["cantidad"] for p in PIEZAS if p["codigo"] == "TOR-M8x60")
+    m8 = FIJACIONES.get("M8", 0) + n_m8_bastidor + 2       # + 2 pasadores de bisagra
+    for p in PIEZAS:
+        if p["codigo"] == "TOR-M8x60":
+            p["cantidad"], p["masa_total_kg"] = m8, round(p["masa_kg"] * m8, 3)
+            p["nombre"] = "Perno M8 + golilla (bastidor, cunas, tiros, mesa y pasadores)"
     registrar("TOR-M6", "Perno M6 + golilla ancha + tuerca de brida serrada (chapa/tambor)",
-              n_m6, "acero zincado 8.8", "comprado", 0.012, familia="tornillería",
+              FIJACIONES.get("M6", 0), "acero zincado 8.8", "comprado", 0.012,
+              familia="tornillería",
               nota="Golilla ancha del lado del tambor: reparte sobre la chapa de 1,1 mm")
-    registrar("TOR-M5", "Perno M5 x 16 + tuerca de brida (parrilla y canto)", 12 + 24,
-              "acero zincado", "comprado", 0.007, familia="tornillería")
-    registrar("TIR-MADERA", "Tirafondo 5x40 cabeza plana (madera desde abajo)", 20,
-              "acero zincado", "comprado", 0.008, familia="tornillería",
+    registrar("TOR-M5", "Perno M5 x 16 + tuerca de brida (perfiles de canto)",
+              FIJACIONES.get("M5", 0), "acero zincado", "comprado", 0.007, familia="tornillería")
+    registrar("TIR-MADERA", "Tirafondo 5x40 cabeza plana (madera desde abajo)",
+              FIJACIONES.get("tirafondo", 0), "acero zincado", "comprado", 0.008,
+              familia="tornillería",
               nota="Toda la madera se fija DESDE ABAJO: cara superior sin tornillos a la vista")
     return ms
 

@@ -1,0 +1,82 @@
+{
+  "_comentario": "Lista de precios para el modelo de costo. CADA precio lleva su fuente. Los que dicen PENDIENTE hay que cotizarlos: el modelo los reporta como faltantes en vez de inventarlos. Editar este archivo y volver a correr design/costo.py.",
+  "moneda": "CLP",
+  "_iva": "Los precios citados de retail probablemente incluyen IVA; los de maestranza normalmente no. Verificar antes de comparar.",
+
+  "materiales": {
+    "tubo_40x40x2_barra6m": {
+      "valor": 12150, "unidad": "barra de 6 m", "masa_kg": 13.86,
+      "fuente": {"tipo": "web", "url": "https://globalgtc.cl/producto/perfiles/perfil-tubular-cuadrado-40x40x2-00-mm-6mtrs/",
+        "accessed": "2026-09-06", "quote": "Perfil Tubular Cuadrado 40X40X2.00 mm 6Mtrs — $12.150 — 13.86 kg"}
+    },
+    "tubo_40x40x1.5_barra6m": {
+      "valor": null, "unidad": "barra de 6 m", "masa_kg": 10.6,
+      "fuente": {"tipo": "PENDIENTE", "nota": "Es el tubo que usa este diseño. Cotizar. La masa 10,6 kg sale de escalar la del e2 citado por la razón de secciones (supuesto)."}
+    },
+    "plancha_e3_1220x2440": {
+      "valor": null, "unidad": "lámina", "masa_kg": 70.1,
+      "fuente": {"tipo": "PENDIENTE", "nota": "construplaza.cl muestra 46 productos de plancha en el rango $7.017–$130.062 sin desglose accesible por espesor. Cotizar."}
+    },
+    "plancha_e2_1220x2440": {
+      "valor": null, "unidad": "lámina", "masa_kg": 46.7,
+      "fuente": {"tipo": "PENDIENTE", "nota": "Cotizar."}
+    },
+    "tambor_200L_recuperado": {
+      "valor": null, "unidad": "unidad",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Insumo recuperado; el precio depende del proveedor local de tambores. Es el ítem con más variación."}
+    },
+    "roble_m3": {
+      "valor": null, "unidad": "m3",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Barracas chilenas venden roble por PULGADA (1\"x10\"x3,60 m = 0,0232 m3), no por m3. Cotizar en pulgadas y convertir."}
+    },
+    "barra_25x25x2_barra6m": {
+      "valor": null, "unidad": "barra de 6 m",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Barras de apoyo de la parrilla."}
+    }
+  },
+
+  "procesos": {
+    "laser_minuto": {
+      "valor": 350, "unidad": "min de máquina",
+      "fuente": {"tipo": "web", "url": "https://www.corteenlaser.cl/",
+        "accessed": "2026-09-06", "quote": "Precios por Minuto $350 y Hora $21.000"}
+    },
+    "plegado_pliegue": {
+      "valor": null, "unidad": "pliegue",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Normalmente se cobra por golpe de plegadora o por hora de máquina. Cotizar."}
+    },
+    "pintura_polvo_m2": {
+      "valor": null, "unidad": "m2",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Pintura en polvo estándar (piezas frías)."}
+    },
+    "pintura_altatemp_m2": {
+      "valor": null, "unidad": "m2",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Silicona alta temperatura (piezas que ven fuego). Cuesta bastante más que la estándar: por eso el diseño separa las dos listas."}
+    },
+    "mano_obra_hora": {
+      "valor": null, "unidad": "hora de armado",
+      "fuente": {"tipo": "PENDIENTE", "nota": "El tiempo de armado se estima del nº de uniones; el valor hora lo pone el usuario."}
+    }
+  },
+
+  "comprados": {
+    "motor_spiedo": {"valor": null, "unidad": "unidad",
+      "fuente": {"tipo": "PENDIENTE", "nota": "El motor citado en web_facts.json (asadoresnewen) no publica precio en la ficha que se leyó. Cotizar."}},
+    "parrilla_fierro_520x400": {"valor": null, "unidad": "unidad",
+      "fuente": {"tipo": "PENDIENTE", "nota": "Parrilla de fierro comercial. Cotizar contra la alternativa fabricada que calcula costo.py."}},
+    "tornilleria_kit": {"valor": null, "unidad": "kit por unidad",
+      "fuente": {"tipo": "PENDIENTE", "nota": "195 piezas. Cotizar por bolsa a granel, no por unidad."}}
+  },
+
+  "supuestos_de_proceso": {
+    "_comentario": "NO son datos de mercado: son supuestos de ingeniería para estimar TIEMPO de máquina. Marcados como tales y editables.",
+    "velocidad_corte_m_min": {"e2": 4.5, "e3": 3.0, "_fuente": "supuesto: láser de fibra 1-2 kW en acero al carbono"},
+    "tiempo_perforacion_s": {"valor": 0.4, "_fuente": "supuesto: una perforación (pierce) por contorno cerrado"},
+    "tiempo_union_s": {"M5": 25, "M6": 30, "M8": 40, "tirafondo": 20, "remache": 12,
+      "_fuente": "supuesto de armado, sin cronometrar"},
+    "barra_comercial_mm": 6000,
+    "ancho_corte_sierra_mm": 3,
+    "lamina_mm": [1220, 2440],
+    "separacion_anidado_mm": 8
+  }
+}

@@ -1,7 +1,7 @@
 # YT0100 "Medio Tambor" — memoria de diseño
 
 Parrilla / ahumador sobre medio tambor de 200 L, **100 % atornillada**, con
-perfilería tubular, 13 piezas de chapa CNC, motor de spiedo y roble macizo.
+perfilería tubular, 11 piezas de chapa CNC, motor de spiedo y roble macizo.
 
 Generado por `design/gen_parrilla.py` desde `design/parametros.json`.
 Toda la geometría es **capa `user`** (diseño). Los datos de terceros están en
@@ -17,13 +17,18 @@ Toda la geometría es **capa `user`** (diseño). Los datos de terceros están en
 | Altura de trabajo (borde de la cuba) | **880 mm** |
 | Superficie de parrilla | **0,416 m²** (2 módulos de 400 × 520) |
 | Niveles de parrilla | 3 — varillas a **132 / 168 / 202 mm** sobre el fondo del brasero |
-| Masa total | **87,3 kg** |
-| Piezas distintas | **37** (13 de chapa CNC, 4 largos de tubo, 4 de madera) |
-| Piezas totales | **296** (de las cuales 200 son tornillería) |
+| Masa total | **78,4 kg** |
+| Piezas distintas | **35** (11 de chapa CNC, 4 largos de tubo, 4 de madera) |
+| Piezas totales | **241** (de las cuales 180 son tornillería) |
 | Uniones soldadas | **0** |
 
-Reparto de masa (kg): bastidor 25,6 · chapa CNC 19,4 · tambor 18,4 ·
-madera 10,5 · parrilla 6,0 · comprados 3,9 · tornillería 3,5.
+Reparto de masa (kg): bastidor 19,4 · tambor 18,4 · chapa CNC 16,8 ·
+comprados 10,7 · madera 6,9 · tornillería 3,9 · parrilla 2,4.
+
+> **El costo se analizó aparte y cambió el diseño**: ver `out/COSTO.md`.
+> Resumen: el tubo cuesta 6,3× el corte láser y el armado pesa más que todo
+> el láser junto. Contra la primera versión: −10,2 % de masa, −24,7 % de corte
+> láser, −35 % de roble, −18,6 % de piezas.
 
 ## 2. De dónde sale cada dato
 
@@ -77,12 +82,13 @@ Consumos por unidad (calculados del modelo, no estimados):
 
 | Recurso | Cantidad | Comentario |
 |---|---|---|
-| Tubo 40×40×2 | **10,0 m** (4 largos distintos) | 2 barras de 6 m por unidad |
-| Chapa e3 | 0,42 m² netos / **0,75 m² de blancos** | ≈ 4 unidades por lámina de 1220×2440 |
-| Chapa e2 | 0,60 m² netos / **0,65 m² de blancos** | ≈ 4 unidades por lámina |
-| Corte láser | **44,2 m** de trayectoria (22,8 + 21,4) | El costo de láser se cotiza por metro: este número es el que hay que pedir |
-| Plegados | **22 pliegues** en 9 piezas distintas | 1 sola plegadora; ninguna pieza pasa 4 pliegues |
-| Roble | 0,0145 m³ (4 despieces) | |
+| Armado | **134 uniones ≈ 74 min** | Pesa más que todo el corte láser: es la 2.ª palanca |
+| Tubo 40×40×**1,5** | **10,69 m** (4 largos distintos) | **1,90 barras** de 6 m por unidad en lote de 10 (6,2 % de descarte); 2,00 si se produce de a una |
+| Chapa e3 | 0,37 m² netos / **0,69 m² de blancos** | **3,33 unidades por lámina** de 1220×2440 en lote de 10 (77,8 % de aprovechamiento) |
+| Chapa e2 | 0,51 m² netos / **0,55 m² de blancos** | **3,33 unidades por lámina** (61,4 % de aprovechamiento) |
+| Corte láser | **33,3 m** = **10,5 min** de máquina (17,2 m en e3 + 16,1 m en e2) | A $350/min citados, **$3.675** por unidad: el láser NO es el driver de costo |
+| Plegados | **36 por unidad**, en **17 operaciones de programa** distintas | 1 sola plegadora; ninguna pieza pasa 4 pliegues |
+| Roble | **0,0091 m³** (4 despieces, tablas de 19 mm) | El material más caro por kg del producto |
 | Tambor | 1 unidad, **recuperado, sin descarte** | Las dos mitades se usan |
 
 - **Dos espesores únicos** (e3 y e2) ⇒ dos programas de anidado, dos cambios de
@@ -152,14 +158,19 @@ pared es **0,7 mm**.
    taladrar las **dos testas** con `PLA-TESTA` y la virola con `PLA-VIROLA`
    **con el tambor todavía entero**; recién entonces cortar por el plano
    diametral. Las dos mitades salen listas.
-2. **Láser** — 2 láminas (e3 y e2) con los 13 desarrollos del producto que hay en
-   `out/drawings/` (el 14.º DXF es el utillaje `PLA-VIROLA`, se corta una vez).
+2. **Láser** — 2 láminas (e3 y e2) con los 11 desarrollos del producto que hay en
+   `out/drawings/` (el 12.º DXF es el utillaje `PLA-VIROLA`, se corta una vez).
+   **Anidar por lote, no por unidad**: de a una se tira el 77 % de la lámina.
    Los DXF están a escala real: capa `CORTE` = trayectoria; `PLIEGUE` y
    `TANGENTE` son referencia y **no se cortan**.
-3. **Plegadora** — 22 pliegues. Cada DXF lleva rotulado el sentido, el ángulo,
+3. **Plegadora** — 36 plegados en 17 programas. Cada DXF lleva rotulado el sentido, el ángulo,
    el radio y el BA de cada pliegue.
-4. **Tubos** — 4 largos de corte + Ø11 y Ø9; **remaches-tuerca M8** puestos aquí.
-5. **Pintura** — en polvo alta temperatura sobre las piezas sueltas (kit plano).
+4. **Tubos** — 4 largos de corte, Ø11 (remache-tuerca), Ø9 (paso) y **Ø16 de acceso**
+   en la cara opuesta, que es lo que permite el e1,5 sin casquillos. Los
+   **remaches-tuerca M8** se ponen aquí.
+5. **Pintura** — **dos listas**: silicona de alta temperatura sólo en lo que ve
+   fuego; el bastidor entero (**37 % de la masa**) va con pintura en polvo
+   estándar. Todo sobre piezas sueltas (kit plano).
 6. **Armado** — banco, 2 llaves, ~45 min (estimado, no cronometrado).
 
 ## 7. Lo que este modelo NO acredita
@@ -185,9 +196,11 @@ Dicho sin rodeos, para que nadie fabrique creyendo que está verificado:
 - **Precios: ninguno.** La §3 entrega *cantidades* medidas del modelo
   (metros de corte, m² de blanco, número de pliegues, metros de tubo), que es lo
   que hay que llevar a cotizar. Poner precios aquí sería inventarlos.
-- Las uniones traslapadas de tubo aprietan las dos paredes del tubo pasante.
-  Para producción conviene **casquillo interior o perno con collar**; con
-  40×40×2 y M8 al par correcto no se abolla, pero conviene confirmarlo.
+- **Los precios no están cerrados.** `design/costos.json` tiene 13 valores
+  PENDIENTES; sólo el tubo y la hora de láser están citados. El modelo entrega
+  cantidades físicas, que es lo que hay que llevar a cotizar (`out/COSTO.md`).
+- Los tiempos de láser y de armado son **supuestos de proceso declarados**, no
+  cronometrados.
 
 ## 8. Regenerar el producto
 

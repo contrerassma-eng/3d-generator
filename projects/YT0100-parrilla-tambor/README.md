@@ -4,7 +4,7 @@ Proyecto de **diseño** (capa `user`): no hay etapa fotogramétrica. La geometr�
 nace acotada en milímetros desde un generador paramétrico, no de fotos.
 
 Parrilla / ahumador sobre medio tambor de 200 L, **100 % atornillada** (cero
-soldadura), con perfilería tubular 40×40, 13 piezas de chapa de corte láser +
+soldadura), con perfilería tubular 40×40, 11 piezas de chapa de corte láser +
 plegado, motor de spiedo y roble macizo.
 
 ## Qué hay acá
@@ -20,6 +20,9 @@ out/cad/                  parrilla_tambor.glb|.stl (conjunto) + piezas/ (cada pi
 out/drawings/             desarrollo_*.dxf (corte láser 1:1) + plantillas + lámina S6
 out/BOM.csv               lista de materiales con masas, procesos y consumos
 out/MEMORIA_PARRILLA.md   memoria de diseño — incluye "lo que este modelo NO acredita"
+out/COSTO.md              dónde está el costo, qué se cambió y qué palancas quedan
+design/costos.json        precios con fuente (los que faltan dicen PENDIENTE)
+design/costo.py           anidado real, corte de barra, minutos de láser y de armado
 out/ARMADO.md             instrucciones de armado (2 llaves, ~45 min)
 out/resumen.json          métricas del producto
 out/vistas/               PNG del conjunto
@@ -32,6 +35,7 @@ cd projects/YT0100-parrilla-tambor
 python design/gen_parrilla.py                                  # sólido + DXF + BOM
 python design/vista.py iso alzado perfil planta                # vistas
 python ../../pipeline/s6_drawings.py . --fuente out/cad/parrilla_tambor.glb   # lámina normalizada (G6)
+python design/costo.py 10                                      # costo para un lote de 10
 ```
 
 Cambiá **un** valor de `design/parametros.json` —el Ø del tambor que

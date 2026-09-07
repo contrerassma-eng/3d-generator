@@ -16,12 +16,12 @@
         "factor_escala": 1.0,
         "dxf": "out/drawings/parrilla_tambor.dxf",
         "pdf": "out/drawings/parrilla_tambor.pdf",
-        "hash_dxf": "sha256:0624411d235b57a196e4a692b4416c093ca58e93d331a82336a4927007097c5d",
-        "hash_pdf": "sha256:787003e0a5b67fbb9da7e4af7ee45b44a1886099d8a70a92ce6ab72d13b3d4d5"
+        "hash_dxf": "sha256:90298e398d5aae8bdfae28d2eef86b079e9e10e2431c3b14a1e5f593aad617a6",
+        "hash_pdf": "sha256:cfc08e84f1200776ff75bb0dc0de2b464b245feb1e038b5c3bed97ed8ac2d87f"
       },
       "reasons": [],
-      "ts": "2026-09-06T20:51:25+00:00"
+      "ts": "2026-09-07T01:06:48+00:00"
     }
   },
-  "updated": "2026-09-06T20:51:25+00:00"
+  "updated": "2026-09-07T01:06:48+00:00"
 }

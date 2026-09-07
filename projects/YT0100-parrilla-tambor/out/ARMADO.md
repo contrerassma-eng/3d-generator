@@ -2,8 +2,9 @@
 
 **Herramientas: llave 13, llave 10, llave 8 y un destornillador.** Nada más.
 No se taladra, no se suelda, no hace falta herramienta especial.
-Tiempo estimado: **~45 min** entre dos personas (estimación de diseño, no
-cronometrada en un armado real).
+**134 uniones**, ≈ **74 min** de armado (estimación del modelo de costo a partir
+del número de uniones y segundos por unión declarados en `design/costos.json`;
+no está cronometrado en un armado real).
 
 Todos los agujeros vienen hechos de fábrica. Si algo no calza, **no fuerces ni
 taladres**: revisa que la pieza no esté al revés (varias son simétricas y van
@@ -21,8 +22,10 @@ otro y se une con 2 pernos.
 
 1. Apoya las **4 patas** (`TUB-PATA`, 520) en el suelo formando el rectángulo.
 2. Atornilla los **4 largueros** (`TUB-LARGUERO`, los más largos) **por fuera**
-   de las patas, dos arriba y dos abajo. Los pernos entran por el larguero y
-   muerden el remache-tuerca de la pata.
+   de las patas, dos arriba y dos abajo. El perno entra por el **agujero grande
+   Ø16** de la cara exterior del larguero —ése es el acceso de la llave—, pasa
+   por el Ø9 de la cara interior y muerde el remache-tuerca de la pata. El tubo
+   **no se aplasta** porque el perno sólo aprieta una pared.
 3. Atornilla los **4 travesaños** (`TUB-TRAVESANO`) por fuera de las patas, en
    los otros dos costados, a las alturas intermedias.
 4. Atornilla los **2 postes** (`TUB-POSTE`, 855) al extremo largo de los
@@ -64,12 +67,12 @@ otro y se une con 2 pernos.
 
 ## 5. Parrilla
 
-16. Arma cada módulo: pasa las **11 varillas** por los dos `PAR-RIEL` y cierra
-    con las **`PAR-PLETINA`** (3 × M5 cada una). Salen dos parrillas iguales.
-17. Apoya las **2 `PAR-BARRA`** en el peldaño que quieras de las cremalleras
-    (los dos del mismo lado, en el mismo nivel) y encima las dos parrillas.
-    Para cambiar de altura: se levantan las barras y se cambian de peldaño,
-    **sin herramienta**.
+16. Apoya las **2 `PAR-BARRA`** en el peldaño que quieras de las cremalleras
+    (los dos del mismo lado, en el mismo nivel).
+17. Encima, las **2 parrillas de fierro** (compradas, 520 × 400). Para cambiar
+    de altura: se levantan las barras y se cambian de peldaño, **sin
+    herramienta**. Las parrillas no van atornilladas a nada: salen enteras
+    para limpiar.
 
 ## 6. Tiros y madera
 
@@ -97,5 +100,5 @@ otro y se une con 2 pernos.
 - Todo es desmontable: cualquier pieza se cambia con las mismas dos llaves.
 - El **brasero** (`BRA-CUERPO`, e2) es la pieza de desgaste: es la que más
   trabaja en caliente. Se cambia sola, sin tocar nada más.
-- Las **parrillas** salen enteras para limpiar y las varillas se reemplazan una
-  a una abriendo una `PAR-PLETINA`.
+- Las **parrillas** son comerciales: se reemplazan por cualquiera de la medida.
+  Las barras de apoyo y las cremalleras no las condicionan.
