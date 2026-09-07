@@ -173,3 +173,31 @@ python docs/analisis/bloque_omni/v8_render.py
 
 - `COMPONENTES_STEP_v8.zip` — **las 33 referencias, un STEP por componente**.
 - `BLOQUE_OMNI_v8_ENSAMBLE.zip` — `bloque_omni_v8.step`, 454 piezas instanciadas.
+
+## Vistas del módulo sin la tapa superior
+
+Ocho vistas del ensamble **completo** (ruedas, transmisión, tornillería,
+estructura) con la tapa superior quitada, que es como se ve al abrirlo para
+mantención. `v8_vistas.py` las reproduce.
+
+| | |
+|---|---|
+| ![Hero 1](BO8V_HERO1.png) | ![Hero 2](BO8V_HERO2.png) |
+| Tres cuartos desde la esquina de los motores | Desde el lado opuesto: la cadena de correas eje-eje |
+
+![Planta](BO8V_PLANTA.png)
+*Planta: las 4 filas de 8 ruedas y cómo se reparte la transmisión entre los dos lados. Se ve la alternancia de mano rueda a rueda.*
+
+![Frente](BO8V_FRENTE.png)
+*Alzado del lado cercano: los dos motores, sus cuñas y las correas motor→eje.*
+
+![Atrás](BO8V_ATRAS.png)
+*Alzado del lado lejano: la cadena de correas eje-eje con sus tensores.*
+
+| | |
+|---|---|
+| ![Perfil](BO8V_PERFIL.png) | ![Motor](BO8V_MOTOR.png) |
+| Perfil: altura de rodadura, base y travesaños | La estación de motor en su contexto |
+
+![Eje](BO8V_EJE.png)
+*Un eje completo: hexagonal 1/2", sus 4 mecanum, los separadores hexagonales, los dos rodamientos 6001 y las dos poleas Poly-V, una en cada punta.*
