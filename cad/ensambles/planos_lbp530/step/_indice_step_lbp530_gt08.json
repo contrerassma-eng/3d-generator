@@ -7,105 +7,135 @@
    "familia": "F30",
    "item": 50,
    "pieza": "Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",
-   "kb": 3532
+   "kb": 917,
+   "caras_cilindro": 22,
+   "caras_plano": 9
   },
   {
    "codigo": "CV-LBP18-F50-006",
    "familia": "F50",
    "item": 6,
    "pieza": "Guarda motriz — costado libre e2 (193×330)",
-   "kb": 1648
+   "kb": 557,
+   "caras_cilindro": 7,
+   "caras_plano": 146
   },
   {
    "codigo": "CV-LBP18-F50-007",
    "familia": "F50",
    "item": 7,
    "pieza": "Guarda motriz — costado motor e2 (193×330)",
-   "kb": 2564
+   "kb": 879,
+   "caras_cilindro": 8,
+   "caras_plano": 335
   },
   {
    "codigo": "CV-LBP18-F50-008",
    "familia": "F50",
    "item": 8,
    "pieza": "Guarda motriz — fondo con tapa e2 (191×612)",
-   "kb": 1005
+   "kb": 240,
+   "caras_cilindro": 7,
+   "caras_plano": 8
   },
   {
    "codigo": "CV-LBP18-F10-052",
    "familia": "F10",
    "item": 52,
    "pieza": "Mecha porta-chumacera PL8 motriz 320×422 — montaje guarda GT (660/735×−250/−330)",
-   "kb": 2521
+   "kb": 933,
+   "caras_cilindro": 15,
+   "caras_plano": 192
   },
   {
    "codigo": "CV-LBP18-F30-012",
    "familia": "F30",
    "item": 12,
    "pieza": "Portacarril 50×6 con clips (apernado M6 al alma)",
-   "kb": 1570
+   "kb": 467,
+   "caras_cilindro": 9,
+   "caras_plano": 17
   },
   {
    "codigo": "CV-LBP18-F30-003",
    "familia": "F30",
    "item": 3,
    "pieza": "Cabezal porta-nosebar entrada PL6 470×55",
-   "kb": 4723
+   "kb": 5279,
+   "caras_cilindro": 0,
+   "caras_plano": 2379
   },
   {
    "codigo": "CV-LBP18-F30-002",
    "familia": "F30",
    "item": 2,
    "pieza": "Cabezal porta-nosebar descarga PL6 470×55",
-   "kb": 5179
+   "kb": 6023,
+   "caras_cilindro": 0,
+   "caras_plano": 3018
   },
   {
    "codigo": "CV-LBP18-F40-013",
    "familia": "F40",
    "item": 13,
    "pieza": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
-   "kb": 165
+   "kb": 239,
+   "caras_cilindro": 0,
+   "caras_plano": 156
   },
   {
    "codigo": "CV-LBP18-F10-051",
    "familia": "F10",
    "item": 51,
    "pieza": "EJE MOTRIZ cuadrado 38.1 — L=697 (muñones Ø30 h6)",
-   "kb": 937
+   "kb": 515,
+   "caras_cilindro": 1,
+   "caras_plano": 162
   },
   {
    "codigo": "CV-LBP18-F60-001",
    "familia": "F60",
    "item": 1,
    "pieza": "Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
-   "kb": 813
+   "kb": 696,
+   "caras_cilindro": 1,
+   "caras_plano": 452
   },
   {
    "codigo": "CV-LBP18-F60-004",
    "familia": "F60",
    "item": 4,
    "pieza": "Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",
-   "kb": 1130
+   "kb": 231,
+   "caras_cilindro": 5,
+   "caras_plano": 18
   },
   {
    "codigo": "CV-LBP18-F60-054",
    "familia": "F60",
    "item": 54,
    "pieza": "Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20)",
-   "kb": 55
+   "kb": 58,
+   "caras_cilindro": 0,
+   "caras_plano": 32
   },
   {
    "codigo": "CV-LBP18-F60-053",
    "familia": "F60",
    "item": 53,
    "pieza": "Pata B_004A 158×40×4 — pie de anclaje (SOLDADA a tira BR_3002)",
-   "kb": 18
+   "kb": 19,
+   "caras_cilindro": 0,
+   "caras_plano": 13
   },
   {
    "codigo": "CV-LBP18-F30-015",
    "familia": "F30",
    "item": 15,
    "pieza": "Travesaño de patas B_002A canal 71×38×3 (L=470)",
-   "kb": 16
+   "kb": 22,
+   "caras_cilindro": 0,
+   "caras_plano": 16
   }
  ],
  "sin_step_propio": {
