@@ -1,5 +1,10 @@
 # Bloque OMNI v8 — un STEP por componente, y el ensamble los instancia
 
+> **¿Vas a seguir esto en Inventor?** Empieza por
+> **[`HANDOFF_INVENTOR.md`](HANDOFF_INVENTOR.md)**: dice dónde está todo, qué
+> conservar tal cual, qué rehacer nativo (chapa, Content Center, Design
+> Accelerator) y qué decisiones ya están cerradas.
+
 > Sergio (05-09): *"Why are you not using the real step for each wheel? You
 > must use each step file for the belts, for the plate, for each component like
 > wheels... bolts, nuts, washers, motors, belts. With details. For example,
