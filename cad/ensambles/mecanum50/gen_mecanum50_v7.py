@@ -396,28 +396,29 @@ def main():
         huecos.append(a_mundo_2(dh))
     base = cut_multi(base, huecos, "huecos corona")
 
-    # ---- V4: hex nuevo de 1/2 in ----------------------------------------
-    base = cut_multi(base, [hex_prisma(P["hex_af"], -hd / 2 - 2, 22.5)],
-                     "hex 1/2 in")
+    # ---- V4: hex nuevo de 1/2 in (caras a 30+60k, como el original) ------
+    base = cut_multi(base, [hex_prisma(P["hex_af"], -hd / 2 - 2, 22.5,
+                                       base=0.0)], "hex 1/2 in")
 
-    # ---- V3: pernería alternada -----------------------------------------
-    brocas = []
+    # ---- V3: pernería alternada (dos cortes; UnifySameDomain NO se
+    # aplica al final: corrompe este sólido con tantas caras tangentes) ----
+    brocas_t, brocas_c = [], []
     for k in range(3):  # tipo TUERCA a 60+120k
         ang = 60 + 120 * k
         a = math.radians(ang)
         cx, cy = P["perno_pos"] * math.cos(a), P["perno_pos"] * math.sin(a)
-        brocas.append(hex_prisma(P["tuerca_encaje_af"], P["z_tuerca"], 22.3,
-                                 cx=cx, cy=cy, base=ang + 30))
-        brocas.append(cil_en(cx, cy, 1.7, -hd / 2 - 2, P["z_tuerca"] + 0.05))
+        brocas_t.append(hex_prisma(P["tuerca_encaje_af"], P["z_tuerca"], 22.3,
+                                   cx=cx, cy=cy, base=ang + 30))
+        brocas_t.append(cil_en(cx, cy, 1.7, -hd / 2 - 2, P["z_tuerca"] + 0.05))
     for k in range(3):  # tipo CABEZA a 0+120k
         ang = 120 * k
         a = math.radians(ang)
         cx, cy = P["perno_pos"] * math.cos(a), P["perno_pos"] * math.sin(a)
-        brocas.append(cil_en(cx, cy, 2.95, P["z_hombro"], 22.3))
-        brocas.append(cil_en(cx, cy, 1.7, -hd / 2 - 2, P["z_hombro"] + 0.05))
-    base = cut_multi(base, brocas, "perneria alternada")
+        brocas_c.append(cil_en(cx, cy, 2.95, P["z_hombro"], 22.3))
+        brocas_c.append(cil_en(cx, cy, 1.7, -hd / 2 - 2, P["z_hombro"] + 0.05))
+    base = cut_multi(base, brocas_t, "bolsillos tuerca")
+    base = cut_multi(base, brocas_c, "asientos cabeza")
 
-    base = unificar(base)
     placa_v7 = sanear_slivers(base, "placa v7")
 
     # ---- compuertas ------------------------------------------------------
@@ -531,8 +532,8 @@ def main():
     res["GM6_perneria"] = {"pasa": ok6, "detalle": det6}
 
     # GM7 hex 1/2 in: pasa el calibre de barra, choca el sobredimensionado
-    g_pasa = hex_prisma(P["hex_barra"] + 0.05, -22, 22)
-    g_choca = hex_prisma(P["hex_af"] + 0.3, -hd / 2 + 0.6, 15)
+    g_pasa = hex_prisma(P["hex_barra"] + 0.05, -22, 22, base=0.0)
+    g_choca = hex_prisma(P["hex_af"] + 0.3, -hd / 2 + 0.6, 15, base=0.0)
     v_p = vol(common2(placa_v7, g_pasa)) + vol(common2(otra, g_pasa))
     v_c = vol(common2(placa_v7, g_choca))
     res["GM7_hex_media_pulgada"] = {"calibre_12_75_interfiere": round(v_p, 3),
