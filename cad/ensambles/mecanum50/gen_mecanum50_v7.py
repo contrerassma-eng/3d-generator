@@ -125,8 +125,26 @@ P = {
     "rem_rebaje_e": 1.15,     # dis: cabeza a ras (-0.05); OJO: 2x(16+1.15)=34.3
                               #      > largo del rodillo 33.51 -> rebajar ~0.8 mm
                               #      la punta de un remache (o 0.4 de cada uno)
-    "pasador_d": 4.0,         # med-user: pasador nuevo Ø4 (corre en el Ø4.6)
-    "ranura_pasador_d": 4.4,  # dis: ranura del brazo para el Ø4
+    # eje (pedido final del usuario): PERFORACIONES SE MANTIENEN — pasador
+    # Ø3.2 como el original (ranuras de placa intactas); el cojinete real es
+    # un BUJE en la zona central del rodillo (tubo Ø4 ext / Ø3.2 int, p.ej.
+    # tubo de latón de 4 mm), alojado en una perforación central de Ø4.05.
+    # Los remaches quedan de tapas/refuerzo (su pasante Ø4.6 da holgura).
+    "pasador_d": 3.2,         # med-user: se mantiene el pasador original
+    "buje_d": 4.0,            # med-user: buje central para llegar a 4 mm
+    "buje_L": 3.0,            # dis: largo del buje (zona central disponible 3.2)
+    "buje_holgura": 0.05,     # dis: perforación central 4.05 (prensa al buje)
+    "rem_bore_prof": 14.0,    # dis: alojamiento Ø6.10 de 14.0 por lado ->
+                              #      CORTAR el cuerpo del remache a 14.0
+    # hombro con CHAFLAN (pedido del usuario, "línea negra"): cono recto
+    # desde el lomo hasta un tramo recto vertical en el borde de la tapa.
+    # Es RELLENO puro (solo agrega material): el tope del eje/pasador queda
+    # cubierto sí o sí. Empieza en z17.25 para conservar la holgura del
+    # rodillo (tope del rodillo en z16.56).
+    "hombro_chaflan": True,
+    "hombro_z0": 17.25,       # dis: inicio del cono (arriba del rodillo)
+    "hombro_ang": 40.0,       # dis: ángulo desde la vertical impresa (seguro)
+    "hombro_land": 0.6,       # dis: tramo recto vertical junto a la tapa
     "fuzzy": 0.005,
     "sliver_umbral": 0.005,
 }
@@ -459,11 +477,53 @@ def main():
         return BRepPrimAPI_MakeCylinder(
             gp_Ax2(gp_Pnt(*p0), gp_Dir(*d)), r, t1 - t0).Shape()
 
-    ranuras = []
-    for k in range(6):
-        c, d = eje_k(k)
-        ranuras.append(cil_eje(c, d, P["ranura_pasador_d"] / 2.0, -23.5, 23.5))
-    base = cut_multi(base, ranuras, "ranuras pasador Ø4.4")
+    # (las ranuras de pasador de la placa NO se tocan: pasador Ø3.2 original)
+
+    # ---- hombro con chaflán (relleno cónico + land vertical) -------------
+    if P["hombro_chaflan"]:
+        from shapely.geometry import Polygon as ShPolygon
+        from OCP.BRepPrimAPI import BRepPrimAPI_MakeRevol
+        mtmp2 = malla(base, "_base_hombro", 0.03)
+        z_tapa = float(mtmp2.vertices[:, 2].max())
+        z0 = P["hombro_z0"]
+        s2 = mtmp2.section(plane_origin=[0, 0, z0], plane_normal=[0, 0, 1])
+        r0 = float(np.linalg.norm(s2.vertices[:, :2], axis=1).max()) - 0.02
+        z1 = z_tapa - P["hombro_land"]
+        r1 = r0 - math.tan(math.radians(P["hombro_ang"])) * (z1 - z0)
+        print(f"  chaflán del hombro: ({r0:.2f},{z0}) -> ({r1:.2f},{z1:.2f})"
+              f" + land {P['hombro_land']} hasta la tapa {z_tapa:.2f}")
+        # sólido de revolución ANULAR del perfil chaflán+land (r>=15.5:
+        # bolsillos de pernería y trébol llegan a r14.2 — no se tapan)
+        prof = [(15.5, z0), (r0, z0), (r1, z1), (r1, z_tapa),
+                (15.5, z_tapa)]
+        poly = BRepBuilderAPI_MakePolygon()
+        for x, z in prof:
+            poly.Add(gp_Pnt(x, 0, z))
+        poly.Close()
+        cara_rev = BRepBuilderAPI_MakeFace(poly.Wire()).Face()
+        cono = BRepPrimAPI_MakeRevol(
+            cara_rev, gp_Ax1(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1))).Shape()
+        # limitar al footprint de la estrella (sección en z0)
+        s3 = mtmp2.section(plane_origin=[0, 0, z0 - 0.1],
+                           plane_normal=[0, 0, 1])
+        p2h, Th = s3.to_2D()
+        offh = np.array([Th[0, 3], Th[1, 3]])
+        cands = [p2h.vertices[e.points][:, :2] + offh for e in p2h.entities]
+        ext = max((ShPolygon(c) for c in cands if len(c) > 3),
+                  key=lambda p: p.area)
+        # contraer y simplificar: paredes del prisma separadas de las del
+        # brazo (las casi-coincidentes de malla rompen el fuse de OCC)
+        ext = ext.buffer(-0.12, join_style=2).simplify(0.05)
+        if ext.geom_type == "MultiPolygon":
+            ext = max(ext.geoms, key=lambda g: g.area)
+        pris = prisma_poligono(np.array(ext.exterior.coords[:-1]),
+                               z0 - 0.05, z_tapa)
+        relleno = common2(cono, pris)
+        v_rell = vol(relleno)
+        v_sol_h = vol(common2(relleno, base))
+        base = fuse_multi(base, [relleno],
+                          esperado=vol(base) + v_rell - v_sol_h, tol=5.0,
+                          nombre="chaflan hombro")
 
     placa_v7 = sanear_slivers(base, "placa v7")
 
@@ -472,36 +532,46 @@ def main():
     # por lado + barreno pasante Ø6.10 (cuerpo Ø6.25 a presión)
     c0, d0 = eje_k(0)
     T_ROD = 16.755
+    t_fondo = T_ROD - P["rem_rebaje_e"] - P["rem_bore_prof"]  # 1.605
     brocas_rod = [cil_eje(c0, d0, P["rem_rebaje_d"] / 2.0,
                           T_ROD - P["rem_rebaje_e"], T_ROD + 1.0),
                   cil_eje(c0, d0, P["rem_rebaje_d"] / 2.0,
                           -T_ROD - 1.0, -T_ROD + P["rem_rebaje_e"]),
+                  # alojamientos Ø6.10 por lado, con FONDO (tope del remache)
                   cil_eje(c0, d0, (P["rem_cuerpo_d"] - P["rem_apriete"]) / 2.0,
-                          -T_ROD - 1.0, T_ROD + 1.0)]
+                          t_fondo, T_ROD + 1.0),
+                  cil_eje(c0, d0, (P["rem_cuerpo_d"] - P["rem_apriete"]) / 2.0,
+                          -T_ROD - 1.0, -t_fondo),
+                  # zona central Ø4.05: aloja el buje (prensa)
+                  cil_eje(c0, d0, (P["buje_d"] + P["buje_holgura"]) / 2.0,
+                          -t_fondo - 0.5, t_fondo + 0.5)]
     rodillo_v7 = cut_multi(rodillos[0], brocas_rod, "asientos remache")
     rodillo_v7 = sanear_slivers(rodillo_v7, "rodillo v7")
     rodillos_v7 = [rotz(rodillo_v7, 60 * k) for k in range(6)]
 
-    # remaches y pasadores nuevos (para el ensamble): el cuerpo modelado va
-    # RECORTADO a 15.6 (los de 16 se tocan al centro: rebajar ~0.8 total)
+    # remaches (para el ensamble): el cuerpo va RECORTADO a rem_bore_prof
+    # (el alojamiento tiene fondo: tope de asiento) + bujes centrales
     def remache(k, lado):
         c, d = eje_k(k)
         s = 1.0 if lado > 0 else -1.0
         tc0 = s * (T_ROD - P["rem_rebaje_e"])          # cara inferior de cabeza
+        Lc = P["rem_bore_prof"]
         cab = cil_eje(c, d, P["rem_cabeza_d"] / 2.0,
                       min(tc0, tc0 + s * P["rem_cabeza_e"]),
                       max(tc0, tc0 + s * P["rem_cabeza_e"]))
         cue = cil_eje(c, d, P["rem_cuerpo_d"] / 2.0,
-                      min(tc0, tc0 - s * 15.6), max(tc0, tc0 - s * 15.6))
+                      min(tc0, tc0 - s * Lc), max(tc0, tc0 - s * Lc))
         r = fuse_multi(cab, [cue], nombre="remache")
         return cut_multi(r, [cil_eje(c, d, P["rem_pasante_d"] / 2.0,
                                      -T_ROD - 2, T_ROD + 2)], "pasante")
 
     remaches = [remache(k, l) for k in range(6) for l in (+1, -1)]
-    pasadores_v7 = []
+    bujes = []
     for k in range(6):
         c, d = eje_k(k)
-        pasadores_v7.append(cil_eje(c, d, P["pasador_d"] / 2.0, -23.0, 23.0))
+        bj = cil_eje(c, d, P["buje_d"] / 2.0, -P["buje_L"] / 2, P["buje_L"] / 2)
+        bujes.append(cut_multi(bj, [cil_eje(c, d, P["pasador_d"] / 2.0 + 0.05,
+                                            -3, 3)], "buje id"))
 
     # ---- compuertas ------------------------------------------------------
     print("Compuertas…")
@@ -518,7 +588,7 @@ def main():
                                "vol": round(v1, 1)}
     if not m1.is_watertight:
         fallas.append("GM1: malla no estanca")
-    if not (v_uni - 500 < v1 < v_uni + 4500):
+    if not (v_uni - 500 < v1 < v_uni + 8500):
         fallas.append(f"GM1: volumen fuera de rango ({v1:.0f})")
 
     difs = []
@@ -625,45 +695,56 @@ def main():
     if v_c < 5.0:
         fallas.append("GM7: el barreno hex quedó sobredimensionado")
 
-    # GM8 — remaches y pasador Ø4: calibres de paso, apriete y retención
+    # GM8 — remaches, buje central y pasador Ø3.2 original
     ok8 = True
     c0g, d0g = eje_k(0)
-    v_pas = 0.0
-    for k in (0, 2, 4):
-        ck, dk = eje_k(k)
-        g = cil_eje(ck, dk, 2.05, -23.2, 23.2)          # pasador Ø4.1 pasa
-        v_pas = max(v_pas, vol(common2(placa_v7, g)) + vol(common2(otra, g)))
+    # ranuras de placa INTACTAS: el pasador original asienta igual que en el
+    # STEP de entrada (misma interferencia de asiento ciego en las puntas)
+    v_pin0 = vol(common2(placa0, pasadores[0]))
+    v_pinv = vol(common2(placa_v7, pasadores[0]))
     v_ret = vol(common2(placa_v7, cil_eje(c0g, d0g, 2.45, 10, 21)))
-    v_body = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.0, -17.3, 17.3)))
-    v_wall = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.2, -15, 15)))
+    # rodillo: alojamiento Ø6.10 con FONDO, zona central Ø4.05 para el buje
+    v_body = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.0, 1.8, 17.3))) + \
+        vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.0, -17.3, -1.8)))
+    v_stop = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.0, 0.9, 1.45)))
+    v_cent = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 1.95, -1.9, 1.9)))
+    v_cwall = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 2.2, -1.2, 1.2)))
     v_head = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 6.05,
                                              T_ROD - 1.1, T_ROD - 0.05)))
-    v_piso = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 6.05,
-                                             T_ROD - 1.5, T_ROD - 1.3)))
     v_rem = max(vol(common2(placa_v7, remaches[0])),
                 vol(common2(otra, remaches[1])))
-    res["GM8_remaches_pasador"] = {
-        "pasador_4p1_interfiere": round(v_pas, 3),
+    # tope del eje CUBIERTO sí o sí (material sobre la punta del pasador)
+    v_tope = vol(common2(placa_v7, cil_eje(c0g, d0g, 2.45, 20.5, 23.3)))
+    res["GM8_remaches_buje_pasador"] = {
+        "tope_eje_cubierto": round(v_tope, 2),
+        "ranura_dif_vs_original": round(abs(v_pinv - v_pin0), 3),
         "ranura_retiene_4p9": round(v_ret, 2),
-        "cuerpo_6p0_pasa": round(v_body, 3),
-        "pared_apriete_6p4": round(v_wall, 2),
+        "alojamiento_6p0_pasa": round(v_body, 3),
+        "fondo_tope_remache": round(v_stop, 2),
+        "buje_3p9_pasa_centro": round(v_cent, 3),
+        "pared_central_4p4": round(v_cwall, 2),
         "cabeza_12p1_entra": round(v_head, 3),
-        "piso_rebaje_presente": round(v_piso, 2),
         "remache_toca_placa": round(v_rem, 3)}
-    if v_pas > 1e-3:
-        ok8 = False; fallas.append(f"GM8: el pasador Ø4.1 no pasa ({v_pas:.2f})")
+    if abs(v_pinv - v_pin0) > 2.0:
+        ok8 = False
+        fallas.append(f"GM8: la ranura del pasador cambió "
+                      f"({v_pin0:.2f} -> {v_pinv:.2f})")
     if v_ret < 0.5:
         ok8 = False; fallas.append("GM8: la ranura quedó sobredimensionada")
     if v_body > 1e-3:
         ok8 = False; fallas.append(f"GM8: el cuerpo del remache no entra ({v_body:.2f})")
-    if v_wall < 1.0:
-        ok8 = False; fallas.append("GM8: no hay pared de apriete para el remache")
+    if v_stop < 1.0:
+        ok8 = False; fallas.append("GM8: falta el fondo/tope del remache")
+    if v_cent > 1e-3:
+        ok8 = False; fallas.append(f"GM8: el buje no entra al centro ({v_cent:.2f})")
+    if v_cwall < 0.5:
+        ok8 = False; fallas.append("GM8: la zona central quedó sobredimensionada")
     if v_head > 1e-3:
         ok8 = False; fallas.append(f"GM8: la cabeza no entra en su rebaje ({v_head:.2f})")
-    if v_piso < 1.0:
-        ok8 = False; fallas.append("GM8: el rebaje de cabeza quedó pasado")
     if v_rem > 1e-3:
         ok8 = False; fallas.append(f"GM8: el remache toca la placa ({v_rem:.2f})")
+    if v_tope < 0.5:
+        ok8 = False; fallas.append("GM8: el tope del eje quedó destapado")
 
     # ---- reporte y salidas ----------------------------------------------
     reporte = {
@@ -718,12 +799,15 @@ def main():
     for i, s in enumerate(rodillos_v7):
         ens.add(cq.Shape.cast(s), name=f"rodillo_v7_{i}",
                 color=cq.Color(0.35, 0.35, 0.38))
-    for i, s in enumerate(pasadores_v7):
-        ens.add(cq.Shape.cast(s), name=f"pasador_d4_{i}",
+    for i, s in enumerate(pasadores):
+        ens.add(cq.Shape.cast(s), name=f"pasador_d3p2_{i}",
                 color=cq.Color(0.7, 0.72, 0.75))
     for i, s in enumerate(remaches):
         ens.add(cq.Shape.cast(s), name=f"remache_6x16_{i}",
                 color=cq.Color(0.78, 0.78, 0.8))
+    for i, s in enumerate(bujes):
+        ens.add(cq.Shape.cast(s), name=f"buje_4x3p2_{i}",
+                color=cq.Color(0.72, 0.55, 0.3))
     for i, s in enumerate(pernos_v7):
         ens.add(cq.Shape.cast(s), name=f"perno_M3x40_{i}",
                 color=cq.Color(0.2, 0.2, 0.2))
