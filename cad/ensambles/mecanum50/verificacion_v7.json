@@ -24,6 +24,16 @@
   "tuerca_af": 5.5,
   "tuerca_encaje_af": 5.6,
   "clock_montaje": 60.0,
+  "rem_cabeza_d": 12.0,
+  "rem_cabeza_e": 1.1,
+  "rem_cuerpo_d": 6.25,
+  "rem_cuerpo_L": 16.0,
+  "rem_pasante_d": 4.6,
+  "rem_apriete": 0.15,
+  "rem_rebaje_d": 12.25,
+  "rem_rebaje_e": 1.15,
+  "pasador_d": 4.0,
+  "ranura_pasador_d": 4.4,
   "fuzzy": 0.005,
   "sliver_umbral": 0.005,
   "hex_af": 12.85
@@ -31,12 +41,12 @@
  "volumenes_mm3": {
   "placa_entrada": 14106.4,
   "placa_uniforme": 14304.0,
-  "placa_v7": 15662.6
+  "placa_v7": 15309.8
  },
  "compuertas": {
   "GM1_estanqueidad": {
    "watertight": true,
-   "vol": 15662.6
+   "vol": 15309.8
   },
   "GM2_brazos_iguales": {
    "dif_muestral_mm3": [
@@ -87,6 +97,15 @@
   "GM7_hex_media_pulgada": {
    "calibre_12_75_interfiere": 0.0,
    "calibre_13_15_material": 100.05
+  },
+  "GM8_remaches_pasador": {
+   "pasador_4p1_interfiere": 0.0,
+   "ranura_retiene_4p9": 12.85,
+   "cuerpo_6p0_pasa": 0.0,
+   "pared_apriete_6p4": 88.36,
+   "cabeza_12p1_entra": 0.0,
+   "piso_rebaje_presente": 17.15,
+   "remache_toca_placa": 0.0
   }
  },
  "fallas": []

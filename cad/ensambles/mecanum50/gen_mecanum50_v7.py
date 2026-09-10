@@ -112,6 +112,21 @@ P = {
     "tuerca_af": 5.5,         # med: tuerca M3 DIN934
     "tuerca_encaje_af": 5.6,  # dis: bolsillo hex (apriete leve, no gira)
     "clock_montaje": 60.0,    # dis: placa2 = Rot(180° sobre la línea a 30°)
+    # remaches de acero en los extremos de cada rodillo (med-user:
+    # SUN REM 1001, 6.3x16: cabeza Ø12 x 1.1, cuerpo Ø6.25 x 16,
+    # pasante Ø4.6) — actúan de bujes de acero y cara limpia
+    "rem_cabeza_d": 12.0,     # med-user
+    "rem_cabeza_e": 1.1,      # med-user
+    "rem_cuerpo_d": 6.25,     # med-user
+    "rem_cuerpo_L": 16.0,     # med-user
+    "rem_pasante_d": 4.6,     # med-user
+    "rem_apriete": 0.15,      # dis: barreno 6.10 para que el cuerpo entre a presión
+    "rem_rebaje_d": 12.25,    # dis: alojamiento de la cabeza (rodillo cara Ø13.02)
+    "rem_rebaje_e": 1.15,     # dis: cabeza a ras (-0.05); OJO: 2x(16+1.15)=34.3
+                              #      > largo del rodillo 33.51 -> rebajar ~0.8 mm
+                              #      la punta de un remache (o 0.4 de cada uno)
+    "pasador_d": 4.0,         # med-user: pasador nuevo Ø4 (corre en el Ø4.6)
+    "ranura_pasador_d": 4.4,  # dis: ranura del brazo para el Ø4
     "fuzzy": 0.005,
     "sliver_umbral": 0.005,
 }
@@ -419,7 +434,74 @@ def main():
     base = cut_multi(base, brocas_t, "bolsillos tuerca")
     base = cut_multi(base, brocas_c, "asientos cabeza")
 
+    # ---- V5: ejes de pasador (medidos del STEP) y ranuras a Ø4.4 --------
+    pr = GProp_GProps(); BRepGProp.VolumeProperties_s(pasadores[0], pr)
+    pc = pr.CentreOfMass()
+    pp = pr.PrincipalProperties()
+    mom = list(pp.Moments())
+    axs = [pp.FirstAxisOfInertia(), pp.SecondAxisOfInertia(),
+           pp.ThirdAxisOfInertia()]
+    dmin = axs[int(np.argmin(mom))]
+    eje0_c = np.array([pc.X(), pc.Y(), pc.Z()])
+    eje0_d = np.array([dmin.X(), dmin.Y(), dmin.Z()])
+    if eje0_d[2] < 0:
+        eje0_d = -eje0_d
+    eje0_d /= np.linalg.norm(eje0_d)
+
+    def eje_k(k):
+        th = math.radians(60 * k)
+        R = np.array([[math.cos(th), -math.sin(th), 0],
+                      [math.sin(th), math.cos(th), 0], [0, 0, 1]])
+        return R @ eje0_c, R @ eje0_d
+
+    def cil_eje(c, d, r, t0, t1):
+        p0 = c + d * t0
+        return BRepPrimAPI_MakeCylinder(
+            gp_Ax2(gp_Pnt(*p0), gp_Dir(*d)), r, t1 - t0).Shape()
+
+    ranuras = []
+    for k in range(6):
+        c, d = eje_k(k)
+        ranuras.append(cil_eje(c, d, P["ranura_pasador_d"] / 2.0, -23.5, 23.5))
+    base = cut_multi(base, ranuras, "ranuras pasador Ø4.4")
+
     placa_v7 = sanear_slivers(base, "placa v7")
+
+    # ---- V5: rodillo con asientos de remache ----------------------------
+    # largo axial medido 33.51 (t ±16.755): rebaje de cabeza Ø12.25 x 1.15
+    # por lado + barreno pasante Ø6.10 (cuerpo Ø6.25 a presión)
+    c0, d0 = eje_k(0)
+    T_ROD = 16.755
+    brocas_rod = [cil_eje(c0, d0, P["rem_rebaje_d"] / 2.0,
+                          T_ROD - P["rem_rebaje_e"], T_ROD + 1.0),
+                  cil_eje(c0, d0, P["rem_rebaje_d"] / 2.0,
+                          -T_ROD - 1.0, -T_ROD + P["rem_rebaje_e"]),
+                  cil_eje(c0, d0, (P["rem_cuerpo_d"] - P["rem_apriete"]) / 2.0,
+                          -T_ROD - 1.0, T_ROD + 1.0)]
+    rodillo_v7 = cut_multi(rodillos[0], brocas_rod, "asientos remache")
+    rodillo_v7 = sanear_slivers(rodillo_v7, "rodillo v7")
+    rodillos_v7 = [rotz(rodillo_v7, 60 * k) for k in range(6)]
+
+    # remaches y pasadores nuevos (para el ensamble): el cuerpo modelado va
+    # RECORTADO a 15.6 (los de 16 se tocan al centro: rebajar ~0.8 total)
+    def remache(k, lado):
+        c, d = eje_k(k)
+        s = 1.0 if lado > 0 else -1.0
+        tc0 = s * (T_ROD - P["rem_rebaje_e"])          # cara inferior de cabeza
+        cab = cil_eje(c, d, P["rem_cabeza_d"] / 2.0,
+                      min(tc0, tc0 + s * P["rem_cabeza_e"]),
+                      max(tc0, tc0 + s * P["rem_cabeza_e"]))
+        cue = cil_eje(c, d, P["rem_cuerpo_d"] / 2.0,
+                      min(tc0, tc0 - s * 15.6), max(tc0, tc0 - s * 15.6))
+        r = fuse_multi(cab, [cue], nombre="remache")
+        return cut_multi(r, [cil_eje(c, d, P["rem_pasante_d"] / 2.0,
+                                     -T_ROD - 2, T_ROD + 2)], "pasante")
+
+    remaches = [remache(k, l) for k in range(6) for l in (+1, -1)]
+    pasadores_v7 = []
+    for k in range(6):
+        c, d = eje_k(k)
+        pasadores_v7.append(cil_eje(c, d, P["pasador_d"] / 2.0, -23.0, 23.0))
 
     # ---- compuertas ------------------------------------------------------
     print("Compuertas…")
@@ -460,7 +542,7 @@ def main():
     pq1 = tm.proximity.ProximityQuery(m1)
     pq2 = tm.proximity.ProximityQuery(m2)
     peor = 1e9
-    for rsol in rodillos:
+    for rsol in rodillos_v7:
         mr = malla(rsol, "_rod_tmp", 0.05)
         pts, _ = tm.sample.sample_surface(mr, 3000, seed=1)
         d1 = -pq1.signed_distance(pts[pts[:, 2] > 1.0])
@@ -543,6 +625,46 @@ def main():
     if v_c < 5.0:
         fallas.append("GM7: el barreno hex quedó sobredimensionado")
 
+    # GM8 — remaches y pasador Ø4: calibres de paso, apriete y retención
+    ok8 = True
+    c0g, d0g = eje_k(0)
+    v_pas = 0.0
+    for k in (0, 2, 4):
+        ck, dk = eje_k(k)
+        g = cil_eje(ck, dk, 2.05, -23.2, 23.2)          # pasador Ø4.1 pasa
+        v_pas = max(v_pas, vol(common2(placa_v7, g)) + vol(common2(otra, g)))
+    v_ret = vol(common2(placa_v7, cil_eje(c0g, d0g, 2.45, 10, 21)))
+    v_body = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.0, -17.3, 17.3)))
+    v_wall = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 3.2, -15, 15)))
+    v_head = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 6.05,
+                                             T_ROD - 1.1, T_ROD - 0.05)))
+    v_piso = vol(common2(rodillo_v7, cil_eje(c0g, d0g, 6.05,
+                                             T_ROD - 1.5, T_ROD - 1.3)))
+    v_rem = max(vol(common2(placa_v7, remaches[0])),
+                vol(common2(otra, remaches[1])))
+    res["GM8_remaches_pasador"] = {
+        "pasador_4p1_interfiere": round(v_pas, 3),
+        "ranura_retiene_4p9": round(v_ret, 2),
+        "cuerpo_6p0_pasa": round(v_body, 3),
+        "pared_apriete_6p4": round(v_wall, 2),
+        "cabeza_12p1_entra": round(v_head, 3),
+        "piso_rebaje_presente": round(v_piso, 2),
+        "remache_toca_placa": round(v_rem, 3)}
+    if v_pas > 1e-3:
+        ok8 = False; fallas.append(f"GM8: el pasador Ø4.1 no pasa ({v_pas:.2f})")
+    if v_ret < 0.5:
+        ok8 = False; fallas.append("GM8: la ranura quedó sobredimensionada")
+    if v_body > 1e-3:
+        ok8 = False; fallas.append(f"GM8: el cuerpo del remache no entra ({v_body:.2f})")
+    if v_wall < 1.0:
+        ok8 = False; fallas.append("GM8: no hay pared de apriete para el remache")
+    if v_head > 1e-3:
+        ok8 = False; fallas.append(f"GM8: la cabeza no entra en su rebaje ({v_head:.2f})")
+    if v_piso < 1.0:
+        ok8 = False; fallas.append("GM8: el rebaje de cabeza quedó pasado")
+    if v_rem > 1e-3:
+        ok8 = False; fallas.append(f"GM8: el remache toca la placa ({v_rem:.2f})")
+
     # ---- reporte y salidas ----------------------------------------------
     reporte = {
         "pieza": "Mecanum50 izq v7 — placa única hermafrodita, corona de 3 "
@@ -570,6 +692,11 @@ def main():
     uno.add(cq.Shape.cast(placa_v7), name="placa_v7",
             color=cq.Color(0.3, 0.5, 0.4))
     uno.save(str(OUT / "placa_v7.step"))
+    rasm = cq.Assembly()
+    rasm.add(cq.Shape.cast(rodillo_v7), name="rodillo_v7",
+             color=cq.Color(0.35, 0.35, 0.38))
+    rasm.save(str(OUT / "rodillo_v7.step"))
+    malla(rodillo_v7, "rodillo_v7", 0.02)
 
     pernos_v7, tuercas_v7 = [], []
     for k in range(3):
@@ -588,12 +715,15 @@ def main():
             color=cq.Color(0.25, 0.45, 0.65))
     ens.add(cq.Shape.cast(a_mundo_2(placa_v7)), name="placa_v7_A",
             color=cq.Color(0.85, 0.5, 0.2))
-    for i, s in enumerate(rodillos):
-        ens.add(cq.Shape.cast(s), name=f"rodillo_{i}",
+    for i, s in enumerate(rodillos_v7):
+        ens.add(cq.Shape.cast(s), name=f"rodillo_v7_{i}",
                 color=cq.Color(0.35, 0.35, 0.38))
-    for i, s in enumerate(pasadores):
-        ens.add(cq.Shape.cast(s), name=f"pasador_{i}",
+    for i, s in enumerate(pasadores_v7):
+        ens.add(cq.Shape.cast(s), name=f"pasador_d4_{i}",
                 color=cq.Color(0.7, 0.72, 0.75))
+    for i, s in enumerate(remaches):
+        ens.add(cq.Shape.cast(s), name=f"remache_6x16_{i}",
+                color=cq.Color(0.78, 0.78, 0.8))
     for i, s in enumerate(pernos_v7):
         ens.add(cq.Shape.cast(s), name=f"perno_M3x40_{i}",
                 color=cq.Color(0.2, 0.2, 0.2))
