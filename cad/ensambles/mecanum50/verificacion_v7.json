@@ -1,0 +1,121 @@
+{
+ "pieza": "Mecanum50 izq v7 — placa única hermafrodita, corona de 3 dientes inclinados, pernería alternada, hex 1/2 in",
+ "capa": "user",
+ "parametros": {
+  "sector_maestro": 315.0,
+  "r_nucleo": 14.5,
+  "hex_barra": 12.7,
+  "hex_ajuste": 0.15,
+  "hex_viejo_r": 8.6,
+  "hex_viejo_z": 18.35,
+  "cubo_r": 13.0,
+  "collar_h": 6.5,
+  "diente_n": 3,
+  "diente_centro": 60.0,
+  "diente_prof": 8.0,
+  "diente_semibase": 3.6,
+  "flanco_deg": 15.0,
+  "holgura_flanco": 0.05,
+  "alivio_fondo": 0.4,
+  "perno_pos": 10.9,
+  "paso_viejo_r": 2.95,
+  "z_hombro": 18.3,
+  "z_tuerca": 18.8,
+  "tuerca_af": 5.5,
+  "tuerca_encaje_af": 5.6,
+  "clock_montaje": 60.0,
+  "rem_cabeza_d": 12.0,
+  "rem_cabeza_e": 1.1,
+  "rem_cuerpo_d": 6.25,
+  "rem_cuerpo_L": 16.0,
+  "rem_pasante_d": 4.6,
+  "rem_apriete": 0.15,
+  "rem_rebaje_d": 12.25,
+  "rem_rebaje_e": 1.15,
+  "pasador_d": 3.2,
+  "buje_d": 4.0,
+  "buje_L": 3.0,
+  "buje_holgura": 0.05,
+  "rem_bore_prof": 14.0,
+  "hombro_chaflan": true,
+  "hombro_z0": 17.25,
+  "hombro_ang": 40.0,
+  "hombro_land": 0.6,
+  "fuzzy": 0.005,
+  "sliver_umbral": 0.005,
+  "hex_af": 12.85
+ },
+ "volumenes_mm3": {
+  "placa_entrada": 14106.4,
+  "placa_uniforme": 14304.0,
+  "placa_v7": 16183.5
+ },
+ "compuertas": {
+  "GM1_estanqueidad": {
+   "watertight": true,
+   "vol": 16183.5
+  },
+  "GM2_brazos_iguales": {
+   "dif_muestral_mm3": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "GM3_esquinitas": {
+   "placa_v7": 0,
+   "detalle": []
+  },
+  "GM4_holgura_rodillo": {
+   "min_mm": 0.7
+  },
+  "GM5_corona": {
+   "interseccion_mm3": 0.0,
+   "holgura_flanco_mediana": 0.048,
+   "pts_apoyo_z0": 680,
+   "apoyo_dist_mediana": 0.0
+  },
+  "GM6_perneria": {
+   "pasa": true,
+   "detalle": {
+    "60": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.47
+    },
+    "180": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.47
+    },
+    "300": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.47
+    }
+   }
+  },
+  "GM7_hex_media_pulgada": {
+   "calibre_12_75_interfiere": 0.0,
+   "calibre_13_15_material": 100.05
+  },
+  "GM8_remaches_buje_pasador": {
+   "tope_eje_cubierto": 48.5,
+   "ranura_dif_vs_original": 0.0,
+   "ranura_retiene_4p9": 36.05,
+   "alojamiento_6p0_pasa": 0.0,
+   "fondo_tope_remache": 8.47,
+   "buje_3p9_pasa_centro": 0.0,
+   "pared_central_4p4": 5.57,
+   "cabeza_12p1_entra": 0.0,
+   "remache_toca_placa": 0.0
+  }
+ },
+ "fallas": []
+}

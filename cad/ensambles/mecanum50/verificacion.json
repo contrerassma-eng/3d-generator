@@ -1,0 +1,108 @@
+{
+ "pieza": "Mecanum50 izquierda v6 — placa B corregida + placa A con encaje negativo",
+ "capa": "user",
+ "entrada": {
+  "archivo": "Mecanum50_izq.stp",
+  "volumen_placa": 14106.4,
+  "caras_sliver": 24,
+  "defectos": [
+   "brazos en 2 familias con decalajes",
+   "esquinitas en cantos",
+   "sin encaje central; perno choca con reloj 120°",
+   "paso de perno Ø5.9 sin hombro para la cabeza ni encaje de tuerca al otro lado"
+  ]
+ },
+ "parametros": {
+  "sector_maestro": 315.0,
+  "r_nucleo": 14.5,
+  "hex_af": 14.5,
+  "cubo_r": 13.0,
+  "perno_r": 2.95,
+  "perno_pos": 10.9,
+  "collar_h": 6.0,
+  "z_dientes": 2.0,
+  "macho_ajuste": -0.05,
+  "macho_L": 5.0,
+  "apriete_hembra": 0.1,
+  "chanfle_red": 0.6,
+  "chanfle_L": 0.6,
+  "chanfle_pasos": 4,
+  "holgura_fondo": 0.6,
+  "clock_montaje": 60.0,
+  "z_hombro": 18.3,
+  "z_tuerca": 18.8,
+  "tuerca_af": 5.5,
+  "tuerca_encaje_af": 5.6,
+  "fuzzy": 0.005,
+  "sliver_umbral": 0.005
+ },
+ "volumenes_mm3": {
+  "placa_entrada": 14106.4,
+  "placa_uniforme": 14304.0,
+  "placa_B_v6": 16451.2,
+  "placa_A_v6": 14796.0
+ },
+ "compuertas": {
+  "GM1_estanqueidad": {
+   "B": true,
+   "A": true,
+   "vol_B": 16451.2,
+   "vol_A": 14796.0
+  },
+  "GM2_brazos_iguales": {
+   "dif_muestral_mm3": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "GM3_esquinitas": {
+   "entrada": 24,
+   "B_v6": 0,
+   "A_v6": 0,
+   "detalle_B": [],
+   "detalle_A": []
+  },
+  "GM4_holgura_rodillo": {
+   "min_mm": 0.7
+  },
+  "GM5_encaje_presion": {
+   "interseccion_mm3": 26.51,
+   "apriete_mediano_flanco": 0.05,
+   "apriete_p95": 0.05,
+   "punta_pen_max": -0.4,
+   "cara_collar_A_z": 0.0
+  },
+  "GM6_perneria": {
+   "pasa": true,
+   "detalle": {
+    "30": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    },
+    "150": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    },
+    "270": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    }
+   }
+  },
+  "GM7_calibre_hex": {
+   "B": 0.0,
+   "A": 0.0
+  }
+ },
+ "fallas": []
+}
