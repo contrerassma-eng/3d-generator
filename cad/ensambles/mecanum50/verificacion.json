@@ -8,7 +8,8 @@
   "defectos": [
    "brazos en 2 familias con decalajes",
    "esquinitas en cantos",
-   "sin encaje central; perno choca con reloj 120°"
+   "sin encaje central; perno choca con reloj 120°",
+   "paso de perno Ø5.9 sin hombro para la cabeza ni encaje de tuerca al otro lado"
   ]
  },
  "parametros": {
@@ -22,26 +23,31 @@
   "z_dientes": 2.0,
   "macho_ajuste": -0.05,
   "macho_L": 5.0,
-  "piloto_paso": 0.6,
-  "piloto_L": 0.55,
-  "holgura_flanco": 0.2,
+  "apriete_hembra": 0.1,
+  "chanfle_red": 0.6,
+  "chanfle_L": 0.6,
+  "chanfle_pasos": 4,
   "holgura_fondo": 0.6,
   "clock_montaje": 60.0,
+  "z_hombro": 18.3,
+  "z_tuerca": 18.8,
+  "tuerca_af": 5.5,
+  "tuerca_encaje_af": 5.6,
   "fuzzy": 0.005,
   "sliver_umbral": 0.005
  },
  "volumenes_mm3": {
   "placa_entrada": 14106.4,
   "placa_uniforme": 14304.0,
-  "placa_B_v6": 15404.0,
-  "placa_A_v6": 13993.4
+  "placa_B_v6": 16451.2,
+  "placa_A_v6": 14796.0
  },
  "compuertas": {
   "GM1_estanqueidad": {
    "B": true,
    "A": true,
-   "vol_B": 15404.0,
-   "vol_A": 13993.4
+   "vol_B": 16451.2,
+   "vol_A": 14796.0
   },
   "GM2_brazos_iguales": {
    "dif_muestral_mm3": [
@@ -60,13 +66,38 @@
   "GM4_holgura_rodillo": {
    "min_mm": 0.7
   },
-  "GM5_encaje": {
-   "interseccion_mm3": 0.0,
-   "holgura_lateral_min": 0.25,
+  "GM5_encaje_presion": {
+   "interseccion_mm3": 26.51,
+   "apriete_mediano_flanco": 0.05,
+   "apriete_p95": 0.05,
+   "punta_pen_max": -0.4,
    "cara_collar_A_z": 0.0
   },
-  "GM6_calibre_perno": {
-   "pasa": true
+  "GM6_perneria": {
+   "pasa": true,
+   "detalle": {
+    "30": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    },
+    "150": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    },
+    "270": {
+     "vastago": 0.0,
+     "cabeza": 0.0,
+     "hombro_material": 3.65,
+     "tuerca_entra": 0.0,
+     "tuerca_girada_choca": 2.94
+    }
+   }
   },
   "GM7_calibre_hex": {
    "B": 0.0,

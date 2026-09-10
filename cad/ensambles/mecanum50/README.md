@@ -29,17 +29,25 @@ en r=10.9 a 30/150/270 y el trébol portacabeza/tuerca.
 - **C2 — esquinitas fuera**: saneo por defeaturing B-rep iterativo (con
   racimos de vecinas y micro-hoyuelo de último recurso), verificado por
   inventario: 24 caras sliver en la entrada → **0** en ambas placas.
-- **C3 — encaje central**: en ambas placas se rellena el hueco entre
-  dientes con un **collar** (Ø26) → contacto anular pleno en z=0 (antes
-  solo puntitas). En la **placa B** los 6 dientes se prolongan **5.0 mm en
-  macho** con piloto de entrada (escalón −0.6 × 0.55). En la **placa A** los
-  mismos perfiles — espejados con la transformación real de montaje
-  **Rz(60°)·Rx(180°)**, la que alinea los pernos — se cortan en **negativo**
-  con 0.2 mm de holgura por flanco y 0.6 en el fondo. Con el reloj a 60° los
-  dientes de B caen exactamente entre los dientes de A y los pernos pasan
-  limpios por sus Ø5.9.
-- El ancho total del ensamble **no cambia**: rodillos, pasadores y pernos
-  quedan donde estaban.
+- **C3 — encaje central A PRESIÓN**: en ambas placas se rellena el hueco
+  entre dientes con un **collar** (Ø26) → contacto anular pleno en z=0
+  (antes solo puntitas). En la **placa B** los 6 dientes se prolongan
+  **5.0 mm en macho** con **chanfle de entrada** (0.6 × 0.6, escalonado —
+  la impresora lo escalona igual). En la **placa A** los mismos perfiles —
+  espejados con la transformación real de montaje **Rz(60°)·Rx(180°)**, la
+  que alinea los pernos — se cortan en **negativo MENOR que el perfil**:
+  **apriete de 0.05 mm por flanco** (macho −0.05, hembra −0.10). Entra a
+  presión con golpe suave y queda ajustado; 0.6 de luz solo en el fondo
+  para que el tope axial siga siendo collar contra collar.
+- **C4 — asiento de cabeza y encaje de tuerca** (el paso Ø5.9 original no
+  tenía hombro: la cabeza se colaba): en la **placa A** el paso se tapona y
+  se re-taladra **Ø3.4** → hombro anular en z=18.3 donde asienta la cabeza
+  DIN912, alojada bajo la cara exterior. En la **placa B**, bolsillo
+  **hexagonal 5.6 e/c × 3** (apriete leve sobre la tuerca M3 de 5.5: entra
+  a presión y **no gira** — se aprieta con una sola llave), sin invadir la
+  cajera central del trébol. Perno resultante: **M3×40** (queda a ras).
+- El ancho total del ensamble **no cambia**: rodillos y pasadores quedan
+  exactamente donde estaban.
 
 ## Compuertas (el generador FALLA si alguna no pasa)
 
@@ -49,8 +57,8 @@ en r=10.9 a 30/150/270 y el trébol portacabeza/tuerca.
 | GM2 | los 6 brazos idénticos (diferencia booleana ≈ 0 vs maestro rotado) |
 | GM3 | ninguna cara < 0.005 mm² (esquinitas eliminadas) |
 | GM4 | holgura placa-rodillo ≥ 0.65 en los 6 rodillos × 2 placas |
-| GM5 | macho de B dentro del negativo de A sin tocar (holgura ≥ 0.15) y collar de A en z=0 |
-| GM6 | calibre de perno Ø5.6 pasa recto en 30/150/270 por ambas placas |
+| GM5 | encaje a presión: EXISTE la interferencia de diseño (~0.05/flanco, mediana en [0.01,0.10]) y la punta chanfleada entra libre; collar de A en z=0 |
+| GM6 | pernería M3×40: vástago Ø3.2 pasa, cabeza alojada, hombro presente, tuerca entra en su bolsillo y girada 30° CHOCA (capturada) |
 | GM7 | calibre hex 14.4 e/c × 44 pasa por el barreno de ambas placas |
 
 Resultados numéricos: `verificacion.json`.
@@ -73,11 +81,16 @@ rodillos, pasadores y pernos) y el render de verificación.
   prismas verticales y los negativos como bolsillos, sin soportes en la
   zona del encaje.
 - Montaje: rodillo + pasador en cada bolsa de B; enfrentar A girada de modo
-  que los pernos coincidan (solo entra en los relojes correctos — los
-  dientes en dos formas hacen único el calce cada 120°); los machos de B
-  entran en los negativos de A hasta apoyar collar contra collar en z=0;
-  3× M3 con cabeza en el trébol de un lado y tuerca en el del otro.
+  que los pernos coincidan (los dientes en dos formas hacen único el calce
+  cada 120°); presentar los machos por el chanfle y **prensar** hasta que
+  apoye collar contra collar en z=0 (golpe suave o prensa — hay 0.05 de
+  apriete por flanco); meter las 3 tuercas M3 a presión en sus bolsillos
+  hex de B y apretar los 3 **M3×40** desde el lado A (una sola llave: la
+  tuerca no gira).
 - El pasador queda con su tope axial original en el fondo de la ranura.
+
+**BOM comprada**: 3 × perno M3×40 DIN912 · 3 × tuerca M3 DIN934 (los
+M3×25 del modelo de entrada no alcanzaban la tuerca).
 
 ## Nota
 
