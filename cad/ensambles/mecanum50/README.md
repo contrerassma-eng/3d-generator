@@ -1,4 +1,48 @@
-# Mecanum 50 izquierda v6 — placa B corregida + placa A con encaje negativo
+# Mecanum 50 izquierda — v7 (actual) y v6
+
+## v7 — UNA SOLA PIEZA con corona dentada (`gen_mecanum50_v7.py`)
+
+Rediseño del encaje pedido por el usuario para impresión por capas:
+
+- **Corona anular de 3 dientes trapezoidales** a todo el ancho del collar
+  (desde la pared del hex hasta Ø26): **8 mm de engrane** (±4 sobre el
+  plano de unión) con **flancos inclinados 15°** → la fuerza entra
+  oblicua a las capas (compresión de flanco repartida en ~40 capas, no
+  cizalle en un plano de capa) y la raíz del diente es mucho más ancha.
+  El propio flanco guía la entrada y auto-centra al apretar. Apoyo de
+  raíz en z=0, holgura de flanco 0.05 y alivio de 0.4 en fondos.
+- **A = B**: una sola pieza (`placa_v7.stl`), se imprime **2 veces** y se
+  montan enfrentadas (rotación de 180° sobre la línea a 30°). Los huecos
+  de la corona son la imagen de montaje de los propios dientes:
+  complementariedad exacta por construcción.
+- **Pernería alternada** (como la rueda comercial de referencia):
+  6 posiciones a 60° alternando bolsillo hex de tuerca (60°+120k) y
+  asiento de cabeza DIN912 (0°+120k). Montada, cada **M3×40** encuentra
+  tuerca capturada en una placa y cabeza asentada en la otra; quedan 3
+  perforaciones sin usar por lado (aceptado). Los pasos Ø5.9 viejos
+  (30°+120k) van tapados.
+- **Hex de ½ pulgada**: barreno 12.70 + 0.15 de ajuste = **12.85 e/c**
+  (parámetro `hex_ajuste`; calibrar con impresión de prueba — "un par de
+  micras" no es resolución FDM). El hex 14.5 anterior se rellena.
+- Sin cambios: brazos unificados (C1 de la v6), rodillos y pasadores
+  intactos del STEP del usuario, ancho total del ensamble.
+
+Compuertas v7 (todas en verde, `verificacion_v7.json`): GM1 estanca ·
+GM2 brazos idénticos · GM3 cero esquinitas · GM4 holgura de rodillo
+0.700 · GM5 corona montada sin interferencia, apoyo z=0, flanco 0.048 ·
+GM6 pernería alternada (tuerca capturada: girada 30° choca) · GM7 la
+barra de ½ in pasa y el barreno no queda sobredimensionado.
+
+```bash
+python cad/ensambles/mecanum50/gen_mecanum50_v7.py   # emite out/placa_v7.step/.stl
+```
+
+**BOM v7**: 2 × `placa_v7` (PETG) · 6 rodillos + 6 pasadores (del diseño
+original) · 3 × M3×40 DIN912 · 3 × tuerca M3.
+
+---
+
+# v6 (iteración anterior) — placa B corregida + placa A con encaje negativo
 
 Corrección del modelo del usuario `Mecanum50_izq.stp` (Inventor 2027,
 capa `user`): rueda mecanum izquierda de 6 rodillos a 44°, dos placas
