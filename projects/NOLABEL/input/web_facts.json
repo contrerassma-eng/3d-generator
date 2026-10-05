@@ -1,0 +1,24 @@
+[
+  {
+    "id": "din625_6002",
+    "claim": "Rodamiento rígido de bolas 6002 — bore × diámetro exterior × ancho",
+    "value": "15 × 32 × 9",
+    "unit": "mm",
+    "url": "https://uk.rubix.com/en/6002/p-G1361003536",
+    "accessed": "2026-10-05",
+    "quote": "Deep groove ball bearing Timken 6002, Outer diameter: 32 mm | Width: 9 mm | Inner diameter: 15 mm",
+    "confidence": "media",
+    "nota": "Cita tomada del título del resultado de búsqueda; la página del proveedor no es accesible desde la red de esta sesión (egress bloqueado). Verificar contra el catálogo del rodamiento que se compre."
+  },
+  {
+    "id": "at5_correa",
+    "claim": "Correa síncrona AT5 de poliuretano, ancho 10 mm (paso 5 mm, altura de diente 1,2 mm)",
+    "value": 10,
+    "unit": "mm",
+    "url": "https://uk.rs-online.com/web/p/timing-belts/2169871",
+    "accessed": "2026-10-05",
+    "quote": "OPTIBELT 10 AT5 / 500 Timing Belt 100 Teeth, 500 mm Length, 10 mm Width",
+    "confidence": "media",
+    "nota": "Cita tomada del título del resultado de búsqueda (serie ALPHA TORQUE, PU 86 ShA, −30…+80 °C según el resumen de búsqueda). El largo real de cada correa lo da nolabel_dims.json (correas por familia); elegir el largo normalizado inmediato y ajustar con el tensor."
+  }
+]

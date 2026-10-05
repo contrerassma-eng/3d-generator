@@ -296,3 +296,13 @@ node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt08.jso
 
 Los entregables del proyecto (GLB, planos, memoria de cálculo y lista de
 compra de material de ejes) viven en `projects/LBP530-18/out/`.
+
+## Línea NO-Label (`nolabel/`) — omni · twin belt MB400 con cámara · MB400 4000 · omni · cinta perpendicular
+
+Lectura de QR por el fondo de la caja y clasificación por tamaño para cajas de
+cereza (proyecto `projects/NOLABEL`). Generador paramétrico con compuerta de
+diseño: `node cad/ensambles/nolabel/gen_nolabel.mjs` emite `nolabel_linea.json`
+(la línea), `nolabel_omni.json` (un bloque omni solo) y `nolabel_dims.json`
+(cotas, verificaciones y despiece por equipo) **sólo si** pasan G1–G7.
+Prueba: `cd cad && node tests/test_nolabel.mjs`. Detalle, procedencia de cada
+cota y preguntas abiertas en [`nolabel/README.md`](nolabel/README.md).

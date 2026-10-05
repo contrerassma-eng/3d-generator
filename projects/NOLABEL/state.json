@@ -1,0 +1,8 @@
+{
+  "project": "NOLABEL",
+  "stage": "DISENO_CAD",
+  "gates": {
+    "G_DISENO": "PASS — gen_nolabel.mjs emite sólo si cumple G1..G7 (ver cad/ensambles/nolabel/nolabel_dims.json → verificaciones)"
+  },
+  "nota": "Proyecto de DISEÑO (capa user): no hay fotos ni fotogrametría. S0–S5 no aplican."
+}

@@ -1,0 +1,1430 @@
+{
+ "proyecto": "NOLABEL",
+ "capa": "user",
+ "generado_por": "gen_nolabel.mjs",
+ "ejes": "X flujo · Y ancho (+Y izquierda) · Z arriba, 0 = plano de producto",
+ "parametros": {
+  "Hprod": 800,
+  "gapEq": 10,
+  "gapMotor": 40,
+  "lado": -1,
+  "anchoLinea": 609.5999999999999,
+  "caja": {
+   "chica": {
+    "L": 300,
+    "W": 200,
+    "H": 150
+   },
+   "grande": {
+    "L": 400,
+    "W": 300,
+    "H": 200
+   }
+  },
+  "omni": {
+   "L": 609.5999999999999,
+   "W": 609.5999999999999,
+   "filas": 8,
+   "paso": 76.19999999999999,
+   "porFila": 7,
+   "pasoY": 76.19999999999999,
+   "rueda": {
+    "D": 60,
+    "B": 38,
+    "cuboD": 26,
+    "nRod": 6,
+    "rodD": 16,
+    "rodL": 22,
+    "rodAng": 45
+   },
+   "ejeD": 15,
+   "rodamiento": {
+    "bore": 15,
+    "od": 32,
+    "w": 9
+   },
+   "placa": {
+    "t": 6,
+    "alto": 110,
+    "topZ": -6
+   },
+   "tapa": {
+    "t": 3,
+    "z": -9,
+    "holg": 3
+   },
+   "oreja": {
+    "w": 80,
+    "d": 60,
+    "t": 8,
+    "n": 3,
+    "z": -60,
+    "agujero": 11
+   },
+   "carcasa": {
+    "h": 120,
+    "margenY": 40
+   },
+   "polea": {
+    "od": 34,
+    "b": 12,
+    "bore": 15
+   },
+   "correa": {
+    "b": 10,
+    "t": 2.2
+   },
+   "motor": {
+    "bbox": [
+     152.69,
+     118.12,
+     119.05
+    ],
+    "pot_W": 60,
+    "V": 24
+   },
+   "fotocelula": {
+    "xFrac": 0.82,
+    "cuerpo": [
+     24,
+     24,
+     86
+    ],
+    "ojo": [
+     22,
+     16,
+     22
+    ]
+   },
+   "guia": {
+    "t": 20,
+    "h": 60,
+    "z": 2
+   }
+  },
+  "mb400": {
+   "sprocketD": 90,
+   "sprocketW": 28,
+   "ejeD": 25,
+   "modulo": 50,
+   "bandaT": 6,
+   "tira": {
+    "w": 18,
+    "h": 8,
+    "cada": 80
+   },
+   "placaExt": 10,
+   "rodamientoBloque": [
+    60,
+    40,
+    40
+   ],
+   "riel": 40,
+   "pata": {
+    "w": 40,
+    "d": 80
+   },
+   "pie": {
+    "D": 56,
+    "h": 50
+   },
+   "motor": {
+    "cuerpo": [
+     160,
+     96,
+     72
+    ],
+    "placa": [
+     95,
+     95,
+     8
+    ]
+   },
+   "guiaLA": {
+    "t": 6,
+    "h": 30
+   },
+   "twin": {
+    "L": 1500,
+    "Wcarril": 200,
+    "ventana": 100,
+    "xVentana": 750,
+    "Lventana": 500,
+    "boxCam": {
+     "W": 160,
+     "H": 350,
+     "t": 2
+    },
+    "camara": {
+     "cuerpo": [
+      60,
+      60,
+      90
+     ],
+     "lenteD": 30,
+     "fovDeg": 75
+    },
+    "led": {
+     "L": 400,
+     "s": 20
+    },
+    "teflon": {
+     "t": 15,
+     "h": 60,
+     "flare": 350,
+     "flareMaxDeg": 30
+    },
+    "sensor": {
+     "cuerpo": [
+      20,
+      30,
+      50
+     ]
+    }
+   },
+   "largo": {
+    "L": 4000,
+    "W": 400,
+    "pasoPatas": 1333.3
+   }
+  },
+  "cinta": {
+   "L": 2000,
+   "W": 500,
+   "tamborD": 89,
+   "tamborT": 4,
+   "bandaT": 3,
+   "cama": 3,
+   "canal": {
+    "h": 120,
+    "ala": 40,
+    "t": 4
+   },
+   "drop": 15,
+   "motor": {
+    "cubo": [
+     56,
+     84
+    ],
+    "cuerpo": [
+     96,
+     86,
+     92
+    ]
+   },
+   "pata": {
+    "w": 40,
+    "d": 80
+   },
+   "pie": {
+    "D": 56,
+    "h": 50
+   }
+  }
+ },
+ "posiciones": {
+  "omni1": 0,
+  "twin": 619.6,
+  "mb": 2129.6,
+  "omni2": 6169.6,
+  "xFinLinea": 6779.2,
+  "yNarizCinta": -338.3
+ },
+ "equipos": [
+  {
+   "tag": "OMW-1",
+   "tipo": "CV-OMW · bloque omni de justificación",
+   "x0": 0,
+   "L": 609.5999999999999,
+   "W": 609.5999999999999,
+   "referencia_Y": -274.8,
+   "correas": {
+    "A": {
+     "filas": [
+      1,
+      3,
+      5,
+      7
+     ],
+     "largo": 1105.39,
+     "xm": 266.7
+    },
+    "B": {
+     "filas": [
+      2,
+      4,
+      6,
+      8
+     ],
+     "largo": 1105.39,
+     "xm": 342.9
+    }
+   }
+  },
+  {
+   "tag": "TWB",
+   "tipo": "CV-TWB-MB400 · twin belt con box de cámara",
+   "x0": 619.6,
+   "L": 1500,
+   "W": 500,
+   "ventana": 100,
+   "box_camara": {
+    "zTop": -105,
+    "zBot": -455,
+    "W": 160
+   },
+   "fov": {
+    "profundidad": 351,
+    "semiCobertura": 269.33,
+    "requiereL": 250,
+    "requiereW": 50
+   },
+   "disparo": {
+    "sensorX": 1369.6,
+    "desdeNariz": 750,
+    "ventanaX": 1369.6
+   },
+   "teflon": {
+    "yCara": -100,
+    "ySal": -274.8,
+    "flare": 350,
+    "flareDeg": 26.54
+   },
+   "motorY": 350,
+   "codigo_mhaste": "MB400-Pro-FL-A-L1500-W200×2-S2-LA1-UGN2-DM1"
+  },
+  {
+   "tag": "MB4000",
+   "tipo": "CV-MB400-4000 · módulo banda MB400 (gapper/transporte)",
+   "x0": 2129.6,
+   "L": 4000,
+   "W": 400,
+   "codigo_mhaste": "MB400-Pro-FL-A-L4000-W400-S2-LA2-UGN2-DM1"
+  },
+  {
+   "tag": "OMW-2",
+   "tipo": "CV-OMW · bloque omni de clasificación (stop 90°)",
+   "x0": 6169.6,
+   "L": 609.5999999999999,
+   "W": 609.5999999999999,
+   "fotocelula_X": 6669.47,
+   "correas": {
+    "A": {
+     "filas": [
+      1,
+      3,
+      5,
+      7
+     ],
+     "largo": 1105.39,
+     "xm": 6436.3
+    },
+    "B": {
+     "filas": [
+      2,
+      4,
+      6,
+      8
+     ],
+     "largo": 1105.39,
+     "xm": 6512.5
+    }
+   }
+  },
+  {
+   "tag": "BLT",
+   "tipo": "CV-BLT-500 · cinta plana perpendicular de salida",
+   "xc": 6474.4,
+   "yNariz": -338.3,
+   "yFin": -2338.3,
+   "L": 2000,
+   "W": 500,
+   "zTop": -15,
+   "placaTransferencia": {
+    "yIni": -328.3,
+    "yFin": -358.3,
+    "zTop": -11
+   }
+  }
+ ],
+ "verificaciones": {
+  "omni_columnas_bajo_caja_chica": 3,
+  "omni_filas_bajo_caja_chica": 3,
+  "twin_ventana": 100,
+  "twin_apoyo_caja_chica_mm": [
+   50,
+   50
+  ],
+  "twin_apoyo_caja_grande_mm": [
+   50,
+   150
+  ],
+  "twin_fov": {
+   "profundidad": 351,
+   "semiCobertura": 269.33,
+   "requiereL": 250,
+   "requiereW": 50
+  },
+  "twin_disparo": {
+   "sensorX": 1369.6,
+   "desdeNariz": 750,
+   "ventanaX": 1369.6
+  },
+  "twin_embudo": {
+   "yCara": -100,
+   "ySal": -274.8,
+   "flare": 350,
+   "flareDeg": 26.54
+  },
+  "planos": {
+   "omni1": 0,
+   "twin": 0,
+   "mb4000": 0,
+   "omni2": 0,
+   "cinta": -15
+  },
+  "salida": {
+   "anchoCinta": 500,
+   "requiere": 450,
+   "huecoBordeOmniPlaca": 23.5,
+   "placaTop": -11
+  },
+  "piso": {
+   "zMin": -800,
+   "pies": 26,
+   "Hprod": 800
+  },
+  "interferencias_entre_equipos": 0
+ },
+ "despiece": [
+  {
+   "equipo": "BLT",
+   "componente": "banda_pvc_500",
+   "descripcion": "Banda plana PVC 500×4099.03",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "pl3_cama",
+   "descripcion": "Cama deslizante PL3",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "canal_c120",
+   "descripcion": "Canal lateral C120×40×4",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "chumacera_ucfl205",
+   "descripcion": "Chumacera UCF205 tensor",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "eje_25",
+   "descripcion": "Eje tensor Ø25×680",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "motorreductor_eje_hueco",
+   "descripcion": "Motorreductor de eje hueco",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "MA4080",
+   "descripcion": "Pata MA4080",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT +-2218a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT +-2218b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT +-458a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT +-458b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT −-2218a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT −-2218b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT −-458a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": null,
+   "descripcion": "Perno hex M8 pata BLT −-458b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": "MB400-FT-M12",
+   "descripcion": "Pie nivelador M12",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "placa_transferencia",
+   "descripcion": "Placa de transferencia PL3 (30 mm)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "tambor_89x520",
+   "descripcion": "Tambor tensor Ø89×520",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "BLT",
+   "componente": "tubo_40x40",
+   "descripcion": "Travesaño soporte cama",
+   "qty": 7,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-BELT-MOD-W400",
+   "descripcion": "Banda modular MB400 W400 carril 1",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-SH-IDL-25",
+   "descripcion": "Eje conducido Ø25×480",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-SH-DRV-25",
+   "descripcion": "Eje motriz Ø25×624",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-LA-L4000",
+   "descripcion": "Guía lateral LA",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-PF-40-L4000",
+   "descripcion": "Larguero T-slot 40 −Y L4000",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MT-GM-160x72",
+   "descripcion": "Motorreductor MT-GM-160x72",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MA4080",
+   "descripcion": "Pata MA4080",
+   "qty": 10,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 1075+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 1075+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 1075−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 1075−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 150+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 150+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 150−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 150−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2000+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2000+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2000−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2000−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2925+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2925+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2925−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 2925−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 3850+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 3850+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 3850−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata MB4000 3850−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-FT-M12",
+   "descripcion": "Pie nivelador M12",
+   "qty": 10,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-SPR-IDL-D90",
+   "descripcion": "Piñón conducido Ø90",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-SPR-DRV-D90",
+   "descripcion": "Piñón motriz Ø90",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-MP",
+   "descripcion": "Placa de motor 95×95×8",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-BRG-UCF",
+   "descripcion": "Rodamiento con soporte UCF conducido",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-SB",
+   "descripcion": "Soporte de eje conducido",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-WS-L3808",
+   "descripcion": "Tira de desgaste UHMW",
+   "qty": 5,
+   "hardware": false
+  },
+  {
+   "equipo": "MB4000",
+   "componente": "MB400-PF-40-W500",
+   "descripcion": "Travesaño T-slot 40",
+   "qty": 5,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Carcasa inferior",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "correa_at5_1105",
+   "descripcion": "Correa síncrona AT5",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "eje_15x635.6",
+   "descripcion": "Eje",
+   "qty": 8,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Escuadra guía",
+   "qty": 3,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Guarda de correa",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "uhmw_20x60",
+   "descripcion": "Guía de referencia UHMW 20×60",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "perfil_pg40",
+   "descripcion": "Larguero PG40",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "descripcion": "Motor UniDrive 24 V 60 W",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Oreja de anclaje",
+   "qty": 6,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Pasador tensor",
+   "qty": 4,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "MA4080",
+   "descripcion": "Pata MA4080",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +305a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +305b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +533a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +533b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +76a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 +76b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −305a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −305b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −533a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −533b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −76a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-1 −76b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "MB400-FT-M12",
+   "descripcion": "Pie nivelador M12",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Placa lateral",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "polea_34x12",
+   "descripcion": "Polea AT5",
+   "qty": 14,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "rodamiento_15x32x9",
+   "descripcion": "Rodamiento OMW-1 f1 −Y (15×32×9)",
+   "qty": 16,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "rodillo_omni_16x22",
+   "descripcion": "Rodillo omni f1 y-228.6 #1",
+   "qty": 336,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "rueda_omni_60x38_izq",
+   "descripcion": "Rueda omni",
+   "qty": 28,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": "rueda_omni_60x38_der",
+   "descripcion": "Rueda omni",
+   "qty": 28,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-1",
+   "componente": null,
+   "descripcion": "Tapa superior",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Carcasa inferior",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "correa_at5_1105",
+   "descripcion": "Correa síncrona AT5",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "eje_15x635.6",
+   "descripcion": "Eje",
+   "qty": 8,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "fotocelula_reflex",
+   "descripcion": "Fotocélula de detención (0.82·L)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Guarda de correa",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "perfil_pg40",
+   "descripcion": "Larguero PG40",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "descripcion": "Motor UniDrive 24 V 60 W",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Ojo de fotocélula",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Oreja de anclaje",
+   "qty": 6,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Pasador tensor",
+   "qty": 4,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "MA4080",
+   "descripcion": "Pata MA4080",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +305a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +305b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +533a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +533b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +76a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 +76b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −305a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −305b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −533a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −533b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −76a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Perno hex M10 oreja OMW-2 −76b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "MB400-FT-M12",
+   "descripcion": "Pie nivelador M12",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Placa lateral",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "polea_34x12",
+   "descripcion": "Polea AT5",
+   "qty": 14,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "rodamiento_15x32x9",
+   "descripcion": "Rodamiento OMW-2 f1 −Y (15×32×9)",
+   "qty": 16,
+   "hardware": true
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "rodillo_omni_16x22",
+   "descripcion": "Rodillo omni f1 y-228.6 #1",
+   "qty": 336,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "rueda_omni_60x38_izq",
+   "descripcion": "Rueda omni",
+   "qty": 28,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": "rueda_omni_60x38_der",
+   "descripcion": "Rueda omni",
+   "qty": 28,
+   "hardware": false
+  },
+  {
+   "equipo": "OMW-2",
+   "componente": null,
+   "descripcion": "Tapa superior",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-BELT-MOD-W200",
+   "descripcion": "Banda modular MB400 W200 carril 1",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "barra_led_400",
+   "descripcion": "Barra LED",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "box_camara_500x160x350",
+   "descripcion": "Box de cámara 500×160×350 (alargado)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Brazo guarda",
+   "qty": 3,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "camara_qr",
+   "descripcion": "Cámara de lectura QR (mira hacia arriba)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-SH-IDL-25",
+   "descripcion": "Eje conducido Ø25×580",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-SH-DRV-25",
+   "descripcion": "Eje motriz Ø25×724",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "reflector",
+   "descripcion": "Espejo réflex",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "fotocelula_reflex",
+   "descripcion": "Fotocélula de disparo de cámara",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "uhmw_15x60",
+   "descripcion": "Guarda de teflón (UHMW) con embudo 26.54°",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-LA-L1500",
+   "descripcion": "Guía lateral LA",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-PF-40-L1500",
+   "descripcion": "Larguero T-slot 40 −Y L1500",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MT-GM-160x72",
+   "descripcion": "Motorreductor MT-GM-160x72",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MA4080",
+   "descripcion": "Pata MA4080",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 1350+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 1350+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 1350−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 1350−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 150+a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 150+b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 150−a",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": null,
+   "descripcion": "Perno hex M6 pata TWB 150−b",
+   "qty": 1,
+   "hardware": true
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-FT-M12",
+   "descripcion": "Pie nivelador M12",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-SPR-IDL-D90",
+   "descripcion": "Piñón conducido Ø90",
+   "qty": 6,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-SPR-DRV-D90",
+   "descripcion": "Piñón motriz Ø90",
+   "qty": 6,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-MP",
+   "descripcion": "Placa de motor 95×95×8",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-BRG-UCF",
+   "descripcion": "Rodamiento con soporte UCF conducido",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-SB",
+   "descripcion": "Soporte de eje conducido",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-WS-L1308",
+   "descripcion": "Tira de desgaste UHMW",
+   "qty": 6,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "MB400-PF-40-W600",
+   "descripcion": "Travesaño T-slot 40",
+   "qty": 2,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "vidrio_ventana",
+   "descripcion": "Vidrio de ventana",
+   "qty": 1,
+   "hardware": false
+  }
+ ]
+}
