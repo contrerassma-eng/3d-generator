@@ -63,7 +63,7 @@ X.twin = r2(X.omni1 + P.omni.L + g);
 X.mb = r2(X.twin + P.mb400.twin.L + g);
 X.omni2 = r2(X.mb + P.mb400.largo.L + P.gapMotor);
 const xFinLinea = r2(X.omni2 + P.omni.L);
-const yNarizCinta = r2(lado * (P.omni.W / 2 + 20 + 1.5 + 2 + 10));   // tras la guarda de correa del omni 2 (+10 de aire)
+const yNarizCinta = r2(lado * (P.omni.W / 2 + 30));                  // 30 fuera de la placa del omni 2 (sin guarda de correa en el lado de salida)
 
 // ------------------------------------------------------------------ ensamble
 const E = new Ensamble();
@@ -71,7 +71,8 @@ const T = P.mb400.twin, Wc = T.Wcarril, yc = T.ventana / 2 + Wc / 2;
 const m = {};
 m.omni1 = omni(E, { x0: X.omni1, tag: 'OMW-1', guiaRef: true, fotocelula: false });
 m.twin = mb400(E, { x0: X.twin, L: T.L, tag: 'TWB', twin: true, guiaRefY: m.omni1.guiaY,
-  carriles: [{ yc: -yc, W: Wc }, { yc: +yc, W: Wc }], patasX: [X.twin + 150, X.twin + T.L - 150] });
+  carriles: [{ yc: -yc, W: Wc }, { yc: +yc, W: Wc }], patasX: [X.twin + 100, X.twin + T.L - 100],
+  brazosX: [X.twin + T.teflon.flare + 20, X.twin + T.L - 60] });   // brazos del teflón fuera de la capota
 {
   const Lg = P.mb400.largo.L, n = Math.ceil(Lg / P.mb400.largo.pasoPatas);
   const patas = Array.from({ length: n + 1 }, (_, i) => r2(X.mb + 150 + (Lg - 300) * i / n));
@@ -104,10 +105,17 @@ function verificar() {
   V.twin_apoyo_caja_grande_mm = apoyoG.map(r2);
   if (Math.sign(yCara) === Math.sign(yOtroG) || apoyoG[0] < 50 || apoyoG[1] < 50 || Math.abs(yOtroG) > Math.abs(m.twin.yMax)) e.push(`G2 twin: la caja grande (W${cj.grande.W}) no queda a caballo de la ventana dentro de los carriles (${apoyoG})`);
   V.twin_fov = m.twin.fov;
-  if (m.twin.fov.semiCobertura < m.twin.fov.requiereL || m.twin.fov.semiCobertura < m.twin.fov.requiereW) e.push(`G2 twin: la óptica de ${T.camara.fovDeg}° cubre ±${m.twin.fov.semiCobertura} y la ventana pide ±${m.twin.fov.requiereL}`);
-  V.twin_disparo = { sensorX: m.twin.sensorX, desdeNariz: r2(m.twin.sensorX - X.twin), ventanaX: m.twin.xVentana };
+  if (m.twin.fov.semiCobertura < m.twin.fov.requiereL || m.twin.fov.semiCobertura < m.twin.fov.requiereW) e.push(`G2 twin: la óptica de ${T.capota.camara.fovDeg}° cubre ±${m.twin.fov.semiCobertura} a ${m.twin.fov.distanciaATapaGrande} de la tapa y la caja grande pide ±${m.twin.fov.requiereL}`);
+  const cap = m.twin.capota;
+  V.twin_capota = { ...cap, margenCajaGrande: r2(cap.L / 2 - cj.grande.L / 2 - cj.chica.L / 2) };
+  if (cap.L / 2 < cj.grande.L / 2 + cj.chica.L / 2 + 100) e.push(`G2 twin: capota de ${cap.L} demasiado corta: la caja grande disparada por la chica no queda entera adentro con 100 de margen`);
+  if (cap.x0 < X.twin + 50 || cap.x1 > X.twin + T.L - 50) e.push('G2 twin: la capota se sale del twin belt');
+  if (T.capota.abertura.W < cj.grande.W + 2 * 60 || T.capota.abertura.H < cj.grande.H + 60) e.push('G2 twin: la abertura de los cabeceros no deja pasar la caja grande con luz');
+  if (T.capota.zBase < T.teflon.h) e.push('G2 twin: la capota corta la guarda de teflón');
+  V.twin_disparo = { sensorX: m.twin.sensorX, desdeNariz: r2(m.twin.sensorX - X.twin), camaraX: m.twin.xVentana };
   if (m.twin.sensorX - X.twin < cj.chica.L) e.push('G2 twin: la fotocélula dispara antes de que la caja chica entre completa');
-  if (Math.abs(m.twin.sensorX - m.twin.xVentana) > m.twin.Lventana / 2) e.push('G2 twin: al disparar, la caja no está sobre la ventana');
+  if (m.twin.sensorX - cj.chica.L / 2 < cap.x0 + T.capota.cabecero || m.twin.sensorX > cap.x1 - T.capota.cabecero) e.push('G2 twin: al disparar, la caja chica no está entera bajo la capota');
+  if (Math.abs(m.twin.sensorX - cj.chica.L / 2 - m.twin.xVentana) > 1) e.push('G2 twin: al disparar, la caja chica no queda centrada bajo la cámara');
   V.twin_embudo = m.twin.teflon;
   if (m.twin.teflon.flareDeg > T.teflon.flareMaxDeg) e.push(`G2 twin: embudo de ${m.twin.teflon.flareDeg}° > 30°`);
   // G3 · planos de producto
@@ -136,7 +144,7 @@ function verificar() {
   if (inter.length) e.push(`G6: ${inter.length} interferencia(s) entre equipos:\n      ${inter.slice(0, 12).join('\n      ')}`);
   // G7 · envolvente e ids
   const ids = new Set(); for (const p of E.parts) { if (ids.has(p.id)) e.push(`G7: id repetido ${p.id}`); ids.add(p.id); }
-  for (const p of E.parts) { const b = bboxPieza(p); if (b.lo[0] < -50 || b.hi[0] > xFinLinea + 350 || b.hi[2] > 200) e.push(`G7: fuera de envolvente ${p.name}`); }
+  for (const p of E.parts) { const b = bboxPieza(p); if (b.lo[0] < -50 || b.hi[0] > xFinLinea + 350 || b.hi[2] > T.capota.zBase + T.capota.H + 40) e.push(`G7: fuera de envolvente ${p.name}`); }
   return { e, V };
 }
 
@@ -156,14 +164,14 @@ function despiece(parts) {
 }
 
 const equipos = [
-  { tag: 'OMW-1', tipo: 'CV-OMW · bloque omni de justificación', x0: X.omni1, L: P.omni.L, W: P.omni.W, referencia_Y: m.omni1.guiaY, correas: m.omni1.correas },
-  { tag: 'TWB', tipo: 'CV-TWB-MB400 · twin belt con box de cámara', x0: X.twin, L: T.L, W: r2(m.twin.yMax - m.twin.yMin), ventana: m.twin.ventana, box_camara: m.twin.boxCam, fov: m.twin.fov, disparo: V.twin_disparo, teflon: m.twin.teflon, motorY: m.twin.motorY, codigo_mhaste: `MB400-Pro-FL-A-L${T.L}-W${Wc}×2-S2-LA1-UGN2-DM1` },
+  { tag: 'OMW-1', tipo: 'CV-OMW · bloque omni de justificación', x0: X.omni1, L: P.omni.L, W: P.omni.W, referencia_Y: m.omni1.guiaY, motores: m.omni1.motores },
+  { tag: 'TWB', tipo: 'CV-TWB-MB400 · twin belt con box de cámara', x0: X.twin, L: T.L, W: r2(m.twin.yMax - m.twin.yMin), ventana: m.twin.ventana, capota: m.twin.capota, fov: m.twin.fov, disparo: V.twin_disparo, teflon: m.twin.teflon, motorY: m.twin.motorY, codigo_mhaste: `MB400-Pro-FL-A-L${T.L}-W${Wc}×2-S2-LA1-UGN2-DM1` },
   { tag: 'MB4000', tipo: 'CV-MB400-4000 · módulo banda MB400 (gapper/transporte)', x0: X.mb, L: P.mb400.largo.L, W: P.mb400.largo.W, codigo_mhaste: `MB400-Pro-FL-A-L${P.mb400.largo.L}-W${P.mb400.largo.W}-S2-LA2-UGN2-DM1` },
-  { tag: 'OMW-2', tipo: 'CV-OMW · bloque omni de clasificación (stop 90°)', x0: X.omni2, L: P.omni.L, W: P.omni.W, fotocelula_X: m.omni2.fotocelulaX, correas: m.omni2.correas },
+  { tag: 'OMW-2', tipo: 'CV-OMW · bloque omni de clasificación (stop 90°)', x0: X.omni2, L: P.omni.L, W: P.omni.W, fotocelula_X: m.omni2.fotocelulaX, motores: m.omni2.motores },
   { tag: 'BLT', tipo: 'CV-BLT-500 · cinta plana perpendicular de salida', xc: r2(X.omni2 + P.omni.L / 2), yNariz: m.cinta.yNariz, yFin: m.cinta.yFin, L: P.cinta.L, W: P.cinta.W, zTop: m.cinta.zTop, placaTransferencia: m.cinta.placaTransf },
 ];
 
-const origen = `gen_nolabel.mjs (paramétrico, capa user). Línea NO-Label: OMW-1 (omni 24"×24", 8 filas × 7 ruedas Ø60 a ±45°, 2 familias con correa AT5 y motor UniDrive 24 V) → TWB (2 carriles MB400 W200, ventana 100, box de cámara ${T.Lventana} alargado, teflón con embudo, fotocélula de disparo) → MB400 L${P.mb400.largo.L} W${P.mb400.largo.W} → OMW-2 (fotocélula 0.82·L, eyección 90° al lado ${lado > 0 ? '+Y izquierda' : '−Y derecha'}) → BLT cinta plana ${P.cinta.W}×${P.cinta.L} perpendicular. Cotas MB400 del generador M-haste (Conveyone-/backend/mhaste/src/mb400.py); grilla omni del simulador (omniwheel.md: 24", paso 3"); motor UniDrive del catálogo (bbox real). POR CONFIRMAR: dimensiones de caja, altura 800, rueda omni Ø60, óptica 75°. Plano de producto Z=0; piso Z=${-P.Hprod}.`;
+const origen = `gen_nolabel.mjs (paramétrico, capa user). Línea NO-Label: OMW-1 (omni 24"×24", 8 filas × 7 ruedas Ø60 a ±45°, un motorreductor 24 V por fila en carcasa ventilada lateral) → TWB (2 carriles MB400 W200, ventana 100, capota de cámara del STEP del usuario alargada a ${T.capota.L} (${T.capota.W}×${Math.round(T.capota.H)}, abierta por abajo, cámara mirando hacia abajo), teflón con embudo, fotocélula de disparo) → MB400 L${P.mb400.largo.L} W${P.mb400.largo.W} → OMW-2 (fotocélula 0.82·L, eyección 90° al lado ${lado > 0 ? '+Y izquierda' : '−Y derecha'}) → BLT cinta plana ${P.cinta.W}×${P.cinta.L} perpendicular. Cotas MB400 del generador M-haste (Conveyone-/backend/mhaste/src/mb400.py); grilla omni del simulador (omniwheel.md: 24", paso 3"); motor UniDrive del catálogo (bbox real). POR CONFIRMAR: dimensiones de caja, altura 800, rueda omni Ø60, óptica 75°. Plano de producto Z=0; piso Z=${-P.Hprod}.`;
 
 const doc = {
   format: 'foto3d-cad', version: 1,

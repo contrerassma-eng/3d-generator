@@ -45,9 +45,7 @@ export const P = {
     tapa: { t: 3, z: -9, holg: 3 },           // dis: tapa negro mate 3 mm con ventanas rueda + 3 mm por lado
     oreja: { w: 80, d: 60, t: 8, n: 3, z: -60, agujero: 11 },   // dis: 3 orejas de anclaje por lado (render) con 2 × Ø11 (M10)
     carcasa: { h: 120, margenY: 40 },         // dis: carcasa inferior de motores y correas (negro mate)
-    polea: { od: 34, b: 12, bore: 15 },       // dis: polea síncrona AT5 Z20 (Ø prim. 31.8) por eje, fuera de la placa
-    correa: { b: 10, t: 2.2 },                // web (at5_correa): correa AT5 ancho 10
-    motor: { bbox: [152.69, 118.12, 119.05], pot_W: 60, V: 24 },   // cad: UniDrive (catálogo cv_ZP2026__300986…, bbox real) · omniwheel.md: 60 W / 24 VDC
+    motorFila: { D: 48, L: 60, carcasa: [70, 62, 96], pot_W: 60, V: 24 },   // render del usuario: un motorreductor por fila en carcasa ventilada lateral; 60 W / 24 VDC (omniwheel.md: 1 UniDrive por fila); Ø48×60 pc
     fotocelula: { xFrac: 0.82, cuerpo: [24, 24, 86], ojo: [22, 16, 22] },   // cad: fotocélula a 0.82·L (omniwheel.md); cuerpo del simulador
     guia: { t: 20, h: 60, z: 2 },             // dis: guía de referencia UHMW 20×60 sobre el lado de referencia (omni 1)
   },
@@ -70,11 +68,20 @@ export const P = {
       L: 1500,                 // dis: largo nariz a nariz (incluye zona de disparo + ventana alargada)
       Wcarril: 200,            // cad: ancho mínimo MB400 (validate: W ≥ 200)
       ventana: 100,            // dis: hueco entre carriles = ventana de cámara (< W caja chica − 2·40)
-      xVentana: 750,           // dis: centro de la ventana de lectura desde la nariz de entrada
-      Lventana: 500,           // dis: box cámara ALARGADO a 500 (pedido del usuario: "hay que alargar")
-      boxCam: { W: 160, H: 350, t: 2 },          // dis: box de cámara bajo la ventana, chapa 2 mm
-      camara: { cuerpo: [60, 60, 90], lenteD: 30, fovDeg: 75 },   // pc: cámara industrial 60×60×90, óptica 75° (a confirmar con Yolotech)
-      led: { L: 400, s: 20 },                    // dis: 2 barras LED 400×20×20 a los lados de la ventana
+      xVentana: 750,           // dis: centro de la capota / zona de lectura desde la nariz de entrada
+      Lventana: 500,           // dis: tramo de ventana central (sin función óptica con cámara superior; reservado para una 2ª cámara inferior)
+      // CAPOTA DE CÁMARA — cotas MEDIDAS del STEP del usuario (projects/NOLABEL/input/referencias/box_camara_step_medidas.json):
+      // túnel 864 × 856 × 716 abierto por abajo, cabeceros de 80.5, paneles 30/45, cubrejunta 700×60×30, 4 pads 100×100×30
+      capota: {
+        L: 1200,               // dis: ALARGADA desde 863.9 (pedido del usuario "hay que alargar"): la caja grande queda entera adentro con ≥300 de margen por lado
+        W: 856, H: 716.3,      // cad (STEP): ancho y alto exteriores
+        cabecero: 80.5, panel: 30, frontal: 45, cubrejunta: [700, 60, 30], pad: [100, 100, 30],   // cad (STEP)
+        zBase: 60,             // dis: borde inferior 60 sobre el plano del producto (libra guías LA 30 + teflón 60 → el teflón pasa por la abertura)
+        abertura: { W: 520, H: 320 },   // dis: paso de cajas en cada cabecero (caja grande 300 ancha / 200 alta + luz)
+        camara: { cuerpo: [60, 60, 90], lenteD: 30, fovDeg: 75 },   // pc: cámara industrial mirando ABAJO desde el techo (óptica a confirmar con Yolotech)
+        led: { L: 600, s: 25 },         // dis: 2 barras LED bajo el techo, a los lados del eje de la cámara
+        pata: { w: 40, d: 40 },         // dis: 4 patas 40×40 al piso, fuera del bastidor del twin
+      },
       teflon: { t: 15, h: 60, flare: 350, flareMaxDeg: 30 },   // dis: guarda UHMW 15×60 con embudo de entrada de 350 mm (≤30°): lleva la caja desde la guía del omni 1 al centro de la ventana
       sensor: { cuerpo: [20, 30, 50] },          // dis: fotocélula de disparo réflex + espejo
     },

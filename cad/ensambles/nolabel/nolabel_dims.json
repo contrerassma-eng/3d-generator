@@ -65,20 +65,13 @@
     "h": 120,
     "margenY": 40
    },
-   "polea": {
-    "od": 34,
-    "b": 12,
-    "bore": 15
-   },
-   "correa": {
-    "b": 10,
-    "t": 2.2
-   },
-   "motor": {
-    "bbox": [
-     152.69,
-     118.12,
-     119.05
+   "motorFila": {
+    "D": 48,
+    "L": 60,
+    "carcasa": [
+     70,
+     62,
+     96
     ],
     "pot_W": 60,
     "V": 24
@@ -150,23 +143,45 @@
     "ventana": 100,
     "xVentana": 750,
     "Lventana": 500,
-    "boxCam": {
-     "W": 160,
-     "H": 350,
-     "t": 2
-    },
-    "camara": {
-     "cuerpo": [
+    "capota": {
+     "L": 1200,
+     "W": 856,
+     "H": 716.3,
+     "cabecero": 80.5,
+     "panel": 30,
+     "frontal": 45,
+     "cubrejunta": [
+      700,
       60,
-      60,
-      90
+      30
      ],
-     "lenteD": 30,
-     "fovDeg": 75
-    },
-    "led": {
-     "L": 400,
-     "s": 20
+     "pad": [
+      100,
+      100,
+      30
+     ],
+     "zBase": 60,
+     "abertura": {
+      "W": 520,
+      "H": 320
+     },
+     "camara": {
+      "cuerpo": [
+       60,
+       60,
+       90
+      ],
+      "lenteD": 30,
+      "fovDeg": 75
+     },
+     "led": {
+      "L": 600,
+      "s": 25
+     },
+     "pata": {
+      "w": 40,
+      "d": 40
+     }
     },
     "teflon": {
      "t": 15,
@@ -228,7 +243,7 @@
   "mb": 2129.6,
   "omni2": 6169.6,
   "xFinLinea": 6779.2,
-  "yNarizCinta": -338.3
+  "yNarizCinta": -334.8
  },
  "equipos": [
   {
@@ -238,28 +253,48 @@
    "L": 609.5999999999999,
    "W": 609.5999999999999,
    "referencia_Y": -274.8,
-   "correas": {
-    "A": {
-     "filas": [
-      1,
-      3,
-      5,
-      7
-     ],
-     "largo": 1105.39,
-     "xm": 266.7
+   "motores": [
+    {
+     "fila": 1,
+     "fam": "A",
+     "x": 38.1
     },
-    "B": {
-     "filas": [
-      2,
-      4,
-      6,
-      8
-     ],
-     "largo": 1105.39,
-     "xm": 342.9
+    {
+     "fila": 2,
+     "fam": "B",
+     "x": 114.3
+    },
+    {
+     "fila": 3,
+     "fam": "A",
+     "x": 190.5
+    },
+    {
+     "fila": 4,
+     "fam": "B",
+     "x": 266.7
+    },
+    {
+     "fila": 5,
+     "fam": "A",
+     "x": 342.9
+    },
+    {
+     "fila": 6,
+     "fam": "B",
+     "x": 419.1
+    },
+    {
+     "fila": 7,
+     "fam": "A",
+     "x": 495.3
+    },
+    {
+     "fila": 8,
+     "fam": "B",
+     "x": 571.5
     }
-   }
+   ]
   },
   {
    "tag": "TWB",
@@ -268,21 +303,25 @@
    "L": 1500,
    "W": 500,
    "ventana": 100,
-   "box_camara": {
-    "zTop": -105,
-    "zBot": -455,
-    "W": 160
+   "capota": {
+    "x0": 769.6,
+    "x1": 1969.6,
+    "L": 1200,
+    "W": 856,
+    "H": 716.3,
+    "zBase": 60,
+    "zLente": 644.3
    },
    "fov": {
-    "profundidad": 351,
-    "semiCobertura": 269.33,
-    "requiereL": 250,
-    "requiereW": 50
+    "distanciaATapaGrande": 444.3,
+    "semiCobertura": 340.92,
+    "requiereL": 200,
+    "requiereW": 150
    },
    "disparo": {
-    "sensorX": 1369.6,
-    "desdeNariz": 750,
-    "ventanaX": 1369.6
+    "sensorX": 1519.6,
+    "desdeNariz": 900,
+    "camaraX": 1369.6
    },
    "teflon": {
     "yCara": -100,
@@ -308,42 +347,62 @@
    "L": 609.5999999999999,
    "W": 609.5999999999999,
    "fotocelula_X": 6669.47,
-   "correas": {
-    "A": {
-     "filas": [
-      1,
-      3,
-      5,
-      7
-     ],
-     "largo": 1105.39,
-     "xm": 6436.3
+   "motores": [
+    {
+     "fila": 1,
+     "fam": "A",
+     "x": 6207.7
     },
-    "B": {
-     "filas": [
-      2,
-      4,
-      6,
-      8
-     ],
-     "largo": 1105.39,
-     "xm": 6512.5
+    {
+     "fila": 2,
+     "fam": "B",
+     "x": 6283.9
+    },
+    {
+     "fila": 3,
+     "fam": "A",
+     "x": 6360.1
+    },
+    {
+     "fila": 4,
+     "fam": "B",
+     "x": 6436.3
+    },
+    {
+     "fila": 5,
+     "fam": "A",
+     "x": 6512.5
+    },
+    {
+     "fila": 6,
+     "fam": "B",
+     "x": 6588.7
+    },
+    {
+     "fila": 7,
+     "fam": "A",
+     "x": 6664.9
+    },
+    {
+     "fila": 8,
+     "fam": "B",
+     "x": 6741.1
     }
-   }
+   ]
   },
   {
    "tag": "BLT",
    "tipo": "CV-BLT-500 · cinta plana perpendicular de salida",
    "xc": 6474.4,
-   "yNariz": -338.3,
-   "yFin": -2338.3,
+   "yNariz": -334.8,
+   "yFin": -2334.8,
    "L": 2000,
    "W": 500,
    "zTop": -15,
    "placaTransferencia": {
-    "yIni": -328.3,
-    "yFin": -358.3,
-    "zTop": -11
+    "yIni": -308.8,
+    "yFin": -354.8,
+    "zTop": -10
    }
   }
  ],
@@ -360,15 +419,25 @@
    150
   ],
   "twin_fov": {
-   "profundidad": 351,
-   "semiCobertura": 269.33,
-   "requiereL": 250,
-   "requiereW": 50
+   "distanciaATapaGrande": 444.3,
+   "semiCobertura": 340.92,
+   "requiereL": 200,
+   "requiereW": 150
+  },
+  "twin_capota": {
+   "x0": 769.6,
+   "x1": 1969.6,
+   "L": 1200,
+   "W": 856,
+   "H": 716.3,
+   "zBase": 60,
+   "zLente": 644.3,
+   "margenCajaGrande": 250
   },
   "twin_disparo": {
-   "sensorX": 1369.6,
-   "desdeNariz": 750,
-   "ventanaX": 1369.6
+   "sensorX": 1519.6,
+   "desdeNariz": 900,
+   "camaraX": 1369.6
   },
   "twin_embudo": {
    "yCara": -100,
@@ -386,12 +455,12 @@
   "salida": {
    "anchoCinta": 500,
    "requiere": 450,
-   "huecoBordeOmniPlaca": 23.5,
-   "placaTop": -11
+   "huecoBordeOmniPlaca": 4,
+   "placaTop": -10
   },
   "piso": {
    "zMin": -800,
-   "pies": 26,
+   "pies": 30,
    "Hprod": 800
   },
   "interferencias_entre_equipos": 0
@@ -449,58 +518,65 @@
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT +-2218a",
+   "descripcion": "Perno hex M8 pata BLT +-2215a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT +-2218b",
+   "descripcion": "Perno hex M8 pata BLT +-2215b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT +-458a",
+   "descripcion": "Perno hex M8 pata BLT +-455a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT +-458b",
+   "descripcion": "Perno hex M8 pata BLT +-455b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT −-2218a",
+   "descripcion": "Perno hex M8 pata BLT −-2215a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT −-2218b",
+   "descripcion": "Perno hex M8 pata BLT −-2215b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT −-458a",
+   "descripcion": "Perno hex M8 pata BLT −-455a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "BLT",
    "componente": null,
-   "descripcion": "Perno hex M8 pata BLT −-458b",
+   "descripcion": "Perno hex M8 pata BLT −-455b",
    "qty": 1,
    "hardware": true
+  },
+  {
+   "equipo": "BLT",
+   "componente": "pestana_placa_transferencia",
+   "descripcion": "Pestaña de placa",
+   "qty": 2,
+   "hardware": false
   },
   {
    "equipo": "BLT",
@@ -512,7 +588,7 @@
   {
    "equipo": "BLT",
    "componente": "placa_transferencia",
-   "descripcion": "Placa de transferencia PL3 (30 mm)",
+   "descripcion": "Placa de transferencia PL3 (46 mm)",
    "qty": 1,
    "hardware": false
   },
@@ -784,14 +860,14 @@
   },
   {
    "equipo": "OMW-1",
-   "componente": "correa_at5_1105",
-   "descripcion": "Correa síncrona AT5",
-   "qty": 2,
+   "componente": "carcasa_motor_70x62x96",
+   "descripcion": "Carcasa motor",
+   "qty": 8,
    "hardware": false
   },
   {
    "equipo": "OMW-1",
-   "componente": "eje_15x635.6",
+   "componente": "eje_15x633.6",
    "descripcion": "Eje",
    "qty": 8,
    "hardware": false
@@ -801,13 +877,6 @@
    "componente": null,
    "descripcion": "Escuadra guía",
    "qty": 3,
-   "hardware": false
-  },
-  {
-   "equipo": "OMW-1",
-   "componente": null,
-   "descripcion": "Guarda de correa",
-   "qty": 2,
    "hardware": false
   },
   {
@@ -826,9 +895,9 @@
   },
   {
    "equipo": "OMW-1",
-   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
-   "descripcion": "Motor UniDrive 24 V 60 W",
-   "qty": 2,
+   "componente": "motorreductor_24v_48x60",
+   "descripcion": "Motorreductor 24 V",
+   "qty": 8,
    "hardware": false
   },
   {
@@ -837,13 +906,6 @@
    "descripcion": "Oreja de anclaje",
    "qty": 6,
    "hardware": false
-  },
-  {
-   "equipo": "OMW-1",
-   "componente": null,
-   "descripcion": "Pasador tensor",
-   "qty": 4,
-   "hardware": true
   },
   {
    "equipo": "OMW-1",
@@ -952,13 +1014,6 @@
   },
   {
    "equipo": "OMW-1",
-   "componente": "polea_34x12",
-   "descripcion": "Polea AT5",
-   "qty": 14,
-   "hardware": false
-  },
-  {
-   "equipo": "OMW-1",
    "componente": "rodamiento_15x32x9",
    "descripcion": "Rodamiento OMW-1 f1 −Y (15×32×9)",
    "qty": 16,
@@ -1001,14 +1056,14 @@
   },
   {
    "equipo": "OMW-2",
-   "componente": "correa_at5_1105",
-   "descripcion": "Correa síncrona AT5",
-   "qty": 2,
+   "componente": "carcasa_motor_70x62x96",
+   "descripcion": "Carcasa motor",
+   "qty": 8,
    "hardware": false
   },
   {
    "equipo": "OMW-2",
-   "componente": "eje_15x635.6",
+   "componente": "eje_15x633.6",
    "descripcion": "Eje",
    "qty": 8,
    "hardware": false
@@ -1022,13 +1077,6 @@
   },
   {
    "equipo": "OMW-2",
-   "componente": null,
-   "descripcion": "Guarda de correa",
-   "qty": 2,
-   "hardware": false
-  },
-  {
-   "equipo": "OMW-2",
    "componente": "perfil_pg40",
    "descripcion": "Larguero PG40",
    "qty": 4,
@@ -1036,9 +1084,9 @@
   },
   {
    "equipo": "OMW-2",
-   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
-   "descripcion": "Motor UniDrive 24 V 60 W",
-   "qty": 2,
+   "componente": "motorreductor_24v_48x60",
+   "descripcion": "Motorreductor 24 V",
+   "qty": 8,
    "hardware": false
   },
   {
@@ -1054,13 +1102,6 @@
    "descripcion": "Oreja de anclaje",
    "qty": 6,
    "hardware": false
-  },
-  {
-   "equipo": "OMW-2",
-   "componente": null,
-   "descripcion": "Pasador tensor",
-   "qty": 4,
-   "hardware": true
   },
   {
    "equipo": "OMW-2",
@@ -1169,13 +1210,6 @@
   },
   {
    "equipo": "OMW-2",
-   "componente": "polea_34x12",
-   "descripcion": "Polea AT5",
-   "qty": 14,
-   "hardware": false
-  },
-  {
-   "equipo": "OMW-2",
    "componente": "rodamiento_15x32x9",
    "descripcion": "Rodamiento OMW-2 f1 −Y (15×32×9)",
    "qty": 16,
@@ -1218,29 +1252,36 @@
   },
   {
    "equipo": "TWB",
-   "componente": "barra_led_400",
+   "componente": "barra_led_600",
    "descripcion": "Barra LED",
    "qty": 2,
    "hardware": false
   },
   {
    "equipo": "TWB",
-   "componente": "box_camara_500x160x350",
-   "descripcion": "Box de cámara 500×160×350 (alargado)",
-   "qty": 1,
-   "hardware": false
-  },
-  {
-   "equipo": "TWB",
    "componente": null,
    "descripcion": "Brazo guarda",
-   "qty": 3,
+   "qty": 2,
    "hardware": false
   },
   {
    "equipo": "TWB",
    "componente": "camara_qr",
-   "descripcion": "Cámara de lectura QR (mira hacia arriba)",
+   "descripcion": "Cámara de lectura QR (mira hacia abajo)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "capota_camara_1200x856x716",
+   "descripcion": "Capota de cámara 1200×856×716.3 (STEP alargado)",
+   "qty": 1,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "capota_cubrejunta",
+   "descripcion": "Cubrejunta superior 700×60×30",
    "qty": 1,
    "hardware": false
   },
@@ -1302,6 +1343,20 @@
   },
   {
    "equipo": "TWB",
+   "componente": "capota_pad",
+   "descripcion": "Pad superior −X−Y",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
+   "componente": "perfil_40x40",
+   "descripcion": "Pata capota −X−Y",
+   "qty": 4,
+   "hardware": false
+  },
+  {
+   "equipo": "TWB",
    "componente": "MA4080",
    "descripcion": "Pata MA4080",
    "qty": 4,
@@ -1310,56 +1365,56 @@
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 1350+a",
+   "descripcion": "Perno hex M6 pata TWB 100+a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 1350+b",
+   "descripcion": "Perno hex M6 pata TWB 100+b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 1350−a",
+   "descripcion": "Perno hex M6 pata TWB 100−a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 1350−b",
+   "descripcion": "Perno hex M6 pata TWB 100−b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 150+a",
+   "descripcion": "Perno hex M6 pata TWB 1400+a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 150+b",
+   "descripcion": "Perno hex M6 pata TWB 1400+b",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 150−a",
+   "descripcion": "Perno hex M6 pata TWB 1400−a",
    "qty": 1,
    "hardware": true
   },
   {
    "equipo": "TWB",
    "componente": null,
-   "descripcion": "Perno hex M6 pata TWB 150−b",
+   "descripcion": "Perno hex M6 pata TWB 1400−b",
    "qty": 1,
    "hardware": true
   },
@@ -1367,7 +1422,7 @@
    "equipo": "TWB",
    "componente": "MB400-FT-M12",
    "descripcion": "Pie nivelador M12",
-   "qty": 4,
+   "qty": 8,
    "hardware": false
   },
   {
@@ -1417,13 +1472,6 @@
    "componente": "MB400-PF-40-W600",
    "descripcion": "Travesaño T-slot 40",
    "qty": 2,
-   "hardware": false
-  },
-  {
-   "equipo": "TWB",
-   "componente": "vidrio_ventana",
-   "descripcion": "Vidrio de ventana",
-   "qty": 1,
    "hardware": false
   }
  ]

@@ -87,12 +87,12 @@ export function cinta(E, o) {
     E.addPart(`${tag} · Travesaño de patas Y${Math.round(y)}`, C.perfil, [xc, y, -P.Hprod + 150], [box('Tubo 40×40', [xc, y, -P.Hprod + 150], W + 40, 40, 40)], { ...eq, componente: 'tubo_40x40' });
   }
   // --- placa de transferencia (nosebar) hacia el omni --------------------------------
-  const yIni = r2(lado * (P.omni.W / 2 + 20 + 1.5 + 2)), yFinP = r2(yNariz + lado * 20);
+  const yIni = r2(lado * (P.omni.W / 2 + 4)), yFinP = r2(yNariz + lado * 20);           // arranca 4 mm fuera de la placa del omni (sólo asoma el rodamiento, bajo Z −14)
   const yc = r2((yIni + yFinP) / 2), dP = r2(Math.abs(yFinP - yIni));
-  E.addPart(`${tag} · Placa de transferencia PL3 (${dP} mm)`, C.placa, [xc, yc, zTop + 1], [
-    box('PL3 inox', [xc, yc, zTop + 1], W, dP, 3),
-    ...[-1, 1].map(s => box(`Pestaña ${s > 0 ? '+X' : '−X'}`, [xc + s * (W / 2 - 2), yc, zTop + 1 - 30], 4, dP, 30)),
-  ], { ...eq, componente: 'placa_transferencia' });
-  res.placaTransf = { yIni, yFin: yFinP, zTop: zTop + 4 };
+  E.addPart(`${tag} · Placa de transferencia PL3 (${dP} mm)`, C.placa, [xc, yc, zTop + 2], [
+    box('PL3 inox', [xc, yc, zTop + 2], W, dP, 3)], { ...eq, componente: 'placa_transferencia' });
+  for (const s of [-1, 1]) E.addPart(`${tag} · Pestaña de placa ${s > 0 ? '+X' : '−X'}`, C.placa, [xc + s * (W / 2 - 2), yc + lado * 12, zTop + 2 - 30], [
+    box('Pestaña PL4', [xc + s * (W / 2 - 2), yc + lado * 12, zTop + 2 - 30], 4, dP - 24, 30)], { ...eq, componente: 'pestana_placa_transferencia' });
+  res.placaTransf = { yIni, yFin: yFinP, zTop: zTop + 5 };
   return res;
 }

@@ -120,27 +120,36 @@ export function mb400(E, o) {
 /** Box de cámara, guarda de teflón con embudo, fotocélula de disparo. */
 function twinExtras(E, o, g) {
   const T = P.mb400.twin, M = P.mb400, { x0, tag } = o, lado = P.lado, { yMin, yMax, eq } = g;
-  const xV = r2(x0 + T.xVentana), Lv = T.Lventana, Wb = T.boxCam.W, Hb = T.boxCam.H, tb = T.boxCam.t;
-  const zTop = g.zEje - M.sprocketD / 2 - M.bandaT - 3;                           // 3 mm bajo el ramal de retorno
-  const zBot = zTop - Hb;
-  const out = { ventana: T.ventana, xVentana: xV, Lventana: Lv, boxCam: { zTop, zBot, W: Wb } };
-  // box de cámara (chapa 2 mm, cerrado, ventana superior = hueco entre carriles − 10)
-  E.addPart(`${tag} · Box de cámara ${Lv}×${Wb}×${Hb} (alargado)`, C.box, [xV, 0, zBot], [
-    box('Caja chapa 2', [xV, 0, zBot], Lv, Wb, Hb),
-    box('Vaciado', [xV, 0, zBot + tb], Lv - 2 * tb, Wb - 2 * tb, Hb - 2 * tb, 'cut'),
-    box('Ventana de lectura', [xV, 0, zTop - tb - 1], Lv - 20, T.ventana - 10, tb + 2, 'cut'),
-  ], { ...eq, componente: `box_camara_${Lv}x${Wb}x${Hb}` });
-  E.addPart(`${tag} · Vidrio de ventana`, C.vidrio, [xV, 0, zTop - tb - 3], [box('Vidrio templado 3', [xV, 0, zTop - tb - 3], Lv - 20, T.ventana - 4, 3)], { ...eq, componente: 'vidrio_ventana' });
-  const [cw, cd, ch] = T.camara.cuerpo;
-  E.addPart(`${tag} · Cámara de lectura QR (mira hacia arriba)`, C.camara, [xV, 0, zBot + tb], [
-    box(`Cuerpo ${cw}×${cd}×${ch}`, [xV, 0, zBot + tb], cw, cd, ch),
-    cyl(`Óptica Ø${T.camara.lenteD}`, [xV, 0, zBot + tb + ch], [0, 0, 1], T.camara.lenteD, 12),
+  const xV = r2(x0 + T.xVentana), K = T.capota;
+  const out = { ventana: T.ventana, xVentana: xV, Lventana: T.Lventana };
+  // --- CAPOTA DE CÁMARA (STEP del usuario, alargada): túnel abierto por abajo sobre la cinta
+  const z0 = K.zBase, zTopC = z0 + K.H, Lc = K.L, Wc = K.W;
+  E.addPart(`${tag} · Capota de cámara ${Lc}×${Wc}×${K.H} (STEP alargado)`, C.box, [xV, 0, z0], [
+    box('Carcasa exterior', [xV, 0, z0], Lc, Wc, K.H),
+    box('Interior (abierta por abajo)', [xV, 0, z0 - 1], Lc - 2 * K.cabecero, Wc - 2 * K.frontal, K.H - K.panel + 1, 'cut'),
+    ...[-1, 1].map(s => box(`Abertura de paso ${s > 0 ? 'salida' : 'entrada'}`, [xV + s * (Lc / 2 - K.cabecero / 2), 0, z0 - 1], K.cabecero + 2, K.abertura.W, K.abertura.H + 1, 'cut')),
+  ], { ...eq, componente: `capota_camara_${Lc}x${Wc}x${Math.round(K.H)}` });
+  E.addPart(`${tag} · Cubrejunta superior ${K.cubrejunta.join('×')}`, C.placa, [xV, 0, zTopC], [box('Cubrejunta', [xV, 0, zTopC], Math.min(K.cubrejunta[0], Lc - 2 * K.cabecero), K.cubrejunta[1], K.cubrejunta[2])], { ...eq, componente: 'capota_cubrejunta' });
+  for (const sx of [-1, 1]) for (const sy of [-1, 1]) E.addPart(`${tag} · Pad superior ${sx > 0 ? '+X' : '−X'}${sy > 0 ? '+Y' : '−Y'}`, C.placa, [xV + sx * (Lc / 2 - K.cabecero - K.pad[0] / 2), sy * (Wc / 2 - K.frontal - K.pad[1] / 2 - 10), zTopC], [
+    box('Pad 100×100×30', [xV + sx * (Lc / 2 - K.cabecero - K.pad[0] / 2), sy * (Wc / 2 - K.frontal - K.pad[1] / 2 - 10), zTopC], K.pad[0], K.pad[1], K.pad[2])], { ...eq, componente: 'capota_pad' });
+  // cámara colgada del techo, mirando hacia ABAJO
+  const [cw, cd, ch] = K.camara.cuerpo, zLente = zTopC - K.panel - ch - 12;
+  E.addPart(`${tag} · Cámara de lectura QR (mira hacia abajo)`, C.camara, [xV, 0, zTopC - K.panel - ch], [
+    box(`Cuerpo ${cw}×${cd}×${ch}`, [xV, 0, zTopC - K.panel - ch], cw, cd, ch),
+    cyl(`Óptica Ø${K.camara.lenteD}`, [xV, 0, zTopC - K.panel - ch], [0, 0, -1], K.camara.lenteD, 12),
   ], { ...eq, componente: 'camara_qr' });
-  for (const s of [-1, 1]) E.addPart(`${tag} · Barra LED ${s > 0 ? '+Y' : '−Y'}`, C.led, [xV, s * (Wb / 2 - tb - 2 - T.led.s / 2), zTop - 120], [
-    box(`LED ${T.led.L}×${T.led.s}`, [xV, s * (Wb / 2 - tb - 2 - T.led.s / 2), zTop - 120], T.led.L, T.led.s, T.led.s)], { ...eq, componente: 'barra_led_400' });
-  // FOV: la óptica a zBot+tb+ch+12 debe cubrir la ventana completa
-  const prof = -(zBot + tb + ch + 12), semi = prof * Math.tan(T.camara.fovDeg / 2 * Math.PI / 180);
-  out.fov = { profundidad: r2(prof), semiCobertura: r2(semi), requiereL: Lv / 2, requiereW: T.ventana / 2 };
+  for (const s of [-1, 1]) E.addPart(`${tag} · Barra LED ${s > 0 ? '+Y' : '−Y'}`, C.led, [xV, s * 160, zTopC - K.panel - K.led.s - 40], [
+    box(`LED ${K.led.L}×${K.led.s}`, [xV, s * 160, zTopC - K.panel - K.led.s - 40], K.led.L, K.led.s, K.led.s)], { ...eq, componente: `barra_led_${K.led.L}` });
+  // 4 patas 40×40 al piso, por fuera del bastidor del twin
+  for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
+    const xp = xV + sx * (Lc / 2 - 40), yp = sy * (Wc / 2 - 40), zPie = -P.Hprod;
+    E.addPart(`${tag} · Pata capota ${sx > 0 ? '+X' : '−X'}${sy > 0 ? '+Y' : '−Y'}`, C.perfil, [xp, yp, zPie + M.pie.h], [box('Perfil 40×40', [xp, yp, zPie + M.pie.h], K.pata.w, K.pata.d, z0 - (zPie + M.pie.h))], { ...eq, componente: 'perfil_40x40' });
+    E.addPart(`${tag} · Pie nivelador capota ${sx > 0 ? '+X' : '−X'}${sy > 0 ? '+Y' : '−Y'}`, C.pie, [xp, yp, zPie], [cyl('Pie Ø56', [xp, yp, zPie], [0, 0, 1], M.pie.D, M.pie.h)], { ...eq, componente: 'MB400-FT-M12' });
+  }
+  // FOV desde arriba: la óptica debe cubrir la tapa de la caja grande centrada bajo la cámara
+  const dist = zLente - P.caja.grande.H, semi = dist * Math.tan(K.camara.fovDeg / 2 * Math.PI / 180);
+  out.capota = { x0: r2(xV - Lc / 2), x1: r2(xV + Lc / 2), L: Lc, W: Wc, H: K.H, zBase: z0, zLente: r2(zLente) };
+  out.fov = { distanciaATapaGrande: r2(dist), semiCobertura: r2(semi), requiereL: P.caja.grande.L / 2, requiereW: P.caja.grande.W / 2 };
 
   // guarda de teflón: cara de referencia en Y = lado·(ventana/2 + Wcaja chica − ventana/2 …) → la caja chica
   // queda a CABALLO de la ventana: cara en lado·T.ventana/2 + lado·(Wchica − ventana)/2 … simplificado a lado·150
@@ -153,7 +162,7 @@ function twinExtras(E, o, g) {
   ], { ...eq, componente: `uhmw_${tt}x${T.teflon.h}` });
   // brazos de la guarda desde el larguero del lado de referencia (fuera del paso de la caja)
   const yRef = lado * (Math.max(Math.abs(yMin), Math.abs(yMax)) + 30);
-  for (const xa of [x0 + F + 50, x0 + o.L * 0.62, x0 + o.L - 60]) {
+  for (const xa of (o.brazosX || [x0 + F + 50, x0 + o.L * 0.62, x0 + o.L - 60])) {
     E.addPart(`${tag} · Brazo guarda X${Math.round(xa - x0)}`, C.placa, [xa, yRef, -125 + 20], [
       box('Montante PL4', [xa, yRef, -125 + 20], 30, 4, (T.teflon.h + 2 + 4) - (-125 + 20)),
       box('Brazo PL4', [xa, (yRef + yCara + lado * tt / 2) / 2, T.teflon.h + 2], 30, Math.abs(yRef - (yCara + lado * tt / 2)) + 4, 4),
@@ -162,11 +171,12 @@ function twinExtras(E, o, g) {
   out.teflon = { yCara, ySal, flare: F, flareDeg };
 
   // fotocélula de disparo (réflex) frente a la ventana, en el lado del motor; espejo en el lado de referencia
+  const xS = r2(xV + P.caja.chica.L / 2);                                            // la caja chica queda centrada bajo la cámara al disparar
   const yS = g.sMot * (Math.max(Math.abs(yMin), Math.abs(yMax)) + 4 + M.guiaLA.t + 15);
   const [sw, sd, sh] = T.sensor.cuerpo;
-  E.addPart(`${tag} · Fotocélula de disparo de cámara`, C.sensor, [xV, yS, 32], [
-    box('Poste 20×20', [xV, yS, 32], 20, 20, 40), box(`Sensor ${sw}×${sd}×${sh}`, [xV, yS, 72], sw, sd, sh)], { ...eq, componente: 'fotocelula_reflex' });
-  E.addPart(`${tag} · Espejo réflex`, C.reflector, [xV, -yS, 72], [box('Poste 20×20', [xV, -yS, 32], 20, 20, 40), box('Espejo 40×6×60', [xV, -yS, 72], 40, 6, 60)], { ...eq, componente: 'reflector' });
-  out.sensorX = xV; out.hazZ = 97;
+  E.addPart(`${tag} · Fotocélula de disparo de cámara`, C.sensor, [xS, yS, 32], [
+    box('Poste 20×20', [xS, yS, 32], 20, 20, 40), box(`Sensor ${sw}×${sd}×${sh}`, [xS, yS, 72], sw, sd, sh)], { ...eq, componente: 'fotocelula_reflex' });
+  E.addPart(`${tag} · Espejo réflex`, C.reflector, [xS, -yS, 72], [box('Poste 20×20', [xS, -yS, 32], 20, 20, 40), box('Espejo 40×6×60', [xS, -yS, 72], 40, 6, 60)], { ...eq, componente: 'reflector' });
+  out.sensorX = xS; out.hazZ = 97;
   return out;
 }

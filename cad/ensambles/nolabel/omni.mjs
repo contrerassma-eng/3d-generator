@@ -1,14 +1,15 @@
 // omni.mjs — BLOQUE OMNI (CV-OMW): placa de ruedas omnidireccionales de 24"×24"
-// con 8 filas a paso 3" y 7 ruedas por fila. Filas ALTERNADAS por el sentido
-// de los rodillos (±45°): la familia A (filas pares) y la familia B (filas
-// impares) tienen cada una su correa síncrona lateral y su motor UniDrive
-// 24 V bajo el deck. Mismo sentido en ambas = avance; sentidos opuestos =
-// empuje lateral (justificación en el omni 1, eyección a 90° en el omni 2).
+// con 8 filas a paso 3" y 7 ruedas por fila (render del usuario 2026-10-05:
+// 8 filas × 7 ventanas, UN MOTOR POR FILA en carcasas ventiladas al costado,
+// 3 orejas por lado). Filas ALTERNADAS por el sentido de los rodillos (±45°):
+// filas pares (familia A) e impares (familia B) se comandan por separado.
+// Mismo sentido en ambas = avance; sentidos opuestos = empuje lateral
+// (justificación en el omni 1, eyección a 90° en el omni 2).
 //
 // Capa `user` (diseño Conveyone). Cotas en params.mjs. Ejes del proyecto:
 // X flujo · Y ancho (+Y izquierda) · Z arriba, 0 = corona de las ruedas.
 
-import { box, cyl, hole, sketchXZ, revolve, polea, rodamiento, pernoHex, COL, r2 } from '../nbt90/lib.mjs';
+import { box, cyl, hole, revolve, rodamiento, pernoHex, COL, r2 } from '../nbt90/lib.mjs';
 import { P } from './params.mjs';
 
 const C = {
@@ -32,10 +33,7 @@ export function omni(E, o) {
   const plTop = Q.placa.topZ, plBot = plTop - Q.placa.alto;        // −6 .. −116
   const carBot = plBot - Q.carcasa.h;                                // −236
   const yPl = W / 2 - t / 2;                                         // centro de la placa lateral
-  const yCor = W / 2 + 10;                                           // plano de poleas/correas (fuera de la placa)
-  const Rp = Q.polea.od / 2, tc = Q.correa.t;
-  const Zm = ejeZ - 110;                                             // eje del motor (bajo el deck)
-  const resumen = { filas: Q.filas, porFila: Q.porFila, ruedas: Q.filas * Q.porFila, ejeZ, Zm, yCor, L, W };
+  const resumen = { filas: Q.filas, porFila: Q.porFila, ruedas: Q.filas * Q.porFila, ejeZ, L, W };
 
   // --- placas laterales PL6 con alojamientos de rodamiento ----------------
   for (const s of [-1, 1]) {
@@ -55,13 +53,12 @@ export function omni(E, o) {
   E.addPart(`${tag} · Carcasa inferior`, C.negro, [x0, 0, carBot], [
     box(`Cubeta ${L}×${r2(W - 2 * t)}×${Q.carcasa.h}`, [x0 + L / 2, 0, carBot], L, W - 2 * t, Q.carcasa.h),
     box('Vaciado', [x0 + L / 2, 0, carBot + 2], L - 4, W - 2 * t - 4, Q.carcasa.h + 2, 'cut'),
-    ...[-1, 1].map(s => hole(`Paso eje motor ${s > 0 ? '+Y' : '−Y'} Ø14`, [x0 + L / 2 + (s > 0 ? Q.paso / 2 : -Q.paso / 2), s * (W / 2 - t), Zm], [0, -s, 0], 14)),
   ], eq);
 
   // --- filas: eje Ø15 + 7 ruedas omni + 2 rodamientos 6002 + polea ----------
   for (let i = 0; i < Q.filas; i++) {
-    const x = xFila(i), fam = i % 2 === 0 ? 'A' : 'B', s = fam === 'A' ? -1 : 1, hand = fam === 'A' ? 1 : -1;
-    const yIni = s > 0 ? -(W / 2 + 8) : -(yCor + Q.polea.b / 2 + 2), Le = r2((W / 2 + 8) + (yCor + Q.polea.b / 2 + 2));
+    const x = xFila(i), fam = i % 2 === 0 ? 'A' : 'B', hand = fam === 'A' ? 1 : -1, sMot = -lado;
+    const yIni = sMot > 0 ? -(W / 2 + 6) : -(W / 2 + 4 + 14), Le = r2((W / 2 + 6) + (W / 2 + 4 + 14));   // hasta el acople del motor
     E.addPart(`${tag} · Eje fila ${i + 1} Ø${Q.ejeD} (fam. ${fam})`, C.acero, [x, yIni, ejeZ], [
       cyl(`Eje Ø${Q.ejeD}×${Le}`, [x, yIni, ejeZ], [0, 1, 0], Q.ejeD, Le),
     ], { ...eq, componente: `eje_${Q.ejeD}x${Le}` });
@@ -70,63 +67,29 @@ export function omni(E, o) {
       rodamiento(E, { nombre: `${tag} f${i + 1} ${sb > 0 ? '+Y' : '−Y'}`, at: [x, sb * (W / 2 - t), ejeZ], dir: [0, sb, 0], ...Q.rodamiento, capa: '' });
       E.parts[E.parts.length - 1].equipo = tag;
     }
-    polea(E, { nombre: `${tag} · Polea AT5 fila ${i + 1} (fam. ${fam})`, at: [x, s * (yCor - Q.polea.b / 2), ejeZ], dir: [0, s, 0],
-      od: Q.polea.od, ancho: Q.polea.b, bore: Q.polea.bore, prof: 1.5, color: COL.polea, extra: eq });
   }
 
-  // --- transmisión por familia: motor UniDrive + polea motriz + correa + 2 tensores + guarda
-  const correas = {};
-  for (const fam of ['A', 'B']) {
-    const s = fam === 'A' ? -1 : 1;
-    const filas = [...Array(Q.filas).keys()].filter(i => (i % 2 === 0) === (fam === 'A'));
-    const xs = filas.map(xFila), xf = Math.min(...xs), xl = Math.max(...xs), xm = r2((xf + xl) / 2);
-    const [mL, mD] = [Q.motor.bbox[0], Q.motor.bbox[1]];
-    const yIn = s * (W / 2 - t - 2);                                  // cara interior de la carcasa
-    // motor: cilindro Ø118 × 152.7 (bbox real del UniDrive del catálogo) + eje Ø12 hasta la polea
-    E.addPart(`${tag} · Motor UniDrive 24 V 60 W fam. ${fam}`, C.motor, [xm, yIn, Zm], [
-      cyl(`Carcasa motor Ø${r2(mD)}×${r2(mL)}`, [xm, yIn, Zm], [0, -s, 0], mD, mL),
-      cyl(`Eje motor Ø12`, [xm, yIn, Zm], [0, s, 0], 12, (s * (yCor + Q.polea.b / 2) - yIn) * s + 4),
-    ], { ...eq, componente: 'cv_ZP2026__300986_std_unidrive_motor_d_shaft' });
-    polea(E, { nombre: `${tag} · Polea motriz AT5 fam. ${fam}`, at: [xm, s * (yCor - Q.polea.b / 2), Zm], dir: [0, s, 0],
-      od: Q.polea.od, ancho: Q.polea.b, bore: 12, prof: 1.5, color: COL.polea, extra: eq });
-    // correa: ramal superior sobre las poleas de fila + 2 ramales inclinados al motor (polígonos en XZ)
-    const yA = s * yCor + Q.correa.b / 2;          // sketchXZ extruye hacia −Y (dir [0,−1,0]): se parte de la cara +Y
-    const quad = (A, Bp) => {
-      const dx = Bp[0] - A[0], dz = Bp[1] - A[1], l = Math.hypot(dx, dz), n = [dz / l, -dx / l];
-      return [[A[0] + n[0] * tc / 2, A[1] + n[1] * tc / 2], [Bp[0] + n[0] * tc / 2, Bp[1] + n[1] * tc / 2],
-              [Bp[0] - n[0] * tc / 2, Bp[1] - n[1] * tc / 2], [A[0] - n[0] * tc / 2, A[1] - n[1] * tc / 2]];
-    };
-    const top = [[xf - Rp, ejeZ + Rp + tc / 2], [xl + Rp, ejeZ + Rp + tc / 2]];
-    const izq = [[xf - Rp - tc / 2, ejeZ], [xm - Rp - tc / 2, Zm]];
-    const der = [[xl + Rp + tc / 2, ejeZ], [xm + Rp + tc / 2, Zm]];
-    const largo = r2((top[1][0] - top[0][0]) + 2 * Math.hypot(izq[1][0] - izq[0][0], izq[1][1] - izq[0][1]) + Math.PI * Rp * 2);
-    E.addPart(`${tag} · Correa síncrona AT5 fam. ${fam} (${largo} mm)`, C.correa, [xm, yA, Zm], [
-      sketchXZ('Ramal superior', yA, quad(top[0], top[1]), Q.correa.b),
-      sketchXZ('Ramal descendente −X', yA, quad(izq[0], izq[1]), Q.correa.b),
-      sketchXZ('Ramal descendente +X', yA, quad(der[0], der[1]), Q.correa.b),
-    ], { ...eq, componente: `correa_at5_${Math.round(largo / 5) * 5}` });
-    // tensores: polea loca Ø34 contra cada ramal inclinado, por dentro del lazo
-    for (const [seg, k] of [[izq, 'A'], [der, 'B']]) {
-      const M = [(seg[0][0] + seg[1][0]) / 2, (seg[0][1] + seg[1][1]) / 2];
-      const dx = seg[1][0] - seg[0][0], dz = seg[1][1] - seg[0][1], l = Math.hypot(dx, dz);
-      let n = [dz / l, -dx / l];                                               // perpendicular al ramal
-      if (n[0] * (xm - M[0]) < 0) n = [-n[0], -n[1]];                          // hacia el interior del lazo (eje x = xm)
-      const c = [r2(M[0] + n[0] * (Rp + tc)), r2(M[1] + n[1] * (Rp + tc))];
-      polea(E, { nombre: `${tag} · Tensor fam. ${fam} ${k}`, at: [c[0], s * (yCor - Q.polea.b / 2), c[1]], dir: [0, s, 0],
-        od: Q.polea.od, ancho: Q.polea.b, bore: 10, prof: 1.5, color: COL.rodillo, extra: eq });
-      const yP = s * (W / 2 - t - 4);
-      E.addPart(`${tag} · Pasador tensor fam. ${fam} ${k} Ø10`, C.acero, [c[0], yP, c[1]], [
-        cyl('Pasador Ø10', [c[0], yP, c[1]], [0, s, 0], 10, (yCor + Q.polea.b / 2 + 2) - (W / 2 - t - 4)),
-      ], { ...eq, hardware: true });
-    }
-    // guarda de correa: chapa 1.5 mm por fuera de poleas y correa
-    const yG = s * (W / 2 + 20);
-    E.addPart(`${tag} · Guarda de correa fam. ${fam}`, C.tapa, [x0, yG, Zm - Rp - 20], [
-      box('Chapa 1.5', [x0 + L / 2, yG, Zm - Rp - 20], L, 1.5, (plTop) - (Zm - Rp - 20)),
-    ], eq);
-    correas[fam] = { filas: filas.map(i => i + 1), largo, xm };
+  // --- accionamiento: UN MOTORREDUCTOR 24 V POR FILA (render del usuario), todos al
+  //     lado opuesto a la referencia, en carcasas ventiladas colgadas de la placa
+  const sM = -lado, motores = [];
+  const Mo = Q.motorFila;
+  for (let i = 0; i < Q.filas; i++) {
+    const x = xFila(i), fam = i % 2 === 0 ? 'A' : 'B';
+    const yPlExt = sM * (W / 2);                                   // cara exterior de la placa
+    const yC0 = yPlExt + sM * 4;                                   // la carcasa arranca 4 mm fuera de la placa
+    E.addPart(`${tag} · Carcasa motor fila ${i + 1} (ventilada)`, C.oreja, [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20], [
+      box(`Carcasa ${Mo.carcasa[0]}×${Mo.carcasa[1]}×${Mo.carcasa[2]}`, [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20], Mo.carcasa[0], Mo.carcasa[1], Mo.carcasa[2]),
+      box('Vaciado', [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20 + 1.5], Mo.carcasa[0] - 3, Mo.carcasa[1] - 3, Mo.carcasa[2] - 3, 'cut'),
+      ...[0, 1, 2, 3].map(k => box(`Ranura ventilación ${k + 1}`, [x, yC0 + sM * (Mo.carcasa[1] + 1), ejeZ - Mo.carcasa[2] + 32 + k * 12], Mo.carcasa[0] - 20, 4, 5, 'cut')),
+      hole(`Paso eje Ø${Q.ejeD + 2}`, [x, yC0 - sM * 1, ejeZ], [0, sM, 0], Q.ejeD + 2),
+    ], { ...eq, componente: `carcasa_motor_${Mo.carcasa.join('x')}` });
+    E.addPart(`${tag} · Motorreductor 24 V fila ${i + 1} (fam. ${fam})`, C.motor, [x, yC0 + sM * 6, ejeZ], [
+      cyl(`Motor Ø${Mo.D}×${Mo.L}`, [x, yC0 + sM * 6, ejeZ], [0, sM, 0], Mo.D, Mo.L),
+      cyl('Acople al eje Ø30', [x, yC0 - sM * 6, ejeZ], [0, sM, 0], 30, 12),
+      cyl('Tapa encoder Ø36', [x, yC0 + sM * (6 + Mo.L), ejeZ], [0, sM, 0], 36, 4),
+    ], { ...eq, componente: `motorreductor_24v_${Mo.D}x${Mo.L}` });
+    motores.push({ fila: i + 1, fam, x });
   }
-
   // --- orejas de anclaje (3 por lado) al nivel del fondo de la carcasa --------
   const xOrejas = [0.125, 0.5, 0.875].map(f => r2(x0 + L * f));
   const zOre = carBot;                                                            // tabs al ras del fondo (bajo correas y motores)
@@ -174,11 +137,12 @@ export function omni(E, o) {
       box('Lente', [xf, yf + lado * (od / 2 + 1), plTop + ch + oh / 2 - 5], 12, 2, 10)], eq);
     resumen.fotocelulaX = xf;
   }
-  resumen.correas = correas;
+  resumen.motores = motores;
   resumen.yRueda = yRueda;
   resumen.xFila = [...Array(Q.filas).keys()].map(xFila);
   resumen.zTopPlaca = plTop;
-  resumen.yGuardaCorrea = W / 2 + 20 + 1.5;
+  resumen.yExtMotores = W / 2 + 4 + Q.motorFila.carcasa[1];   // lado −lado
+  resumen.yExtLibre = W / 2 + 3;                              // lado de salida: sólo asoma el rodamiento
   resumen.zFondo = zLg;
   return resumen;
 }

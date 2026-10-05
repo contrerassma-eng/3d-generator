@@ -39,7 +39,8 @@ console.log('— Compuertas registradas —');
 ok(V.omni_columnas_bajo_caja_chica >= 2 && V.omni_filas_bajo_caja_chica >= 3, `caja chica sobre ${V.omni_columnas_bajo_caja_chica} columnas × ${V.omni_filas_bajo_caja_chica} filas de ruedas`);
 ok(V.twin_ventana < P.caja.chica.W - 80, `ventana ${V.twin_ventana} < W caja chica − 80`);
 ok(V.twin_apoyo_caja_chica_mm.every(a => a >= 50) && V.twin_apoyo_caja_grande_mm.every(a => a >= 50), 'ambas cajas apoyan ≥50 mm en cada carril del twin');
-ok(V.twin_fov.semiCobertura >= V.twin_fov.requiereL, `la óptica cubre ±${V.twin_fov.semiCobertura} ≥ ±${V.twin_fov.requiereL} (ventana alargada)`);
+ok(V.twin_fov.semiCobertura >= V.twin_fov.requiereL, `la óptica cubre ±${V.twin_fov.semiCobertura} ≥ ±${V.twin_fov.requiereL} (tapa de la caja grande)`);
+ok(V.twin_capota.L > 863.9 && V.twin_capota.margenCajaGrande >= 100, `capota alargada a ${V.twin_capota.L} (STEP 863.9), margen ${V.twin_capota.margenCajaGrande}`);
 ok(V.twin_disparo.desdeNariz >= P.caja.chica.L, 'la fotocélula dispara con la caja chica completa dentro del twin');
 ok(V.twin_embudo.flareDeg <= P.mb400.twin.teflon.flareMaxDeg, `embudo de teflón a ${V.twin_embudo.flareDeg}°`);
 ok(Object.values(V.planos).every(z => z <= 0 && z >= -25), 'planos de producto en 0 (cinta hasta −25)');
@@ -51,19 +52,19 @@ console.log('— Despiece —');
 const bom = dims.despiece;
 const cnt = (eq, re) => bom.filter(l => l.equipo === eq && re.test(l.descripcion + ' ' + (l.componente || ''))).reduce((a, l) => a + l.qty, 0);
 ok(cnt('OMW-1', /Rueda omni/) === P.omni.filas * P.omni.porFila, `${P.omni.filas * P.omni.porFila} ruedas omni por bloque`);
-ok(cnt('OMW-1', /Motor UniDrive/) === 2 && cnt('OMW-1', /Correa síncrona/) === 2, '2 motores + 2 correas por bloque omni');
+ok(cnt('OMW-1', /Motorreductor 24 V/) === P.omni.filas && cnt('OMW-1', /Carcasa motor/) === P.omni.filas, `${P.omni.filas} motorreductores (uno por fila) con carcasa ventilada por bloque omni`);
 ok(cnt('OMW-2', /Fotocélula/) === 1 && cnt('OMW-1', /Fotocélula/) === 0, 'fotocélula sólo en el omni de clasificación');
 ok(cnt('OMW-1', /Guía de referencia/) === 1 && cnt('OMW-2', /Guía de referencia/) === 0, 'guía de referencia sólo en el omni de justificación');
 ok(cnt('TWB', /Banda modular/) === 2 && cnt('MB4000', /Banda modular/) === 1, 'twin con 2 carriles, MB400 4000 con 1');
-ok(cnt('TWB', /Box de cámara/) === 1 && cnt('TWB', /Cámara/) === 1 && cnt('TWB', /Barra LED/) === 2, 'box de cámara + cámara + 2 LED');
-ok(cnt('BLT', /Tambor/) === 2 && cnt('BLT', /Motorreductor de eje hueco/) === 1 && cnt('BLT', /Placa de transferencia/) === 1, 'cinta: 2 tambores, motorreductor de eje hueco, placa de transferencia');
+ok(cnt('TWB', /Capota de cámara/) === 1 && cnt('TWB', /^Cámara/) === 1 && cnt('TWB', /Barra LED/) === 2 && cnt('TWB', /Pata capota/) === 4, 'capota (STEP alargado) + cámara + 2 LED + 4 patas');
+ok(cnt('BLT', /Tambor/) === 2 && cnt('BLT', /Motorreductor de eje hueco/) === 1 && cnt('BLT', /^Placa de transferencia/) === 1, 'cinta: 2 tambores, motorreductor de eje hueco, placa de transferencia');
 
 console.log('— Construcción CSG (muestra por equipo) —');
 const muestra = [];
 for (const eq of ['OMW-1', 'TWB', 'MB4000', 'OMW-2', 'BLT']) {
   const ps = doc.parts.filter(p => p.equipo === eq);
   const pick = (re) => ps.find(p => re.test(p.name));
-  for (const re of [/Rueda omni/, /Correa síncrona/, /Tapa superior/, /Carcasa inferior/, /Banda modular/, /Box de cámara/, /Guarda de teflón/, /Piñón/, /Banda plana/, /Tambor/, /Canal lateral/, /Placa de transferencia/, /Perno hex/]) {
+  for (const re of [/Rueda omni/, /Rodillo omni/, /Carcasa motor/, /Motorreductor 24 V/, /Tapa superior/, /Carcasa inferior/, /Banda modular/, /Capota de cámara/, /Guarda de teflón/, /Piñón/, /Banda plana/, /Tambor/, /Canal lateral/, /Placa de transferencia/, /Perno hex/]) {
     const p = pick(re); if (p && !muestra.includes(p)) muestra.push(p);
   }
 }
