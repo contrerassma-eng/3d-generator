@@ -45,7 +45,7 @@
    },
    "placa": {
     "t": 6,
-    "alto": 110,
+    "alto": 90,
     "topZ": -6
    },
    "tapa": {
@@ -62,7 +62,7 @@
     "agujero": 11
    },
    "carcasa": {
-    "h": 120,
+    "h": 70,
     "margenY": 40
    },
    "motorFila": {
@@ -71,7 +71,7 @@
     "carcasa": [
      70,
      62,
-     96
+     92
     ],
     "pot_W": 60,
     "V": 24
@@ -860,9 +860,9 @@
   },
   {
    "equipo": "OMW-1",
-   "componente": "carcasa_motor_70x62x96",
-   "descripcion": "Carcasa motor",
-   "qty": 8,
+   "componente": "carcasa_motores_609.5999999999999x62x92",
+   "descripcion": "Carcasa ventilada de motores",
+   "qty": 1,
    "hardware": false
   },
   {
@@ -1056,9 +1056,9 @@
   },
   {
    "equipo": "OMW-2",
-   "componente": "carcasa_motor_70x62x96",
-   "descripcion": "Carcasa motor",
-   "qty": 8,
+   "componente": "carcasa_motores_609.5999999999999x62x92",
+   "descripcion": "Carcasa ventilada de motores",
+   "qty": 1,
    "hardware": false
   },
   {

@@ -39,8 +39,9 @@ Largo total de la línea **6779.2 mm** + cinta de salida 2000 mm hacia −Y.
 `omniwheel.md` del simulador (24", paso 3", 60 W / 24 VDC por fila): 8 ejes Ø15 a paso 76,2
 con **7 ruedas omni Ø60×38** cada uno (cubo revolucionado + 6 rodillos Ø16×22 a **±45°**, mano
 alternada por fila), 2 rodamientos 6002 por eje en placas laterales PL6, tapa negro mate con
-ventana por rueda, **8 motorreductores 24 V** acoplados directo al eje en carcasas ventiladas
-(lado opuesto a la referencia), cubeta inferior para los drivers, 3 orejas de anclaje por lado
+ventana por rueda (tapa gris clara como el render), **8 motorreductores 24 V** acoplados directo al eje que
+asoman de la banda negra bajo el deck y van bajo **una carcasa ventilada continua** gris clara (lado opuesto a
+la referencia), cubeta inferior baja para los drivers (altura total del bloque ≈ 166), 3 orejas de anclaje por lado
 con M10, bastidor PG40 + patas MA4080 + pies M12. El omni 1 lleva la **guía de referencia UHMW
 20×60**; el omni 2 la **fotocélula de detención** a 0,82·L. Las filas pares e impares se
 comandan por separado: mismo sentido = avance; sentidos opuestos = empuje lateral.
@@ -112,7 +113,8 @@ PL3** desde Y = -328.3 (tras la guarda del omni) hasta la nariz.
    óptica (reservado para una 2ª cámara inferior si el QR fuera por abajo). Alargada de 863,9 a 1200 para que
    la caja grande quede entera adentro con 250 de margen al disparar.
 5. **Un motor por fila.** El render lateral del usuario muestra 8 motorreductores individuales; se reemplazó
-   el esquema de 2 familias con correas por 8 motores acoplados directo al eje, en carcasas ventiladas.
+   el esquema de 2 familias con correas por 8 motores acoplados directo al eje bajo una carcasa ventilada
+   continua; colores y proporción de altura ajustados al render (tapa clara, ruedas gris oscuro).
 
 ## Abiertas (preguntas a Sergio — salen sólo de aquí)
 

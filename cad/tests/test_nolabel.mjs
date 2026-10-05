@@ -52,7 +52,7 @@ console.log('— Despiece —');
 const bom = dims.despiece;
 const cnt = (eq, re) => bom.filter(l => l.equipo === eq && re.test(l.descripcion + ' ' + (l.componente || ''))).reduce((a, l) => a + l.qty, 0);
 ok(cnt('OMW-1', /Rueda omni/) === P.omni.filas * P.omni.porFila, `${P.omni.filas * P.omni.porFila} ruedas omni por bloque`);
-ok(cnt('OMW-1', /Motorreductor 24 V/) === P.omni.filas && cnt('OMW-1', /Carcasa motor/) === P.omni.filas, `${P.omni.filas} motorreductores (uno por fila) con carcasa ventilada por bloque omni`);
+ok(cnt('OMW-1', /Motorreductor 24 V/) === P.omni.filas && cnt('OMW-1', /Carcasa ventilada/) === 1, `${P.omni.filas} motorreductores (uno por fila) bajo una carcasa ventilada continua`);
 ok(cnt('OMW-2', /Fotocélula/) === 1 && cnt('OMW-1', /Fotocélula/) === 0, 'fotocélula sólo en el omni de clasificación');
 ok(cnt('OMW-1', /Guía de referencia/) === 1 && cnt('OMW-2', /Guía de referencia/) === 0, 'guía de referencia sólo en el omni de justificación');
 ok(cnt('TWB', /Banda modular/) === 2 && cnt('MB4000', /Banda modular/) === 1, 'twin con 2 carriles, MB400 4000 con 1');
@@ -64,7 +64,7 @@ const muestra = [];
 for (const eq of ['OMW-1', 'TWB', 'MB4000', 'OMW-2', 'BLT']) {
   const ps = doc.parts.filter(p => p.equipo === eq);
   const pick = (re) => ps.find(p => re.test(p.name));
-  for (const re of [/Rueda omni/, /Rodillo omni/, /Carcasa motor/, /Motorreductor 24 V/, /Tapa superior/, /Carcasa inferior/, /Banda modular/, /Capota de cámara/, /Guarda de teflón/, /Piñón/, /Banda plana/, /Tambor/, /Canal lateral/, /Placa de transferencia/, /Perno hex/]) {
+  for (const re of [/Rueda omni/, /Rodillo omni/, /Carcasa ventilada/, /Motorreductor 24 V/, /Tapa superior/, /Carcasa inferior/, /Banda modular/, /Capota de cámara/, /Guarda de teflón/, /Piñón/, /Banda plana/, /Tambor/, /Canal lateral/, /Placa de transferencia/, /Perno hex/]) {
     const p = pick(re); if (p && !muestra.includes(p)) muestra.push(p);
   }
 }

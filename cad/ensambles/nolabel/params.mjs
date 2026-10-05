@@ -41,11 +41,11 @@ export const P = {
     rueda: { D: 60, B: 38, cuboD: 26, nRod: 6, rodD: 16, rodL: 22, rodAng: 45 },   // pc: rueda omni Ø60×38, 6 rodillos a 45° (a confirmar con proveedor)
     ejeD: 15,                 // dis: eje Ø15 por fila, rodamiento 6002 (15×32×9) en cada placa
     rodamiento: { bore: 15, od: 32, w: 9 },   // web (din625_6002): rodamiento rígido 6002
-    placa: { t: 6, alto: 110, topZ: -6 },     // dis: PL6 laterales; su canto queda 6 bajo el plano (la corona de la rueda asoma)
+    placa: { t: 6, alto: 90, topZ: -6 },      // dis: PL6 laterales; su canto queda 6 bajo el plano (la corona asoma); 90 de alto según proporción del render
     tapa: { t: 3, z: -9, holg: 3 },           // dis: tapa negro mate 3 mm con ventanas rueda + 3 mm por lado
     oreja: { w: 80, d: 60, t: 8, n: 3, z: -60, agujero: 11 },   // dis: 3 orejas de anclaje por lado (render) con 2 × Ø11 (M10)
-    carcasa: { h: 120, margenY: 40 },         // dis: carcasa inferior de motores y correas (negro mate)
-    motorFila: { D: 48, L: 60, carcasa: [70, 62, 96], pot_W: 60, V: 24 },   // render del usuario: un motorreductor por fila en carcasa ventilada lateral; 60 W / 24 VDC (omniwheel.md: 1 UniDrive por fila); Ø48×60 pc
+    carcasa: { h: 70, margenY: 40 },          // dis: cubeta inferior de drivers (negro mate); altura total del bloque ≈ 166 (render: bloque bajo)
+    motorFila: { D: 48, L: 60, carcasa: [70, 62, 92], pot_W: 60, V: 24 },   // render del usuario: un motorreductor por fila en carcasa ventilada lateral; 60 W / 24 VDC (omniwheel.md: 1 UniDrive por fila); Ø48×60 pc
     fotocelula: { xFrac: 0.82, cuerpo: [24, 24, 86], ojo: [22, 16, 22] },   // cad: fotocélula a 0.82·L (omniwheel.md); cuerpo del simulador
     guia: { t: 20, h: 60, z: 2 },             // dis: guía de referencia UHMW 20×60 sobre el lado de referencia (omni 1)
   },

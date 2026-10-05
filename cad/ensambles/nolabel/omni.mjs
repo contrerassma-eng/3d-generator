@@ -13,7 +13,7 @@ import { box, cyl, hole, revolve, rodamiento, pernoHex, COL, r2 } from '../nbt90
 import { P } from './params.mjs';
 
 const C = {
-  negro: '#15181d', tapa: '#101318', azul: '#2456c8', acero: COL.acero, inox: COL.inox,
+  negro: '#15181d', tapa: '#d9dde2', claro: '#d9dde2', azul: '#2456c8', rueda: '#3a3f46', rodillo: '#555b63', acero: COL.acero, inox: COL.inox,
   correa: '#2b2b2b', motor: '#37474f', oreja: '#6b7f94', uhmw: '#e8e4d8', perfil: '#b0bec5', pie: '#455a64',
   sensor: '#2a3138', ojo: '#d64545',
 };
@@ -47,7 +47,7 @@ export function omni(E, o) {
     for (let i = 0; i < Q.filas; i++) for (const y of yRueda) {
       feats.push(box(`Ventana rueda`, [xFila(i), y, Q.tapa.z - 1], Dr + 2 * Q.tapa.holg, B + 2 * Q.tapa.holg, Q.tapa.t + 2, 'cut'));
     }
-    E.addPart(`${tag} · Tapa superior`, C.tapa, [x0, 0, Q.tapa.z], feats, eq);
+    E.addPart(`${tag} · Tapa superior`, C.claro, [x0, 0, Q.tapa.z], feats, eq);
   }
   // --- carcasa inferior (cubeta abierta arriba) ----------------------------
   E.addPart(`${tag} · Carcasa inferior`, C.negro, [x0, 0, carBot], [
@@ -69,24 +69,28 @@ export function omni(E, o) {
     }
   }
 
-  // --- accionamiento: UN MOTORREDUCTOR 24 V POR FILA (render del usuario), todos al
-  //     lado opuesto a la referencia, en carcasas ventiladas colgadas de la placa
-  const sM = -lado, motores = [];
-  const Mo = Q.motorFila;
+  // --- accionamiento: UN MOTORREDUCTOR 24 V POR FILA (render del usuario): los 8 motores asoman
+  //     de una banda negra bajo el canto del deck y van cubiertos por UNA carcasa ventilada
+  //     continua (gris claro) colgada de la placa, al lado opuesto a la referencia
+  const sM = -lado, motores = [], Mo = Q.motorFila;
+  const yPlExt = sM * (W / 2), yC0 = yPlExt + sM * 4;                 // la carcasa arranca 4 mm fuera de la placa
+  const zCarc = plTop - Mo.carcasa[2];                                // su canto superior al ras del deck
+  {
+    const feats = [box(`Carcasa ventilada ${L}×${Mo.carcasa[1]}×${Mo.carcasa[2]}`, [x0 + L / 2, yC0 + sM * Mo.carcasa[1] / 2, zCarc], L, Mo.carcasa[1], Mo.carcasa[2]),
+      box('Vaciado', [x0 + L / 2, yC0 + sM * Mo.carcasa[1] / 2, zCarc + 1.5], L - 3, Mo.carcasa[1] - 3, Mo.carcasa[2] - 3, 'cut')];
+    for (let i = 0; i < Q.filas; i++) {
+      for (let k = 0; k < 5; k++) feats.push(box(`Ranura f${i + 1}.${k + 1}`, [xFila(i), yC0 + sM * (Mo.carcasa[1] + 1), zCarc + 10 + k * 11], Q.paso - 22, 4, 5, 'cut'));
+      feats.push(hole(`Paso motor f${i + 1} Ø${Mo.D + 4}`, [xFila(i), yC0 - sM * 1, ejeZ], [0, sM, 0], Mo.D + 4));
+    }
+    E.addPart(`${tag} · Carcasa ventilada de motores`, C.claro, [x0, yC0 + sM * Mo.carcasa[1] / 2, zCarc], feats, { ...eq, componente: `carcasa_motores_${L}x${Mo.carcasa[1]}x${Mo.carcasa[2]}` });
+  }
   for (let i = 0; i < Q.filas; i++) {
     const x = xFila(i), fam = i % 2 === 0 ? 'A' : 'B';
-    const yPlExt = sM * (W / 2);                                   // cara exterior de la placa
-    const yC0 = yPlExt + sM * 4;                                   // la carcasa arranca 4 mm fuera de la placa
-    E.addPart(`${tag} · Carcasa motor fila ${i + 1} (ventilada)`, C.oreja, [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20], [
-      box(`Carcasa ${Mo.carcasa[0]}×${Mo.carcasa[1]}×${Mo.carcasa[2]}`, [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20], Mo.carcasa[0], Mo.carcasa[1], Mo.carcasa[2]),
-      box('Vaciado', [x, yC0 + sM * Mo.carcasa[1] / 2, ejeZ - Mo.carcasa[2] + 20 + 1.5], Mo.carcasa[0] - 3, Mo.carcasa[1] - 3, Mo.carcasa[2] - 3, 'cut'),
-      ...[0, 1, 2, 3].map(k => box(`Ranura ventilación ${k + 1}`, [x, yC0 + sM * (Mo.carcasa[1] + 1), ejeZ - Mo.carcasa[2] + 32 + k * 12], Mo.carcasa[0] - 20, 4, 5, 'cut')),
-      hole(`Paso eje Ø${Q.ejeD + 2}`, [x, yC0 - sM * 1, ejeZ], [0, sM, 0], Q.ejeD + 2),
-    ], { ...eq, componente: `carcasa_motor_${Mo.carcasa.join('x')}` });
     E.addPart(`${tag} · Motorreductor 24 V fila ${i + 1} (fam. ${fam})`, C.motor, [x, yC0 + sM * 6, ejeZ], [
       cyl(`Motor Ø${Mo.D}×${Mo.L}`, [x, yC0 + sM * 6, ejeZ], [0, sM, 0], Mo.D, Mo.L),
       cyl('Acople al eje Ø30', [x, yC0 - sM * 6, ejeZ], [0, sM, 0], 30, 12),
       cyl('Tapa encoder Ø36', [x, yC0 + sM * (6 + Mo.L), ejeZ], [0, sM, 0], 36, 4),
+      box('Escuadra de motor', [x, yC0 + sM * 3, ejeZ - 36], 40, 3, 72),
     ], { ...eq, componente: `motorreductor_24v_${Mo.D}x${Mo.L}` });
     motores.push({ fila: i + 1, fam, x });
   }
@@ -152,7 +156,7 @@ export function omni(E, o) {
  *  construye al instante. Los pasadores quedan dentro del rodillo (no se dibujan). */
 function ruedaOmni(E, { at, hand, nombre, eq }) {
   const R = P.omni.rueda, Rr = R.D / 2 - R.rodD / 2, [x, y, z] = at, a = R.rodAng * Math.PI / 180;
-  const cubo = E.addPart(nombre, '#1b2a3a', [x, y, z], [
+  const cubo = E.addPart(nombre, '#2a2f36', [x, y, z], [
     revolve(`Cubo Ø${R.cuboD}×${R.B}`, [x, y - R.B / 2, z], 'y', [[0, R.cuboD / 2], [0, Rr - R.rodD / 2 + 2], [3, Rr - R.rodD / 2 + 2], [3, R.cuboD / 2 + 4],
       [R.B - 3, R.cuboD / 2 + 4], [R.B - 3, Rr - R.rodD / 2 + 2], [R.B, Rr - R.rodD / 2 + 2], [R.B, R.cuboD / 2]]),
     hole(`Bore Ø${P.omni.ejeD}`, [x, y - R.B / 2 - 1, z], [0, 1, 0], P.omni.ejeD),
@@ -163,7 +167,7 @@ function ruedaOmni(E, { at, hand, nombre, eq }) {
     const tg = [-Math.sin(th), 0, Math.cos(th)];
     const d = [tg[0] * Math.cos(a), hand * Math.sin(a), tg[2] * Math.cos(a)].map(r2);
     const a0 = [p[0] - d[0] * R.rodL / 2, p[1] - d[1] * R.rodL / 2, p[2] - d[2] * R.rodL / 2].map(r2);
-    E.addPart(`${nombre.replace('Rueda omni', 'Rodillo omni')} #${k + 1}`, '#2456c8', a0, [
+    E.addPart(`${nombre.replace('Rueda omni', 'Rodillo omni')} #${k + 1}`, '#555b63', a0, [
       cyl(`Rodillo Ø${R.rodD}×${R.rodL} a ${hand > 0 ? '+' : '−'}${R.rodAng}°`, a0, d, R.rodD, R.rodL),
     ], { ...eq, componente: `rodillo_omni_${R.rodD}x${R.rodL}`, subparte: cubo.id });
   }
