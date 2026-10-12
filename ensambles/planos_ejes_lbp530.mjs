@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // planos_ejes_lbp530.mjs — PLANOS DE FABRICACIÓN DE LOS EJES del proyecto
-// LBP530-18 (transportadores Movex 530 LBP 5.0 m y 530 GT 0.8 m, 18 in):
+// LBP530-18 (transportadores Movex 530 LBP 5.0 m y 530 GT 0.6 m, 18 in):
 //
 //   LBP530-EJ-01  EJE MOTRIZ  — barra cuadrada 1.5 in SAE 1045, muñones Ø30
 //                 torneados: libre 50, motriz 165 (rodamiento + cubo del
@@ -196,19 +196,21 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   const cm = dims.compraMovex;
   const rows1 = [
     ['POS', 'DESCRIPCIÓN', 'CANT', 'OBSERVACIÓN'],
-    ['A1', 'Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada × 6 m', '2 (+1 resp.)', 'ejes motriz y tensor — ver diagrama'],
-    ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '32', '4 por transportador (2 ejes × 2)'],
+    ['A1', 'Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada × 6 m', '1 (+1 resp.)', '8 ejes motrices (5520) — UN SOLO EJE por equipo (decisión Movex 08-09-2026); sin ejes tensores'],
+    ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '16', '2 por equipo (solo eje motriz; la cola lleva rodillo en colisa)'],
     ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz'],
     ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8', '8', 'retención axial del motorreductor'],
-    ['A5', 'Motorreductor NMRV-P 075 FA 1/30, eje hueco Ø30 H8, 0.55 kW 80A-4', '8', 'VERIFICADO cat. Motovario: 46 rpm, 89 Nm, fs 2.8; v=22.2 m/min; brazo de torque 075'],
-    ['A6', 'Rodillo retorno Ø63.5: tubo + 2 rodam. 6202-2RS sellados insertos', `${8 + 4 + 4} aprox`, 'eje muerto Ø15 rosc. M8 int.; PERNO HEX M8 + golilla POR FUERA'],
+    ['A5', 'Motorreductor: el MISMO del BRP (caja sinfín eje hueco Ø30 + motor 1 HP vertical, STEP 314508014) + brazo 50154 + pasador EspBrazoReac', '8', 'pedido Sergio 08-09-2026; mínimo calculado NMRV-P 075 1/30 0,55 kW (46 rpm, 89 Nm, fs 2,8; v=22,2 m/min)'],
+    ['A6', 'Rodillo Ø63.5 eje muerto: tubo + 2 rodam. 6202-2RS sellados insertos', '44', 'LBP 9 (snub + 7 retorno + cola en COLISA) · GT 2 (snub + cola en COLISA 9x40); eje Ø15 rosc. M8; PERNO HEX M8 por fuera'],
     ['A7', 'Perno M12×40 8.8 + tuerca (chumaceras a mecha PL8)', '128', '4 por chumacera'],
-    ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', '16 sop.', 'misma matriz/planos del ZP2026'],
+    ['A8', 'PATAS familia ZP2026 (piezas REALES): escuadra B_005A_1 + columna SOLID_06 (588) + placa base B_004A_1, por lado; travesaño de patas C 71×38×3 (sección B_002A_1)', '16 patas', 'LBP 3 + GT 1 por línea (2 lados); NPT banda 918'],
+    ['A9', 'Perno coche 3/8 in UNC (ANSI B18.5) + golilla plana F436 + golilla de presión B18.21.1 + tuerca AS 2465', String(dims.estructura?.pernoCoche?.flota ?? ''), `LBP ${dims.estructura?.pernoCoche?.porLBP} + GT ${dims.estructura?.pernoCoche?.porGT} por línea · largos LBP ${JSON.stringify(dims.estructura?.pernoCoche?.porLargoLBP)} · GT ${JSON.stringify(dims.estructura?.pernoCoche?.porLargoGT)} (in) — todo APERNADO (línea BRP/Merge)`],
+    ['A10', 'Chumacera UCF206: modelo real 1485N3 (BRP/Merge) · postes de guía Sop_GuarLat + porta Movex BM (reales) · guía de desgaste UHMW 12×15', '16 · ver GA', 'perno coche 3/8 × 3¼/3½ in en el pasador del brazo (cabeza por dentro); muñón motriz 190 (eje L=706)'],
   ];
   const rows2 = [
     ['POS', 'MOVEX — COTIZACIÓN 26012937 (09-07-2026, EUR EXW) — input/docs/', 'NECESARIO / COTIZADO', 'OBSERVACIÓN'],
     ['M1', `Banda 530 LBP 18 in LFA — ${cm.banda_530LBP_18in.art} (EUR ${cm.banda_530LBP_18in.precioEUR_m}/m)`, `${cm.banda_530LBP_18in.necesario_m} m / ${cm.banda_530LBP_18in.cotizado_m} m`, `lazo ${dims.lazos_m.LBP_5000} m × 4; cotizado cubre ~2×`],
-    ['M2', `Banda 530 GT 18 in LFA — ${cm.banda_530GT_18in.art} (EUR ${cm.banda_530GT_18in.precioEUR_m}/m)`, `${cm.banda_530GT_18in.necesario_m} m / ${cm.banda_530GT_18in.cotizado_m} m`, `lazo ${dims.lazos_m.GT_800} m × 4`],
+    ['M2', `Banda 530 GT 18 in LFA — ${cm.banda_530GT_18in.art} (EUR ${cm.banda_530GT_18in.precioEUR_m}/m)`, `${cm.banda_530GT_18in.necesario_m} m / ${cm.banda_530GT_18in.cotizado_m} m`, `lazo ${dims.lazos_m.GT} m × 4`],
     ['M3', `Sprocket Z-32 MOLDEADO bore cuadrado 1.5 in c/grano M8 — ${cm.sprockets_Z32_cuadrado15.art} (EUR ${cm.sprockets_Z32_cuadrado15.precioEUR})`, `${cm.sprockets_Z32_cuadrado15.necesario} / ${cm.sprockets_Z32_cuadrado15.cotizado}`, 'LBP 5+2 · GT 6+2; sólo 1 fijo/eje (grano M8)'],
     ['M4', `Collarín de referencia 1.5×1.5 in — ${cm.collarines.art} (EUR ${cm.collarines.precioEUR})`, `${cm.collarines.necesario} / ${cm.collarines.cotizado}`, '2 por eje, flanquean el sprocket central'],
     ['M5', `Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in — ${cm.nosebar_LBP.art} (EUR ${cm.nosebar_LBP.precioEUR})`, `${cm.nosebar_LBP.necesario} / ${cm.nosebar_LBP.cotizado}`, '3 por punta × 2 puntas × 4 LBP'],
@@ -238,7 +240,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   sh.titleBlock({
     designacion: 'EJES — corte de barras y lista de compra (4 líneas)',
     proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
-    verificacion: 'DISEÑO CAD (CAPA USER)', piezas: '16 ejes', piezasLabel: 'CANTIDAD',
+    verificacion: 'DISEÑO CAD (CAPA USER)', piezas: '8 ejes', piezasLabel: 'CANTIDAD',
     nota: 'datos Movex citados en input/web_facts.json; confirmar nº de sprockets LBP con Movex (manual 5 vs brochure 6)',
     escala: '—', fecha, numPlano: dims.ejes.barras ? 'LBP530-EJ-03' : 'EJ-03',
   });

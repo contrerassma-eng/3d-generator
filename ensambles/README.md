@@ -280,17 +280,38 @@ dimensiones nominales con la unidad real antes de mecanizar.
 ## Transportadores Movex 530 LBP / GT (proyecto projects/LBP530-18)
 
 Cuatro líneas de packing: por línea 1 × **CV-LBP-5000** (Movex 530 LBP 18 in
-× 5.0 m, acumulación) y 1 × **CV-GT-800** (530 GT friction top × 0.8 m).
-Nosebar en ambas puntas, tracción abajo en la descarga (wrap 135°), ejes
-CUADRADOS 1.5 in con muñones torneados Ø30 (motorreductor de eje hueco Ø30
-directo). Datos del fabricante citados en `projects/LBP530-18/input/web_facts.json`.
+× 5.0 m, acumulación) y 1 × **CV-GT-600** (530 GT grip top × 0.6 m; hasta el
+2026-09-08 era 0.8 m — se regenera con `GT_L=800`). Nosebar en ambas puntas,
+tracción abajo en la descarga (wrap objetivo Movex 140±10°), ejes CUADRADOS
+1.5 in con muñones torneados Ø30 (motorreductor de eje hueco Ø30 directo).
+Datos del fabricante citados en `projects/LBP530-18/input/web_facts.json`;
+catálogo métrico 2025 y Engineering Manual V2.0 en la carpeta Inventor
+`Bandas Modulares/` del usuario.
 
 ```bash
-node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt08.json · lbp530_dims.json
-# planos (bundlear con esbuild como los demás):
+node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt06.json · lbp530_dims.json
+GT_L=800 node cad/ensambles/gen_lbp530.mjs   # variante grip top 0.8 m (lbp530_gt08.json)
+node cad/ensambles/entregables_lbp530.mjs    # → projects/LBP530-18/out/compra_movex_lbp530.{csv,md}
+                                             #   + out/inventor/{parametros,despiece}_inventor_LBP530.csv
+# planos (bundlear con esbuild como los demás; leen GT_L de lbp530_dims.json):
 #   planos_ejes_lbp530.mjs      → planos_lbp530/planos_ejes_lbp530.pdf (EJ-01/02/03)
 #   planos_conjunto_lbp530.mjs  → planos_lbp530/planos_conjunto_lbp530.pdf (GA-01/02)
+#   planos_corte_lbp530.mjs     → planos_lbp530/planos_corte_lbp530.pdf (CO-01..04: corte longitudinal A-A
+#                                 por el plano medio, achurado; LBP 1:20 + 2 detalles 1:5, GT 1:5)
+#   dxf_flat.mjs / planos_fab.mjs (DOC=ensambles/lbp530_gt06.json) → DXF 1:1 + PDF de taller
 #   export_lbp530.mjs           → PLY con color (DOC/OUT/FILTRO/CENTRAR) → GLB con trimesh
+# Inventor 2027 (COM, pywin32): python tools/inventor_lbp530.py --instancia-propia [--solo LBP|GT] [--sin-planos]
+#   --instancia-propia arranca un Inventor nuevo (no toca la sesión del usuario).
+#   Las piezas con `chapa` se construyen como SHEET METAL (pestaña de contorno + pliegues +
+#   desplegado) y su DXF sale del desplegado de Inventor → Planos/DXF/. LOS PLANOS DE
+#   ENTREGA SON LOS DE INVENTOR (GA con marcas de ítem y láminas de pieza al estándar
+#   BRP/Merge); dxf_flat.mjs y planos_fab.mjs quedan como comprobación analítica.
+#   Las piezas con `ref` (patas: familia ZP2026) NO se construyen: se copian los .ipt reales desde
+#   `ref.origen` a `ref.carpeta` (Estructura\Soportes\ZP2026, CC, Componentes Estandar\Descansos) y se colocan
+#   con `ref.quat`. Piezas con `sub` → subensambles (.iam) por archivo+origen. Cada equipo lleva Ref_<eq>.ipt
+#   (parámetros de parametros_inventor_LBP530.csv + planos de trabajo) y la carpeta un CV-LBP530-18.ipj.
+#   → Inventor\Bandas Modulares\CV-LBP530-18\ (.ipt por pieza con nomenclatura Conveyone, .iam,
+#     .idw GA + corte A-A + lista, láminas de fabricación, PDF). Requiere Inventor sin documentos del usuario.
 # prueba: tests/test_lbp530.mjs (invariantes + CSG de los ejes)
 ```
 

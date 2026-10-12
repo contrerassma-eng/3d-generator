@@ -1,0 +1,71 @@
+plano,pieza,x_mm,y_mm,diametro_mm
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,57.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,57.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,117.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,117.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,177.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,177.09,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,209.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,209.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,269.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,269.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,329.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,329.49,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,361.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,361.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,421.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,421.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,481.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,481.89,9.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",60.00,15.50,10.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",180.00,15.50,10.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",60.00,530.07,10.00
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",180.00,530.07,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",160.00,200.79,9.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",60.00,170.79,9.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",382.00,259.04,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",418.00,259.04,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",65.20,267.09,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",65.20,147.09,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",534.80,267.09,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",534.80,147.09,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",260.00,120.79,40.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",218.70,79.49,12.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",218.70,162.09,12.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",301.30,79.49,12.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",301.30,162.09,12.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",430.00,300.79,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",430.00,220.79,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",240.00,19.00,10.00
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",360.00,19.00,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",160.00,200.79,9.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",60.00,170.79,9.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",382.00,259.04,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",418.00,259.04,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",65.20,267.09,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",65.20,147.09,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",534.80,267.09,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",534.80,147.09,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",260.00,120.79,40.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",218.70,79.49,12.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",218.70,162.09,12.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",301.30,79.49,12.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",301.30,162.09,12.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",430.00,300.79,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",430.00,220.79,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",160.00,120.79,10.50
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",240.00,19.00,10.00
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",360.00,19.00,10.00
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",54.00,54.00,40.00
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",12.70,12.70,12.00
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",12.70,95.30,12.00
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",95.30,12.70,12.00
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",95.30,95.30,12.00
+LBD-05,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",19.00,16.00,10.00
+LBD-05,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",19.00,126.57,10.00
+LBD-05,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",531.00,16.00,10.00
+LBD-05,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",531.00,126.57,10.00
+LBD-06,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",25.00,50.29,10.00
+LBD-06,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",540.57,50.29,10.00
+LBD-06,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",25.00,86.29,10.00
+LBD-06,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",540.57,86.29,10.00
