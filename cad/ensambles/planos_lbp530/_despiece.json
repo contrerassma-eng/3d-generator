@@ -1,125 +1,253 @@
 {
-  "proyecto": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
-  "archivo": "lbp530_gt08.json",
-  "fecha": "—",
-  "total_piezas": 42,
-  "items_distintos": 23,
-  "planos_fabricacion": 12,
+  "proyecto": "CV-GT-600 · Movex 530 GT (grip top) 18 in × 0.6 m",
+  "archivo": "lbp530_gt06.json",
+  "fecha": "2026-09-08",
+  "total_piezas": 204,
+  "items_distintos": 42,
+  "planos_fabricacion": 14,
   "despiece": [
     {
       "item": 1,
-      "designacion": "FAB · Soporte tipo ZP2026 203×95×3 + nivelador",
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-01"
+      "designacion": "NORM · Pasador brazo de reacción EspBrazoReac Ø25,4 × 50 (BRP, pieza real)",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Pasador brazo de reacción EspBrazoReac Ø25,4 × 50 (BRP, piez",
+      "plano": "—"
     },
     {
       "item": 2,
-      "designacion": "FAB · Placa lateral libre PL6 L=800",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-02"
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — escuadra B_005A_1 bajo la pestaña",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — escuadra B_005A",
+      "plano": "—"
     },
     {
       "item": 3,
-      "designacion": "FAB · Placa lateral motriz PL6 L=800",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-03"
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — frente descarga",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — frente descarga",
+      "plano": "—"
     },
     {
       "item": 4,
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — frente entrada",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — frente entrada",
+      "plano": "—"
+    },
+    {
+      "item": 5,
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — oreja travesaño",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — oreja travesaño",
+      "plano": "—"
+    },
+    {
+      "item": 6,
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — poste guía de cajas",
+      "cant": 8,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — poste guía de c",
+      "plano": "—"
+    },
+    {
+      "item": 7,
+      "designacion": "NORM · Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — travesaño de patas a columna",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 1 in UNC (ANSI B18.5) — travesaño de pa",
+      "plano": "—"
+    },
+    {
+      "item": 8,
+      "designacion": "NORM · Perno coche 3/8 in × 3 in UNC (ANSI B18.5) — chumacera UCF206",
+      "cant": 8,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 3 in UNC (ANSI B18.5) — chumacera UCF20",
+      "plano": "—"
+    },
+    {
+      "item": 9,
+      "designacion": "NORM · Perno coche 3/8 in × 3.25 in UNC (ANSI B18.5) — pasador brazo de reacción",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Perno coche 3/8 in × 3.25 in UNC (ANSI B18.5) — pasador braz",
+      "plano": "—"
+    },
+    {
+      "item": 10,
+      "designacion": "FAB · Placa lateral libre chapa 3 plegada L=600",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "CH-01"
+    },
+    {
+      "item": 11,
+      "designacion": "FAB · Placa lateral motriz chapa 3 plegada L=600",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "CH-02"
+    },
+    {
+      "item": 12,
+      "designacion": "ZP2026 · Placa base de pata B_004A_1",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "CH-03"
+    },
+    {
+      "item": 13,
+      "designacion": "FAB · Rodillo de COLA (tensor) Ø63.5 en COLISA 9x40 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 roscado M8 · tensado por ajuste del perno en la colisa (manual Movex p.73)",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Tubo St37 + vulcanizado NBR",
+      "plano": "CH-04"
+    },
+    {
+      "item": 14,
       "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 SAE1045 roscado M8 — plano EJ-04 pendiente",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "POR DEFINIR — tubo de acero, espesor sin declarar",
-      "plano": "LB-04"
-    },
-    {
-      "item": 5,
-      "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-05"
-    },
-    {
-      "item": 6,
-      "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-06"
-    },
-    {
-      "item": 7,
-      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-07"
-    },
-    {
-      "item": 8,
-      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-08"
-    },
-    {
-      "item": 9,
-      "designacion": "FAB · Guarda inferior unica — artesa U chapa 1.5",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-09"
-    },
-    {
-      "item": 10,
-      "designacion": "FAB · Mecha porta-chumacera PL8 combinada 610×422",
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "LB-10"
-    },
-    {
-      "item": 11,
-      "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-11"
-    },
-    {
-      "item": 12,
-      "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-12"
-    },
-    {
-      "item": 13,
-      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
-      "cant": 1,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
-      "plano": "—"
-    },
-    {
-      "item": 14,
-      "designacion": "NORM · Chumacera UCF206 Ø30",
-      "cant": 4,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Chumacera UCF206 Ø30",
-      "plano": "—"
+      "plano": "CH-05"
     },
     {
       "item": 15,
+      "designacion": "NORM · Golilla de presión 3/8 (ANSI B18.21.1)",
+      "cant": 37,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Golilla de presión 3/8 (ANSI B18.21.1)",
+      "plano": "—"
+    },
+    {
+      "item": 16,
+      "designacion": "NORM · Golilla plana 3/8 (ASTM F436)",
+      "cant": 37,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Golilla plana 3/8 (ASTM F436)",
+      "plano": "—"
+    },
+    {
+      "item": 17,
+      "designacion": "NORM · Tuerca hexagonal 3/8 UNC",
+      "cant": 37,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Tuerca hexagonal 3/8 UNC (AS 2465)",
+      "plano": "—"
+    },
+    {
+      "item": 18,
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=706 (muñones Ø30 h6)",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-06"
+    },
+    {
+      "item": 19,
+      "designacion": "FAB · Frente porta-nosebar descarga chapa 3 plegada 470×240",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-07"
+    },
+    {
+      "item": 20,
+      "designacion": "FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-08"
+    },
+    {
+      "item": 21,
+      "designacion": "FAB · Guía lateral de desgaste UHMW 12×15 (Guias_desgaste_BRP) L=503.6",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-09"
+    },
+    {
+      "item": 22,
+      "designacion": "FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-10"
+    },
+    {
+      "item": 23,
+      "designacion": "FAB · Travesaño de patas tipo ZP2026 — C 71×38×3 L=550 (entra en el C de las columnas)",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "CH-11"
+    },
+    {
+      "item": 24,
+      "designacion": "FAB · Travesaño tipo ZP2026 — C 71×38×3 con orejas (bajo guías de apoyo)",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "CH-12"
+    },
+    {
+      "item": 25,
+      "designacion": "NORM · Arandela de retención Ø40×6 + tornillo M10×25 8.8 (retención axial del motorreductor)",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Arandela de retención Ø40×6 + tornillo M10×25 8.8 (retención",
+      "plano": "—"
+    },
+    {
+      "item": 26,
+      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — tramo cabezal (representación; lazo completo 1.67 m)",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Banda Movex 530 GT (friction top) 18 in — tramo cabezal (rep",
+      "plano": "—"
+    },
+    {
+      "item": 27,
+      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — tramo cola (representación; lazo completo 1.67 m)",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Banda Movex 530 GT (friction top) 18 in — tramo cola (repres",
+      "plano": "—"
+    },
+    {
+      "item": 28,
+      "designacion": "NORM · Brazo de reacción 50154 (BRP, K1 = 100, ojo con buje Ø30)",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Brazo de reacción 50154 (BRP, K1 = 100, ojo con buje Ø30)",
+      "plano": "—"
+    },
+    {
+      "item": 29,
+      "designacion": "NORM · Chaveta DIN 6885 A 8×7×90 C45",
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Chaveta DIN 6885 A 8×7×90 C45",
+      "plano": "—"
+    },
+    {
+      "item": 30,
+      "designacion": "NORM · Chumacera UCF206 Ø30 (modelo real 1485N3, como BRP/Merge)",
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Chumacera UCF206 Ø30 (modelo real 1485N3, como BRP/Merge)",
+      "plano": "—"
+    },
+    {
+      "item": 31,
       "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -127,15 +255,15 @@
       "plano": "—"
     },
     {
-      "item": 16,
-      "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
+      "item": 32,
+      "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 24 filas)",
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
+      "material_norma": "Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 24 filas)",
       "plano": "—"
     },
     {
-      "item": 17,
+      "item": 33,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "cant": 7,
       "tipo": "NORMALIZADA",
@@ -143,23 +271,23 @@
       "plano": "—"
     },
     {
-      "item": 18,
-      "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
+      "item": 34,
+      "designacion": "NORM · Guía de cajas conical rail L 1¼ in sobre portas Movex",
       "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
+      "material_norma": "Guía de cajas conical rail L 1¼ in (P12501C) sobre portas Mo",
       "plano": "—"
     },
     {
-      "item": 19,
-      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+      "item": 35,
+      "designacion": "NORM · Motorreductor del BRP: caja sinfín eje hueco Ø30 + motor 1 HP vertical (STEP 314508014, pieza real)",
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (",
+      "material_norma": "Motorreductor del BRP: caja sinfín eje hueco Ø30 + motor 1 H",
       "plano": "—"
     },
     {
-      "item": 20,
+      "item": 36,
       "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -167,7 +295,7 @@
       "plano": "—"
     },
     {
-      "item": 21,
+      "item": 37,
       "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -175,7 +303,23 @@
       "plano": "—"
     },
     {
-      "item": 22,
+      "item": 38,
+      "designacion": "NORM · Porta guía Movex BM (PortaGuardaMovex_BM, pieza real Merge/BRP)",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Porta guía Movex BM (PortaGuardaMovex_BM, pieza real Merge/B",
+      "plano": "—"
+    },
+    {
+      "item": 39,
+      "designacion": "NORM · Poste guía de cajas Sop_GuarLat_BRP (pieza real BRP, 40×80×285, 2× perno coche 3/8 al alma)",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Poste guía de cajas Sop_GuarLat_BRP (pieza real BRP, 40×80×2",
+      "plano": "—"
+    },
+    {
+      "item": 40,
       "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
       "cant": 6,
       "tipo": "NORMALIZADA",
@@ -183,12 +327,20 @@
       "plano": "—"
     },
     {
-      "item": 23,
-      "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
+      "item": 41,
+      "designacion": "ZP2026 · Columna de pata SOLID_06",
       "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-13"
+    },
+    {
+      "item": 42,
+      "designacion": "ZP2026 · Escuadra de pata B_005A_1 (203×95×3 plegada, apernada bajo la pestaña con 2× perno coche 3/8)",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "CH-14"
     }
   ]
 }

@@ -2,9 +2,10 @@
  "proyecto": "LBP530-18",
  "lineas": 4,
  "transportadoresPorLinea": {
-  "GT_800": 1,
+  "GT_600": 1,
   "LBP_5000": 1
  },
+ "GT_L": 600,
  "belt": {
   "serie": "Movex 530",
   "ancho": 457.2,
@@ -50,10 +51,11 @@
  },
  "D": {
   "claroLat": 6.4,
-  "plT": 6,
+  "plT": 3,
   "plTop": -8,
-  "plAlto": 180,
-  "alaAncho": 30,
+  "plAlto": 300,
+  "alaAncho": 38,
+  "lipTop": 20,
   "travesanio": 40,
   "pasoTravLBP": 1000,
   "pasoTravFT": 600,
@@ -61,7 +63,7 @@
   "jrnDia": 30,
   "jrnTol": "h6",
   "jrnLibre": 50,
-  "jrnMotriz": 165,
+  "jrnMotriz": 190,
   "cuboMotor": 110,
   "chaveta": {
    "w": 8,
@@ -79,18 +81,37 @@
    "B": 38.1
   },
   "zMotriz": -400,
-  "xMotrizDesdePunta": 120,
+  "xMotrizDesdePunta": 600,
   "zTensor": -290,
   "xTensorDesdePunta": 300,
   "retTop": -135,
   "retCada": 500,
   "gtRetDia": 63.5,
+  "gtRet": {
+   "dx": 100,
+   "z": -140,
+   "on": true
+  },
+  "tail": {
+   "x": 60,
+   "z": -170
+  },
+  "gtTail": {
+   "x": 60,
+   "z": -170
+  },
+  "gtMotDx": 340,
+  "gtMotZ": -220,
   "retEjeDia": 15,
   "retPernoM": 8,
   "retPernoPas": 9,
-  "sagR": 600,
+  "sagR": 450,
   "sagBot": -265,
   "catenLen": 750,
+  "snub": {
+   "dx": 60,
+   "z": -140
+  },
   "wearLBP": {
    "n": 10
   },
@@ -106,31 +127,97 @@
    "h": 30
   },
   "guiaAlto": 32,
-  "pisoZ": -900,
-  "sop": {
-   "w": 203,
-   "d": 95,
-   "t": 3,
-   "pie": 120
+  "zp": {
+   "escuadra": {
+    "l": 203,
+    "h": 95,
+    "w": 38,
+    "dz": -47.5,
+    "dyOut": 15.9
+   },
+   "columna": {
+    "w": 77,
+    "d": 38,
+    "t": 3,
+    "L": 588,
+    "dz": -311.8,
+    "dyOut": 18.9
+   },
+   "base": {
+    "l": 158,
+    "w": 40,
+    "t": 4,
+    "dz": -607.5,
+    "dyOut": 16.9
+   },
+   "travPatas": {
+    "dzTop": -285.8
+   },
+   "hPiso": 610
   },
   "travC": {
-   "w": 88,
-   "h": 40,
-   "t": 3
+   "w": 71,
+   "h": 38,
+   "t": 3,
+   "oreja": {
+    "w": 59,
+    "h": 50
+   }
   },
-  "motor": {
-   "cuerpo": [
-    230,
-    180,
-    200
+  "frente": {
+   "h": 240,
+   "ala": 40
+  },
+  "acople": {
+   "w": 120,
+   "h": 100
+  },
+  "suple": {
+   "w": 108,
+   "t": 5
+  },
+  "pernoCoche": {
+   "dia": 10,
+   "espec": "perno coche 3/8 in × 1 in + tuerca + golilla + golilla de presión (Merge/BRP)"
+  },
+  "nmrv": {
+   "hubD": 65,
+   "caja": [
+    160,
+    110,
+    150
    ],
-   "boss": 62,
-   "bossL": 120
+   "cajaDz": 20,
+   "I": 75,
+   "brida": {
+    "d": 120,
+    "l": 12
+   },
+   "motorD": 156,
+   "motorL": 200,
+   "ventD": 160,
+   "ventL": 45,
+   "bornes": [
+    90,
+    85,
+    60
+   ],
+   "brazo": {
+    "K1": 200,
+    "KH": 20,
+    "R": 30,
+    "Rhub": 62,
+    "ojo": 25.4,
+    "luz": 2
+   },
+   "separadorD": 25.4
   },
   "innerW": 470,
-  "outerW": 482,
+  "outerW": 476,
   "sqLen": 466,
-  "ejeMotrizL": 681,
+  "yFlangeOut": 276,
+  "pisoZ": -918,
+  "ejeMotrizL": 706,
   "ejeTensorL": 566,
   "rSprk": 72.35,
   "ySprkLBP": [
@@ -150,15 +237,130 @@
   ]
  },
  "lazos_m": {
-  "LBP_5000": 10.88,
-  "GT_800": 2.56
+  "LBP_5000": 10.78,
+  "GT_600": 1.67,
+  "GT": 1.67
+ },
+ "estructura": {
+  "estilo": "BRP/Merge (Kofmelk) + familia ZP2026 — 2026-09-08",
+  "lateral": "chapa 3 plegada, alma 300, pestaña inferior 38 afuera + labio 20 afuera",
+  "NPT_mm": 918,
+  "LBP": {
+   "conMecha": true,
+   "conGuarda": true,
+   "tramos": 2,
+   "acoples": 1,
+   "patas": 3,
+   "travesanos": 5,
+   "zonasTrav": [
+    "alto",
+    "alto",
+    "alto",
+    "alto",
+    "alto"
+   ],
+   "nPernosCoche": 99,
+   "pernosPorLargo": {
+    "1": 82,
+    "3": 8,
+    "1.25": 8,
+    "3.5": 1
+   },
+   "postesGuia": 12,
+   "ventanasBanda": [
+    [
+     4100,
+     5020,
+     "cabezal"
+    ],
+    [
+     -20,
+     450,
+     "cola"
+    ]
+   ],
+   "zLazoMin": -486.1,
+   "zAlaBot": -308,
+   "NPT": 918,
+   "subensambles": [
+    "Estructura\\Soportes\\Pata_ZP2026_LBP530",
+    "Estructura\\Torno\\ConjuntoEjeMotriz_LBP530_LBP"
+   ],
+   "piezasReales": 443
+  },
+  "GT": {
+   "conMecha": false,
+   "conGuarda": false,
+   "tramos": 1,
+   "acoples": 0,
+   "patas": 1,
+   "travesanos": 1,
+   "zonasTrav": [
+    "alto"
+   ],
+   "nPernosCoche": 35,
+   "pernosPorLargo": {
+    "1": 26,
+    "3": 8,
+    "3.25": 1
+   },
+   "postesGuia": 4,
+   "ventanasBanda": [
+    [
+     270,
+     620,
+     "cabezal"
+    ],
+    [
+     -20,
+     140,
+     "cola"
+    ]
+   ],
+   "zLazoMin": -306.1,
+   "zAlaBot": -308,
+   "NPT": 918,
+   "subensambles": [
+    "Estructura\\Soportes\\Pata_ZP2026_LBP530",
+    "Estructura\\Torno\\ConjuntoEjeMotriz_LBP530_GT"
+   ],
+   "piezasReales": 159
+  },
+  "patasZP2026": {
+   "porPata": {
+    "B_005A_1": 2,
+    "SOLID_06": 2,
+    "B_004A_1": 2,
+    "travesanoPatasC71x38": 1
+   },
+   "origen": "C:\\Users\\scont\\Documents\\Inventor\\ZP2026\\Piezas"
+  },
+  "pernoCoche": {
+   "espec": "perno coche 3/8 in × 1 in + tuerca + golilla + golilla de presión (Merge/BRP)",
+   "porLBP": 99,
+   "porGT": 35,
+   "flota": 536,
+   "porLargoLBP": {
+    "1": 82,
+    "3": 8,
+    "1.25": 8,
+    "3.5": 1
+   },
+   "porLargoGT": {
+    "1": 26,
+    "3": 8,
+    "3.25": 1
+   },
+   "conjunto": "cada perno con golilla plana F436 + golilla de presión B18.21.1 + tuerca AS 2465 (Content Center, como el BRP)"
+  },
+  "componentesReales": "UCF206 = 1485N3 (BRP/Merge); pernería Content Center del BRP/Gapper; patas ZP2026; el resto (Movex 530, NMRV-P075) son sólidos del generador con el detalle del catálogo"
  },
  "ejes": {
   "motriz": {
    "plano": "LBP530-EJ-01",
    "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
-   "largoTotal": 681,
-   "corte": 690,
+   "largoTotal": 706,
+   "corte": 715,
    "cantidad": 8,
    "tramos": [
     {
@@ -176,7 +378,7 @@
      "nombre": "muñón motriz",
      "dia": 30,
      "tol": "h6",
-     "largo": 165
+     "largo": 190
     }
    ],
    "chaveta": {
@@ -192,7 +394,7 @@
    "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
    "largoTotal": 566,
    "corte": 575,
-   "cantidad": 8,
+   "cantidad": 0,
    "tramos": [
     {
      "nombre": "muñón",
@@ -217,43 +419,43 @@
    "espec": "Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m",
    "motriz": {
     "porBarra": 8,
-    "usado": 5520
+    "usado": 5720
    },
    "tensor": {
-    "porBarra": 8,
-    "usado": 4600
+    "porBarra": 0,
+    "usado": 0
    },
-   "comprar": 2,
-   "nota": "considerar 1 barra extra de respaldo"
+   "comprar": 1,
+   "nota": "1 barra: 8 ejes motrices (5520 de 6000); considerar 1 barra de respaldo. Sin ejes tensores (un solo eje por equipo)"
   }
  },
  "compraMovex": {
   "banda_530LBP_18in": {
    "art": "P5324010018A",
    "precioEUR_m": 174.85,
-   "necesario_m": 43.52,
+   "necesario_m": 43.12,
    "cotizado_m": 90.3,
    "nota": "cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m"
   },
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 10.24,
+   "necesario_m": 6.68,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {
    "art": "P158808YF",
    "precioEUR": 17.42,
-   "necesario": 60,
+   "necesario": 44,
    "cotizado": 152,
-   "detalle": "rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador"
+   "detalle": "rueda moldeada Z-32 c/grano M8; LBP 5 · GT 6, solo en el eje motriz (un solo eje por equipo; la cola lleva rodillo en colisa)"
   },
   "collarines": {
    "art": "P21703Y",
    "precioEUR": 2.32,
-   "necesario": 32,
+   "necesario": 16,
    "cotizado": 60,
-   "detalle": "2 por eje (flanquean el sprocket central fijo)"
+   "detalle": "2 por eje motriz (flanquean el sprocket central fijo)"
   },
   "nosebar_LBP": {
    "art": "P22868",

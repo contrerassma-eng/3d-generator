@@ -1,86 +1,143 @@
 plano,pieza,x_mm,y_mm,diametro_mm
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",22.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",82.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",142.30,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",174.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",234.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",294.70,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",327.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,55.20,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,74.25,9.00
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,55.20,9.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",40.00,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",40.00,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",277.18,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",277.18,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",537.18,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",537.18,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",719.16,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",719.16,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",901.13,6.00,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",901.13,1239.57,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",90.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",540.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",990.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1440.00,622.79,8.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1450.00,246.89,48.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1450.00,998.68,48.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1300.00,1048.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,96.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,1148.68,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,196.89,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1510.00,1048.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",90.00,512.79,8.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",540.00,512.79,8.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",300.00,136.89,48.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",300.00,888.68,48.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,96.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,928.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,196.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",240.00,828.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,96.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,928.68,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,196.89,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",450.00,828.68,7.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",205.00,110.00,40.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,68.70,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",163.70,151.30,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,68.70,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",246.30,151.30,12.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",55.00,260.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",55.00,160.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",265.00,260.00,5.00
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×422",265.00,160.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",115.00,110.00,40.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",73.70,68.70,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",73.70,151.30,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",156.30,68.70,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",156.30,151.30,12.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",55.00,150.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",55.00,50.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",265.00,150.00,5.00
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×312",265.00,50.00,5.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4580.00,67.57,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1220.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3470.00,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3707.18,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3967.18,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4149.16,11.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4331.13,11.00,7.00
+LBD-01,"FAB · Acople de laterales PL3 120×100 (unión tramos A-B, 4× perno coche 3/8)",20.00,30.00,10.00
+LBD-01,"FAB · Acople de laterales PL3 120×100 (unión tramos A-B, 4× perno coche 3/8)",20.00,70.00,10.00
+LBD-01,"FAB · Acople de laterales PL3 120×100 (unión tramos A-B, 4× perno coche 3/8)",100.00,30.00,10.00
+LBD-01,"FAB · Acople de laterales PL3 120×100 (unión tramos A-B, 4× perno coche 3/8)",100.00,70.00,10.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,57.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,57.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,117.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,117.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,177.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,177.09,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,209.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,209.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,269.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,269.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,329.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,329.49,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,361.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,361.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,421.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,421.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",15.75,481.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",34.80,481.89,9.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",60.00,15.50,10.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",180.00,15.50,10.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",60.00,530.07,10.00
+LBD-02,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",180.00,530.07,10.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",40.00,10.00,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",40.00,980.77,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",45.00,10.00,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",45.00,980.77,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",686.96,10.00,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",686.96,980.77,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",860.00,10.00,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",860.00,980.77,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",90.00,495.39,8.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",540.00,495.39,8.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",300.00,117.89,48.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",300.00,872.88,48.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",150.00,85.89,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",150.00,904.88,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",150.00,185.89,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",150.00,804.88,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",360.00,85.89,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",360.00,904.88,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",360.00,185.89,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",360.00,804.88,7.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",258.70,159.19,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",258.70,831.58,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",258.70,76.59,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",258.70,914.18,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",341.30,159.19,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",341.30,831.58,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",341.30,76.59,13.00
+LBD-03,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (900×497)",341.30,914.18,13.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",205.00,110.00,40.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",163.70,68.70,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",163.70,151.30,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",246.30,68.70,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",246.30,151.30,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",40.00,220.00,10.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",40.00,247.00,10.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",280.00,220.00,10.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",280.00,247.00,10.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",55.00,142.00,5.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",55.00,42.00,5.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",265.00,142.00,5.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×262",265.00,42.00,5.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",205.00,110.00,40.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",163.70,68.70,12.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",163.70,151.30,12.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",246.30,68.70,12.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",246.30,151.30,12.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",40.00,220.00,10.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",40.00,247.00,10.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",280.00,220.00,10.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",280.00,247.00,10.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",105.00,110.00,10.50
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",55.00,142.00,5.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",55.00,42.00,5.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",265.00,142.00,5.00
+LBD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×262",265.00,42.00,5.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2050.00,174.04,9.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1536.67,174.04,9.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1023.33,174.04,9.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",510.00,174.04,9.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",60.00,170.79,9.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",382.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",418.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1382.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1418.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2382.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2418.00,259.29,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",65.20,267.34,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",65.20,147.34,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2460.00,70.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2460.00,110.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",150.00,300.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",150.00,220.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1090.00,300.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",1090.00,220.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2030.00,300.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2030.00,220.79,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",640.00,19.00,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",760.00,19.00,10.00
+LBD-06,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo A",2440.00,19.00,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1840.00,200.79,9.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1090.00,174.04,9.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",576.67,174.04,9.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",63.33,174.04,9.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",982.00,259.29,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1018.00,259.29,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1982.00,259.29,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2018.00,259.29,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2434.80,267.34,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2434.80,147.34,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1735.00,50.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1735.00,77.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1975.00,50.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1975.00,77.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",40.00,70.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",40.00,110.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",470.00,300.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",470.00,220.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1410.00,300.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1410.00,220.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2350.00,300.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2350.00,220.79,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",60.00,19.00,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1740.00,19.00,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1860.00,19.00,10.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1640.00,12.00,7.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",1645.00,12.00,7.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2286.96,12.00,7.00
+LBD-07,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=2500 tramo B",2460.00,12.00,7.00
+LBD-08,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",19.00,16.00,10.00
+LBD-08,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",19.00,126.57,10.00
+LBD-08,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",531.00,16.00,10.00
+LBD-08,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",531.00,126.57,10.00
+LBD-09,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",25.00,50.29,10.00
+LBD-09,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",540.57,50.29,10.00
+LBD-09,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",25.00,86.29,10.00
+LBD-09,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",540.57,86.29,10.00

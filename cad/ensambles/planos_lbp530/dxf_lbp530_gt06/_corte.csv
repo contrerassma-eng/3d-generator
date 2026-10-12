@@ -1,0 +1,7 @@
+plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
+LBD-01,"FAB · Frente porta-nosebar entrada chapa 3 plegada 470×240",2,"Acero S275JR chapa 3 — plegado (pestañas 40), PINTADO RAL 7035 (Frente_BRP)",3,240.0,539.6,22,2,0.44,3,ISO 2768-mK
+LBD-02,"FAB · Placa lateral libre (−Y) chapa 3 plegada L=600",1,"Acero S275JR chapa 3 — plegado en sombrero (pestaña 38 + labio 20 hacia afuera), PINTADO RAL 7035 (línea BRP/Kofmelk)",3,600.0,347.6,17,2,0.44,3,ISO 2768-mK
+LBD-03,"FAB · Placa lateral motriz (+Y) chapa 3 plegada L=600",1,"Acero S275JR chapa 3 — plegado en sombrero (pestaña 38 + labio 20 hacia afuera), PINTADO RAL 7035 (línea BRP/Kofmelk)",3,600.0,347.6,18,2,0.44,3,ISO 2768-mK
+LBD-04,"FAB · Suple de descanso PL5 108×108 (UCF206 sobre el alma, línea BRP)",2,"Acero S275JR PL5 — PINTADO RAL 7035",5,108.0,108.0,5,0,0.44,5,ISO 2768-mK
+LBD-05,"FAB · Travesaño de patas tipo ZP2026 (B_002A) — C 71×38×3 L=550 (entra en el C de las columnas)",1,"Acero S275JR e3 — plegado en C 71×38 (misma matriz que el B_002A_1 del ZP2026), PINTADO RAL 7035. APERNADO a las columnas por las alas (4× perno coche 3/8)",3,550.0,136.6,4,2,0.44,3,ISO 2768-mK
+LBD-06,"FAB · Travesaño tipo ZP2026 (B_002A) — C 71×38×3 con orejas (bajo guías de apoyo)",1,"Acero S275JR e3 — plegado en C 71×38 (misma matriz que el B_002A_1 del ZP2026) + orejas, PINTADO RAL 7035. APERNADO a las almas con perno coche 3/8",3,565.6,136.6,4,4,0.44,3,ISO 2768-mK

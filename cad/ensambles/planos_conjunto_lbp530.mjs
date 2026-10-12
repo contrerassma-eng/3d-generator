@@ -3,7 +3,8 @@
 // acotada) de los transportadores del proyecto LBP530-18:
 //
 //   LBP530-GA-01  CV-LBP-5000 (Movex 530 LBP 18 in × 5.0 m)
-//   LBP530-GA-02  CV-GT-800   (Movex 530 GT friction top 18 in × 0.8 m)
+//   LBP530-GA-02  CV-GT-<L>  (Movex 530 GT grip top 18 in × L; L=600 desde 2026-09-08,
+//                 leído de lbp530_dims.json → GT_L)
 //
 // Dibuja la elevación desde los propios ensambles paramétricos (lazo de banda
 // real + rectángulos/círculos de cada pieza en el plano XZ) — NO desde la
@@ -17,10 +18,15 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const outDir = process.env.OUT || 'ensambles/planos_lbp530';
-const fecha = process.env.FECHA || '2026-07-19';
+const fecha = process.env.FECHA || new Date().toISOString().slice(0, 10);
 mkdirSync(outDir, { recursive: true });
 const dims = JSON.parse(readFileSync('ensambles/lbp530_dims.json', 'utf8'));
 const D = dims.D;
+const GT_L = dims.GT_L || 800;
+const gtFile = `lbp530_gt${String(Math.round(GT_L / 100)).padStart(2, '0')}.json`;
+const gtM = (GT_L / 1000).toFixed(1);
+const lbpMeta = JSON.parse(readFileSync('ensambles/lbp530_5m.json', 'utf8')).meta;
+const gtMeta = JSON.parse(readFileSync(join('ensambles', gtFile), 'utf8')).meta;
 
 function gaSheet(docFile, opts) {
   const doc = JSON.parse(readFileSync(join('ensambles', docFile), 'utf8'));
@@ -62,9 +68,10 @@ function gaSheet(docFile, opts) {
     sh.text(t, (X(x1) + X(x2)) / 2, yl + 1.6, 3.0, 'C', 'COTAS');
   };
   dh(0, L, D.pisoZ, 8, `${L} (nose a nose)`);
-  const xDrv = L - D.xMotrizDesdePunta, xTen = D.xTensorDesdePunta;
-  dh(xDrv, L, D.pisoZ, 16, `${D.xMotrizDesdePunta}`);
-  dh(0, xTen, D.pisoZ, 16, `${D.xTensorDesdePunta}`);
+  const xDrv = L - D.xMotrizDesdePunta;
+  const xTen = D.tail?.x ?? D.gtTail?.x ?? D.xTensorDesdePunta;
+  dh(xDrv, L, D.pisoZ, 16, `${L - xDrv}`);
+  dh(0, xTen, D.pisoZ, 16, `${xTen}`);
   // alturas
   const dv = (x, z1, z2, d, t) => {
     const xl = X(x) + d;
@@ -72,29 +79,32 @@ function gaSheet(docFile, opts) {
     sh.line([xl, Z(z1)], [xl, Z(z2)], 'COTAS');
     sh.text(t, xl + 1.8, (Z(z1) + Z(z2)) / 2, 3.0, 'ML', 'COTAS');
   };
-  dv(L + 60 / opts.den, D.pisoZ, 0, 10, '900 (plano de banda)');
-  dv(L + 60 / opts.den, D.zMotriz, 0, 22, `${-D.zMotriz} (eje motriz)`);
+  dv(L + 60 / opts.den, D.pisoZ, 0, 10, `${-D.pisoZ} (plano de banda)`);
+  const zMotV = opts.lbp ? D.zMotriz : (D.gtMotZ ?? D.zMotriz);
+  dv(L + 60 / opts.den, zMotV, 0, 22, `${-zMotV} (eje motriz)`);
 
   // rótulos con línea de referencia
   const tag = (x, z, dx, dz, t) => {
     sh.line([X(x), Z(z)], [X(x) + dx, Z(z) + dz], 'COTAS');
-    sh.text(t, X(x) + dx + (dx >= 0 ? 1 : -1), Z(z) + dz, 2.5, dx >= 0 ? 'L' : 'R', 'COTAS');
+    if (dx >= 0) sh.text(t, X(x) + dx + 1, Z(z) + dz, 2.5, 'L', 'COTAS');
+    else sh.text(t, X(x) + dx - 1 - t.length * 2.5 * 0.62, Z(z) + dz, 2.5, 'L', 'COTAS');
   };
-  tag(xDrv, D.zMotriz - 78, 14, -14, `EJE MOTRIZ cuadrado 1.5in (LBP530-EJ-01) + ${opts.nSprk} sprockets Z32 P158808YF + collarines P21703Y + UCF206 + motorreductor eje hueco O30`);
-  tag(xTen, D.zTensor - 78, 20, -20, 'EJE TENSOR (LBP530-EJ-02) + 2 sprockets Z32 locos + UCF206');
+  tag(xDrv, zMotV - 78, opts.lbp ? -14 : 14, -14, `EJE MOTRIZ cuadrado 1.5in (LBP530-EJ-01) + ${opts.nSprk} sprockets Z32 P158808YF + collarines P21703Y + UCF206 + motorreductor eje hueco O30`);
+  const zTenV = D.tail?.z ?? D.zTensor;
+  tag(xTen, zTenV - 34, 20, -30, 'RODILLO DE COLA Ø63.5 en COLISA 9x40 = tensor (manual Movex p.73; un solo eje por equipo) · eje muerto Ø15, 2× 6202-2RS');
   tag(18, -20, -14, 16, `NOSEBAR ${opts.noseArt}`);
   tag(L - 18, -20, 14, 20, 'NOSEBAR (descarga)');
   if (opts.lbp) {
-    tag(xDrv - 740, -285, -10, -26, 'catenaria: sag 130 (Movex 50-150)');
-    tag(xDrv - 1660, -160, -10, -34, 'rodillos retorno O63.5 eje muerto O15 (2x 6202-2RS sellados, perno hex M8 por fuera) cada ~500');
+    tag(xDrv - (D.snub?.dx ?? 100) - D.catenLen / 2, -285, -10, -26, 'catenaria 750 (Movex 700 +200/-50): sag 130 (50-150)');
+    tag(xDrv - (D.snub?.dx ?? 100) - D.catenLen - 500, -160, -10, -34, 'rodillos retorno O63.5 eje muerto O15 (2x 6202-2RS sellados, perno hex M8 por fuera) a 500+-50; ultimo tramo 450+-50');
   } else {
-    tag(L / 2 - 20, -180, -14, -30, 'rodillo retorno O63.5 eje muerto O15 (6202-2RS sellados, perno hex M8 por fuera)');
+    tag(L - (D.gtMotDx ?? 300) - (D.gtRet?.dx ?? 100), (D.gtRet?.z ?? -140) + 34, -14, 30, 'snub O63.5 eje muerto O15 (6202-2RS sellados, perno hex M8 por fuera)');
   }
 
   const notas = [
     `Banda: ${doc.meta.nombre} · lazo ${(doc.meta.largo_banda_lazo_mm / 1000).toFixed(2)} m · wrap motriz ${opts.wrap}° (Movex 140±10)`,
-    `Ancho banda 457.2 (18 in) · entre placas 470 · exterior 482 · holgura lateral 6.4/lado (dilatación POM + 5 básica)`,
-    'Ejes: láminas LBP530-EJ-01/02/03 · estructura tipo ZP2026 (soportes B_005A, travesaños TR_S) · guía apoyo BAR CAP P101203-30 · lateral conical rail L 1-1/4 P12501C · cotización 26012937 en input/docs/.',
+    `Ancho banda 457.2 (18 in) · entre almas 470 · exterior 476 (chapa 3) · pestañas 38 afuera · holgura lateral 6.4/lado (dilatación POM + 5 básica)`,
+    'Ejes: láminas LBP530-EJ-01/02/03 · bastidor línea BRP/Merge (laterales chapa 3 plegada 300, frentes y travesaños C 71×38 apernados con perno coche 3/8) · patas ZP2026 REALES (B_005A_1 + SOLID_06 + B_004A_1) · guía apoyo BAR CAP P101203-30 · lateral conical rail L 1-1/4 P12501C · cotización 26012937 en input/docs/.',
   ];
   notas.forEach((t, i) => sh.text(t, 24, 60 - i * 5, 2.6, 'L'));
 
@@ -111,13 +121,13 @@ function gaSheet(docFile, opts) {
 
 const sheets = [
   gaSheet('lbp530_5m.json', {
-    den: 20, lbp: true, nSprk: dims.belt.nSprkLBP, wrap: 140.8,
+    den: 20, lbp: true, nSprk: dims.belt.nSprkLBP, wrap: lbpMeta.verificaciones.wrapMotrizLBP,
     noseArt: 'P22868 h19 c/rodamientos', designacion: 'CV-LBP-5000 — arreglo general (Movex 530 LBP 18 in × 5.0 m)',
     numPlano: 'LBP530-GA-01',
   }),
-  gaSheet('lbp530_gt08.json', {
-    den: 5, lbp: false, nSprk: dims.belt.nSprkGT, wrap: 139,
-    noseArt: 'P22862 h19 c/rodamientos', designacion: 'CV-GT-800 — arreglo general (Movex 530 GT friction top 18 in × 0.8 m)',
+  gaSheet(gtFile, {
+    den: 5, lbp: false, nSprk: dims.belt.nSprkGT, wrap: gtMeta.verificaciones.wrapMotrizGT,
+    noseArt: 'P22862 h19 c/rodamientos', designacion: `CV-GT-${GT_L} — arreglo general (Movex 530 GT grip top 18 in × ${gtM} m)`,
     numPlano: 'LBP530-GA-02',
   }),
 ];
