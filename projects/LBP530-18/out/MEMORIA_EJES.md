@@ -11,14 +11,14 @@ Movex, movexii.com). Los valores marcados **SUPUESTO** no son datos Movex.
 
 | Equipo | Banda | Ancho | Largo nose-nose | Lazo de banda |
 |---|---|---|---|---|
-| CV‑LBP‑5000 | Movex **530 LBP** LFA (rodillos Ø12.2 POM) | 18 in (457.2) | 5000 mm | **10.87 m** |
-| CV‑GT‑800 | Movex **530 GT** (friction top, goma 75 ShA) | 18 in (457.2) | 800 mm | **2.54 m** |
+| CV‑LBP‑5000 | Movex **530 LBP** LFA (rodillos Ø12.2 POM) | 18 in (457.2) | 5000 mm | **10.78 m** |
+| CV‑GT‑600 | Movex **530 GT** (grip top, goma 75 ShA) | 18 in (457.2) | 600 mm (0,8 m hasta 2026‑09‑08) | **1.67 m** |
 
 Arquitectura (pedido del usuario + manual Movex):
 - **Nosebar en ambas puntas, CON RODAMIENTOS** (cotización 26012937: LBP
   P22868 h19 €38.73; GT P22862 h19 €31.00; 3 × L6 in por punta).
 - **Tracción abajo, extremo de descarga**: eje motriz a z=−400 del plano de
-  banda, envoltura **140.8° / 139.0°** (objetivo Movex 140±10°); snub Ø63.5.
+  banda, envoltura **140.4° (LBP) / 141.8° (GT 600)** y giro en el nosebar de descarga **141.7° / 138.6°** (manual p.72: 140±10 y 145±10); snub Ø63.5 a 100 de la motriz.
 - Catenaria tras la motriz: sag 130 mm (rango Movex 50–150), largo ~750.
 - **Retorno por RODILLOS Ø63.5 de eje muerto** cada ~500 (decisión del
   usuario; el manual sugiere zapatas para LBP — desviación registrada): tubo
@@ -42,8 +42,8 @@ eje hueco Ø30 montaje directo).
 |---|---|---|
 | Cuadrado | 38.1 × 466 | 38.1 × 466 |
 | Muñón lado libre | Ø30 j6 × 50 | Ø30 j6 × 50 |
-| Muñón lado motriz | Ø30 j6 × 165 (rodamiento 50 + cubo Ø30 H7 × 110) | Ø30 j6 × 50 |
-| Largo total | **681** | **566** |
+| Muñón lado motriz | Ø30 h6 × **190** (chumacera UCF206 39,7 + base, brazo de reacción 20, luz, cubo Ø30 H8 × 110) | — (sin eje tensor) |
+| Largo total | **706** (antes 681) | — |
 | Chavetero | DIN 6885 A 8×7×90 (zona cubo), t1=4.0, 8 JS9 | — |
 | Punta motriz | rosca M10×22 + arandela Ø40 (retención axial del reductor) | — |
 | Detalles | gargantas 2.5×0.5 en transición cuadrado→Ø30; centros DIN 332‑A2.5; chaflanes 2×45°; concentricidad ≤0.05 TIR | ídem |
@@ -93,7 +93,7 @@ Verificaciones:
 | Deflexión eje (I=b⁴/12=1.76·10⁵ mm⁴, luz 546) | ≈ 0.06 mm | ≤ 2.5 mm (**SUPUESTO** industria; Movex no publica) | ✔ |
 | Potencia | P = F·v ≈ 0.27 kW | motorreductor 0.37 kW | ✔ |
 
-GT 0.8 m: tiro < 0.15 kN — el mismo eje y motor sobran (se unifica por
+GT 0.6 m: tiro < 0.15 kN — el mismo eje y motor sobran (se unifica por
 repuestos: **un solo modelo de motorreductor 0.37 kW, i≈35 (n₂≈42 rpm), eje
 hueco Ø30 H7, con brazo de torque, para los 8 equipos**).
 
@@ -103,7 +103,7 @@ hueco Ø30 H7, con brazo de torque, para los 8 equipos**).
   completo, EJ‑02 tensor, EJ‑03 corte de barras + lista de compra).
 - `out/drawings/eje_motriz_lbp530_18.{dxf,pdf}` y `eje_tensor_…` — láminas S6
   (vistas 1er diedro + isométrica, DXF a escala real 1:1 para taller/CNC).
-- 3D: `out/cad/cv_lbp_5000.glb`, `out/cad/cv_gt_800.glb` (conjuntos completos
+- 3D: `out/cad/cv_lbp_5000.glb`, `out/cad/cv_gt_600.glb` (conjuntos completos
   con banda representada según manual Movex), `out/cad/eje_*.glb` y
   `out/componentes/eje_*_lbp530_18.glb|stl` (biblioteca).
 
@@ -168,3 +168,12 @@ Consecuencias aplicadas en esta revisión:
 2. Ítem A5 de la lista de compra corregido (0,55 kW, tamaño 075).
 3. Alternativa económica registrada si el par real de servicio fuese ≤60 Nm:
    NMRV-P 063 1/30 con 0,37 kW re-torneando muñones a Ø28 h6.
+
+> **Actualización 2026-09-08.** GT acortado a 0,6 m (CV-GT-600): lazo 2,33 m, envoltura 143,7°, tensor en x 180 / z −400 y rodillo de sujeción a 225 de la motriz (z −240). Los ejes (EJ-01/EJ-02) no cambian: el ancho es el mismo. Compra Movex actualizada en `compra_movex_lbp530.md`.
+
+> **Actualización 2026-09-08 (2) — ángulos del manual p.72 (bottom head drive).** La motriz del LBP pasa de 120 a **600 mm** de la descarga para que la banda salga del nosebar a 145°±10 (antes bajaba casi vertical, 95,8°); snub a 100 mm; catenaria 750 y apoyos a 500±50 con último tramo 450±50 como compuertas. El GT-600 lleva motriz a 340 / z −220, snub y **rodillo de cola en colisa** como tensor (manual p.73): sin eje tensor ni sprockets locos. Ejes tensores: **4** (EJ-02, solo LBP); EJ-01 sin cambios (8). UCF206: 24. Rodillos Ø63,5: 40.
+
+> **Actualización 2026-09-08 (3) — un solo eje por equipo (decisión Sergio + Movex).** El LBP también pierde el eje tensor: entrada con nosebar y rodillo de cola Ø63,5 en colisa 9×40 (manual p.73), igual que el GT. EJ-02 queda **obsoleto** (cantidad 0). Ejes motrices: 8 (EJ-01), una barra de 6 m (5520 usados). UCF206: 16. Rodillos Ø63,5: 44. Sprockets: 44 (LBP 5 · GT 6), collarines 16.
+
+> **Actualización 2026-09-08 (4) — nivel de detalle de las bandas de referencia.** El muñón motriz pasa de 165 a **190** (eje L=706): entre la chumacera UCF206 real (1485N3, 39,7 de ancho) y la cara J del NMRV-P 075 debe caber el **brazo de reacción de catálogo (KH = 20)**; con 165 el brazo caía sobre la chumacera. Corte: 8 × (706 + 9) = 5720 < 6000: sigue saliendo de una barra. El ojo del brazo (K1 = 200) pivota en un separador torneado Ø25,4 apernado al alma (GT) o a la mecha (LBP) con perno coche 3/8 × 3,5 in.
+

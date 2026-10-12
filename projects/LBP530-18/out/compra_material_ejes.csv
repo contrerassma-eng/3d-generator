@@ -1,18 +1,18 @@
 pos,descripcion,cantidad,unidad,precio,observacion
-A1,Barra cuadrada 1.5 in (38.1 mm) SAE 1045 calibrada x 6 m,2 (+1 respaldo),barra,,"Barra 1: 8 x eje motriz (corte 690, retazo 480) - Barra 2: 8 x eje tensor (corte 575, retazo 1400); kerf 9 mm incluido"
-A2,Chumacera de brida UCF206 (bore 30 mm; 4 pernos),32,u,,4 por transportador (2 ejes x 2 apoyos) x 8 equipos
+A1,Barra cuadrada 1.5 in (38.1 mm) SAE 1045 calibrada x 6 m,1 (+1 respaldo),barra,,"Barra 1: 8 x eje motriz (corte 715, retazo 280) - sin ejes tensores (decision Movex 08-09-2026: un solo eje por equipo, cola con rodillo en colisa); 1 barra basta (+1 respaldo); kerf 9 mm incluido"
+A2,Chumacera de brida UCF206 (bore 30 mm; 4 pernos),16,u,,2 por equipo (solo eje motriz; un solo eje por equipo, decision Movex 08-09-2026)
 A3,Chaveta DIN 6885 A 8x7x90 acero C45,8 (+4 respaldo),u,,1 por eje motriz
 A4,Arandela retencion D40x6 + tornillo M10x25 8.8 + Loctite 243,8,jgo,,retencion axial del motorreductor en la rosca M10x22 de la punta
 A5,"Motorreductor NMRV-P 075 FA 1/30, eje hueco D30 H8, motor 80A-4 0.55 kW 400V 50Hz, B3, con brazo de reaccion 075",8,u,,"CORREGIDO 12-08 tras verificar catalogo Motovario (criterios/accionamiento.md): 0.37 kW + 42 rpm + 85 Nm NO es comprable (bore max 25 bajo 075; sin ratio para 42 rpm; 0.37 kW da 56-58 Nm). Seleccion: 46 rpm, 89 Nm, fs 2.8, v=22.2 m/min. Munones pasan de j6 a h6 (H8/h6)"
-A6,"Rodillo de retorno D63.5: tubo + 2 rodamientos SELLADOS 6202-2RS insertos + eje muerto D15 perforado y roscado M8 interior ambas puntas",~16 + tuberia,u,,"fijacion: PERNO HEXAGONAL M8 8.8 + golilla POR FUERA de la placa, uno por lado (decision usuario; manual Movex sugeria zapata para LBP - desviacion registrada); LBP 7+snub, GT 1 por equipo"
+A6,"Rodillo D63.5 eje muerto (snub, retorno y cola): tubo A513 + 2 rodamientos SELLADOS 6202-2RS insertos + eje D15 perforado y roscado M8 interior ambas puntas",44,u,,"LBP: snub + 7 retorno + rodillo de COLA en COLISA 9x40 = 9; GT 600: snub + cola = 2; fijacion PERNO HEX M8 8.8 + golilla POR FUERA; manual Movex p.74 sugiere zapata para el retorno LBP - desviacion registrada"
 A7,Perno M12x40 8.8 + tuerca + golilla (chumaceras a mecha PL8),128,u,,4 por chumacera
-A8,Soporte tipo ZP2026 (B_005A) chapa plegada 3 mm 203x95 + nivelador,16,u,,misma matriz/planos del ZP2026; 2 por posicion de apoyo (LBP 3 posiciones / GT 1)
-A9,Travesano tipo ZP2026 (TR_S) perfil C 88x40x3,~24,u,,LBP cada 1000 / GT cada 600 + riostras de soportes
+A8,Soporte tipo ZP2026 (B_005A) chapa plegada 3 mm 203x95 + nivelador,32,u,,misma matriz/planos del ZP2026; 2 por posicion de apoyo (LBP 3 posiciones / GT 1) x 4 lineas
+A9,Travesano tipo ZP2026 (TR_S) perfil C 88x40x3,~24,u,,LBP cada 1000 / GT 600: 1 travesano + riostras de soportes
 A10,Pletina acero 12 mm de canto (nucleo de la guia de apoyo),~110,m,,recibe el BAR CAP UHMW enrollable (M7)
 M1,Banda Movex 530 LBP 18 in LFA - art. P5324010018A,43.5 necesario / 90.3 cotizado,m,EUR 174.85/m,lazo 10.87 m x 4 equipos; lo cotizado cubre ~2x (repuesto/futuras lineas)
-M2,Banda Movex 530 GT (friction top) 18 in LFA - art. P5323010018A,10.2 necesario / 18 cotizado,m,EUR 243.18/m,lazo 2.54 m x 4 equipos
-M3,"Sprocket MOLDEADO Z-32, PD 153.4, BORE CUADRADO 1.5 in c/grano M8 - art. P158808YF",60 necesario / 152 cotizado,u,EUR 17.42,"LBP estandar: 5 motriz (grid valido -152.4/-89.05/0/+63.35/+152.4; 6 es IMPOSIBLE, solo PRO LBP) + 2 locos; GT 6 + 2; solo el central FIJO (grano M8), resto flotante - manual p.30 y brochure p.11 COINCIDEN"
-M4,Collarin de referencia 1.5x1.5 in - art. P21703Y,32 necesario / 60 cotizado,u,EUR 2.32,2 por eje flanqueando el sprocket central fijo - indicacion Movex
+M2,Banda Movex 530 GT (friction top) 18 in LFA - art. P5323010018A,12 necesario (4 x 3 m en rollos de 1.5) / 18 cotizado,m,EUR 243.18/m,lazo 2.33 m x 4 equipos GT 600 (act. 2026-09-08)
+M3,"Sprocket MOLDEADO Z-32, PD 153.4, BORE CUADRADO 1.5 in c/grano M8 - art. P158808YF",44 necesario / 152 cotizado,u,EUR 17.42,"solo eje motriz (un eje por equipo): LBP 5 (grid -152.4/-89.05/0/+63.35/+152.4), GT 6; solo el central FIJO (grano M8), resto flotante - manual p.30"
+M4,Collarin de referencia 1.5x1.5 in - art. P21703Y,16 necesario / 60 cotizado,u,EUR 2.32,2 por eje MOTRIZ flanqueando el sprocket central fijo (8 ejes motrices)
 M5,Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in 6 agujeros BluLub - art. P22868,24 necesario / 51 cotizado,u,EUR 38.73,3 x L6in por punta x 2 x 4 LBP; OJO: la cotizacion lo describe "per 530PRO LBP" y la banda es LBP ESTANDAR - confirmar con Movex antes de la OC
 M6,Transfer plate C/RODAMIENTOS h19 L=6 in - art. P22862,24 necesario / 51 cotizado,u,EUR 31.00,idem para los 4 GT
 M7,BAR CAP UHMW 17.53x19.05 p/pletina 12 mm (rollo 30 m) - art. P101203-30,360 cotizado,m,EUR 6.96/m,guia de APOYO enrollable; LBP: entre carriles de rodillos gap <=50; junta dilatacion 6-10

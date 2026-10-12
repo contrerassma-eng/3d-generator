@@ -1,0 +1,11 @@
+pos,articulo,descripcion,unidad,por_LBP_5000,por_GT_600,flota_4_lineas,cotizado_26012937,precio_EUR,nota
+"M1","P5324010018A","Banda Movex 530 LBP LFA 18 in (rollos 1,5 m)","m","12","0","48","90.3","174.85","lazo real 10.78 m/equipo; lo cotizado (90.3 m) cubre ~2× — repuesto o futuras líneas"
+"M2","P5323010018A","Banda Movex 530 GT (grip top) LFA 18 in (rollos 1,5 m)","m","0","3","12","18","243.18","lazo real 1.67 m/equipo con L=600; cotizado 18 m"
+"M3","P158808YF","Sprocket moldeado Z-32 PD 153,4 bore cuadrado 1,5 in c/grano M8","u","5","6","44","152","17.42","solo en el eje motriz (un eje por equipo, decisión Movex 2026-09-08): LBP 5 (grid A·B·C·B·C·A) · GT 6; solo el central fijo, resto flotante"
+"M4","P21703Y","Collarín de referencia 1,5 × 1,5 in","u","2","2","16","60","2.32","2 por eje motriz (flanquean el sprocket central fijo)"
+"M5","P22868","Nosebar 530 LBP h19 c/rodamientos K=6 in, 6 agujeros, BluLub","u","6","0","24","51","38.73","3 × K6 in por punta × 2 puntas; catálogo 2025 p.313: ""NoseBar with Bearings for 530 LBP — 22868"""
+"M6","P22862","Nosebar 530 Series (LBP excluida) h19 c/rodamientos K=6 in","u","0","6","24","51","31","catálogo 2025 p.312: ""NoseBars with Bearings for 530 Series — 22862 K 152,4"""
+"M7","P101203-30","BAR CAP UHMW 17,53×19,05 p/pletina 12 mm — guía de APOYO (rollo 30 m)","m","49.04","3.53","210.28","360","6.96","LBP 10 pistas · GT 7 pistas × largo útil; pistas ENTRE carriles de rodillos, luz ≤50 (cat. p.237); comprar 8 rollos"
+"M8","P12501C","Conical rail L 1¼ in AISI304 + Ti-White — guía LATERAL de producto","m","10","1.2","44.8","105","23.08","ambos costados × largo nose a nose; barras de 3 m → 15 barras"
+"M9","P12201C","Conical rail T 1 in AISI304 (PART 122) — apoyo alternativo","m","0","0","0","156","17.14","SOLO si se elige la opción B de guías (apoyo por perfiles Movex 122/124/125); con la opción A (bar cap) no se necesita"
+"M10","P12401C","Conical rail T 40 mm AISI304 (PART 124) — apoyo alternativo","m","0","0","0","105","18.63","ídem M9"

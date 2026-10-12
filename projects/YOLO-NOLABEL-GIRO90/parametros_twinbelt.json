@@ -1,0 +1,118 @@
+{
+ "cajas": {
+  "chica": {
+   "ancho": 300,
+   "largo": 250
+  },
+  "grande": {
+   "ancho": 500,
+   "largo": 300
+  }
+ },
+ "qr": 25,
+ "tol": {
+  "ancho_caja": 5.0,
+  "holgura_guia_max": 5.0,
+  "qr_ubicacion": 5.0,
+  "deriva_banda": 2.0,
+  "zona_quieta": 4.0
+ },
+ "twin_belt": {
+  "banda": 80,
+  "luz": 150,
+  "centro_luz": 202.5,
+  "largo": 1200,
+  "v_mmin": 30
+ },
+ "camara": {
+  "modelo": "Keyence SR-X300W",
+  "px": [
+   1920,
+   1200
+  ],
+  "campo_ref": [
+   267,
+   166
+  ],
+  "dist_ref": 300,
+  "dist": 300,
+  "x_tb": 150,
+  "inclinacion_deg": 15,
+  "fuente": "Data Sheet SR-X300W, Keyence America 2025-03-06"
+ },
+ "layout": {
+  "MB800": [
+   -400,
+   -30
+  ],
+  "J1": [
+   0,
+   390
+  ],
+  "J2": [
+   410,
+   800
+  ],
+  "TB": [
+   820,
+   2020
+  ],
+  "G": [
+   2060,
+   2658
+  ],
+  "cabezal_x": 1420,
+  "fotocelda_nolabel_x": 1380,
+  "secadores_x": [
+   1540,
+   2020
+  ],
+  "mb800_ancho_banda": 490
+ },
+ "J": {
+  "ejes_y0": 10,
+  "paso": 74.75,
+  "n_ejes": 8,
+  "ruedas_x": [
+   78,
+   156,
+   234,
+   312
+  ],
+  "v_guia": 30,
+  "vy": -24,
+  "vy_retener": -8,
+  "d_rueda": 64,
+  "v_mb800": 30,
+  "mu_banda": 0.8
+ },
+ "G": {
+  "ejes_x0": 37.4,
+  "paso": 74.75,
+  "n_ejes": 8,
+  "ruedas_y": [
+   80,
+   158,
+   236,
+   314
+  ],
+  "ancho_rueda": 40,
+  "v_max": 60,
+  "a": 3.0,
+  "v_trans": 60,
+  "u_giro": 20,
+  "t_giro": 0.65,
+  "placa_x": 600,
+  "v_contacto": 15,
+  "v_empuje": 30,
+  "v_apriete": 3,
+  "y_libre": 520,
+  "salida_y0": 420,
+  "t_asiento": 0.1
+ },
+ "sim": {
+  "mu": 0.5,
+  "c_rod": 0.05,
+  "mu_guia": 0.2
+ }
+}

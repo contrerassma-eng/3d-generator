@@ -1,0 +1,300 @@
+{
+  "proyecto": "NOLABEL-01",
+  "descripcion": "Modulo de impresion NoLabel: imprime en el COSTADO de la caja mientras esta pasa por el transportador, y tres secadores UV en diagonal, aguas abajo, curan la tinta. Estructura fija de perfil PG40 40x80 con un modulo ajustable en altura y en acercamiento para adaptarse al alto de caja.",
+  "fecha": "2026-09-09",
+  "origen_medidas": "fotos con huincha tomadas por Sergio el 2026-09-09 en taller (marcadas 'foto') y placas de los equipos (marcadas 'placa'). Lo que no se pudo medir queda 'supuesto' y se corrige cambiando este archivo.",
+  "unidades": "mm",
+  "secador": {
+    "modelo": "Phoseon FireJet FJ100-150X20AC395-12W_G2 (Excelitas)",
+    "fuente_dato": "placa del equipo (foto): modelo, +48V 17A, serie 279116",
+    "ventana_emision": {
+      "largo": 150,
+      "ancho": 20,
+      "fuente": "placa (150X20)"
+    },
+    "cuerpo": {
+      "largo": 200,
+      "ancho": 140,
+      "alto": 95,
+      "fuente": "foto con huincha (200 x ~140 x ~95)"
+    },
+    "brida_montaje": {
+      "ancho": 100,
+      "largo": 160,
+      "espesor": 8,
+      "fuente": "supuesto"
+    },
+    "conector": {
+      "tipo": "D-sub FCI + alimentacion 48 V",
+      "fuente": "foto"
+    },
+    "cantidad": 3,
+    "inclinacion_deg": 30,
+    "fuente_inclinacion": "Sergio 2026-09-09: los secadores van en angulo diagonal. La ventana de 150 mm queda inclinada sobre la cara vertical impresa, asi barre los 108 mm de alto de impresion mientras la caja avanza",
+    "distancia_ventana_a_caja_mm": 60,
+    "fuente_distancia": "supuesto (distancia de trabajo tipica FJ100 = 20 a 60 mm)",
+    "montaje": "los 3 continuos, aguas abajo del cabezal, mirando a la cara impresa (+Y)",
+    "color": {
+      "cuerpo": "AluminioMecanizado",
+      "disipador": "Aluminio",
+      "ventana": "Azul",
+      "conector": "Negro"
+    },
+    "disipador": {
+      "aletas": 9,
+      "alto": 28,
+      "espesor": 3
+    }
+  },
+  "fuente_secador": {
+    "descripcion": "Fuente externa 48 V para cada secador (3)",
+    "cuerpo": {
+      "largo": 230,
+      "ancho": 140,
+      "alto": 65
+    },
+    "fuente_dato": "foto con huincha 2026-09-09 (ancho ~230, fondo ~140, alto ~65); escuadras de montaje 85 x 40",
+    "cantidad": 3,
+    "entrada": "220 V 1F",
+    "salida": "48 V DC 17 A",
+    "escuadra_montaje": {
+      "largo": 85,
+      "alto": 40,
+      "espesor": 3
+    },
+    "prensaestopas": "5 x PG por la cara inferior",
+    "orejas": {
+      "largo": 85,
+      "alto": 40,
+      "espesor": 3,
+      "separacion": 9,
+      "fuente": "Sergio 2026-09-09: tienen una orejita de como 8 a 9 cm"
+    },
+    "montaje": "las 3 en fila sobre una repisa en la cara trasera del portico, a la vista y con acceso",
+    "color": {
+      "cuerpo": "Galvanizado",
+      "tapa": "GrisClaro",
+      "bornes": "Azul",
+      "led": "Verde"
+    },
+    "bornes": 9
+  },
+  "cabezal_nolabel": {
+    "descripcion": "Cabezal de impresion NoLabel (cuerpo blanco + porta boquillas rojo)",
+    "cuerpo": {
+      "largo": 210,
+      "ancho": 200,
+      "alto": 150
+    },
+    "porta_boquillas_rojo": {
+      "largo": 240,
+      "ancho": 60,
+      "alto": 45
+    },
+    "altura_impresion_mm": 108,
+    "fuente_dato": "foto con huincha (cuerpo ~200) y ficha NoLabel (altura de impresion 108 mm, 180 x 3600 dpi)",
+    "conectores": "M12 y manguera flexible 3/4 in por la parte superior",
+    "sensor": "sensor de disparo lateral (bloque azul)",
+    "montaje": "colgado del modulo ajustable, boquillas hacia +Y contra el costado de la caja",
+    "color": {
+      "cuerpo": "Blanco",
+      "porta_boquillas": "Rojo",
+      "conectores": "Negro",
+      "sensor": "Azul",
+      "manguera": "Negro"
+    },
+    "detalle": "cuerpo blanco, porta boquillas rojo, conectores M12 y manguera de 3/4 in arriba, sensor lateral azul"
+  },
+  "caja_insumos": {
+    "descripcion": "Caja de insumos GSI NoLabel (2 depositos de tinta con tapa e indicadores INK OK / INK LOW)",
+    "cuerpo": {
+      "largo": 240,
+      "ancho": 190,
+      "alto": 120
+    },
+    "fuente_dato": "foto con huincha (~190 de ancho, ~240 de largo)",
+    "tapas_diametro": 90,
+    "cantidad": 1,
+    "color": {
+      "cuerpo": "Blanco",
+      "tapas": "Rojo",
+      "indicadores": "Verde",
+      "zocalo": "GrisOscuro"
+    },
+    "detalle": "dos depositos con tapa roscada roja, mirilla de nivel, pilotos INK OK / INK LOW y racores de salida"
+  },
+  "placa_principal": {
+    "descripcion": "Placa principal: recibe cabezal, caja de insumos y secadores",
+    "espesor": 8,
+    "largo": 1000,
+    "ancho": 260,
+    "fuente_dato": "supuesto a partir de la disposicion de las fotos; ahora es chapa de aluminio plegada de 8 mm"
+  },
+  "pantalla": {
+    "descripcion": "Pantalla del operador con brazo VESA",
+    "diagonal_in": 15,
+    "cuerpo": {
+      "largo": 350,
+      "ancho": 230,
+      "alto": 45
+    },
+    "vesa_mm": 75,
+    "fuente_dato": "foto con huincha (~300 de largo) y patron VESA 75 visible en la placa",
+    "color": {
+      "marco": "NegroMate",
+      "vidrio": "PolicarbonatoAhumado",
+      "soporte": "Aluminio",
+      "botonera": "GrisOscuro"
+    },
+    "detalle": "marco negro, vidrio ahumado, botonera lateral y conector trasero"
+  },
+  "caja_electrica": {
+    "descripcion": "Caja electrica de alimentacion (gabinete metalico con bisagras y prensaestopas)",
+    "cuerpo": {
+      "largo": 400,
+      "ancho": 300,
+      "alto": 200
+    },
+    "fuente_dato": "foto con huincha (tapa ~400 x ~300)",
+    "prensaestopas": [
+      "M20 x 4",
+      "M25 x 1",
+      "PG 3/4 in x 1"
+    ],
+    "piloto": "luz piloto verde en el costado",
+    "color": {
+      "cuerpo": "Amarillo",
+      "puerta": "Amarillo",
+      "herrajes": "Inox",
+      "prensaestopas": "Negro",
+      "piloto": "Verde",
+      "seta": "Rojo"
+    },
+    "detalle": "amarillo caracteristico, puerta con 3 bisagras y 2 cierres, piloto verde, seta de emergencia, prensaestopas M20/M25/PG y tuberia corrugada hacia el cabezal, los secadores y las fuentes",
+    "tuberia": {
+      "diametro": 25,
+      "tipo": "corrugada flexible",
+      "tramos": 4
+    }
+  },
+  "estructura_fija": {
+    "descripcion": "Portico fijo de perfil PG40 40x80 al costado del transportador, con un MODULO AJUSTABLE que sube y baja el conjunto de impresion y lo acerca o aleja de la caja",
+    "placa_base": {
+      "largo": 1200,
+      "ancho": 300,
+      "espesor": 12,
+      "pernos": "6 x M16 anclaje quimico"
+    },
+    "altura_piso_a_eje_impresion": 1250,
+    "fuente_altura": "supuesto: debe igualar la altura del centro de la zona impresa de la caja sobre el transportador; CONFIRMAR",
+    "voladizo_brazo": 600,
+    "acabado": "aluminio anodizado natural; chapas de aluminio; caja electrica amarilla",
+    "criterio": "todo atornillado con avellanado M8 y tuerca martillo sobre la ranura del PG40; cotas fijas de fabrica, sin regulacion",
+    "perfil_principal": {
+      "serie": "PG40 (ranura 8, modulo 40)",
+      "seccion": [
+        40,
+        80
+      ],
+      "descripcion": "perfil estructural de aluminio 40x80 con 6 ranuras de 8 mm y agujero central de 10,2",
+      "uniones": "escuadras de 40 y tornillo avellanado M8 DIN 7991 en cada nudo",
+      "tapas": "tapa de extremo de plastico en todo perfil visto"
+    },
+    "portico": {
+      "columnas": 2,
+      "separacion_columnas_x": 800,
+      "y_columnas": -700,
+      "altura": 1600,
+      "traviesas_z": [
+        300,
+        1520
+      ],
+      "criterio": "el portico va al costado -Y del transportador y no invade el paso de la caja"
+    },
+    "chapas": {
+      "placa_principal": {
+        "espesor": 8,
+        "material": "aluminio",
+        "plegado": "pestanas de 30 en tres lados"
+      },
+      "soporte_secadores": {
+        "espesor": 4,
+        "material": "chapa plegada de aluminio"
+      },
+      "repisa_fuentes": {
+        "espesor": 2,
+        "material": "chapa plegada de aluminio"
+      },
+      "soporte_pantalla": {
+        "espesor": 3,
+        "material": "chapa plegada de aluminio"
+      },
+      "carenado_columna": {
+        "espesor": 1.5,
+        "material": "chapa plegada de aluminio"
+      },
+      "carro": {
+        "espesor": 8,
+        "material": "aluminio"
+      }
+    },
+    "ferreteria": {
+      "tornillo": "M8 x 25 avellanado hexagono interior DIN 7991",
+      "tuerca": "tuerca martillo ranura 8",
+      "manillas": "manilla de aluminio tipo U, 160 entre centros, en caja electrica y carenado",
+      "patas": "4 patas niveladoras M16 con plato de 80"
+    },
+    "accesorios_robotica": [
+      "cadena portacables 40x35 desde la caja electrica hasta el cabezal a lo largo del brazo",
+      "canaleta ranurada 60x60 en la columna",
+      "fotocelula M18 de disparo de impresion sobre el transportador",
+      "prensaestopas M25 en la caja electrica"
+    ],
+    "modulo_ajustable": {
+      "descripcion": "Carro que desliza sobre las ranuras de las columnas: fija la altura del eje de impresion segun el alto de caja y el acercamiento a la cara impresa",
+      "carrera_z": 400,
+      "z_nominal": 950,
+      "carrera_y": 60,
+      "accionamiento": "husillo trapezoidal Tr16x4 con volante de 100 y contratuerca",
+      "guia": "4 mordazas sobre la ranura 8 de las columnas + regla graduada",
+      "brazos": {
+        "cantidad": 2,
+        "perfil": "PG40 40x80",
+        "largo": 460
+      },
+      "fuente": "Sergio 2026-09-09: el modulo ajustable hay que entenderlo e integrarlo"
+    }
+  },
+  "pendientes_confirmar": [
+    "alto real de caja y por lo tanto la altura del eje de impresion (se uso caja de 300 y eje a 950)",
+    "distancia de trabajo de los secadores a la cara impresa (se uso 60 mm)",
+    "angulo diagonal exacto de los secadores (se uso 30 grados)",
+    "modelo y marca de las fuentes de 48 V para reemplazar la envolvente",
+    "si la pantalla va del lado operador o en el frente de la maquina"
+  ],
+  "proceso": {
+    "altura_banda": 800,
+    "sentido": "+X",
+    "cara_impresa": "-Y (costado de la caja, lado operador)",
+    "caja": {
+      "largo": 400,
+      "ancho": 300,
+      "alto": 300,
+      "fuente": "Sergio 2026-09-09: las cajas son bajitas, del orden de 300 mm de alto"
+    },
+    "transportador": {
+      "tipo": "twin belt",
+      "largo": 1200,
+      "ancho_bastidor": 400,
+      "banda_ancho": 80,
+      "luz_central": 100,
+      "nota": "el mismo twin belt de LINEA-OMNI-01; va como referencia, no se fabrica aqui"
+    },
+    "banda_impresa": {
+      "alto": 108,
+      "z_centro": 950,
+      "nota": "los 108 mm de altura de impresion del cabezal, centrados en el costado de la caja"
+    },
+    "separacion_boquillas_caja": 5
+  }
+}

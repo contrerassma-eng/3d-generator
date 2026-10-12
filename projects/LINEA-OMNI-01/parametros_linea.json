@@ -1,0 +1,171 @@
+{
+  "proyecto": "LINEA-OMNI-01",
+  "descripcion": "Linea de justificado, vision e inversion de cajas: mesa de omniwheels, twin belt con camara inferior, acelerador, omniwheel de esquina (giro 90 grados), cinta plana y cinta de elevacion, con gabinete tipo Selladora UNITEC.",
+  "fecha": "2026-09-09",
+  "convencion": "X = flujo, Y = transversal (0 = eje de linea, lado operador = -Y), Z = arriba (piso 0). Igual que el modelo de la Selladora UNITEC.",
+  "unidades": "mm",
+  "altura_trabajo": 800,
+  "mesa_omni": {
+    "descripcion": "Mesa de omniwheels que justifica las cajas contra el costado derecho",
+    "largo": 1200,
+    "ancho": 609.6,
+    "paso_ejes": 74.75,
+    "rueda_dia": 82,
+    "rueda_asoma": 5,
+    "angulo_ruedas_deg": 45,
+    "justifica_hacia": "+Y (costado derecho)",
+    "referencia": "BloqueOmni del ZP2026 (mismo criterio de ruedas mecanum, paso 74,75 y rueda asomando 5 mm)",
+    "ancho_util": 533.4,
+    "frame": "estandar 24 in (ZP2026)"
+  },
+  "twin_belt": {
+    "descripcion": "Twin belt M-Haste: dos bandas con luz central para camara inferior",
+    "largo": 1200,
+    "banda_ancho": 80,
+    "luz_central": 100,
+    "ancho_bastidor": 400,
+    "banda_espesor": 5,
+    "camara": {
+      "cuerpo": [
+        90,
+        90,
+        140
+      ],
+      "lente": [
+        60,
+        60,
+        70
+      ],
+      "z_bajo_banda": 260
+    },
+    "referencia": "M-Haste (repo Haste)",
+    "nota_ancho": "el twin belt es mas angosto que el frame estandar (confirmado por Sergio)"
+  },
+  "acelerador": {
+    "descripcion": "Cinta aceleradora que separa las cajas antes del giro",
+    "largo": 600,
+    "ancho": 400,
+    "banda_espesor": 5
+  },
+  "omni_esquina": {
+    "descripcion": "Modulo de omniwheels en esquina: gira la caja 90 grados y la entrega a la derecha",
+    "largo": 609.6,
+    "ancho": 609.6,
+    "paso_ejes": 74.75,
+    "rueda_dia": 82,
+    "frame": "mismo frame que la mesa: misma estructura lateral, 24 in exterior"
+  },
+  "cinta_plana": {
+    "descripcion": "Cinta plana de traslado despues del giro (sale hacia +Y)",
+    "largo": 1000,
+    "ancho": 609.6,
+    "ancho_util": 533.4
+  },
+  "cinta_elevacion": {
+    "descripcion": "Cinta de elevacion final",
+    "largo": 1600,
+    "ancho": 609.6,
+    "altura_salida": 1250,
+    "angulo_deg": 16,
+    "ancho_util": 533.4
+  },
+  "gabinete": {
+    "descripcion": "Gabinete de vision al estilo de la Selladora UNITEC: portico de perfil de aluminio PG40 40x80, paneles y capota de inox plegado con esquinas curvas, dos puertas con manilla y una protuberancia lateral para los elementos de caja",
+    "perfil": {
+      "serie": "PG40 (ranura 8)",
+      "seccion": [
+        40,
+        80
+      ]
+    },
+    "largo": 2000,
+    "ancho": 1100,
+    "alto": 1500,
+    "montantes": 6,
+    "anillos_z": [
+      90,
+      780,
+      1460
+    ],
+    "paso_transportador": {
+      "ancho": 700,
+      "alto": 420,
+      "z_centro": 800,
+      "nota": "hueco de entrada y salida del twin belt en las caras de X"
+    },
+    "protuberancia": {
+      "largo": 700,
+      "ancho": 300,
+      "alto": 340,
+      "lado": "-Y (operador)",
+      "para": "elementos de caja, botonera y conexiones",
+      "z_centro": 1300,
+      "nota": "banda saliente en la franja alta del lado operador, sobre las puertas"
+    },
+    "puertas": {
+      "cantidad": 2,
+      "ancho": 700,
+      "alto": 950,
+      "lado": "-Y (operador)",
+      "herrajes": "3 bisagras, cierre de llave y manilla de aluminio de 160",
+      "z_centro": 660,
+      "nota": "las dos puertas ocupan la franja baja de la cara del operador",
+      "ventana": {
+        "ancho": 500,
+        "alto": 400,
+        "material": "policarbonato de 6 mm"
+      }
+    },
+    "radio_esquina": 120,
+    "chapa": {
+      "paneles": 1.5,
+      "capota": 1.5,
+      "puertas": 2.0,
+      "material": "inox AISI 304 plegado"
+    },
+    "ferreteria": "tornillo avellanado M8 DIN 7991 con tuerca martillo ranura 8; 4 patas niveladoras M16",
+    "accesorios": [
+      "baliza luminosa de 3 colores en la capota",
+      "interruptor general y botonera en la protuberancia",
+      "ventana de policarbonato en cada puerta",
+      "rejillas de ventilacion en el panel trasero",
+      "canaleta de cableado interior y prensaestopas",
+      "tira LED interior sobre la zona de vision"
+    ],
+    "referencia": "C:/Users/scont/Documents/Inventor/Selladora_UNITEC (159 piezas, 12 subensambles)",
+    "criterio_altura": "Sergio 2026-09-09: las cajas son bajitas (del orden de 300 mm), asi que el gabinete baja de 2100 a 1500 y se ahorra material sin perder acceso"
+  },
+  "pendientes_confirmar": [
+    "altura de trabajo definitiva de la linea (se uso 800 mm)",
+    "distancia libre bajo el twin belt para la camara y su modelo",
+    "hacia que lado sale la cinta plana despues del giro (se uso +Y)",
+    "altura de descarga de la cinta de elevacion (se uso 1250 mm)"
+  ],
+  "frame_estandar": {
+    "descripcion": "Frame estandar de transportador, referencia ZP2026: 24 in exterior / 21 in util",
+    "ancho_exterior": 609.6,
+    "ancho_util": 533.4,
+    "lateral": {
+      "alto": 190,
+      "espesor": 38,
+      "referencia": "LT_G del ZP2026 (190,6 x 38)"
+    },
+    "travesano": {
+      "seccion": [
+        71,
+        38
+      ],
+      "espesor": 3,
+      "referencia": "B_002A_1 del ZP2026"
+    },
+    "columna_pata": {
+      "seccion": [
+        77,
+        38
+      ],
+      "espesor": 3,
+      "referencia": "SOLID_06 del ZP2026"
+    },
+    "nota": "la mesa de omniwheels, el omni de esquina, la cinta plana y la de elevacion comparten este frame; solo el twin belt es mas angosto"
+  }
+}

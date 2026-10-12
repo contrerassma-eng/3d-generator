@@ -1,0 +1,42 @@
+{
+  "proyecto": "YOLO-NOLABEL-GIRO90",
+  "descripcion": "Unidad de justificado, lectura inferior, impresion lateral NoLabel, gap y giro 90 selectivo con omniwheels. Se fabrican 2 unidades.",
+  "fecha": "2026-09-28",
+  "convencion": "X = flujo, Y = transversal (0 = eje de linea; -Y = lado operador; +Y = lado NoLabel), Z = arriba (piso 0). Igual que LINEA-OMNI-01.",
+  "unidades": "mm",
+  "cantidad_unidades": 2,
+  "altura_trabajo": 800,
+  "fuente_altura": "LINEA-OMNI-01 (supuesto vigente, por confirmar)",
+  "caja_ref": {"largo": 400, "ancho": 300, "alto": 300, "fuente": "alto 300 de las notas del 9-sep; largo y ancho SUPUESTOS"},
+  "velocidad": {"linea_m_min": 30, "enhancer_factor": 1.5, "omni_lateral_m_min": 30, "fuente": "SUPUESTO; el twin belt se dimensiono a 40 m/min maximo (informe INNO 26-sep)"},
+  "frame_estandar": {"ancho_ext": 609.6, "ancho_util": 533.4, "fuente": "memoria proyecto-linea-omni-01"},
+  "modulos": [
+    {"id": "M1", "nombre": "Mesa omni de justificado", "x0": 0, "largo": 1200, "ancho": 609.6, "nota": "justifica hacia +Y (cara que se imprime); tambien dosifica: puede retener la caja"},
+    {"id": "M2", "nombre": "Twin belt con camara inferior", "x0": 1250, "largo": 1200, "ancho": 400, "nota": "2 bandas de 80 con luz central de 100; guia lateral UHMW en +Y para mantener la referencia"},
+    {"id": "M3", "nombre": "Cinta de impresion NoLabel", "x0": 2500, "largo": 1400, "ancho": 609.6, "nota": "guia lateral +Y con ventana en el cabezal; 3 secadores UV aguas abajo"},
+    {"id": "M4", "nombre": "Enhancer (gap)", "x0": 3950, "largo": 600, "ancho": 400, "nota": "1,5 x velocidad de linea: abre el gap para el giro"},
+    {"id": "M5", "nombre": "Omni 90 selectivo", "x0": 4600, "largo": 609.6, "ancho": 609.6, "nota": "filas alternadas mano izquierda/derecha: mismo sentido = sigue recto; sentido opuesto = sale a 90"},
+    {"id": "M6", "nombre": "Salida recta", "x0": 5260, "largo": 1000, "ancho": 609.6, "nota": "la salida a 90 va a +Y o -Y segun el layout (parametro salida_giro)"}
+  ],
+  "salida_giro": "-Y",
+  "sensores": [
+    {"id": "PE1", "x": 100, "funcion": "entrada a la mesa"},
+    {"id": "PE2", "x": 1600, "funcion": "disparo de la camara"},
+    {"id": "PE3", "x": 2650, "funcion": "disparo de impresion NoLabel (con encoder de la cinta M3)"},
+    {"id": "PE4", "x": 4500, "funcion": "control de gap a la salida del enhancer"},
+    {"id": "PE5", "x": 4650, "funcion": "caja entrando al omni 90"},
+    {"id": "PE6", "x": 5150, "funcion": "caja completa en el omni 90 (inicia el giro)"},
+    {"id": "PE7", "x": 5300, "funcion": "salida recta despejada"}
+  ],
+  "camara": {"x": 1850, "z_bajo_banda": 260, "modelo": "POR CONFIRMAR (modulo que ya tiene Sergio)"},
+  "nolabel": {"lado": "+Y", "x_cabezal": 2800, "x_secadores": [3000, 3200, 3400], "altura_impresion": 108, "fuente": "memoria proyecto-nolabel-01 (cabezal GSI, 3 secadores Phoseon FJ100 a 30 grados)"},
+  "gabinete": {
+    "descripcion": "Gabinete PARAMETRIZADO al estilo Selladora UNITEC (estandar del 9-sep): portico PG40 40x80, paneles de inox plegado con esquinas curvas, puertas con policarbonato del lado operador y protuberancia alta con botonera y baliza",
+    "x0": 1200, "largo": 2800, "y0": -550, "ancho": 1450, "alto": 1500,
+    "radio_esquina": 120, "perfil": [40, 80], "chapa_mm": 1.5,
+    "puertas": {"cantidad": 3, "lado": "-Y", "ventana": [500, 400]},
+    "protuberancia": {"lado": "-Y", "largo": 900, "ancho": 300, "alto": 340, "z_centro": 1300},
+    "cubre": ["M2", "M3"],
+    "nota": "largo, ancho, que modulos cubre y lado de puertas se cambian aqui cuando Sergio mande sus referencias"
+  }
+}
