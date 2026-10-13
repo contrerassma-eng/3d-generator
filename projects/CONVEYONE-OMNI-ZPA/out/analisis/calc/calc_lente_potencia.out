@@ -1,0 +1,159 @@
+omega: 1.5 m/s -> 60.0 rad/s (573 rpm); 1.0 m/s -> 40.0 rad/s (382 rpm)
+
+====================================================================================================
+1. Potencia mecánica por familia (P = T·ω)
+====================================================================================================
+  continua (0.30 N·m)                   : P@573rpm =   18.0 W ; P@382rpm =   12.0 W
+  criterio REV B 0.8 N·m                : P@573rpm =   48.0 W ; P@382rpm =   32.0 W
+  pico inversión 1.5 m/s (0.87 N·m)     : P@573rpm =   52.2 W ; P@382rpm =   34.8 W
+  pico inversión 1.0 m/s (0.68 N·m)     : P@573rpm =   40.8 W ; P@382rpm =   27.2 W
+  E_cin caja 5 kg @1.5 m/s = 5.62 J ; @1.0 m/s = 2.50 J ; E_rot familia 1.0–2.0 J
+
+====================================================================================================
+2. Balance eléctrico por accionamiento (entrada DC)
+====================================================================================================
+  Stepper: P_cobre a 4.2 A/fase = 31.0 W ; en reposo (50 %) = 7.8 W
+  --- Stepper 23HE45 + CL57T a 48 V (por familia) ---
+  HOLD (motor energizado, reposo)     : P_mec   0.0 W -> P_in ≈   19.7 W -> I_48V ≈ 0.41 A
+  FORWARD 1.0 m/s, 0.30 N·m           : P_mec  12.0 W -> P_in ≈   58.9 W -> I_48V ≈ 1.23 A
+  FORWARD 1.5 m/s, 0.30 N·m           : P_mec  18.0 W -> P_in ≈   65.6 W -> I_48V ≈ 1.37 A
+  FORWARD 1.5 m/s, 0.8 N·m (REV B)    : P_mec  48.0 W -> P_in ≈   98.9 W -> I_48V ≈ 2.06 A
+  INVERSIÓN 1.5 m/s, 0.87 N·m         : P_mec  52.2 W -> P_in ≈  103.6 W -> I_48V ≈ 2.16 A
+  INVERSIÓN 1.0 m/s, 0.68 N·m         : P_mec  27.2 W -> P_in ≈   75.8 W -> I_48V ≈ 1.58 A
+  Cota de diseño adoptada por driver stepper: 2.0 A continuos, 3.0 A pico (0.3 s) a 48 V  [calc + margen; MEDIR en banco]
+  --- Servo 48 V 400 W (por familia) ---
+  FORWARD 1.5 m/s 0.30 N·m            : P_mec  18.0 W -> P_in ≈   30.5 W -> I_48V ≈ 0.64 A
+  FORWARD 1.5 m/s 0.8 N·m             : P_mec  48.0 W -> P_in ≈   68.0 W -> I_48V ≈ 1.42 A
+  INVERSIÓN 1.5 m/s 0.87 N·m          : P_mec  52.2 W -> P_in ≈   73.2 W -> I_48V ≈ 1.53 A
+  Servo: pico de corriente de driver 180–250 % (1 s) [web] -> cota 250 % de la nominal en falla/atasco = 25 A por motor si no se limita por parámetro
+  --- Motores de ecosistema MDR (datos de ficha) ---
+  UniDrive One 24 V 60 W          : 24 V ; I_nom 2.0 A (  48 W) ; I_arranque 4.0 A
+  ZoneLogix UL 60 W 24 V          : 24 V ; I_nom 4.0 A (  96 W) ; I_arranque 4.5 A
+  ZoneLogix PRO UD100 24 V        : 24 V ; I_nom 5.6 A ( 134 W) ; I_arranque 7.0 A
+  UniDrive CORE 48 V 120 W        : 48 V ; I_nom 3.3 A ( 158 W) ; I_arranque A VERIFICAR A
+  Interroll EC5000 50 W 48 V      : 48 V ; I_nom 1.7 A (  82 W) ; I_arranque 3.8 A
+  Pulseroller PGD-Ai-48 50 W      : 48 V ; I_nom 1.6 A (  77 W) ; I_arranque 4.0 A
+  Interroll EC5000 50 W 24 V      : 24 V ; I_nom 3.4 A (  82 W) ; I_arranque 7.5 A
+
+====================================================================================================
+3. Balance por zona (control 24 V + accionamiento)
+====================================================================================================
+  Control por zona a 24 V: ESP32 9.6 + sensores 1.7 + handshake 1.0 + CAN 1.2 = 13.4 W -> 0.56 A @24 V ; vía DDR 48→24 (91 %) = 0.31 A @48 V
+  Zona NORMAL ZoneLogix+UniDrive 24 V: tarjeta 0.3 A + motor 2.0 A nominal (4 A stall) + sensor ≈ 2.35 A nom / 4.35 A pico @24 V
+  Zona OMNI (2 steppers 48 V): continuo 2×2.0 + 0.31 = 4.31 A (207 W) ; pico 2×3.0 + ctrl = 6.31 A (303 W, ≤0.3 s)
+  Zona OMNI (2 servos 48 V 400 W): continuo ≈ 3.14 A ; pico limitado por parámetro de driver (recomendado ≤ 4 A/motor = 8 A + ctrl)
+  Zona OMNI (2 UniDrive One 24 V): continuo 2×2.0 + ctrl = 4.56 A @24 V (109 W) ; stall 2×4.0 + ctrl = 8.56 A
+  Zona NORMAL CZC + MDR 48 V (EC5000/PGD 50 W): 2.01 A nom / 4.11 A arranque @48 V
+  Zona NORMAL CZC + UniDrive One 24 V: 2.56 A nom / 4.56 A stall @24 V
+  Comparación con fuente de 120 W (NDR-120-48, 2.5 A) de la conversación previa: una sola Omni continua = 207 W > 120 W  -> insuficiente [confirma advertencia del digest]
+
+====================================================================================================
+4. Línea de 20 zonas (17 NORMAL + 3 OMNI), longitud 20 × 0.598 m
+====================================================================================================
+  Longitud de línea = 11.96 m (zona ZP2026 598 mm [user BLOQUE_OMNI_v1])
+  48 V: nominal todo en marcha = 47.1 A (2259 W); 3 Omni invirtiendo = 53.1 A; arranque simultáneo total = 88.8 A
+  24 V: nominal todo en marcha = 53.6 A (1287 W); stall/arranque simultáneo = 99.6 A
+  Simultaneidad: ZPA en flujo = todos los motores en marcha (factor 1.0); en acumulación ≈ 0. Se dimensiona con 1.0 en nominal y arranques escalonados (S&R zona a zona).
+
+====================================================================================================
+5. Zonas por ramal por límite de corriente de fuente y de conector
+====================================================================================================
+  SDR-480-48 (10 A, 15 A/3 s)                         : a 80 % → 3 zonas NORMAL 48 V (2.01 A) ó 1 OMNI 48 V (4.31 A)
+  TDR-960-48 (20 A)                                   : a 80 % → 7 zonas NORMAL 48 V (2.01 A) ó 3 OMNI 48 V (4.31 A)
+  2×TDR-960-48 paralelo (20·2·0.9=36 A)               : a 80 % → 14 zonas NORMAL 48 V (2.01 A) ó 6 OMNI 48 V (4.31 A)
+  NDR-240-24 / SDR-240-24 (10 A)                      : a 80 % → 3 zonas NORMAL 24 V (2.35 A) ó 1 OMNI 24 V (4.56 A)
+  ZoneLogix UL: fuente PELV 24 V con breaker máx 20 A : a 80 % → 6 zonas NORMAL 24 V (2.35 A) ó 3 OMNI 24 V (4.56 A)
+  Conector pasante M12 L-coded: 16 A @63 V DC con 2.5 mm² [web binder] → corriente en el PRIMER conector del ramal ≤ 16 A:
+    48 V: ≤ 7 NORMAL ó 3 OMNI ó p.ej. 5 NORMAL + 2 OMNI = 18.7 A
+    24 V: ≤ 6 NORMAL ó 3 OMNI
+  Han Q 5/0: 16 A [web harting]; PTFIX 6/12×2.5 bornes push-in: 24 A [web]; conectores > 16 A (7/8 in, M12 Power K/S) NO CONSULTADOS → A VERIFICAR
+
+====================================================================================================
+6. Caída de tensión — trunk 12 m (20 zonas), IEC 60228 clase 2 a 20 °C; ×1.2 a 70 °C
+====================================================================================================
+  Presupuestos: 48 V → 42 V (ConveyLinx-Ai3-48 mín. motor) = 6 V; DDR UVLO 33.6 V = 14.4 V; 24 V: ZoneLogix 22 V mín = 2 V (24 V) / 6 V (fuente a 28 V); UniDrive One 23 V mín = 1 V (24 V) / 5 V (28 V)
+  --- 48 V, línea 12 m, I_total nominal 47.1 A y pico 53.1 A ---
+   2.5 mm² nom : concentrada  8.34 V ; uniforme extremo  4.17 V ( 5.00 V a 70 °C) ; alimentación al centro  1.04 V
+   2.5 mm² pico: concentrada  9.40 V ; uniforme extremo  4.70 V ( 5.64 V a 70 °C) ; alimentación al centro  1.18 V
+     4 mm² nom : concentrada  5.19 V ; uniforme extremo  2.59 V ( 3.11 V a 70 °C) ; alimentación al centro  0.65 V
+     4 mm² pico: concentrada  5.85 V ; uniforme extremo  2.93 V ( 3.51 V a 70 °C) ; alimentación al centro  0.73 V
+     6 mm² nom : concentrada  3.47 V ; uniforme extremo  1.73 V ( 2.08 V a 70 °C) ; alimentación al centro  0.43 V
+     6 mm² pico: concentrada  3.91 V ; uniforme extremo  1.95 V ( 2.35 V a 70 °C) ; alimentación al centro  0.49 V
+  --- 48 V, ramal de 10 zonas (6 m) con 8 NORMAL + 2 OMNI ---
+   2.5 mm²: I=24.7 A ; uniforme extremo 0.66 V (0.79 V a 70 °C) ; pérdida  8.1 W
+     4 mm²: I=24.7 A ; uniforme extremo 0.41 V (0.49 V a 70 °C) ; pérdida  5.0 W
+     6 mm²: I=24.7 A ; uniforme extremo 0.27 V (0.33 V a 70 °C) ; pérdida  3.4 W
+  --- 24 V, línea 12 m, I_total nominal 53.6 A ---
+   2.5 mm²: uniforme extremo  4.75 V ; al centro  1.19 V ; ramal 4 zonas (2.4 m, 9.4 A) 0.17 V
+     4 mm²: uniforme extremo  2.96 V ; al centro  0.74 V ; ramal 4 zonas (2.4 m, 9.4 A) 0.10 V
+     6 mm²: uniforme extremo  1.98 V ; al centro  0.49 V ; ramal 4 zonas (2.4 m, 9.4 A) 0.07 V
+  --- Longitud máx. de ramal uniforme (m) para ΔV_adm: L = ΔV/(R'·I) ---
+   2.5 mm² 48 V/6 V/20 A :   40.5 m |   2.5 mm² 48 V/3 V/20 A :   20.2 m |   2.5 mm² 24 V/2 V/20 A :   13.5 m |   2.5 mm² 24 V/1 V/10 A :   13.5 m |
+     4 mm² 48 V/6 V/20 A :   65.1 m |     4 mm² 48 V/3 V/20 A :   32.5 m |     4 mm² 24 V/2 V/20 A :   21.7 m |     4 mm² 24 V/1 V/10 A :   21.7 m |
+     6 mm² 48 V/6 V/20 A :   97.4 m |     6 mm² 48 V/3 V/20 A :   48.7 m |     6 mm² 24 V/2 V/20 A :   32.5 m |     6 mm² 24 V/1 V/10 A :   32.5 m |
+  --- Contactos de conectores en cadena (paramétrico, A VERIFICAR R_contacto en ficha M12 L) ---
+   R_contacto  2.0 mΩ/polo × 20 pares pasantes: ΔV ≈ 1.98 V a 47.1 A (comparable al cable)
+   R_contacto  5.0 mΩ/polo × 20 pares pasantes: ΔV ≈ 4.94 V a 47.1 A (comparable al cable)
+   R_contacto 10.0 mΩ/polo × 20 pares pasantes: ΔV ≈ 9.88 V a 47.1 A (comparable al cable)
+
+====================================================================================================
+7. Inrush
+====================================================================================================
+  AC (por fuente, ficha): NDR-480-48 35 A/230 VAC ; SDR-480-48 80 A/230 VAC ; TDR-960-48 60 A ; DDR-240C-24 30 A ; DDR-120C-24 5 A [web]
+  DC hot-plug de un nodo al trunk vivo: i_pico = V/R_lazo ; τ = R_lazo·C_nodo
+   C_nodo   470 µF [A VERIFICAR: caps de entrada de 2 drivers + DDR], R_lazo 0.05 Ω: i_pico   960 A, τ  0.02 ms, E 0.54 J
+   C_nodo   470 µF [A VERIFICAR: caps de entrada de 2 drivers + DDR], R_lazo 0.20 Ω: i_pico   240 A, τ  0.09 ms, E 0.54 J
+   C_nodo  2200 µF [A VERIFICAR: caps de entrada de 2 drivers + DDR], R_lazo 0.05 Ω: i_pico   960 A, τ  0.11 ms, E 2.53 J
+   C_nodo  2200 µF [A VERIFICAR: caps de entrada de 2 drivers + DDR], R_lazo 0.20 Ω: i_pico   240 A, τ  0.44 ms, E 2.53 J
+  → Sin limitación activa, un enchufe en caliente dispara/estresa protecciones y contactos; el e-fuse por nodo con limitación 1.2×IN (ESX10-TC) actúa como precarga [web E-T-A 'Current limitation typically 1,2 x IN'].
+  DDR-120C inrush 5 A y DDR-240C 30 A [web] → preferir DDR-120C por nodo (32 mm) si la lógica ≤ 120 W.
+
+====================================================================================================
+8. Regeneración en inversión/frenado a 48 V
+====================================================================================================
+  Energía a absorber: frenado total (caja 5.6 J + 2 familias 4 J) = 9.6 J en 0.3 s → P_regen media 32 W ; una familia en DIVERT: 2 J → 7 W
+   bus con C =   1000 µF y sin otras cargas: V_final = 146.8 V  (> 60 V DISPARA sobretensión del driver (DM556T/iSV 60 V))
+   bus con C =   2200 µF y sin otras cargas: V_final = 105.1 V  (> 60 V DISPARA sobretensión del driver (DM556T/iSV 60 V))
+   bus con C =   4700 µF y sin otras cargas: V_final =  80.0 V  (> 60 V DISPARA sobretensión del driver (DM556T/iSV 60 V))
+   bus con C =  10000 µF y sin otras cargas: V_final =  65.0 V  (> 60 V DISPARA sobretensión del driver (DM556T/iSV 60 V))
+  C necesaria para no superar 60 V: 14.9 mF ; para no superar 55 V (ajuste máx. fuentes): 26.7 mF → impráctico ⇒ chopper/resistencia de freno por caja Omni o cargas garantizadas en el bus
+  Chopper por Omni: umbral 52–54 V (Interroll MultiControl actúa a 52 V [web]); R ≈ V²/P = 54²/32 W ≈ 91 Ω ; energía por evento 9.6 J ; a 2000 desvíos/h (2 inversiones c/u de 2 J) = 2.2 W medios
+  Cargas mínimas en el trunk que absorben la regeneración: 20 W de lógica de 20 zonas absorben 9.6 J en 0.48 s → insuficiente durante una inversión de 0.3 s si ninguna zona vecina está en marcha.
+
+====================================================================================================
+9. Selectividad de protecciones DC 48 V (escalones)
+====================================================================================================
+  Fuente TDR-960-48                           : 20 A; limitación 105–130 %, apagado a 3 s, rearme por corte de red [web]
+  Ramal (e-fuse ESX10-TC 16 A)                : limitación 1.2×IN = 19.2 A → nunca supera la limitación de la fuente (21–26 A) [web E-T-A]
+  Nodo OMNI (ESX10-TC 8 A)                    : 1.2×IN = 9.6 A ≥ pico Omni 6.3 A (0.3 s) ✔ ; cortocircuito en el nodo limitado a 9.6 A < 19.2 A del ramal ✔
+  Nodo NORMAL (ESX10-TC 4 A)                  : 1.2×IN = 4.8 A ≥ arranque MDR 48 V 4.11 A ✔ (arranque 3.8 A ≤ 3 s: verificar curva t-I del e-fuse)
+  Driver A / Driver B (ESX10-TC 3 A c/u)      : 1.2×IN = 3.6 A ≥ pico 3.0 A ✔ ; falla de un driver no tumba al otro ni al control
+  Control 24 V (salida DDR 5 A + e-fuse 24 V 1–2 A): REX12-T/CBM E4 sólo 24 V → válidos aguas abajo del DDR, no en 48 V [web]
+  Regla: cada escalón inferior con limitación activa ≤ el escalón superior ⇒ selectividad por limitación de corriente (no por curva térmica).
+
+====================================================================================================
+10. Seguridad funcional y distancias
+====================================================================================================
+  Tiempo de parada tras E-stop (categoría 0, corte de 48 V): relé 10–20 ms [web PNOZ s3/XPSUAF/3SK1] + contactor/STO ~10–30 ms [A VERIFICAR] + rodadura libre de la caja.
+   v=1.0 m/s: recorrido libre de la caja con μr=0.03 hasta detenerse ≈   1.7 m (las ruedas sin par no frenan la caja)
+   v=1.5 m/s: recorrido libre de la caja con μr=0.03 hasta detenerse ≈   3.8 m (las ruedas sin par no frenan la caja)
+  → Un corte de potencia (cat. 0) NO detiene la caja; para paro controlado (cat. 1) hace falta rampa del driver y luego corte (STO con retardo).
+  ISO 13857 Tabla 4 [web Troax]: e ≤ 4 mm → 2 mm ; 4–6 → 10 mm ; 6–8 → 20 mm ; 8–10 → 80 mm ; 10–12 → 100 mm ; 12–20 → 120 mm ; 20–30 → 850 mm (200 si ranura ≤ 65 mm)
+   luz entre ruedas Ø64 vecinas (paso 74.75) [calc lente_mecanica]: e = 10.75 mm → distancia de seguridad al punto peligroso ≥ 100 mm (ranura)
+   luz entre ruedas Ø50 vecinas                                  : e = 24.75 mm → distancia de seguridad al punto peligroso ≥ 850 mm (ranura)
+   banda↔rueda v4 [user BLOQUE v4]                               : e =  6.70 mm → distancia de seguridad al punto peligroso ≥ 20 mm (ranura)
+  PL d exige PFHd 1e-7…1e-6 /h [web IDEC]; relés PL e: PNOZ s3 2.31e-9, XPSUAF13AP 1.13e-9, 3SK1111 1.7e-9 → el presupuesto lo consumen contactor/STO y pulsadores, no el relé.
+
+====================================================================================================
+11. Caja DIN por módulo Omni — presupuesto de ancho de riel (mm)
+====================================================================================================
+   ESX10-TC 48 V ×4 (nodo, drv A, drv B, reserva)                  :   50.0
+   DDR-120C-24                                                     :   32.0
+   e-fuse 24 V (REX12-T 2 canales)                                 :   12.5
+   Placa ESP32 DIN (Waveshare 8DI-8RO-C ~ 145 mm) [A VERIFICAR]    :  145.0
+   Relé de seguridad local opcional (17.5–22.5)                    :   22.5
+   Contactor/relé 48 V 2 canales corte motores (2×17.5)            :   35.0
+   Bornes PTFIX 48 V/0 V/24 V/PE (4×~25)                           :  100.0
+   Chopper de freno (módulo propio) [A VERIFICAR]                  :   45.0
+   Total riel ≈ 442 mm (2 rieles de 250 mm) + 2 drivers CL57T fuera del riel (dimensiones A VERIFICAR) → caja ≈ 300×300×150 o 400×300×150 mm [calc]
+  Disipación en caja: 2 drivers (10 % de 100 W = 10 W c/u) + DDR (9 % de 15 W) + chopper (≤ 5 W medios) + ESP32 5 W ≈ 32 W → ΔT interior ≈ 32 W / (0.3 m² · 5 W/m²K) ≈ 21 K en caja metálica cerrada sin ventilación [calc, coef. A VERIFICAR]

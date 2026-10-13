@@ -1,0 +1,183 @@
+
+======== 1 CINEMÁTICA n = 60·v/(π·D) ========
+D=50 v=1.0: n=382 rpm, ω=40.0 rad/s
+D=50 v=1.5: n=573 rpm, ω=60.0 rad/s
+D=64 v=1.0: n=298 rpm, ω=31.2 rad/s
+D=64 v=1.5: n=448 rpm, ω=46.9 rad/s
+
+======== 2 LECHO EN ZONA ZP2026 (598 mm; rodillos vecinos a 37.375 del borde de zona) [user: BLOQUE_OMNI_v1] ========
+paso 76.2: 7p=533.40; eje1 a 32.30 del borde; eje1–rodillo vecino 69.68 mm; luz Ø50/Ø50 19.7 mm; luz Ø64/Ø50 12.7 mm; misma familia 2p=152.40
+paso 74.75: 7p=523.25; eje1 a 37.38 del borde; eje1–rodillo vecino 74.75 mm; luz Ø50/Ø50 24.8 mm; luz Ø64/Ø50 17.8 mm; misma familia 2p=149.50
+REV B 24 in = 609.6 vs zona 598: sobra 11.6 mm -> NO cabe como zona entera
+  luz entre envolventes Ø50 a paso 74.75: 24.75 mm
+  luz entre envolventes Ø50 a paso 76.2: 26.20 mm
+  luz entre envolventes Ø64 a paso 74.75: 10.75 mm
+  luz entre envolventes Ø64 a paso 76.2: 12.20 mm
+caja L=500: ejes bajo caja (paso 74.75) = 6.69 -> 6..7; reparto A/B peor caso: 4:3 ó 3:3
+caja L=300: ejes bajo caja (paso 74.75) = 4.01 -> 4..5; reparto A/B peor caso: 3:2 ó 2:2
+caja L=250: ejes bajo caja (paso 74.75) = 3.34 -> 3..4; reparto A/B peor caso: 2:2 ó 2:1
+
+======== 3 CORREAS HTD 5M: Dp = z·p/π ; poleas iguales L = 2C + π·Dp ========
+20T: Dp=31.83 De≈30.69 (De = Dp − 2·0.57 [sup: catálogo REV A 28T De 43.42])
+22T: Dp=35.01 De≈33.87 (De = Dp − 2·0.57 [sup: catálogo REV A 28T De 43.42])
+24T: Dp=38.20 De≈37.06 (De = Dp − 2·0.57 [sup: catálogo REV A 28T De 43.42])
+26T: Dp=41.38 De≈40.24 (De = Dp − 2·0.57 [sup: catálogo REV A 28T De 43.42])
+28T: Dp=44.56 De≈43.42 (De = Dp − 2·0.57 [sup: catálogo REV A 28T De 43.42])
+445-5M 28T: C=152.50; objetivo 152.4 (REV B paso 76.2) -> error +0.10 mm
+445-5M 28T: C=152.50; objetivo 149.5 (paso 74.75) -> error +3.00 mm
+440-5M 28T: C=150.00; objetivo 149.5 (paso 74.75) -> error +0.50 mm
+440-5M 28T: C=150.00; objetivo 152.4 (paso 76.2) -> error -2.40 mm
+355-5M motor centrado, semipaso 76.2: C=107.50, caída motor h=75.83 mm
+355-5M motor centrado, semipaso 74.75: C=107.50, caída motor h=77.26 mm
+frecuencia de engrane 28T a 573 rpm = 267 Hz ; a 448 rpm (Ø64) = 209 Hz
+rueda Ø50, polea 28T: dorso de correa sobre la polea a z=115.6 vs plano 115.1 -> -0.5 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> NO CABE TAPA
+rueda Ø50, polea 24T: dorso de correa sobre la polea a z=112.4 vs plano 115.1 -> +2.7 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> NO CABE TAPA
+rueda Ø50, polea 20T: dorso de correa sobre la polea a z=109.2 vs plano 115.1 -> +5.9 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> OK
+rueda Ø64, polea 28T: dorso de correa sobre la polea a z=108.6 vs plano 115.1 -> +6.5 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> OK
+rueda Ø64, polea 24T: dorso de correa sobre la polea a z=105.4 vs plano 115.1 -> +9.7 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> OK
+rueda Ø64, polea 20T: dorso de correa sobre la polea a z=102.2 vs plano 115.1 -> +12.9 mm bajo el plano; tapa e3 necesita ≥ 5 mm -> OK
+
+======== 4 TORQUE DE CONTACTO POR FAMILIA (mecanum 45°) ========
+REV B: F_fam = F_req/√2 ; T_REVB = F_fam·r   |  balance de potencia: T = F_fam·r·cos45 = F_req·r/2
+m=5.0 a=1.0: F_req=6.47 N F_fam=4.58 N | T_REVB=0.114 | T_física(Ø50)=0.081 | T_física(Ø64)=0.104 N·m | μ_req = F_fam/(W/2) = 0.187
+m=5.0 a=2.0: F_req=11.47 N F_fam=8.11 N | T_REVB=0.203 | T_física(Ø50)=0.143 | T_física(Ø64)=0.184 N·m | μ_req = F_fam/(W/2) = 0.331
+m=5.0 a=3.0: F_req=16.47 N F_fam=11.65 N | T_REVB=0.291 | T_física(Ø50)=0.206 | T_física(Ø64)=0.264 N·m | μ_req = F_fam/(W/2) = 0.475
+m=2.5 a=1.0: F_req=3.24 N F_fam=2.29 N | T_REVB=0.057 | T_física(Ø50)=0.040 | T_física(Ø64)=0.052 N·m | μ_req = F_fam/(W/2) = 0.187
+m=2.5 a=2.0: F_req=5.74 N F_fam=4.06 N | T_REVB=0.101 | T_física(Ø50)=0.072 | T_física(Ø64)=0.092 N·m | μ_req = F_fam/(W/2) = 0.331
+m=2.5 a=3.0: F_req=8.24 N F_fam=5.82 N | T_REVB=0.146 | T_física(Ø50)=0.103 | T_física(Ø64)=0.132 N·m | μ_req = F_fam/(W/2) = 0.475
+m=0.5 a=1.0: F_req=0.65 N F_fam=0.46 N | T_REVB=0.011 | T_física(Ø50)=0.008 | T_física(Ø64)=0.010 N·m | μ_req = F_fam/(W/2) = 0.187
+m=0.5 a=2.0: F_req=1.15 N F_fam=0.81 N | T_REVB=0.020 | T_física(Ø50)=0.014 | T_física(Ø64)=0.018 N·m | μ_req = F_fam/(W/2) = 0.331
+m=0.5 a=3.0: F_req=1.65 N F_fam=1.16 N | T_REVB=0.029 | T_física(Ø50)=0.021 | T_física(Ø64)=0.026 N·m | μ_req = F_fam/(W/2) = 0.475
+→ REV B sobreestima el torque de contacto ×√2 = 1.41 (conservador). Cifra 0.203 -> 0.143 N·m (Ø50)
+
+======== 5 TRACCIÓN: a_max = μ·g/√2 − μr·g  (cada familia lleva W/2 y empuja a 45°) ========
+μ=0.3: a_max=1.79 m/s² (FISICA decía (μ−μr)g=2.65: sobreestima ×1.48) ; s_parada 1.5 m/s=630 mm ; 1.0 m/s=280 mm
+μ=0.4: a_max=2.48 m/s² (FISICA decía (μ−μr)g=3.63: sobreestima ×1.46) ; s_parada 1.5 m/s=454 mm ; 1.0 m/s=202 mm
+μ=0.5: a_max=3.17 m/s² (FISICA decía (μ−μr)g=4.61: sobreestima ×1.45) ; s_parada 1.5 m/s=354 mm ; 1.0 m/s=158 mm
+μ=0.6: a_max=3.87 m/s² (FISICA decía (μ−μr)g=5.59: sobreestima ×1.45) ; s_parada 1.5 m/s=291 mm ; 1.0 m/s=129 mm
+Zona 598: espacio para frenar desde entrada = 598 − latencia·v ; caja 500 debe quedar dentro → s_parada + v·t_lat ≤ 598
+  v=1.0 μ=0.3: s_total(20 ms latencia)=300 mm -> OK
+  v=1.0 μ=0.4: s_total(20 ms latencia)=222 mm -> OK
+  v=1.0 μ=0.5: s_total(20 ms latencia)=178 mm -> OK
+  v=1.5 μ=0.3: s_total(20 ms latencia)=660 mm -> EXCEDE ZONA
+  v=1.5 μ=0.4: s_total(20 ms latencia)=484 mm -> OK
+  v=1.5 μ=0.5: s_total(20 ms latencia)=384 mm -> OK
+
+======== 6 GUIÑADA Y DERIVA LATERAL POR REPARTO A/B DESIGUAL (FORWARD) ========
+caja 500: 4A+3B -> F_y/F_x = (nA−nB)/n = 0.14 (deriva lateral 14 % de la fuerza de avance)
+caja 300: 2A+2B -> F_y/F_x = (nA−nB)/n = 0.00 (deriva lateral 0 % de la fuerza de avance)
+caja 300: 2A+1B -> F_y/F_x = (nA−nB)/n = 0.33 (deriva lateral 33 % de la fuerza de avance)
+caja 250: 2A+1B -> F_y/F_x = (nA−nB)/n = 0.33 (deriva lateral 33 % de la fuerza de avance)
+m=5 a=1.0: M_yaw=0.242 N·m, I=0.142 kg·m², α=1.71 rad/s², giro en t=1.50s ≈ 110° (sin guías, sin fricción de rodillos: cota superior)
+m=5 a=2.0: M_yaw=0.429 N·m, I=0.142 kg·m², α=3.03 rad/s², giro en t=0.75s ≈ 49° (sin guías, sin fricción de rodillos: cota superior)
+
+======== 7 INERCIA REFLEJADA POR FAMILIA (1:1) y par en inversión ========
+área hex 1/2in = 139.7 mm² ; masa eje L=560 mm acero = 0.614 kg
+Ø50 china 0.10 kg k=20 [sup REV B]: J_ruedas=6.40e-04 J_ejes=5.76e-05 J_poleas=2.18e-04 J_rotor=4.8e-05 -> J_fam=9.63e-04 kg·m²
+   a=2.0 (α=80 rad/s²): T_inercia=0.077 + T_caja(física)=0.143 = 0.220 N·m ; con T_REVB: 0.280
+   a=3.0 (α=120 rad/s²): T_inercia=0.116 + T_caja(física)=0.206 = 0.322 N·m ; con T_REVB: 0.407
+   inversión ±1.5 m/s en 0.3 s: α=400 rad/s² -> T_inercia=0.39 N·m (sin caja)
+   inversión ±1.5 m/s en 0.5 s: α=240 rad/s² -> T_inercia=0.23 N·m (sin caja)
+   inversión ±1.0 m/s en 0.3 s: α=267 rad/s² -> T_inercia=0.26 N·m (sin caja)
+   inversión ±1.0 m/s en 0.5 s: α=160 rad/s² -> T_inercia=0.15 N·m (sin caja)
+   E_cin rotacional familia a 1.5 m/s: 1.73 J ; a 1.0: 0.77 J ; caja 5 kg a 1.5: 5.62 J
+v7 Ø64 0.08 kg k=24 [sup: 26.5 g cuerpo + rodillos A VERIFICAR]: J_ruedas=7.37e-04 J_ejes=5.76e-05 J_poleas=4.80e-05 J_rotor=4.8e-05 -> J_fam=8.91e-04 kg·m²
+   a=2.0 (α=62 rad/s²): T_inercia=0.056 + T_caja(física)=0.184 = 0.239 N·m ; con T_REVB: 0.315
+   a=3.0 (α=94 rad/s²): T_inercia=0.084 + T_caja(física)=0.264 = 0.347 N·m ; con T_REVB: 0.456
+   inversión ±1.5 m/s en 0.3 s: α=312 rad/s² -> T_inercia=0.28 N·m (sin caja)
+   inversión ±1.5 m/s en 0.5 s: α=188 rad/s² -> T_inercia=0.17 N·m (sin caja)
+   inversión ±1.0 m/s en 0.3 s: α=208 rad/s² -> T_inercia=0.19 N·m (sin caja)
+   inversión ±1.0 m/s en 0.5 s: α=125 rad/s² -> T_inercia=0.11 N·m (sin caja)
+   E_cin rotacional familia a 1.5 m/s: 0.98 J ; a 1.0: 0.44 J ; caja 5 kg a 1.5: 5.62 J
+Ø64 0.15 kg k=26 (peor caso): J_ruedas=1.62e-03 J_ejes=5.76e-05 J_poleas=8.00e-05 J_rotor=4.8e-05 -> J_fam=1.81e-03 kg·m²
+   a=2.0 (α=62 rad/s²): T_inercia=0.113 + T_caja(física)=0.184 = 0.297 N·m ; con T_REVB: 0.373
+   a=3.0 (α=94 rad/s²): T_inercia=0.170 + T_caja(física)=0.264 = 0.433 N·m ; con T_REVB: 0.542
+   inversión ±1.5 m/s en 0.3 s: α=312 rad/s² -> T_inercia=0.57 N·m (sin caja)
+   inversión ±1.5 m/s en 0.5 s: α=188 rad/s² -> T_inercia=0.34 N·m (sin caja)
+   inversión ±1.0 m/s en 0.3 s: α=208 rad/s² -> T_inercia=0.38 N·m (sin caja)
+   inversión ±1.0 m/s en 0.5 s: α=125 rad/s² -> T_inercia=0.23 N·m (sin caja)
+   E_cin rotacional familia a 1.5 m/s: 1.99 J ; a 1.0: 0.88 J ; caja 5 kg a 1.5: 5.62 J
+
+======== 8 TENSIÓN DE CORREA, CARGA RADIAL, POLY-V ========
+HTD 28T, T=0.6 N·m: Te=26.9 N ; Ti≈Te..1.3Te [sup Gates] -> carga radial 2·Ti = 54..70 N por correa ; vs 208 N admisible 5M-10 mm [web Reichelt, digest anexo] -> 13 % (9 mm ≈ 14 %)
+HTD 28T, T=0.8 N·m: Te=35.9 N ; Ti≈Te..1.3Te [sup Gates] -> carga radial 2·Ti = 72..93 N por correa ; vs 208 N admisible 5M-10 mm [web Reichelt, digest anexo] -> 17 % (9 mm ≈ 19 %)
+HTD 24T, T=0.8 N·m: Te=41.9 N ; Ti≈Te..1.3Te [sup Gates] -> carga radial 2·Ti = 84..109 N por correa ; vs 208 N admisible 5M-10 mm [web Reichelt, digest anexo] -> 20 % (9 mm ≈ 22 %)
+HTD 20T, T=0.8 N·m: Te=50.3 N ; Ti≈Te..1.3Te [sup Gates] -> carga radial 2·Ti = 101..131 N por correa ; vs 208 N admisible 5M-10 mm [web Reichelt, digest anexo] -> 24 % (9 mm ≈ 27 %)
+Motor REV B (2 correas 355 a ±45°): resultante ≈ 2·Ti·√2 ≈ 102 N a ~25 mm de la brida (2 poleas apiladas) ; rating radial NEMA 23: A VERIFICAR (no en fichas descargadas)
+Poly-V PJ Ø40, abrazo 90°: F1/F2=e^(μ'θ)=4.0 (μ'=0.88) ; Te=40 N -> F2=13 N, F1=53 N; con SF 2 en Te: F1+F2 ≈ 134..134 N radial
+Poly-V PJ Ø40, abrazo 120°: F1/F2=e^(μ'θ)=6.3 (μ'=0.88) ; Te=40 N -> F2=8 N, F1=48 N; con SF 2 en Te: F1+F2 ≈ 110..110 N radial
+Poly-V PJ Ø40, abrazo 180°: F1/F2=e^(μ'θ)=15.7 (μ'=0.88) ; Te=40 N -> F2=3 N, F1=43 N; con SF 2 en Te: F1+F2 ≈ 91..91 N radial
+o-ring PU 3/16 (BF21): par transmisible no documentado ('validar deslizamiento o duplicar anillos') [user TRANSFER-BF21]
+
+======== 9 FLEXIÓN/FATIGA DEL HOMBRO Ø12 (σ = 32M/πd³) ========
+F=100 N a 15 mm: M=1.50 N·m σ_nom=8.8 MPa ; Kt≈2.1 [sup hombro r≈0.5, D/d 1.2] -> 18.6 MPa
+F=200 N a 15 mm: M=3.00 N·m σ_nom=17.7 MPa ; Kt≈2.1 [sup hombro r≈0.5, D/d 1.2] -> 37.1 MPa
+F=200 N a 25 mm: M=5.00 N·m σ_nom=29.5 MPa ; Kt≈2.1 [sup hombro r≈0.5, D/d 1.2] -> 61.9 MPa
+Se ≈ 0.5·Su·ka·kb = 183 MPa (Su=440.0 A VERIFICAR) -> SF fatiga (200 N, 25 mm, Kf 2.1) = 3.0
+ciclos/h a 573 rpm = 34380; 1e6 ciclos en 29 h -> diseño a vida infinita
+torsión Ø12 con 0.8 N·m: τ = 16T/πd³ = 2.36 MPa ; torsión hex J≈0.1154·AF⁴=3002 mm⁴ -> giro en 0.5 m = 0.095°
+vértices hex 1/2in = 14.66 mm -> rebaje a Ø12 quita 2.66 mm en vértices y 0.70 en caras
+
+======== 10 RODAMIENTOS L10 = (C/P)^3·1e6 rev ========
+6001-2RS C≈5.1 kN [web: RS Chile C3 5.4 kN, REV B] P=100 N n=573: L10=3858377 h
+6001-2RS C≈5.1 kN [web: RS Chile C3 5.4 kN, REV B] P=250 N n=573: L10=246936 h
+6001-2RS C≈5.1 kN [web: RS Chile C3 5.4 kN, REV B] P=250 N n=448: L10=315836 h
+F6801/61801 C≈1.9 kN [sup A VERIFICAR] P=100 N n=573: L10=199506 h
+F6801/61801 C≈1.9 kN [sup A VERIFICAR] P=250 N n=573: L10=12768 h
+F6801/61801 C≈1.9 kN [sup A VERIFICAR] P=250 N n=448: L10=16331 h
+
+======== 11 APILADO AXIAL EN LA ZONA MUERTA (interior 533.6 − activo) ========
+activo 400 (muerto 133.6): HTD 28-5M-09 catálogo L=22.5, 3 planos/fam ×2 fam: 168 mm -> NO CABE
+activo 400 (muerto 133.6): HTD 3 planos/fam, familias en lados opuestos (3 planos): 92 mm -> CABE
+activo 400 (muerto 133.6): HTD lazo 3 poleas (2 planos/fam) ×2, poleas recortadas 15: 87 mm -> CABE
+activo 400 (muerto 133.6): HTD serpentín 1 plano/fam ×2, poleas 15: 51 mm -> CABE
+activo 400 (muerto 133.6): Poly-V PJ doble Ø40×20 v4: 4 planos ×10: 67 mm -> CABE
+activo 350 (muerto 183.6): HTD 28-5M-09 catálogo L=22.5, 3 planos/fam ×2 fam: 168 mm -> CABE
+activo 350 (muerto 183.6): HTD 3 planos/fam, familias en lados opuestos (3 planos): 92 mm -> CABE
+activo 350 (muerto 183.6): HTD lazo 3 poleas (2 planos/fam) ×2, poleas recortadas 15: 87 mm -> CABE
+activo 350 (muerto 183.6): HTD serpentín 1 plano/fam ×2, poleas 15: 51 mm -> CABE
+activo 350 (muerto 183.6): Poly-V PJ doble Ø40×20 v4: 4 planos ×10: 67 mm -> CABE
+activo 270 (muerto 263.6): HTD 28-5M-09 catálogo L=22.5, 3 planos/fam ×2 fam: 168 mm -> CABE
+activo 270 (muerto 263.6): HTD 3 planos/fam, familias en lados opuestos (3 planos): 92 mm -> CABE
+activo 270 (muerto 263.6): HTD lazo 3 poleas (2 planos/fam) ×2, poleas recortadas 15: 87 mm -> CABE
+activo 270 (muerto 263.6): HTD serpentín 1 plano/fam ×2, poleas 15: 51 mm -> CABE
+activo 270 (muerto 263.6): Poly-V PJ doble Ø40×20 v4: 4 planos ×10: 67 mm -> CABE
+
+======== 12 ALTURAS EN EL HUECO DEL ZP2026 (plano 115.1; LT_G tope 108, pestaña inf −82.6; TR_S tope 14.1 en x=±280.2) ========
+Ø50 +0: eje z=90.1; fondo rueda 65.1; polea 28T top 114.1 / 24T 110.6 / Ø40 110.1
+Ø50 +2: eje z=92.1; fondo rueda 67.1; polea 28T top 116.1 / 24T 112.6 / Ø40 112.1
+Ø64 +0: eje z=83.1; fondo rueda 51.1; polea 28T top 107.1 / 24T 103.6 / Ø40 103.1
+Ø64 +2: eje z=85.1; fondo rueda 53.1; polea 28T top 109.1 / 24T 105.6 / Ø40 105.1
+Ø50 motor a h=77.3 bajo eje: eje motor z=12.8; cuerpo NEMA23 57 -> z -15.7…41.3; fondo rueda 65.1 -> luz 23.8 mm ; pestaña inf −82.6 -> luz 66.9
+Ø64 motor a h=77.3 bajo eje: eje motor z=5.8; cuerpo NEMA23 57 -> z -22.7…34.3; fondo rueda 51.1 -> luz 16.8 mm ; pestaña inf −82.6 -> luz 59.9
+Ø64 motor a h=100 bajo eje: eje motor z=-16.9; cuerpo NEMA23 57 -> z -45.4…11.6; fondo rueda 51.1 -> luz 39.5 mm ; pestaña inf −82.6 -> luz 37.2
+ejes x (paso 74.75, zona centrada): [-261.6, -186.9, -112.1, -37.4, 37.4, 112.1, 186.9, 261.6]
+familia A (1,3,5,7): [-261.6, -112.1, 37.4, 186.9] -> motor centrado entre centrales en x = -37.3
+familia B (2,4,6,8): [-186.9, -37.4, 112.1, 261.6] -> motor en x = 37.3 ; distancia entre motores = 74.7 mm vs cuerpo 57 -> luz 17.7
+lazo de 3 poleas (motor + 2 ejes centrales, poleas iguales): abrazo motor = 2·atan(h/74.75)
+  h=77.3: abrazo motor 92° = 7.1 dientes ; ejes 134° = 10.4 dientes (mín 6 en engrane [sup Gates])
+  h=100: abrazo motor 106° = 8.3 dientes ; ejes 127° = 9.9 dientes (mín 6 en engrane [sup Gates])
+  h=120: abrazo motor 116° = 9.0 dientes ; ejes 122° = 9.5 dientes (mín 6 en engrane [sup Gates])
+
+======== 13 VELOCIDAD CRÍTICA DEL EJE (apoyado-apoyado, L=0.56 m, hex + 4 ruedas) ========
+I_hex=1565 mm⁴, m/L=1.81 kg/m (ruedas 0.1 kg) -> n_crit=3951 rpm ; ratio 573/n_crit=0.15
+I_hex=1565 mm⁴, m/L=2.17 kg/m (ruedas 0.15 kg) -> n_crit=3611 rpm ; ratio 573/n_crit=0.16
+desbalance: separador PVC ID 20.9 sobre vértices 14.66 -> excentricidad hasta 3.1 mm ; masa tubo 3/4 SCH40 ≈ 0.6 kg/m [sup] -> fuerza a 573 rpm por 40 mm de tubo: m·e·ω² = 0.27 N (bajo) pero golpeteo/ruido
+
+======== 14 ADAPTADOR HEX 14 → 1/2 in ========
+pared en caras (14−12.7)/2 = 0.65 mm ; v4: 14.4/12.85 -> 0.78 mm ; v7 hex 14.5 -> 0.825 mm
+vértices hex 14 = 16.17 ; vértices hex 12.7 = 14.66
+
+======== 15 DESVÍO 90°: recorrido y tiempo ========
+W=300 lecho=400 v_lat=1.0 a=2.0: recorrido 400 mm -> t≈0.89 s (+ cruce de zona muerta 133 mm en rodadura libre: a=−μr·g=0.29 m/s²)
+W=300 lecho=400 v_lat=1.5 a=2.0: recorrido 400 mm -> t≈0.89 s (+ cruce de zona muerta 133 mm en rodadura libre: a=−μr·g=0.29 m/s²)
+W=300 lecho=270 v_lat=1.0 a=2.0: recorrido 335 mm -> t≈0.82 s (+ cruce de zona muerta 133 mm en rodadura libre: a=−μr·g=0.29 m/s²)
+W=250 lecho=270 v_lat=1.0 a=2.0: recorrido 310 mm -> t≈0.79 s (+ cruce de zona muerta 133 mm en rodadura libre: a=−μr·g=0.29 m/s²)
+W=300 lecho=400 v_lat=1.0 a=1.0: recorrido 400 mm -> t≈1.26 s (+ cruce de zona muerta 133 mm en rodadura libre: a=−μr·g=0.29 m/s²)
+
+======== 16 MASA DEL MÓDULO (estimación, A VERIFICAR en CAD) ========
+{'ejes': 4.91, 'ruedas': 2.88, 'poleas': 1.0, 'correas': 0.1, 'tensores': 0.3, 'motores': 2.2, 'rodamientos': 0.32, 'placas': 6.71, 'tapa': 5.07, 'tapa_ciega': 1.83, 'travesanos': 2.36, 'separadores': 0.8, 'guarda': 1.0} -> total ≈ 29.5 kg (Flowsort SLD 15–100 kg [web])
+
+======== 17 POTENCIA MECÁNICA Y ENERGÍA DE INVERSIÓN ========
+m=5 v=1.5 a=2.0: P_caja=17.2 W ; T_motor a n: 0.143 N·m/familia (física) 
+m=5 v=1.0 a=2.0: P_caja=11.5 W ; T_motor a n: 0.143 N·m/familia (física) 

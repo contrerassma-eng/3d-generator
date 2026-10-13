@@ -1,0 +1,82 @@
+NOTA (síntesis 2026-09-03): cálculo preliminar v0 hecho antes de las lentes. Sobreestima a_max en ×1,41 porque omite el factor 1/√2 de la geometría ±45° (la fuerza por familia actúa a lo largo del eje del rodillo). Los valores vigentes están en calc_lente_fisica.out y en §3 de ANALISIS_CONCEPTUAL.md. Se conserva por trazabilidad.
+
+Lecho: 8 ejes a 76.2 → extensión 583.4 mm; zona 24in = 609.6 mm
+
+=== v = 1.0 m/s → n = 382 rpm, ω = 40 rad/s
+  a=1.0 m/s²: t(0→v)=1.00 s, d(0→v)=500 mm
+  a=2.0 m/s²: t(0→v)=0.50 s, d(0→v)=250 mm
+  a=3.0 m/s²: t(0→v)=0.33 s, d(0→v)=167 mm
+  a=5.0 m/s²: t(0→v)=0.20 s, d(0→v)=100 mm
+  latencia 5 ms → recorrido 5 mm
+  latencia 20 ms → recorrido 20 mm
+  latencia 50 ms → recorrido 50 mm
+
+=== v = 1.5 m/s → n = 573 rpm, ω = 60 rad/s
+  a=1.0 m/s²: t(0→v)=1.50 s, d(0→v)=1125 mm
+  a=2.0 m/s²: t(0→v)=0.75 s, d(0→v)=562 mm
+  a=3.0 m/s²: t(0→v)=0.50 s, d(0→v)=375 mm
+  a=5.0 m/s²: t(0→v)=0.30 s, d(0→v)=225 mm
+  latencia 5 ms → recorrido 8 mm
+  latencia 20 ms → recorrido 30 mm
+  latencia 50 ms → recorrido 75 mm
+
+Caja L=500: holgura en zona 24in = 110 mm; en lecho de 583 = 83 mm; ejes bajo caja = 7 a 8
+
+Caja L=300: holgura en zona 24in = 310 mm; en lecho de 583 = 283 mm; ejes bajo caja = 4 a 5
+
+=== Fuerza y par por familia (F_fam = F_req/√2, T = F_fam·r) ===
+  m=5.0 kg a=1.0: F_req=6.47 N, F_fam=4.58 N, T_contacto/fam=0.114 N·m
+  m=5.0 kg a=2.0: F_req=11.47 N, F_fam=8.11 N, T_contacto/fam=0.203 N·m
+  m=5.0 kg a=3.0: F_req=16.47 N, F_fam=11.65 N, T_contacto/fam=0.291 N·m
+  m=2.5 kg a=1.0: F_req=3.24 N, F_fam=2.29 N, T_contacto/fam=0.057 N·m
+  m=2.5 kg a=2.0: F_req=5.74 N, F_fam=4.06 N, T_contacto/fam=0.101 N·m
+  m=2.5 kg a=3.0: F_req=8.24 N, F_fam=5.82 N, T_contacto/fam=0.146 N·m
+  m=0.5 kg a=1.0: F_req=0.65 N, F_fam=0.46 N, T_contacto/fam=0.011 N·m
+  m=0.5 kg a=2.0: F_req=1.15 N, F_fam=0.81 N, T_contacto/fam=0.020 N·m
+  m=0.5 kg a=3.0: F_req=1.65 N, F_fam=1.16 N, T_contacto/fam=0.029 N·m
+
+J rueda=50 g·cm²... J_fam ≈ 9.73e-04 kg·m² (16 ruedas de 100 g + 4 ejes + 7 poleas)
+  a=2.0: α=80 rad/s² → T_inercia_fam=0.078 N·m
+  a=5.0: α=200 rad/s² → T_inercia_fam=0.195 N·m
+  con ruedas de 200 g: J_fam=1.77e-03 → T_inercia(2 m/s²)=0.142 N·m
+
+=== Tracción: a_max ≈ (μ−μr)·g ===
+  μ=0.3: a_max=2.65 m/s²; parada por deslizamiento desde 1.5 m/s: 382 mm; desde 1.0: 170 mm
+  μ=0.4: a_max=3.63 m/s²; parada por deslizamiento desde 1.5 m/s: 287 mm; desde 1.0: 127 mm
+  μ=0.5: a_max=4.61 m/s²; parada por deslizamiento desde 1.5 m/s: 229 mm; desde 1.0: 102 mm
+  μ=0.6: a_max=5.59 m/s²; parada por deslizamiento desde 1.5 m/s: 191 mm; desde 1.0: 85 mm
+  m=5 kg sobre 6 ejes × 3 ruedas: N/rueda=2.73 N; fricción disp. (μ=0.5)=1.36 N
+  m=5 kg sobre 4 ejes × 3 ruedas: N/rueda=4.09 N; fricción disp. (μ=0.5)=2.04 N
+  m=0.5 kg sobre 4 ejes × 3 ruedas: N/rueda=0.41 N; fricción disp. (μ=0.5)=0.20 N
+
+=== Desvío a 90°: recorrido lateral ≈ (ancho lecho 400 + ancho caja)/2 + margen ===
+  W=300 d=400 mm v_lat=1.0 a=1.0: t≈0.89 s
+  W=300 d=400 mm v_lat=1.0 a=2.0: t≈0.65 s
+  W=300 d=400 mm v_lat=1.0 a=3.0: t≈0.57 s
+  W=300 d=400 mm v_lat=1.5 a=1.0: t≈0.89 s
+  W=300 d=400 mm v_lat=1.5 a=2.0: t≈0.63 s
+  W=300 d=400 mm v_lat=1.5 a=3.0: t≈0.52 s
+  W=250 d=375 mm v_lat=1.0 a=1.0: t≈0.87 s
+  W=250 d=375 mm v_lat=1.0 a=2.0: t≈0.62 s
+  W=250 d=375 mm v_lat=1.0 a=3.0: t≈0.54 s
+  W=250 d=375 mm v_lat=1.5 a=1.0: t≈0.87 s
+  W=250 d=375 mm v_lat=1.5 a=2.0: t≈0.61 s
+  W=250 d=375 mm v_lat=1.5 a=3.0: t≈0.50 s
+
+=== Guiñada: par = F_fam·sin45·Δx_centroides (Δx ≥ 1 paso) ===
+  m=5 a=2.0: F_fam=8.11 N → M_yaw=0.437 N·m, I=0.142 kg·m², α=3.09 rad/s², giro en t=0.75s ≈ 49.7° (sin guías, sin fricción de rodillos)
+  m=5 a=1.0: F_fam=4.58 N → M_yaw=0.247 N·m, I=0.142 kg·m², α=1.74 rad/s², giro en t=1.50s ≈ 112.2° (sin guías, sin fricción de rodillos)
+  m=0.5 a=2.0: F_fam=0.81 N → M_yaw=0.044 N·m, I=0.006 kg·m², α=6.88 rad/s², giro en t=0.75s ≈ 110.8° (sin guías, sin fricción de rodillos)
+
+=== Entrada: primer eje solo (familia A) durante 1 paso ===
+  v=1.0: 76 ms con una sola familia bajo el frente de la caja (empuje a 45°)
+  v=1.5: 51 ms con una sola familia bajo el frente de la caja (empuje a 45°)
+
+=== Potencia mecánica ===
+  m=5 v=1.5 a=2.0: P=17.2 W (total, ambas familias)
+  m=5 v=1.0 a=2.0: P=11.5 W (total, ambas familias)
+  m=5 v=1.5 a=0: P=2.2 W (total, ambas familias)
+
+=== Ritmo: caja 500 + gap 100 a v ===
+  v=1.0: 6000 cajas/h máx teóricas en flujo continuo
+  v=1.5: 9000 cajas/h máx teóricas en flujo continuo
